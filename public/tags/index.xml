@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/</link>
+    <description>Recent content in Tags on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>hello@nathancatania.com (Nathan Catania)</managingEditor>
+    <webMaster>hello@nathancatania.com (Nathan Catania)</webMaster>
+    <lastBuildDate>Sun, 05 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://nathancatania.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>azure</title>
+      <link>https://nathancatania.com/tags/azure/</link>
+      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/azure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lab</title>
+      <link>https://nathancatania.com/tags/lab/</link>
+      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/lab/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>notes</title>
+      <link>https://nathancatania.com/tags/notes/</link>
+      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/notes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>zscaler</title>
+      <link>https://nathancatania.com/tags/zscaler/</link>
+      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/zscaler/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>guides</title>
+      <link>https://nathancatania.com/tags/guides/</link>
+      <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/guides/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>windows</title>
+      <link>https://nathancatania.com/tags/windows/</link>
+      <pubDate>Mon, 30 Dec 2019 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/windows/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gaming</title>
+      <link>https://nathancatania.com/tags/gaming/</link>
+      <pubDate>Fri, 16 Aug 2019 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/gaming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>juniper</title>
+      <link>https://nathancatania.com/tags/juniper/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/juniper/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>aerohive</title>
+      <link>https://nathancatania.com/tags/aerohive/</link>
+      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/aerohive/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://nathancatania.com/tags/docker/</link>
+      <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kafka</title>
+      <link>https://nathancatania.com/tags/kafka/</link>
+      <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/kafka/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>networking</title>
+      <link>https://nathancatania.com/tags/networking/</link>
+      <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/tags/networking/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

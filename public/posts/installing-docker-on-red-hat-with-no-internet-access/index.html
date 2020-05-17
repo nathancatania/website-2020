@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia hello@nathancatania.com Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="Introduction I recently completed a deployment inside a customer&amp;rsquo;s lab involving several containerized services, in which the server instances provided were not permitted to have direct access to the internet. To add to the issue, the instances themselves were running RHEL 7.3 with no active subscription.
+There were several problems in play here:
+ Docker only make their Enterprise Edition (EE) compatible with RHEL. The usual free Community Edition (CE) is not officially supported." />
+<meta name="keywords" content="blog, website, official, guides, docker" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/installing-docker-on-red-hat-with-no-internet-access/" />
+
+
+    <title>
+        
+            Installing Docker CE on an Air Gapped RHEL system :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.c7bbcf8c9520939898c82877a1b2fc2827871e3f2c3245a3b8da29f9796264cc.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Installing Docker CE on an Air Gapped RHEL system">
+<meta itemprop="description" content="The free Docker CE is not compatible with Red Hat, so how can we install it, resolve dependencies, and transfer images - all on a RHEL server with no internet access?">
+<meta itemprop="datePublished" content="2017-11-30T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2017-11-30T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="896">
+<meta itemprop="image" content="https://nathancatania.com"/>
+
+
+
+<meta itemprop="keywords" content="guides,docker," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://nathancatania.com"/>
+
+<meta name="twitter:title" content="Installing Docker CE on an Air Gapped RHEL system"/>
+<meta name="twitter:description" content="The free Docker CE is not compatible with Red Hat, so how can we install it, resolve dependencies, and transfer images - all on a RHEL server with no internet access?"/>
+
+
+
+    <meta property="og:title" content="Installing Docker CE on an Air Gapped RHEL system" />
+<meta property="og:description" content="The free Docker CE is not compatible with Red Hat, so how can we install it, resolve dependencies, and transfer images - all on a RHEL server with no internet access?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/installing-docker-on-red-hat-with-no-internet-access/" />
+<meta property="og:image" content="https://nathancatania.com"/>
+<meta property="article:published_time" content="2017-11-30T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-11-30T00:00:00+00:00" /><meta property="og:site_name" content="Nathan Catania" />
+
+
+
+
+
+
+    <meta property="article:published_time" content="2017-11-30 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://nathancatania.com/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>5 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/installing-docker-on-red-hat-with-no-internet-access/">Installing Docker CE on an Air Gapped RHEL system</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#part-1---configure-a-local-repository">Part 1 - Configure a local repository</a>
+      <ul>
+        <li><a href="#1-download-the-rhel-iso">1. Download the RHEL ISO</a></li>
+        <li><a href="#2-copy-the-iso-to-the-required-servers">2. Copy the ISO to the required servers</a></li>
+        <li><a href="#3-mount-the-iso">3. Mount the ISO</a></li>
+        <li><a href="#4-copy-the-repository-locally">4. Copy the repository locally</a></li>
+        <li><a href="#5-edit-the-repo-file">5. Edit the repo file</a></li>
+        <li><a href="#6-clean-the-repositories">6. Clean the repositories</a></li>
+        <li><a href="#7-verify-the-repo-works">7. Verify the repo works</a></li>
+      </ul>
+    </li>
+    <li><a href="#part-2---install-docker-ce">Part 2 - Install Docker CE</a>
+      <ul>
+        <li><a href="#1-download-the-docker-ce-rpm-for-centos">1. Download the Docker CE RPM for Centos</a></li>
+        <li><a href="#2-install">2. Install</a></li>
+        <li><a href="#3-optional-start-docker">3. [OPTIONAL] Start Docker</a></li>
+      </ul>
+    </li>
+    <li><a href="#part-3---transfer-docker-images">Part 3 - Transfer Docker images</a>
+      <ul>
+        <li><a href="#1-pull-the-required-docker-images">1. Pull the required Docker images</a></li>
+        <li><a href="#2-load-the-docker-images">2. Load the Docker images</a></li>
+        <li><a href="#3-done">3. Done!</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+
+            <div class="post-content">
+                <h1 id="introduction">Introduction</h1>
+<p>I recently completed a deployment inside a customer&rsquo;s lab involving several containerized services, in which the server instances provided were not permitted to have direct access to the internet. To add to the issue, the instances themselves were running RHEL 7.3 with no active subscription.</p>
+<p>There were several problems in play here:</p>
+<ol>
+<li>Docker only make their Enterprise Edition (EE) compatible with RHEL. The usual free Community Edition (CE) is not officially supported.</li>
+<li>Attempting to circumvent #1 by installing the RPM for Centos resulted in dependency issues.</li>
+<li>Normally these dependency issues would be trivial to resolve with internet access, however in this case, no internet access was available on the instances.</li>
+<li>Attempting to manually download the dependencies on another machine and transfer them to the servers resulted in more dependency issues (it was a tree of dependencies!)</li>
+<li>How can the required container images be pulled with no internet access?</li>
+</ol>
+<p>The below writeup should cover the solution to all of these issues, so no matter what your issue is - I hope this is useful to you.</p>
+<p><em>As always, proceed at your own risk. I will not be held responsible for any problems that result as a result of you following this guide.</em></p>
+<hr>
+<h1 id="part-1---configure-a-local-repository">Part 1 - Configure a local repository</h1>
+<p><em>Skip this step if you have internet access on your target server as any issues with dependencies should resolve themselves automatically.</em></p>
+<p>To resolve the dependency issues on RHEL, we are going to create a local Yum repository from the Red Hat installation media which contains resolutions to our dependency issues.</p>
+<h2 id="1-download-the-rhel-iso">1. Download the RHEL ISO</h2>
+<ul>
+<li>Download the RHEL ISO for your applicable version (7.2, 7.3 etc).</li>
+<li>RHEL ISOs can be downloaded from the <a href="https://www.gitbook.com/book/nathancatania/telemetry-backbone-installation/edit#">RedHat developer page</a> (free account required).</li>
+<li>You can use the below command to check your version if unsure:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat /etc/redhat-release
+</code></pre></div><h2 id="2-copy-the-iso-to-the-required-servers">2. Copy the ISO to the required servers</h2>
+<ul>
+<li>The ISO will need to be copied to all the servers which Docker is to be installed on.</li>
+</ul>
+<p>Example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">scp rhel-server-7.X-x86_64-dvd.iso &lt;user&gt;@&lt;hostname&gt;:
+</code></pre></div><h2 id="3-mount-the-iso">3. Mount the ISO</h2>
+<ul>
+<li>Mount the ISO on your target server:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mount -o loop rhel-server-7.X-x86_64-dvd.iso /mnt
+</code></pre></div><h2 id="4-copy-the-repository-locally">4. Copy the repository locally</h2>
+<ul>
+<li>Copy the repository from the mounted ISO and set the correct permissions.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp /mnt/media.repo /etc/yum.repos.d/rhel7dvd.repo
+chmod <span style="color:#ae81ff">644</span> /etc/yum.repos.d/rhel7dvd.repo
+</code></pre></div><h2 id="5-edit-the-repo-file">5. Edit the repo file</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vi /etc/yum.repos.d/rhel7dvd.repo
+</code></pre></div><p><em>If you haven&rsquo;t used vi before, press <code>a</code> to enter edit mode, <code>ESC</code> to exit edit mode, and <code>:wq</code> to save and quit.</em></p>
+<ul>
+<li>Change the <code>gpgcheck=0</code> parameter to <code>1</code>.</li>
+<li>Add the following 3 lines to the end of file (but before the <code>~</code> characters in the editor):</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+baseurl<span style="color:#f92672">=</span>file:///mnt/
+gpgkey<span style="color:#f92672">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+</code></pre></div><p>Save and exit vi.</p>
+<h2 id="6-clean-the-repositories">6. Clean the repositories</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum clean all <span style="color:#f92672">&amp;&amp;</span> subscription-manager clean
+</code></pre></div><h2 id="7-verify-the-repo-works">7. Verify the repo works</h2>
+<p>This should generate a very long packages list if working correctly.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum  --noplugins list
+</code></pre></div><hr>
+<h1 id="part-2---install-docker-ce">Part 2 - Install Docker CE</h1>
+<p>Attempting to install the RPM for Centos will fail due to a missing dependency. In this part, we will download Docker CE and the dependency manually and install.</p>
+<h2 id="1-download-the-docker-ce-rpm-for-centos">1. Download the Docker CE RPM for Centos</h2>
+<p><em><strong>Note 1:</strong> At the time of this post, Docker 17.09.0 CE was the latest version available for Centos. You may wish to check for a more up-to-date version if applicable.</em></p>
+<p><em><strong>Note 2:</strong> The Container SELinux dependency below was for RHEL 7.3. Your version may differ. Please confirm before proceeding.</em>
+On your internet-enabled machine, download the Docker 17.09.0 CE package and its dependency.</p>
+<p>If your instance does not have internet access, you will need to complete this step on a connected machine and then transfer the files across.</p>
+<p>Docker CE:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-17.09.0.ce-1.el7.centos.x86_64.rpm -o docker.rpm
+</code></pre></div><p>Dependency:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl http://mirror.centos.org/centos/7.3.1611/extras/x86_64/Packages/container-selinux-2.9-4.el7.noarch.rpm -o containerselinux.rpm
+</code></pre></div><h2 id="2-install">2. Install</h2>
+<p>Make sure to run the command with both RPMs in the specific order below! The dependency should be installed first!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install -y containerselinux.rpm docker.rpm
+</code></pre></div><p>If the above command succeeds: congratulations! You have successfully installed Docker CE on Red Hat!</p>
+<h2 id="3-optional-start-docker">3. [OPTIONAL] Start Docker</h2>
+<p>Start Docker and set it to start at boot.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl start docker
+systemctl enable docker
+</code></pre></div><hr>
+<h1 id="part-3---transfer-docker-images">Part 3 - Transfer Docker images</h1>
+<p><em>This step is not required if you have internet access available on your server</em></p>
+<p>Now that Docker is installed, there is the issue of: how do we actually get our Docker images onto the server if there is no internet access available?</p>
+<p>The answer is: You will pull the images on another (internet-connected) machine with Docker, save the images, and then transfer them across to your server. Docker will always attempt to use a local image <strong>first</strong> before pulling the image from a remote repo.</p>
+<h2 id="1-pull-the-required-docker-images">1. Pull the required Docker images</h2>
+<p>In this example, we will be pulling the images for both Zookeeper and Kafka (your images might differ).</p>
+<p>On an internet-enabled machine with Docker installed, run the following:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker pull my_docker_image
+save -o my_docker_image.docker my_docker_image
+</code></pre></div><p>Replacing <code>my_docker_image</code> with the same of the image you want to pull and save.</p>
+<p>For example, for both Kafka and Zookeeper:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker pull wurstmeister/zookeeper
+docker pull wurstmeister/kafka:latest
+docker save -o zookeeper_image.docker wurstmeister/zookeeper
+docker save -o kafka_image.docker wurstmeister/kafka
+</code></pre></div><p>Copy the <code>.docker</code> file(s) you saved across to your target server.</p>
+<h2 id="2-load-the-docker-images">2. Load the Docker images</h2>
+<p>On your target (non-internet connected) server, load the Docker images into inventory with:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker load -i my_image_name
+</code></pre></div><p>For example, again for both Kafka and Zookeeper:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker load -i kafka_image.docker
+docker load -i zookeeper_image.docker
+</code></pre></div><h2 id="3-done">3. Done!</h2>
+<p>You can now use Docker as you normally would with the images loaded above.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/guides">guides</a></span><span class="tag"><a href="https://nathancatania.com/tags/docker">docker</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>896 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2017-11-30</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Deploy a multi-node, multi-server Kafka Cluster with Docker</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/nathancatania.com">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

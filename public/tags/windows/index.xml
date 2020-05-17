@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>windows on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/windows/</link>
+    <description>Recent content in windows on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>hello@nathancatania.com (Nathan Catania)</managingEditor>
+    <webMaster>hello@nathancatania.com (Nathan Catania)</webMaster>
+    <lastBuildDate>Mon, 30 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://nathancatania.com/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Deploy Windows Server with an Azure Free Account</title>
+      <link>https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/</link>
+      <pubDate>Mon, 30 Dec 2019 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/</guid>
+      <description>Get an Azure Free Account Before you start, you will need to sign up for a free Azure account: https://azure.microsoft.com/en-au/free/
+This gives you some Azure services, like Windows &amp;amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.
+To see everything included in the free account, click here.
+Note: Don&amp;rsquo;t expect the server deployed under the free tier to be fast - we are limited to 1GB RAM and 1 vCPU with the B1s instance size.</description>
+    </item>
+    
+  </channel>
+</rss>

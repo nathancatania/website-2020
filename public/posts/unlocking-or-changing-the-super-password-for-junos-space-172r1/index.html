@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia hello@nathancatania.com Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="Introduction For Junos Space and its associated applications, if you have forgotten the password to the super account (or have locked yourself out of the account), you can reset the password and/or unlock the account by modifying the super user&amp;rsquo;s entry in the build_db DB of MySQL; via the Unix CLI in Space&amp;rsquo;s &amp;ldquo;debug&amp;rdquo; mode.
+However in release 17.2R1, the default password of the jboss user (which is required in order to access the MySQL CLI in the first place) has changed." />
+<meta name="keywords" content="blog, website, official, juniper, guides" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/" />
+
+
+    <title>
+        
+            Unlock or change the super password for Junos Space 17.2, 18.X :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.c7bbcf8c9520939898c82877a1b2fc2827871e3f2c3245a3b8da29f9796264cc.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Unlock or change the super password for Junos Space 17.2, 18.X">
+<meta itemprop="description" content="In the 17.2R1 release for Junos Space, the process for unlocking or changing the password for the super account has changed.">
+<meta itemprop="datePublished" content="2018-02-19T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-02-19T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="613">
+<meta itemprop="image" content="https://nathancatania.com"/>
+
+
+
+<meta itemprop="keywords" content="juniper,guides," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://nathancatania.com"/>
+
+<meta name="twitter:title" content="Unlock or change the super password for Junos Space 17.2, 18.X"/>
+<meta name="twitter:description" content="In the 17.2R1 release for Junos Space, the process for unlocking or changing the password for the super account has changed."/>
+
+
+
+    <meta property="og:title" content="Unlock or change the super password for Junos Space 17.2, 18.X" />
+<meta property="og:description" content="In the 17.2R1 release for Junos Space, the process for unlocking or changing the password for the super account has changed." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/" />
+<meta property="og:image" content="https://nathancatania.com"/>
+<meta property="article:published_time" content="2018-02-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-02-19T00:00:00+00:00" /><meta property="og:site_name" content="Nathan Catania" />
+
+
+
+
+
+
+    <meta property="article:published_time" content="2018-02-19 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://nathancatania.com/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>3 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/">Unlock or change the super password for Junos Space 17.2, 18.X</a>
+            </h1>
+
+            
+
+            <div class="post-content">
+                <h2 id="introduction">Introduction</h2>
+<p>For Junos Space and its associated applications, if you have forgotten the password to the <strong>super</strong> account (or have locked yourself out of the account), you can reset the password and/or unlock the account by modifying the super user&rsquo;s entry in the <code>build_db</code> DB of MySQL; via the Unix CLI in Space&rsquo;s &ldquo;debug&rdquo; mode.</p>
+<p>However in release 17.2R1, the default password of the <strong>jboss</strong> user (which is required in order to access the MySQL CLI in the first place) has changed. <del>As far as I can tell, Juniper has not documented this anywhere.</del></p>
+<blockquote>
+<p>Update July 2018:</p>
+<ul>
+<li>Juniper have now documented this changed in a <a href="https://kb.juniper.net/InfoCenter/index?page=content&amp;id=KB17582">KB article</a> (J-net login required).</li>
+<li>This process is will also work with Junos Space releases 18.1 and 18.2.<!-- raw HTML omitted --></li>
+</ul>
+</blockquote>
+<p>Previously, you would access the MySQL CLI using the user <strong>jboss</strong> and the password <strong>netscreenos</strong>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -pnetscreenos build_db</span>
+...
+...
+Welcome to the MySQL monitor.  Commands end with ; or <span style="color:#ae81ff">\g</span>.
+Copyright <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+mysql&gt;
+</code></pre></div><p>In Space 17.2R1 (and above), the same credentials do not work:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -pnetscreenos build_db</span>
+ERROR <span style="color:#ae81ff">1045</span> <span style="color:#f92672">(</span>28000<span style="color:#f92672">)</span>: Access denied <span style="color:#66d9ef">for</span> user <span style="color:#e6db74">&#39;jboss&#39;</span>@<span style="color:#e6db74">&#39;localhost&#39;</span> <span style="color:#f92672">(</span>using password: YES<span style="color:#f92672">)</span>
+</code></pre></div><p>So if you&rsquo;ve locked your <strong>super</strong> user account or forgotten its password, what do you do now?</p>
+<h2 id="new-sql-password">New SQL password</h2>
+<p>It seems as of 17.2, during installation, Space will automatically generate a random password for the <strong>jboss</strong> user of the MySQL database.</p>
+<p>Lucky for us (?), Space also stores this generated password in plaintext (!! 😱) for us to reference.</p>
+<p>The passwords are located at: <code>/etc/sysconfig/JunosSpace/pwd</code></p>
+<p>Dumping them to screen, we can copy the password for the <strong>jboss</strong> user:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /etc/sysconfig/JunosSpace/pwd</span>
+
+mysql.repUser<span style="color:#f92672">=</span>-BkGJCdQSEktjxIVRlF4rBOx9g3LHgCM
+mysql.repAdmin<span style="color:#f92672">=</span>p8AGI_-jAbsNlKq4cnnSVb0rh1aeOLO-
+postgres.postgres<span style="color:#f92672">=</span>postgres
+postgres.opennms<span style="color:#f92672">=</span>opennms
+postgres.replication<span style="color:#f92672">=</span>replication
+cassandra.jboss<span style="color:#f92672">=</span>netscreen
+jboss.admin<span style="color:#f92672">=</span>LJrZaVdj++++50395922
+mysql.root<span style="color:#f92672">=</span>BCiIAlkj5_NZj83VQpuX4E2oSRBHTlWA
+mysql.jboss<span style="color:#f92672">=</span>AEYZIMccv0Uq8ct_WoSgbo0BB4Wwu8RH
+</code></pre></div><p>You want the <code>mysql.jboss=</code> string, which in the example above is: <code>AEYZIMccv0Uq8ct_WoSgbo0BB4Wwu8RH</code></p>
+<p><strong>This is your password to authenticate the MySQL jboss user!</strong></p>
+<p>You can now access the MySQL CLI:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -p&lt;YOU-JBOSS-PASSWORD&gt; build_db</span>
+...
+...
+Welcome to the MySQL monitor.  Commands end with ; or <span style="color:#ae81ff">\g</span>.
+Copyright <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+mysql&gt;
+</code></pre></div><p>Replace the <code>&lt;YOUR-JBOSS-PASSWORD&gt;</code> with the string retrieved above. You will now have access to the CLI.</p>
+<h2 id="fixing-the-super-account">Fixing the super account</h2>
+<p>Now that we have the password to access our MySQL CLI, we can finally unlock or reset the <strong>super</strong> account to regain access to our Space applications.</p>
+<h3 id="unlocking-the-super-account">Unlocking the super account</h3>
+<p>If the super account is <strong>locked</strong>, you can unlock it from the MySQL CLI. Enter the following two DB queries/commands at the <code>mysql&gt;</code> shell prompt:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">select</span> * from USER_IP_ADDRESS where user_id in <span style="color:#f92672">(</span><span style="color:#66d9ef">select</span> id from USER where name LIKE <span style="color:#e6db74">&#39;%super%&#39;</span><span style="color:#f92672">)</span><span style="color:#ae81ff">\G</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">DELETE FROM USER_IP_ADDRESS where user_id in <span style="color:#f92672">(</span><span style="color:#66d9ef">select</span> id from USER where name LIKE <span style="color:#e6db74">&#39;%super%&#39;</span><span style="color:#f92672">)</span>;
+</code></pre></div><p>The super account should now be unlocked.</p>
+<h3 id="changing-the-super-account-password">Changing the super account password</h3>
+<p>If you have forgotten the password to the super account, you can reset it by altering the database entry for the &lsquo;super&rsquo; user. The password field takes an encrypted value. <strong>We will reset the password to the default value <code>juniper123</code></strong>. This will allow you to login and then change it to something more secure through the GUI.</p>
+<p>To login to the DB and change the password in one command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mysql -ujboss -p<span style="color:#66d9ef">$(</span>grep mysql.jboss /etc/sysconfig/JunosSpace/pwd | awk -F<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{print $2}&#39;</span><span style="color:#66d9ef">)</span> build_db -e <span style="color:#e6db74">&#34;UPDATE USER set password=&#39;ok89Nva6qHxytSHsP8AeLg==&#39; where name=&#39;super&#39;&#34;</span>
+</code></pre></div><p>This fetches the jboss password from the <code>pwd</code> file and executes the SQL statement to change the super user&rsquo;s password to <code>ok89Nva6qHxytSHsP8AeLg==</code> which represents <code>juniper123</code></p>
+<h3 id="finish">Finish</h3>
+<p>You should now be able to login to the Junos Space GUI using the username <code>super</code> and password <code>juniper123</code>.</p>
+<p><strong>Make sure to change the super password immediately to something more secure!</strong></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/juniper">juniper</a></span><span class="tag"><a href="https://nathancatania.com/tags/guides">guides</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>613 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2018-02-19</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Connect Juniper Sky Enterprise to Aerohive HiveManager</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/">
+                                <span class="button__text">Deploy a multi-node, multi-server Kafka Cluster with Docker</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/nathancatania.com">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

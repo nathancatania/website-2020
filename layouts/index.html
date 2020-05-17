@@ -1,0 +1,55 @@
+{{ define "main" }}
+    <main aria-role="main">
+        <div>
+            <h1>
+                {{- with .Site.Author.photo.url }}
+                <img class="avatar" src="{{.}}">
+                {{- end }}
+                {{ .Site.Title }}
+            </h1>
+
+            
+
+            {{- with .Site.Params.homeSubtitle }}
+                <p style="margin-top:-25px;">{{.}}</p>
+            {{- end }}
+
+            {{- with .Site.Params.social }}
+                <div>
+                    {{ partial "social-icons.html" . }}
+                </div>
+            {{- end }}
+        </div>
+    </main>
+    
+    <main class="posts">
+
+       
+
+
+        <div style="max-width:500px;margin:auto">
+            
+            <ul class="posts-list">
+                {{- range ( where site.RegularPages "Section" "posts" | first 5 ) }}
+                    <li class="post-item" style=>
+                        <a href="{{.Permalink}}">
+                            <span class="post-title">{{.Title}}</span>
+                            <span class="post-day">
+                                {{ if .Site.Params.dateformShort }}
+                                    {{ .Date.Format .Site.Params.dateformShort }}
+                                {{ else }}
+                                    {{ .Date.Format "Jan 2"}}
+                                {{ end }}
+                            </span>
+                        </a>
+                    </li>
+                {{ end }}
+                <li class="post-item">
+                    <a href="/posts" style="color:grey">All posts ⟶</a>
+                </li>
+            </ul>
+            
+        </div>
+        
+    </main>
+{{ end }}

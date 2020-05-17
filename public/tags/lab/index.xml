@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lab on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/lab/</link>
+    <description>Recent content in lab on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>hello@nathancatania.com (Nathan Catania)</managingEditor>
+    <webMaster>hello@nathancatania.com (Nathan Catania)</webMaster>
+    <lastBuildDate>Sun, 05 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://nathancatania.com/tags/lab/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Deploying ZPA ZEN Connectors</title>
+      <link>https://nathancatania.com/posts/deploying-zpa-zen-connectors/</link>
+      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/posts/deploying-zpa-zen-connectors/</guid>
+      <description>Disclaimer: I am an employee of Zscaler. These are my own notes from a ZPA homelab deployment and may be incorrect or against best practice. You should consult the Zscaler help portal for official documentation.
+ Connector Provisioning First, we are going to define the connector in the ZPA admin portal and generate the required provisioning key. The provisioning key authenticates the connector when it calls home to the ZPA cloud (via it&amp;rsquo;s established control channel), and associates it to your ZPA instance.</description>
+    </item>
+    
+    <item>
+      <title>Integrate Zscaler ZPA with Azure AD</title>
+      <link>https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/</link>
+      <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/</guid>
+      <description>This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZPA. Our users defined in Azure AD will be able to authenticate with Z-App/ZPA using Microsoft Single Sign-on (SSO), and we&amp;rsquo;ll also be able to create access policies for our private applications based on user identity and attributes.
+If you followed my previous post covering ZIA integration with Azure AD, then the first few steps will be (mostly) the same.</description>
+    </item>
+    
+    <item>
+      <title>Integrate Zscaler ZIA with Azure AD</title>
+      <link>https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/</link>
+      <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/</guid>
+      <description>This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZIA. Our users defined in Azure AD will be able to authenticate with Z-App/ZIA using Microsoft Single Sign-on (SSO), and we&amp;rsquo;ll also be able to start creating policies in ZIA centered around the same users, groups, and departments we&amp;rsquo;ve defined.
+By integrating with an IdP like Azure AD, we no longer need to manually manage users and their credentials ourselves in the ZIA portal.</description>
+    </item>
+    
+    <item>
+      <title>Set up Azure Active Directory (Azure AD) for free</title>
+      <link>https://nathancatania.com/posts/set-up-azure-active-directory-for-your-homelab/</link>
+      <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/posts/set-up-azure-active-directory-for-your-homelab/</guid>
+      <description>Get an Azure Free Account Before you start, you will need to sign up for a free Azure account: https://azure.microsoft.com/en-au/free/
+This gives you some Azure services, like Windows &amp;amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.
+With Azure AD free, you can freely create users and groups, but groups cannot be assigned and synchronized to enterprise applications.</description>
+    </item>
+    
+    <item>
+      <title>Deploy Windows Server with an Azure Free Account</title>
+      <link>https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/</link>
+      <pubDate>Mon, 30 Dec 2019 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/</guid>
+      <description>Get an Azure Free Account Before you start, you will need to sign up for a free Azure account: https://azure.microsoft.com/en-au/free/
+This gives you some Azure services, like Windows &amp;amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.
+To see everything included in the free account, click here.
+Note: Don&amp;rsquo;t expect the server deployed under the free tier to be fast - we are limited to 1GB RAM and 1 vCPU with the B1s instance size.</description>
+    </item>
+    
+  </channel>
+</rss>

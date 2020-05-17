@@ -1,0 +1,2003 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on Nathan Catania</title>
+        <link>https://nathancatania.com/posts/</link>
+        <description>Recent content in Posts on Nathan Catania</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <managingEditor>hello@nathancatania.com (Nathan Catania)</managingEditor>
+        <webMaster>hello@nathancatania.com (Nathan Catania)</webMaster>
+        <lastBuildDate>Sun, 05 Jan 2020 00:00:00 +0000</lastBuildDate>
+        <atom:link href="https://nathancatania.com/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Deploying ZPA ZEN Connectors</title>
+            <link>https://nathancatania.com/posts/deploying-zpa-zen-connectors/</link>
+            <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+            <author>hello@nathancatania.com (Nathan Catania)</author>
+            <guid>https://nathancatania.com/posts/deploying-zpa-zen-connectors/</guid>
+            <description>Disclaimer: I am an employee of Zscaler. These are my own notes from a ZPA homelab deployment and may be incorrect or against best practice. You should consult the Zscaler help portal for official documentation.
+ Connector Provisioning First, we are going to define the connector in the ZPA admin portal and generate the required provisioning key. The provisioning key authenticates the connector when it calls home to the ZPA cloud (via it&amp;rsquo;s established control channel), and associates it to your ZPA instance.</description>
+            <content type="html"><![CDATA[<blockquote>
+<p>Disclaimer: I am an employee of Zscaler. These are my own notes from a ZPA homelab deployment and may be incorrect or against best practice. You should consult the <a href="https://help.zscaler.com">Zscaler help portal</a> for official documentation.</p>
+</blockquote>
+<h1 id="connector-provisioning">Connector Provisioning</h1>
+<p>First, we are going to define the connector in the ZPA admin portal and generate the required provisioning key. The provisioning key authenticates the connector when it calls home to the ZPA cloud (via it&rsquo;s established control channel), and associates it to your ZPA instance.</p>
+<p>Log into the ZPA admin portal and navigate using the side menu to <strong>Administration</strong> &gt; <strong>Connectors</strong>.</p>
+<figure>
+    <img src="zc1.png"
+         alt="Access Connector management from the Administration menu"/> <figcaption>
+            <p>Access Connector management from the Administration menu</p>
+        </figcaption>
+</figure>
+
+<p>In the top-right corner, click <strong>Add Connector</strong> to open the wizard workflow.</p>
+<h2 id="step-1---provisioning-key">Step 1 - Provisioning Key</h2>
+<p>Create a new provisioning key, or choose an existing one if you already have one that is able to be used.</p>
+<p>If you elect to use an existing key, ensure it has not reached the maximum number of uses defined or the connector connector provisioning will fail. You can alter how many times an existing key can be used under <strong>Administration</strong> &gt; <strong>Connector Provisioning Keys</strong>.</p>
+<p>Click <strong>Next</strong>.</p>
+<p><img src="zc2.png" alt="2"></p>
+<h2 id="step-2---signing-certificate">Step 2 - Signing Certificate</h2>
+<p>Next choose the intermediate CA to be used to sign the identity and server certificates on the connector. When prompted, select <strong>Connector</strong>, then click <strong>Next</strong>.</p>
+<p><img src="zc3.png" alt="3"></p>
+<h2 id="step-3---connector-groups">Step 3 - Connector Groups</h2>
+<p>Create a new <strong>Connector Group</strong>, or select an existing one.</p>
+<p>Connector Groups are a logical grouping of connectors, and help facilitate high availability and horizontal scaling. Each connector belongs to a specific Connector Group. Connectors are updated weekly and are brought down and up again for automatic software updates on a round-robin basis within the group.</p>
+<p>If creating a new group, you will need to specify a 4 hour weekly upgrade interval in which all connectors within this group will take turns automatically updating and rebooting. You will also need to specify the geographic location of the connectors in the group.</p>
+<p>When you are finished, click <strong>Next</strong>.</p>
+<p><img src="zc4.png" alt="4"></p>
+<h2 id="step-4---provisioning-key-details">Step 4 - Provisioning Key Details</h2>
+<p>If in Step 1 you elected to create a NEW Provisioning Key, you will be prompted to <strong>give it a name and set the MAXIMUM number of times it can be re-used</strong> for other new connectors. This is an API enforced value, meaning it can be changed from within the ZPA admin portal (Administration &gt; Connector Provisioning Keys) at a later stage.</p>
+<p>It may be worth setting a key re-usabilty value based on the number of connectors you plan on deploying in a single Connector Group. This will assist you when it comes to scaling your connectors for a specific LAN segment.</p>
+<p><strong>Any connectors deployed with this Provisioning Key will be named after the key, so you&rsquo;ll want to give it a descriptive name.</strong> For example, a key with the name &lsquo;Melbourne&rsquo;, will have its associated connectors automatically named <code>Melbourne-1</code>, <code>Melbourne-2</code>, and so on.</p>
+<p>If you elected to use an existing key, you will be shown how many times it has already been used.</p>
+<p>Click <strong>Next</strong> when ready.</p>
+<p><img src="zc5.png" alt="5"></p>
+<h2 id="step-5-6---review-selection-and-generate-the-provisioning-key">Step 5-6 - Review Selection and Generate the Provisioning Key</h2>
+<p>Once you have reviewed the information on the <strong>Review</strong> tab, click <strong>Save</strong>.</p>
+<p><strong>Your Provisioning Key will be generated and displayed.</strong></p>
+<p><strong>IMPORTANT: This key is CONFIDENTIAL INFORMATION and should be stored securely.</strong> Depending on the number of times you specified the key can be re-used, anyone with your provisioning key could deploy a connector and have it associated with your Connector Group and ZPA instance. Treat it like an API key and secure it.</p>
+<p>Selecting a deployment platform at the bottom of the window will load an inline help article from <code>help.zscaler.com</code> guiding you through the deployment process.</p>
+<p><img src="zc6.png" alt="6"></p>
+<h2 id="next-steps">Next Steps</h2>
+<p>Click <strong>Done</strong> when you are ready.</p>
+<p><strong>Only connectors that have been BOTH provisioned and enrolled will show up under Administration &gt; Connectors!</strong> We have provisioned the connector in the admin portal, but still need to deploy the connector and wait until it calls home to the ZPA cloud to enroll itself. Only then will it show in the list.</p>
+<p>You can click on the <strong>Connector Groups</strong> tab or <strong>Connector Provisioning Keys</strong> tab at the top to review these details respectively.</p>
+<h1 id="connector-minimum-requirements">Connector Minimum Requirements</h1>
+<h2 id="requirement-1---deploy-connectors-in-pairs">Requirement 1 - Deploy Connectors in pairs</h2>
+<p>Zscaler recommends you deploy connectors in pairs. Why? To ensure high-availability of your private applications.</p>
+<p>As you would have specified when creating a Connector Group above, connectors have a weekly scheduled slot in which they perform an automatic software update. This causes the connector briefly go offline as it needs to reboot to complete the update process. Connectors in a group are never updated at the same time.</p>
+<p>Hence, if you deploy connectors (at least) in pairs, when one connector begins to update, your applications will still be accessible through the second connector. When the first connector comes back up, the second connector will begin to update. This process repeats until all connectors in a group are updated.</p>
+<h2 id="requirement-2---compute-resources-per-connector">Requirement 2 - Compute Resources per Connector</h2>
+<p>Every connector has the following minimum resource requirements:</p>
+<ul>
+<li>2 vCPUs</li>
+<li>4GB RAM</li>
+<li>8GB Disk (~1GB thin provisioning)</li>
+<li>1 NIC</li>
+</ul>
+<p>This provides each connector with a maximum throughput capacity of ~500 Mbps. If you need to scale beyond that, Zscaler recommends you deploy multiple connectors rather than simply increasing the resources allocated to the connector VM. This has an added bonus of increasing your overall resiliency to connector failure.</p>
+<p>In a lab environment, you will get away with 2GB RAM allocation, but this is not supported.</p>
+<h2 id="requirement-3---static-mac-address">Requirement 3 - Static MAC address</h2>
+<p>The connector must have a static MAC address.</p>
+<p>This is to do with the virtual hardware fingerprinting that ZPA does for connectors. MAC address is one element used to generate the unique fingerprint. If the MAC is changed at all, including on reboot, then the fingerprint will have been altered and the connector access to the ZPA cloud will be blocked for security reasons.</p>
+<h2 id="requirement-4---internal-and-external-dns-resolution">Requirement 4 - Internal and External DNS Resolution</h2>
+<p>The connector must be able to resolve both internal and external hostnames.</p>
+<p>The connector should be deployed on the same LAN segment as the private applications it is providing access to.</p>
+<h2 id="requirement-5---outbound-connectivity-on-port-443">Requirement 5 - Outbound connectivity on port 443</h2>
+<p>The connector requires outbound access on port 443 in order to function. No inbound ports are required to be open.</p>
+<p>For a complete list outbound firewall rules required, see <a href="https://ips.zscaler.net/zpa">https://ips.zscaler.net/zpa</a></p>
+<h2 id="requirement-6---bypass-ssl-inspection">Requirement 6 - Bypass SSL Inspection</h2>
+<p>You cannot do SSL inspection or decryption on any traffic coming from a connector. Only the Zscaler ZPA certificates are trusted. If the connector sees another certificate other than the ZPA one (due to how SSL inspection works), it will not pass traffic for security reasons.</p>
+<p>You must bypass SSL inspection/decryption for connector traffic.</p>
+<p>If you are using Zscaler Internet Access (ZIA), then the bypasses are automatically done for you.</p>
+<h2 id="static-ips--dhcp">Static IPs &amp; DHCP</h2>
+<p>Both static assignment of networking details and DHCP are supported connectors. Given that a connector is a key piece of networking infrastructure, static addressing is recommended.</p>
+<h1 id="connector-deployment---vmware-vsphere-esxi">Connector Deployment - VMware vSphere (ESXi)</h1>
+<p>For this guide, I&rsquo;ll be using the free vSphere Hypervisor (6.7).</p>
+<ol>
+<li>
+<p>Download the connector OVA using the URL below:</p>
+<p><a href="https://dist.private.zscaler.com/vms/VMware/2018.10/zpa-connector-2018.10.ova">https://dist.private.zscaler.com/vms/VMware/2018.10/zpa-connector-2018.10.ova</a></p>
+<p>If you are using vCenter, then you should be able to simply paste in the URL to the OVF deployment tool.</p>
+</li>
+<li>
+<p>Login to the vSphere UI. Select <strong>Virtual Machines</strong> from the side menu and select <strong>Create / Register VM</strong> at the top-left.</p>
+</li>
+<li>
+<p>Select option 2 <strong>Deploy a virutal machine from an OVF or OVA file</strong>, then on the next screen give the VM a name (I called mine <code>Z-Connector-1</code> and <code>Z-Connector-2</code>), and click to upload the <code>ZPA_Connector.ova</code> file.</p>
+</li>
+</ol>
+<p><img src="esx1.png" alt="7"></p>
+<ol start="4">
+<li>Select storage options, click <strong>Next</strong>, then select the network segement you wish to deploy the connector to. This should ideally be the same LAN segment that some of your applications are on.
+For <strong>Disk Provisioning</strong>, leave it set to <strong>Thin</strong>.</li>
+</ol>
+<p><img src="esx3.png" alt="8"></p>
+<ol start="5">
+<li>Review your settings and click <strong>Finish</strong> to deploy the OVA.</li>
+</ol>
+<p>If you get an <code>Unsupported attribute 'initialBoot' on element 'InstallSection'</code> error when deploying, try again using one one of the OVAs below:</p>
+<ul>
+<li>If you are using vSphere:
+<a href="https://dist.private.zscaler.com/vms/VMware/Latest/ZPA_Connector_Basic.ova">https://dist.private.zscaler.com/vms/VMware/Latest/ZPA_Connector_Basic.ova</a></li>
+<li>If you are using vCenter
+<a href="https://dist.private.zscaler.com/vms/VMware/Latest/ZPA_Connector_Basic.ova">https://dist.private.zscaler.com/vms/VMware/Latest/ZPA_Connector.ova</a></li>
+</ul>
+<p>If you are still hitting the error, try updating your ESXi client.</p>
+<h1 id="connector-configuration--housekeeping">Connector Configuration &amp; Housekeeping</h1>
+<p>Here we will login to the connector, change the default password, set network information (if not obtained via DHCP), and (optionally) enable SSH.</p>
+<p>We will also manually update the connector from the command line. <strong>This is highly recommended the first time you deploy a connector.</strong></p>
+<p>Some of these steps may only be required if you deployed the connector as a VM, and not as a package or in AWS/Azure.</p>
+<p>It may take 15 minutes for the default <code>admin</code> user to be created. If login to the connector initially fails, wait some time and then try again.</p>
+<h2 id="change-the-default-password">Change the default password</h2>
+<ol>
+<li>Log in to the connector using the <strong>username</strong> <code>admin</code> and <strong>default password</strong> <code>zscaler</code></li>
+</ol>
+<p><img src="cli1.png" alt="9"></p>
+<ol start="2">
+<li>
+<p>Use the <code>passwd</code> command to change the current password for the <code>admin</code> user</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ passwd 
+Changing password <span style="color:#66d9ef">for</span> user admin. 
+Changing password <span style="color:#66d9ef">for</span> admin. 
+<span style="color:#f92672">(</span>current<span style="color:#f92672">)</span> UNIX password:
+New password:
+Retype new password:
+passwd: all authentication tokens updated successfully. 
+<span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$
+</code></pre></div></li>
+<li>
+<p>Log out of the connector when finished.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ logout
+</code></pre></div></li>
+</ol>
+<h2 id="set-network-information">Set Network Information</h2>
+<p>VM based connectors are set to use DHCP by default. Alternatively, to set static information:</p>
+<ol>
+<li>
+<p>To set a static IP address, edit <code>/etc/sysconfig/network-scripts/ifcfg-eth0</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo nano /etc/sysconfig/network-scripts/ifcfg-eth0
+...
+DEVICE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;eth0&#34;</span>
+BOOTPROTO<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;none&#34;</span>
+ONBOOT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;yes&#34;</span>
+NETWORK<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;10.0.10.0&#34;</span>
+NETMASK<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;255.255.255.0&#34;</span>
+IPADDR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;10.0.10.16&#34;</span>
+USERCTL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;no&#34;</span>
+</code></pre></div></li>
+<li>
+<p>To set the default gateway, edit <code>/etc/sysconfig/network</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo nano /etc/sysconfig/network
+...
+NETWORKING<span style="color:#f92672">=</span>yes 
+GATEWAY<span style="color:#f92672">=</span>10.0.10.1
+</code></pre></div></li>
+<li>
+<p>To set DNS (connectors must be able to resolve internal and external hostnames), edit <code>/etc/resolv.conf</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo nano /etc/resolv.conf
+...
+nameserver 10.0.10.2
+nameserver 10.0.10.22 
+search example.com
+</code></pre></div></li>
+<li>
+<p>To set NTP servers, edit <code>/etc/chrony.conf</code>
+These should ideally be internal NTP servers.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo nano /etc/chrony.conf
+...
+server 0.zscaler.pool.ntp.org iburst
+server 1.zscaler.pool.ntp.org iburst
+server 2.zscaler.pool.ntp.org iburst
+server 3.zscaler.pool.ntp.org iburst
+</code></pre></div></li>
+<li>
+<p>Restart the <code>network</code> and <code>chronyd</code> services for your changes to take effect.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo systemctl restart network
+<span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo systemctl restart chronyd
+</code></pre></div></li>
+</ol>
+<p>The Zscaler <a href="https://help.zscaler.com/zpa/connector-deployment-guide-vmware-platforms">documentation</a> has additonal information on how to:</p>
+<ul>
+<li>Configure additional network interfaces</li>
+<li>Set static routes</li>
+<li>Configure the connector and/or yum to use a Proxy Server.</li>
+</ul>
+<h2 id="enable-ssh-temporarily-or-permanently">Enable SSH (temporarily or permanently)</h2>
+<p>To <strong>temporarily</strong> enable SSH:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo systemctl start sshd
+</code></pre></div><p>This will persist until next reboot. You can use <code>stop</code> in place of <code>start</code> to disable SSH once you are done.</p>
+<p>To <strong>permanently</strong> enable SSH, also run the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo systemctl enable sshd
+</code></pre></div><h2 id="highly-recommended-manually-update-the-connector">[Highly Recommended] Manually Update the Connector</h2>
+<p>Update the system packages:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo yum update -y
+</code></pre></div><p>Reboot the connector (preferred) or restart the <code>zpa-connector</code> service:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo reboot
+OR
+<span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo systemctl restart zpa-connector
+</code></pre></div><p>The Zscaler <a href="https://help.zscaler.com/zpa/managing-deployed-connectors#upgradingtheconnectorpackage">documentation</a> covers alternative scenarios, such as updating with a proxy server, or without access to the package repository.</p>
+<h2 id="view-connector-logs">View Connector Logs</h2>
+<p>Use <code>journalctl</code> to view the logs for the <code>zpa-connector</code> service:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo journalctl -u zpa-connector
+...
+-------- Connector Status:ID<span style="color:#f92672">=</span>144133100000000000:Name<span style="color:#f92672">=</span>Homelab Key-1:Ver<span style="color:#f92672">=</span>19.65.2 --------
+Certificate will expire in <span style="color:#ae81ff">377</span> days, <span style="color:#ae81ff">23</span> hours, <span style="color:#ae81ff">47</span> minutes, <span style="color:#ae81ff">38</span> seconds
+Control connection state: fohh_connection_connected, local:<span style="color:#f92672">[</span>10.0.10.30<span style="color:#f92672">]</span>:53040 
+remote:broker1c.syd4.prod.zpath.net...2.196<span style="color:#f92672">]</span>:443
+RPC Messages: BrkRq <span style="color:#f92672">=</span> 0, BrkRqAck <span style="color:#f92672">=</span> 0|0, BindReq <span style="color:#f92672">=</span> 0|0, BindReqAck <span style="color:#f92672">=</span> 0, ...
+Broker data connection count <span style="color:#f92672">=</span> 0, backed_off connections <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+Data Transfer: Total ToBroker <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> bytes, Total FromBroker <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> bytes
+Mtunnels: Total Created <span style="color:#f92672">=</span> 0, Total Freed <span style="color:#f92672">=</span> 0, Current Active <span style="color:#f92672">=</span> 0, Alloc <span style="color:#f92672">=</span> 0, ...
+Registered apps count <span style="color:#f92672">=</span> 0, alive app <span style="color:#f92672">=</span> 0, passive_health <span style="color:#f92672">=</span> 0, service_count <span style="color:#f92672">=</span> 0, ...
+Time skew: + 0.000000s
+Control channel successfully connected to Zscaler Cloud
+Connector- waiting <span style="color:#66d9ef">for</span> time synchronization
+Connector- Time synchronized, Local time - 737.427447s <span style="color:#f92672">=</span> cloud_time
+zscaler-update: Zscaler software update: Currently installed version verified as 19.65.2
+</code></pre></div><p>This can also be dumped to a file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo journalctl -u zpa-connector &gt; zpa-logs.txt
+</code></pre></div><h2 id="start-stop-or-restart-the-connector-service">Start, Stop, or Restart the Connector Service</h2>
+<p>The ZPA connector runs as a service called <code>zpa-connector and can be controlled via </code>systemctl`:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo systemctl start zpa-connector
+<span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo systemctl stop zpa-connector
+<span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo systemctl restart zpa-connector
+</code></pre></div><p>You can also check the status of the connector service:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo systemctl status zpa-connector
+</code></pre></div><h1 id="enrolling-the-connector">Enrolling the Connector</h1>
+<p>In this section we will provide the connector with the Provisioning Key (PK) and complete its enrollment. After this step, you will see the connector listed in the admin portal.</p>
+<p>You must stop the <code>zpa-connector</code> service first. If the connector does not detect the PK after it boots, it will only check for it again once every 24 hours.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo systemctl stop zpa-connector
+</code></pre></div><p>Create a file <code>/opt/zscaler/var/provision_key</code> with permissions <code>644</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo touch /opt/zscaler/var/provision_key
+<span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo chmod <span style="color:#ae81ff">644</span> /opt/zscaler/var/provision_key
+</code></pre></div><p>Copy the PK into the <code>provision_key</code> file. Make sure you encase it in double quotes <code>&quot; &quot;</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo echo <span style="color:#e6db74">&#34;&lt;Your-Provisioning-Key&#34;</span> | sudo tee /opt/zscaler/var/provision_key
+</code></pre></div><p>Check the key is correct:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo cat /opt/zscaler/var/provision_key
+</code></pre></div><p>Start the <code>zpa-connector</code> service again:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>admin@zpa-connector ~<span style="color:#f92672">]</span>$ sudo systemctl start zpa-connector
+</code></pre></div><p>Check the logs (see above) to verify enrollment progress.</p>
+<h1 id="verifying-connector-status-and-health">Verifying Connector Status and Health</h1>
+<p>If the connector has been enrolled successfully, you&rsquo;ll now see it present in the list of connectors under <strong>Administration</strong> &gt; <strong>Connectors</strong>.</p>
+<p><img src="zc7.png" alt="10"></p>
+<p>Don&rsquo;t worry if some of the fields have not populated yet.</p>
+<p>You can check the health of the connector under the <strong>Dashboard</strong> &gt; <strong>Health</strong> tab.</p>
+<p><img src="zc8.png" alt="11"></p>
+<p>This tab will only show healthy connectors by default.</p>
+<h1 id="next-steps-1">Next Steps</h1>
+<p>Congratulations! You&rsquo;ve deployed your first ZPA connector!
+Now go and repeat the same process for a second one so they are deployed in a pair.</p>
+<p>In the next guide we&rsquo;ll define some Applications in the admin portal and get them working with the connector(s).</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Integrate Zscaler ZPA with Azure AD</title>
+            <link>https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/</link>
+            <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
+            <author>hello@nathancatania.com (Nathan Catania)</author>
+            <guid>https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/</guid>
+            <description>This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZPA. Our users defined in Azure AD will be able to authenticate with Z-App/ZPA using Microsoft Single Sign-on (SSO), and we&amp;rsquo;ll also be able to create access policies for our private applications based on user identity and attributes.
+If you followed my previous post covering ZIA integration with Azure AD, then the first few steps will be (mostly) the same.</description>
+            <content type="html"><![CDATA[<p>This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZPA. Our users defined in Azure AD will be able to authenticate with Z-App/ZPA using Microsoft Single Sign-on (SSO), and we&rsquo;ll also be able to create access policies for our private applications based on user identity and attributes.</p>
+<p>If you followed my previous post covering ZIA integration with Azure AD, then the first few steps will be (mostly) the same.</p>
+<h1 id="add-a-new-identity-provider-in-zpa">Add a New Identity Provider in ZPA</h1>
+<p>Log into the <a href="https://admin.private.zscaler.com">ZPA admin portal</a> and go to <strong>Administration</strong> &gt; <strong>IdP Configuration</strong>.</p>
+<p><img src="1.png" alt="1"></p>
+<p>Click <strong>Add IdP Configuration</strong> at the top-right of the screen.</p>
+<p><img src="2.png" alt="2"></p>
+<p>Under the <strong>IdP Information</strong> section:</p>
+<ol>
+<li>Enter a name for the IdP configuration.
+ZPA supports multipe IdPs, hence a name is required to differentiate them.</li>
+<li>Ensure <strong>User</strong> is selected for <strong>Single Sign-On</strong>.</li>
+<li>Select the domain(s) you wish to associate with the IdP configuration.
+Zscaler support must add any additional domains to your admin portal first before you can use them.</li>
+</ol>
+<p><img src="3.png" alt="3"></p>
+<p>Click <strong>Next</strong> to continue.</p>
+<p>The next tab shows info you&rsquo;ll for the configuration on the Azure AD side. <strong>Download the Service Provider Metadata file</strong> (this will download as a file called <strong>sp_metadata.xml</strong>) as we&rsquo;ll use this in the next section.</p>
+<p><img src="4.png" alt="4"></p>
+<p>Click <strong>Pause</strong> (this will suspend the IdP config temporarily) and continue to the next section.</p>
+<h1 id="add-zpa-as-an-enterprise-application-in-azure-ad">Add ZPA as an Enterprise Application in Azure AD</h1>
+<p>From the <a href="https://portal.azure.com">Azure Portal</a>, open the side hamburger menu and click <strong>Azure Active Directory</strong>. You can also search for it using the search bar at the top.</p>
+<p><img src="6.png" alt="6"></p>
+<p>Under <strong>Manage</strong> in the side menu, click <strong>Enterprise applications</strong>.</p>
+<p><img src="7.png" alt="7"></p>
+<p>Next, under the <strong>All Applications</strong> menu, click <strong>New Application</strong>.</p>
+<p><img src="8.png" alt="8"></p>
+<p>In the search box to add a new application, type &ldquo;<strong>Zscaler</strong>&quot;.</p>
+<p><img src="9.png" alt="9"></p>
+<p>Select the <strong>Zscaler Private Access (ZPA)</strong> application and click <strong>Create</strong> (or <strong>Add</strong> depending on whether you are using the old or new enterprise app gallery).</p>
+<h1 id="configure-the-zpa-enterprise-application">Configure the ZPA Enterprise Application</h1>
+<p>You will now be on the administration page for the ZPA enterprise application you added above (if not, you can get to this page via: Azure Active Directory &gt; Enterprise Applications &gt; All Applications, then click on the ZPA app you added above).</p>
+<h2 id="1---configure-saml-based-single-sign-on">1 - Configure SAML-based Single Sign-on</h2>
+<p>Under <strong>Manage</strong> in the side menu, click <strong>Single sign-on</strong>, and select <strong>SAML</strong> when prompted. This will place you on the SAML configuration page.</p>
+<p><img src="10.png" alt="10"></p>
+<p><img src="11.png" alt="11"></p>
+<h2 id="2---import-the-zscaler-sp-metadata-file">2 - Import the Zscaler SP Metadata File</h2>
+<p>Click <strong>Upload metadata file</strong> at the top, and select the <strong>sp_metadata.xml</strong> file you downloaded from the ZPA admin portal earlier. This will open a panel and pre-populate some of the required info.</p>
+<p><img src="12.png" alt="12"></p>
+<p>The Sign on URL field will be empty and is required. Copy the example URL, replacing the <code>EXAMPLE</code> at the end with your domain that is being associated with this Azure AD config.</p>
+<p>For example, for my domain of <code>oblivion.industries</code>, my Sign on URL would look like:</p>
+<pre><code>https://samlsp.private.zscaler.com/auth/login?domain=oblivion.industries
+</code></pre><p><img src="13.png" alt="13"></p>
+<p>The Relay State and Logout Url fields should be left blank.</p>
+<p>Click <strong>Save</strong> at the top when you are done, and X to close the panel.</p>
+<h2 id="3---create-a-saml-signing-certificate">3 - Create a SAML Signing Certificate</h2>
+<p>Next to the 3rd step, <strong>SAML Signing Certificate</strong> in the SAML configuration page, click the edit/pencil icon.</p>
+<p><img src="14.png" alt="14"></p>
+<p>In the panel that appears, make sure the <strong>Signing Algorithm</strong> is <strong>SHA-256</strong> and <strong>Signing Option</strong> is set to <strong>Sign SAML assertion</strong>.</p>
+<p>Click <strong>New Certificate</strong> then <strong>Save</strong>. Open the menu by clicking the three dots to the right of the certificate, and download the BOTH the <strong>Base64</strong> certificate and the <strong>Federated Certificate XML</strong>. You should only need the latter, but it can sometimes be helpful to have both.</p>
+<p><img src="15.png" alt="15"></p>
+<p>Close the panel by clicking X once you&rsquo;ve downloaded the certificate and metadata files.</p>
+<h1 id="assign-users--groups-to-the-enterprise-application">Assign Users &amp; Groups to the Enterprise Application</h1>
+<p>We now need to assign what users are authorized to use the ZPA Enterprise Application. Only the users or groups specified will be able to sign into ZPA via Microsoft SSO. If you skip this section, your user&rsquo;s won&rsquo;t be able to sign in, and you won&rsquo;t see user data populated in ZIA for you to configure policy around.</p>
+<p>Select <strong>Users and groups</strong> from the side menu of the enterprise application, then click <strong>Add user</strong>.</p>
+<p><img src="16.png" alt="16"></p>
+<p>Select the Users and Groups to be both synced with and provisoned access to ZPA. If you select a group, all members of that group will receive ZPA access.</p>
+<p><img src="17.png" alt="17"></p>
+<p>When you are finished, click <strong>Assign</strong>.</p>
+<h1 id="finish-configuring-the-idp-in-zpa">Finish Configuring the IdP in ZPA</h1>
+<p>Return to the ZPA admin portal and click the <strong>resume</strong> button next to the paused IdP configuration (Administration &gt; IdP Configuration).</p>
+<p><img src="18.png" alt="18"></p>
+<p>For the <strong>IdP Metadata File</strong>, click to <strong>upload the Federated Certificate XML</strong> you download from Azure AD above. <em><strong>This will automatically populate all settings for you; including the certificate.</strong></em></p>
+<p>If for some reason the certificate does not populate, you can upload the Base64 certificate you downloaded.</p>
+<p><img src="19.png" alt="19"></p>
+<p>Scroll to the bottom of the window and change <strong>SCIM Sync</strong> to <strong>Enabled</strong>.</p>
+<p>Note down the <strong>SCIM Service Provider Endpoint</strong> URL, and generate a new <strong>Bearer Token</strong>. Note down the Bearer Token as well. You will need both of these in the next step.</p>
+<p><img src="20.png" alt="20"></p>
+<p>Click <strong>Save</strong> to finish the configuration on the ZPA side. Unlike ZIA, you do not need to activate your changes for them to take effect.</p>
+<h1 id="configure-scim-provisioning-in-azure-ad">Configure SCIM Provisioning in Azure AD</h1>
+<p>So far we&rsquo;ve configured a way to authenticate our users, but we still need to configure a method to provision &amp; de-provision them in the ZPA database.</p>
+<p>You can learn more about SCIM Provisioning <a href="https://help.zscaler.com/zpa/about-scim">here</a>, but in short, it involves the IdP regularly syncing user information with Zscaler via an API. With Azure AD, this sync happens every 40 minutes. Using SCIM is best practice.</p>
+<h2 id="1---configure-scim-provisionig-in-azure-ad">1 - Configure SCIM Provisionig in Azure AD</h2>
+<p>Return to the ZPA Enterprise Application in Azure AD. This time select <strong>Provisioning</strong> from the side menu and select <strong>Get Started</strong> if prompted.</p>
+<p><img src="21.png" alt="21"></p>
+<p>Change the <strong>Provisioning Mode</strong> to <strong>Automatic</strong>, and fill in the following fields:</p>
+<ul>
+<li>For <strong>Tenant URL</strong>, copy and paste the <strong>Base URL</strong> from above.</li>
+<li>For <strong>Secret Token</strong>, copy and paste the <strong>Bearer Token</strong> from above.</li>
+</ul>
+<p>Click <strong>Test Connection</strong> to verify. If you recieve an error about &ldquo;invalid credentials&rdquo;, make sure you saved and activated your change in the step above.</p>
+<p><img src="22.png" alt="22"></p>
+<p>Click <strong>Save</strong> to continue.</p>
+<p>Once your changes have been saved, change <strong>Provisioning Status</strong> to <strong>On</strong>.</p>
+<p>Save your changes again and the Scope field should appear.</p>
+<p>If you recieve an error, or the scope field is not appearing:</p>
+<ul>
+<li>Back out of the Provisioning menu and go into it again. This should fix the error and cause the scope menu to appear.</li>
+<li>Ensure you have assigned users and/or groups (containing users) to the enterprise application first.</li>
+</ul>
+<p>For the <strong>Scope</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sync only assigned users and groups</strong></td>
+<td>Only users and groups explicitly assigned access to this enterprise application (under Users and groups in the side menu) will be provisioned via SCIM to ZPA.</td>
+</tr>
+<tr>
+<td><strong>Sync all users and groups</strong></td>
+<td>All users and groups defined in Azure AD are synced with ZPA; irrespective of what was defined under Users and Groups in the side menu.</td>
+</tr>
+</tbody>
+</table>
+<p>Set your scope accordingly and click <strong>Save</strong> again. Don&rsquo;t forget to do this or your user information will not sync with ZPA!</p>
+<h2 id="3---synchronize">3 - Synchronize</h2>
+<p>Your users will sync to ZPA on the next API cycle (every 40 minutes). As this is the first time, you can manually force a sync by clicking the option <strong>Clear current state and restart synchronization</strong> (and then <strong>Save</strong>).</p>
+<h2 id="4---verify">4 - Verify</h2>
+<p>Once your users and groups have synchronised with ZPA, they&rsquo;ll be visible in the ZPA admin portal under <strong>Administration &gt; SCIM Users</strong> and <strong>Administration &gt; SCIM Groups</strong>.</p>
+<p><img src="23.png" alt="23"></p>
+<h1 id="import-saml-attributes">Import SAML Attributes</h1>
+<p>In order to create policies in ZPA, we need to import the fields we can use (called SAML attributes) from the IdP. This also allows us to test whether user authentication is working correctly.</p>
+<blockquote>
+<p><strong>IMPORTANT:</strong> I strongly recommend do the next step in an Incognito or Private tab. Failing that, completely sign out of both Azure AD and any Microsoft accounts you are currently signed in as in your current browser session.</p>
+<p>The next step will redirect you to Microsoft SSO to sign in with one of our test users, but if an active session to another Microsoft account is detected, it will use that instead. Importing the SAML attributes will then fail, as this account is likely not associated with our Azure AD tenant.</p>
+</blockquote>
+<p>In the ZPA admin portal, go to <strong>Administration</strong> &gt; <strong>IdP Configuration</strong> and expand the IdP configuration you want to import the attributes from. Under <strong>Import SAML Attributes</strong>, select the domain associated with the IdP you want to import the attributes from and click <strong>Import</strong>.</p>
+<p><img src="24.png" alt="24"></p>
+<p>Sign in using the credentials of a user that is authorized to use ZPA (ie: a user associated with the ZPA enterprise application). This will test your SSO config so far:</p>
+<ul>
+<li>If you encounter a Microsoft error (and you&rsquo;re trying this in an incognito or private tab), this indicates an issue with the Microsoft side of the config. Check to see whether the user you are attempting to sign in as has been added to the enterprise application as an authorized user. Additionally, check that your SAML config is correct.</li>
+<li>If you encounter a Zscaler branded error, this indicates an issue with the config on the Zscaler side. Note down the error code in the bottom left and check it against a <a href="https://help.zscaler.com/zia/troubleshooting-saml">list of error codes here</a>.</li>
+</ul>
+<p>If you have a successful login, the SAML JSON response will be captured and used to discover available SAML attributes to import:</p>
+<p><img src="25.png" alt="25"></p>
+<p>Anything in the left column, <strong>Name</strong>, you should overwrite with a descriptive name. <strong>What you type here will appear when creating an access policy</strong>, so <code>Full Name</code> is a lot easier to understand than <code>...claims_displayname_Azure AD</code> is.</p>
+<p>NB: If you have multiple IdPs configured, the name given to the attribute must be unique amongst all of them or it will not import.</p>
+<p>Some important mappings you might want to be aware of:</p>
+<table>
+<thead>
+<tr>
+<th>SAML Attribute Name</th>
+<th>What you should call it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>displayname</td>
+<td>Full Name</td>
+</tr>
+<tr>
+<td>groups</td>
+<td>Group or memberOf</td>
+</tr>
+<tr>
+<td>givenname</td>
+<td>First Name</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Username (eg: <a href="mailto:user@example.com">user@example.com</a>)</td>
+</tr>
+<tr>
+<td>surname</td>
+<td>Surname</td>
+</tr>
+<tr>
+<td>emailaddress</td>
+<td>Email Address</td>
+</tr>
+</tbody>
+</table>
+<p>You can also use the JSON displayed at the bottom of the page to work out what things should be called based on the captured data.</p>
+<p>Note: Only SAML attributes that have not been imported are displayed in the table. If the table is blank or some fields are missing, check you haven&rsquo;t already imported the attribute you&rsquo;re after.</p>
+<p>When you are done, click <strong>Save</strong> to finish the import.</p>
+<p>You will now be able to create an Access Policy using any of the imported SAML attributes:</p>
+<p><img src="26.png" alt="26"></p>
+<h1 id="configure-service-entitlement">Configure Service Entitlement</h1>
+<p>You now need to explicitly turn on ZPA in the Zscaler App, otherwise ZIA will be the only product to appear when a user signs in. This is called Selective Entitlement and is a way companies can specifically enable ZPA for some employees (eg: remote workers), but not all of them.</p>
+<p>In the ZPA admin portal, click the link in the menu to go to the <strong>Zscaler App Portal</strong>.</p>
+<p><img src="27.png" alt="27"></p>
+<p>Once in the Zscaler App Portal go to <strong>Administration &gt; Zscaler Service Entitlement</strong>.</p>
+<p><img src="28.png" alt="28"></p>
+<p>IMPORTANT: If you have a brand new ZPA portal, you will not see the option for <strong>Zscaler Service Entitlement</strong> in the Zscaler App Portal. You need to <a href="https://help.zscaler.com/submit-ticket">raise a ticket with support</a> to have this enabled, and can use the following script:</p>
+<blockquote>
+<p>Hi team. IdP is now configured in ZPA. Please enable ZPA in the Zscaler App Portal at your earliest convenience. Thank you.</p>
+</blockquote>
+<p><img src="29.png" alt="29"></p>
+<p>You can choose to enable ZPA in the Zscaler App globally for all users, or only allow access to specific groups.</p>
+<p>IMPORTANT: Group membership is synced from ZIA. If you&rsquo;ve changed group membership or created a new group in Azure AD, you must wait for it to sync to ZIA with SCIM AND wait for it to sync from ZIA to the Zscaler App portal (you can also initate a manual pull from ZIA under Administration &gt; Zscaler App Support &gt; Advanced Configuration)</p>
+<p>Select whether to enable ZPA for all users (check the <strong>ZPA Enabled by Default</strong> option), or select users by specifying a group.</p>
+<p>Click <strong>Save</strong> when you are finished and return to the ZPA admin portal.</p>
+<h1 id="test-the-azure-ad-configuration">Test the Azure AD configuration</h1>
+<p>We&rsquo;re going to test everything that we&rsquo;ve done so far. Open Z-App (sign-out if you&rsquo;re already signed in with another user) and sign in with the credentials of one of your Azure AD users that you assigned to the ZPA Enterprise Application.</p>
+<p>When you enter the username, Z-App should now redirect you to sign-in with Microsoft. Enter valid user credentials and test the sign-in.</p>
+<p><img src="30.png" alt="1"></p>
+<p>If everything is working well, and you&rsquo;ve enabled ZPA in the Zscaler App (Zscaler Service Entitlement), the user will be signed in to both ZIA and ZPA (provided Azure AD has been used for the IdP for both). Z-App will minimize itself to your system tray or menu-bar. If you open it, you&rsquo;ll see your user is authenticated.</p>
+<p><img src="24.png" alt="24"></p>
+<h2 id="testing-sso-in-a-browser">Testing SSO in a Browser</h2>
+<p>You can test the IdP configuration outside of the ZPA admin portal using the following URL. Replace <code>EXAMPLE.COM</code> with your company’s domain name as per Azure AD.</p>
+<p>IMPORTANT: Test the URL in a Private/Incognito window.</p>
+<pre><code>https://samlsp.private.zscaler.com/auth/v2/login?ssotype=test&amp;domain=EXAMPLE.COM
+</code></pre><h2 id="troubleshooting-sign-in">Troubleshooting Sign-in</h2>
+<p>If the Microsoft SSO fails, check the config on the Azure AD side. This could be due to:</p>
+<ul>
+<li>The URLs in the SAML config are not correct.</li>
+<li>Your user has not been assigned to the enterprise application.</li>
+</ul>
+<p>If sign in passes Microsoft SSO, but you get a Zscaler error (as per the image below), check the error code in the bottom right corner against the <a href="https://help.zscaler.com/zia/troubleshooting-saml">list of error codes here</a>. This indicates an issue with the config on the Zscaler side (typically something to do with the certificate you imported from Azure AD).</p>
+<p><img src="25.png" alt="25"></p>
+<h1 id="finish">Finish</h1>
+<p>If all went well, you should now have your ZPA tenant integrated with Azure AD with SAML-based SSO and SCIM user provisioning.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Integrate Zscaler ZIA with Azure AD</title>
+            <link>https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/</link>
+            <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
+            <author>hello@nathancatania.com (Nathan Catania)</author>
+            <guid>https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/</guid>
+            <description>This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZIA. Our users defined in Azure AD will be able to authenticate with Z-App/ZIA using Microsoft Single Sign-on (SSO), and we&amp;rsquo;ll also be able to start creating policies in ZIA centered around the same users, groups, and departments we&amp;rsquo;ve defined.
+By integrating with an IdP like Azure AD, we no longer need to manually manage users and their credentials ourselves in the ZIA portal.</description>
+            <content type="html"><![CDATA[<p>This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZIA. Our users defined in Azure AD will be able to authenticate with Z-App/ZIA using Microsoft Single Sign-on (SSO), and we&rsquo;ll also be able to start creating policies in ZIA centered around the same users, groups, and departments we&rsquo;ve defined.</p>
+<p>By integrating with an IdP like Azure AD, we no longer need to manually manage users and their credentials ourselves in the ZIA portal. We are effectively outsourcing user management and authentication to a 3rd party: Azure AD.</p>
+<p>From a user perspective, when they enter their username into Z-App, they&rsquo;ll be redirected to sign in using their company credentials via Microsoft:</p>
+<p><img src="1.png" alt="1"></p>
+<h1 id="add-a-new-identity-provider-in-zia">Add a New Identity Provider in ZIA</h1>
+<p>Log into your ZIA admin portal and go to <strong>Administration &gt; Authentication Settings.</strong></p>
+<p><img src="2.png" alt="2"></p>
+<p>Change the <strong>Authentication Type</strong> to <strong>SAML</strong> (from Form-Based) and then click the link <strong>Open Identity Providers</strong> (or click the Identity Providers tab at the top).</p>
+<p><img src="3.png" alt="3"></p>
+<p>Under the <strong>Identity Providers</strong> tab, click <strong>Add Identity Provider</strong>.</p>
+<p><img src="4.png" alt="3"></p>
+<p>In the window that appears, don&rsquo;t fill anything in yet. Click to download the <strong>SP Metadata</strong> towards the bottom of the window. This will download a file called <strong>zscaler-metadata.xml</strong> that we&rsquo;ll use in the next section.</p>
+<p><img src="5.png" alt="5"></p>
+<h1 id="add-zia-as-an-enterprise-application-in-azure-ad">Add ZIA as an Enterprise Application in Azure AD</h1>
+<p>From the <a href="https://portal.azure.com">Azure Portal</a>, open the side hamburger menu and click <strong>Azure Active Directory</strong>. You can also search for it using the search bar at the top.</p>
+<p><img src="6.png" alt="6"></p>
+<p>Under <strong>Manage</strong> in the side menu, click <strong>Enterprise applications</strong>.</p>
+<p><img src="7.png" alt="7"></p>
+<p>Next, under the <strong>All Applications</strong> menu, click <strong>New Application</strong>.</p>
+<p><img src="8.png" alt="8"></p>
+<p>In the search box to add a new application, type &ldquo;<strong>Zscaler</strong>&quot;.</p>
+<p><img src="9.png" alt="9"></p>
+<p>Select the Zscaler application that corresponds to cloud your ZIA tenant was provisioned on. If you can&rsquo;t remember this, check the URL that you use to log into the admin portal with. For example:</p>
+<ul>
+<li><code>admin.zscalertwo.net</code> == <strong>Zscaler Two</strong></li>
+<li><code>admin.zscaler.net</code> == <strong>Zscaler</strong></li>
+<li><code>admin.zscloud.net</code> == <strong>Zscaler ZSCloud</strong></li>
+</ul>
+<p>Select the correct application and click <strong>Create</strong> (or <strong>Add</strong> depending on whether you are using the old or new enterprise app gallery).</p>
+<h1 id="configure-the-zia-enterprise-application">Configure the ZIA Enterprise Application</h1>
+<p>You will now be on the administration page for the Zscaler / ZIA enterprise application you added above (if not, you can get to this page via: Azure Active Directory &gt; Enterprise Applications &gt; All Applications, then click on the ZIA app you added above).</p>
+<h2 id="1---configure-saml-based-single-sign-on">1 - Configure SAML-based Single Sign-on</h2>
+<p>Under <strong>Manage</strong> in the side menu, click <strong>Single sign-on</strong>, and select <strong>SAML</strong> when prompted. This will place you on the SAML configuration page.</p>
+<p><img src="10.png" alt="10"></p>
+<p><img src="11.png" alt="11"></p>
+<h2 id="2---import-the-zscaler-sp-metadata-file">2 - Import the Zscaler SP Metadata File</h2>
+<p>Click <strong>Upload metadata file</strong> at the top, and select the <strong>zscaler-metadata.xml</strong> file you downloaded from the ZIA admin portal earlier. This will open a panel and pre-populate some of the required info.</p>
+<p><img src="12.png" alt="12"></p>
+<p>The Sign on URL field will be empty and is required. This is the same as the pre-populated Reply URL field, so <strong>copy and paste the URL from <em>Reply URL</em> to <em>Sign on URL</em></strong>. This is of the format:</p>
+<pre><code>https://login.&lt;cloudname&gt;.net:443/sfc_sso
+</code></pre><p>Leave the <strong>Reply State</strong> and <strong>Logout Url</strong> fields blank.</p>
+<p><img src="13.png" alt="13"></p>
+<p>When you&rsquo;re done, click <strong>Save</strong> at the top, then X to close the panel.</p>
+<h2 id="3---create-a-saml-signing-certificate">3 - Create a SAML Signing Certificate</h2>
+<p>Next to the 3rd step, <strong>SAML Signing Certificate</strong> in the SAML configuration page, click the edit/pencil icon.</p>
+<p><img src="14.png" alt="14"></p>
+<p>In the panel that appears, make sure the <strong>Signing Algorithm</strong> is <strong>SHA-256</strong> and <strong>Signing Option</strong> is set to <strong>Sign SAML assertion</strong>.</p>
+<p>Click <strong>New Certificate</strong> then <strong>Save</strong>. Open the menu by clicking the three dots to the right of the certificate, and download the <strong>Base64</strong> certificate.</p>
+<p><img src="15.png" alt="15"></p>
+<p><strong>IMPORTANT:</strong> The certificate will download as a .cer file. You must change the file extension to <strong>.pem</strong> or it will not be able to be used later on. DO NOT just download the certificate in .pem format as this will cause user authentication to fail. <strong>The certificate downloaded must be the Base64 certificate in .cer format, renamed to .pem.</strong></p>
+<p>Close the panel by clicking X once you&rsquo;ve downloaded the certificate.</p>
+<h2 id="4---note-down-the-login-url">4 - Note down the Login URL</h2>
+<p>Expand the <strong>Configuration URLs</strong> under the <strong>5th step</strong> in the SAML configuration page, and note down/copy the <strong>Login URL</strong>: we&rsquo;ll need this later. The Login URL should be of the format:</p>
+<pre><code>https://login.microsoftonline.com/&lt;unique-token&gt;/saml2
+</code></pre><p><img src="16.png" alt="16"></p>
+<h1 id="assign-users--groups-to-the-enterprise-application">Assign Users &amp; Groups to the Enterprise Application</h1>
+<p>We now need to assign what users are authorized to use the ZIA Enterprise Application. Only the users or groups specified will be able to sign into ZIA via Microsoft SSO. If you skip this section, your user&rsquo;s won&rsquo;t be able to sign in, and you won&rsquo;t see user data populated in ZIA for you to configure policy around.</p>
+<p>Select <strong>Users and groups</strong> from the side menu of the enterprise application, then click <strong>Add user</strong>.</p>
+<p><img src="17.png" alt="17"></p>
+<p>Select the Users and Groups to be both synced with and provisoned access to ZIA. If you select a group, all members of that group will receive ZIA access.</p>
+<p><img src="18.png" alt="18"></p>
+<p>When you are finished, click <strong>Assign</strong>.</p>
+<h1 id="finish-configuring-the-idp-in-zia">Finish Configuring the IdP in ZIA</h1>
+<p>Return to the ZIA admin portal and finish configuring the new IdP. Fill in the details as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Enter a descriptive name for the IdP</td>
+</tr>
+<tr>
+<td>Status</td>
+<td><strong>Enabled</strong></td>
+</tr>
+<tr>
+<td>SAML Portal URL</td>
+<td>Enter the <strong>Login URL</strong> you copied from the SAML configuration page (Step 5 - Set up Zscaler). This is in the format: <code>https://login.microsoftonline.com/&lt;uniquetoken&gt;/saml2</code></td>
+</tr>
+<tr>
+<td>Login Name Attribute</td>
+<td>Set this to <code>NameID</code></td>
+</tr>
+<tr>
+<td>Org-Specific Entity ID</td>
+<td><strong>Disabled</strong></td>
+</tr>
+<tr>
+<td>Public SSL Certificate</td>
+<td>Upload the <strong>Base64 certificate</strong> you downloaded above. It MUST be in .pem format. If it was downloaded as a .cer file, simply <strong>change the extension to .pem</strong></td>
+</tr>
+<tr>
+<td>Vendor</td>
+<td><strong>Azure Active Directory</strong></td>
+</tr>
+<tr>
+<td>Authentication Domains</td>
+<td>Leave this as Any or select a domain to associate this IdP with. Users signing in with this domain will be redirected to this IdP.</td>
+</tr>
+<tr>
+<td>Sign SAML Request</td>
+<td><strong>Disabled</strong> - Azure AD does not support signed SAML responses from the service provider.</td>
+</tr>
+</tbody>
+</table>
+<p><img src="19.png" alt="19"></p>
+<p>Don&rsquo;t touch any of the options under the <strong>Auto-Provisioning</strong> section just yet.</p>
+<p>Click <strong>Save</strong> to save the IdP config and close the window.</p>
+<h1 id="configure-scim-user-provisioning">Configure SCIM User Provisioning</h1>
+<p>So far we&rsquo;ve configured a way to authenticate our users, but we still need to configure a method to provision them in ZIA so we can create policies that utilize user identities; like URL filtering and DLP.</p>
+<p>You can learn more about SCIM Provisioning <a href="https://help.zscaler.com/zia/about-scim">here</a>, but in short, it involves the IdP regularly syncing user information with Zscaler via an API. With Azure AD, this sync happens every 40 minutes. Using SCIM is best practice.</p>
+<h2 id="1---edit-identity-provider-settings">1 - Edit Identity Provider Settings</h2>
+<p>In the ZIA admin portal, click the edit/pencil icon next to the Azure AD IdP we just added (Administration &gt; Authentication Settings &gt; Identity Providers tab).</p>
+<p>This time, under the <strong>Auto-Provisioning Options</strong> section, check the <strong>Enable SCIM-Based Provisioning</strong> checkbox (do NOT enable SAML Auto-Provisioning).</p>
+<p><img src="20.png" alt="20"></p>
+<p>Note down both the <strong>Base URL</strong> and <strong>Bearer Token</strong> displayed. The Bearer Token is essentially an API key we will give to Azure AD. Clicking Generate Token will invalidate the previous token and display a new one.</p>
+<p>Click <strong>Save</strong> when you are done and <strong>ACTIVATE</strong> your changes! <strong>Make sure you do this, or your Bearer Token will not work in the steps below.</strong></p>
+<h2 id="2---configure-scim-provisionig-in-azure-ad">2 - Configure SCIM Provisionig in Azure AD</h2>
+<p>Return to the ZIA Enterprise Application in Azure AD. This time select <strong>Provisioning</strong> from the side menu and select <strong>Get Started</strong> if prompted.</p>
+<p><img src="21.png" alt="21"></p>
+<p>Change the <strong>Provisioning Mode</strong> to <strong>Automatic</strong>, and fill in the following fields:</p>
+<ul>
+<li>For <strong>Tenant URL</strong>, copy and paste the <strong>Base URL</strong> from above.</li>
+<li>For <strong>Secret Token</strong>, copy and paste the <strong>Bearer Token</strong> from above.</li>
+</ul>
+<p>Click <strong>Test Connection</strong> to verify. If you recieve an error about &ldquo;invalid credentials&rdquo;, make sure you saved and activated your change in the step above.</p>
+<p><img src="22.png" alt="22"></p>
+<p>Click <strong>Save</strong> to continue.</p>
+<p>Once your changes have been saved, change <strong>Provisioning Status</strong> to <strong>On</strong>.</p>
+<p>Save your changes again and the Scope field should appear.</p>
+<p>If you recieve an error, or the scope field is not appearing:</p>
+<ul>
+<li>Back out of the Provisioning menu and go into it again. This should fix the error and cause the scope menu to appear.</li>
+<li>Ensure you have assigned users and/or groups (containing users) to the enterprise application first.</li>
+</ul>
+<p>For the <strong>Scope</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sync only assigned users and groups</strong></td>
+<td>Only users and groups explicitly assigned access to this enterprise application (under Users and groups in the side menu) will be provisioned via SCIM to ZIA. Note that if you don&rsquo;t select a group and your scope is set to this option, that group will not appear in ZIA when creating policies.</td>
+</tr>
+<tr>
+<td><strong>Sync all users and groups</strong></td>
+<td>All users and groups defined in Azure AD are synced with ZIA; irrespective of what was defined under Users and Groups in the side menu.</td>
+</tr>
+</tbody>
+</table>
+<p>Set your scope accordingly and click <strong>Save</strong> again. Don&rsquo;t forget to do this or your user information will not sync with ZIA!</p>
+<h2 id="3---synchronize">3 - Synchronize</h2>
+<p>Your users and groups will sync to ZIA on the next API cycle (every 40 minutes). As this is the first time, you can manually force a sync by clicking the option <strong>Clear current state and restart synchronization</strong> (and then <strong>Save</strong>).</p>
+<h2 id="4---verify">4 - Verify</h2>
+<p>Once your users and groups have synchronised with ZIA, they&rsquo;ll be visible in the ZIA admin portal under <strong>Administration &gt; User Management</strong>.</p>
+<p><img src="23.png" alt="23"></p>
+<h1 id="test-the-azure-ad-configuration">Test the Azure AD configuration</h1>
+<p>We&rsquo;re going to test everything that we&rsquo;ve done. Open Z-App (sign-out if you&rsquo;re already signed in with another user) and sign in with the credentials of one of your Azure AD users that you assigned to the ZIA Enterprise Application.</p>
+<p>When you enter the username, Z-App should now redirect you to sign-in with Microsoft. Enter valid user credentials and test the sign-in.</p>
+<p><img src="1.png" alt="1"></p>
+<p>If everything is working well, the user will be signed in and Z-App will minimize itself to your system tray or menu-bar. If you open it, you&rsquo;ll see your user is authenticated.</p>
+<p><img src="24.png" alt="24"></p>
+<h2 id="troubleshooting-sign-in">Troubleshooting Sign-in</h2>
+<p>If the Microsoft SSO fails, check the config on the Azure AD side. This could be due to:</p>
+<ul>
+<li>The URLs in the SAML config are not correct.</li>
+<li>Your user has not been assigned to the enterprise application.</li>
+</ul>
+<p>If sign in passes Microsoft SSO, but you get a Zscaler error (as per the image below), check the error code in the bottom right corner against the <a href="https://help.zscaler.com/zia/troubleshooting-saml">list of error codes here</a>. This indicates an issue with the config on the Zscaler side (typically something to do with the certificate you imported from Azure AD).</p>
+<p><img src="25.png" alt="25"></p>
+<h1 id="finish">Finish</h1>
+<p>If all went well, you should now have your ZIA tenant integrated with Azure AD with SAML-based SSO and SCIM user provisioning.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Set up Azure Active Directory (Azure AD) for free</title>
+            <link>https://nathancatania.com/posts/set-up-azure-active-directory-for-your-homelab/</link>
+            <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
+            <author>hello@nathancatania.com (Nathan Catania)</author>
+            <guid>https://nathancatania.com/posts/set-up-azure-active-directory-for-your-homelab/</guid>
+            <description>Get an Azure Free Account Before you start, you will need to sign up for a free Azure account: https://azure.microsoft.com/en-au/free/
+This gives you some Azure services, like Windows &amp;amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.
+With Azure AD free, you can freely create users and groups, but groups cannot be assigned and synchronized to enterprise applications.</description>
+            <content type="html"><![CDATA[<h1 id="get-an-azure-free-account">Get an Azure Free Account</h1>
+<p>Before you start, you will need to sign up for a free Azure account: <a href="https://azure.microsoft.com/en-au/free/">https://azure.microsoft.com/en-au/free/</a></p>
+<p>This gives you some Azure services, like Windows &amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.</p>
+<p>With Azure AD free, you can freely create users and groups, but groups cannot be assigned and synchronized to enterprise applications. To do this you will need a premium account.</p>
+<p>To see everything included in the free account, click <a href="https://azure.microsoft.com/en-au/free/free-account-faq/">here</a>.</p>
+<h1 id="get-a-domain-name">Get a Domain Name</h1>
+<p>You&rsquo;ll be integrating your own domain name into Azure AD in this guide, so you&rsquo;ll need one if you don&rsquo;t already. Domains are pretty cheap depending on the TLD. You can often find ones for $1-2/year.</p>
+<p><a href="https://www.namecheap.com/">NameCheap</a>, <a href="https://domains.google/">Google Domains</a>, <a href="https://porkbun.com/">Porkbun</a> are all good sites to get a domain from.</p>
+<h1 id="create-a-new-tenant">Create a new tenant</h1>
+<p>From the Azure Home screen, open the menu and go to <strong>Azure Active Directory</strong>.</p>
+<p><img src="aad1.png" alt="1"></p>
+<p>You&rsquo;ll see the default directory. Ignore this and select <strong>Create a directory</strong> from the top.</p>
+<p><img src="aad2.png" alt="2"></p>
+<p>Under the <strong>Basics</strong> tab, select <strong>Azure Active Directory</strong>. Click next to go to the <strong>Configuration</strong> tab.</p>
+<p><img src="aad3.png" alt="3"></p>
+<p>Give your &ldquo;Organization&rdquo; a name. I went with my own name. You&rsquo;ll also need to select an Initial Domain Name. This will be a subdomain on the <code>onmicrosoft.com</code> domain. Eg: <code>nathanc.onmicrosoft.com</code></p>
+<p>You cannot delete this domain, but can optionally add your own domain name in a later step. The subdomain you pick here must be unique and connot have been used before by any other Azure user.</p>
+<p>Finally, select your country so you can be allocated to the closest DC region.</p>
+<p>When you are done, click next to go to the <strong>Review + Create</strong> tab. Review your selection and click <strong>Create</strong> when you are ready.</p>
+<p><img src="aad4.png" alt="4"></p>
+<h1 id="add-a-custom-domain">Add a custom domain</h1>
+<p>While you could use the <code>*.onmicrosoft.com</code> domain for your lab, it&rsquo;s generally a better idea to use your own custom domain name. This allows you to have identities such as <a href="mailto:nathan@mydomain.com">nathan@mydomain.com</a> instead of <a href="mailto:nathan@nathanc.onmicrosoft.com">nathan@nathanc.onmicrosoft.com</a>.</p>
+<p>Once your tenant has been created, on the side panel for your new directory, click <strong>Custom domain names</strong>. Then click <strong>Add custom domain</strong> at the top.</p>
+<p><img src="aad5.png" alt="5"></p>
+<p>Enter in your full domain name, <strong>including the top-level</strong>, eg: <code>.com</code>, <code>.net</code>, <code>.cool</code> etc.</p>
+<p>You&rsquo;ll be promoted to add a new TXT DNS record with your domain registrar using the infomation displayed. Once you&rsquo;ve done so, you can click <strong>Verify</strong>. The record may fail to validate straight away: it can take up to 72 hours before the validation works, although for me it took roughly 5 minutes.</p>
+<p><img src="aad6.png" alt="6"></p>
+<p>Once verified, elect to make your custom domain the primary domain for your new directory.</p>
+<h1 id="add-some-users">Add some users</h1>
+<p>From the directory side menu under <strong>Manage</strong>, click <strong>Users</strong>, then <strong>New User</strong>.</p>
+<p><img src="aad7.png" alt="7"></p>
+<p>Fill in the following fields for the user:</p>
+<ol>
+<li>Username</li>
+<li>Name</li>
+<li>Password</li>
+<li>Job Title &amp; Department</li>
+</ol>
+<p>Users will be provisioned with the basic <strong>User</strong> role by default. You can add additional roles &amp; permissions if needed. We haven&rsquo;t setup any groups yet so leave that part alone.</p>
+<p><img src="aad8.png" alt="8"></p>
+<p>When you&rsquo;re finished, you&rsquo;ll be returned to the <strong>All users</strong> page with your new user created.</p>
+<p>For a homelab, might be helpful to create several dummy users.</p>
+<h1 id="create-some-groups">Create some groups</h1>
+<p>Groups are exactly that: Secure grouping of users to simplify access policies within certain applications.</p>
+<p>From the directory side menu under <strong>Manage</strong>, click <strong>Groups</strong>, then <strong>New Group</strong>. You&rsquo;ll notice I already have some groups defined.</p>
+<p><img src="aad9.png" alt="9"></p>
+<p>Leave the <strong>Group type</strong> as <strong>Security</strong>. Give you group a name and description.</p>
+<p>Here you can assign an owner of the group, as well as members from a list of users you created earlier. You can also assign existing groups as a member making this new group the parent superset.</p>
+<p><img src="aad10.png" alt="10"></p>
+<p>Click <strong>Create</strong> when you are done.</p>
+<h1 id="adding-enterprise-applications-for-sso">Adding Enterprise Applications for SSO</h1>
+<p>From the directory side menu under <strong>Manage</strong>, click <strong>Enterprise applications</strong>, then <strong>New application</strong>.</p>
+<p><img src="aad11.png" alt="11"></p>
+<p>Search for the application you want to provide SSO to.</p>
+<p>When you have found your application, click <strong>Create</strong>.</p>
+<p><img src="aad12.png" alt="12"></p>
+<h1 id="finish">Finish</h1>
+<p>Azure AD should now be configured with some users and groups.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Deploy Windows Server with an Azure Free Account</title>
+            <link>https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/</link>
+            <pubDate>Mon, 30 Dec 2019 00:00:00 +0000</pubDate>
+            <author>hello@nathancatania.com (Nathan Catania)</author>
+            <guid>https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/</guid>
+            <description>Get an Azure Free Account Before you start, you will need to sign up for a free Azure account: https://azure.microsoft.com/en-au/free/
+This gives you some Azure services, like Windows &amp;amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.
+To see everything included in the free account, click here.
+Note: Don&amp;rsquo;t expect the server deployed under the free tier to be fast - we are limited to 1GB RAM and 1 vCPU with the B1s instance size.</description>
+            <content type="html"><![CDATA[<h1 id="get-an-azure-free-account">Get an Azure Free Account</h1>
+<p>Before you start, you will need to sign up for a free Azure account: <a href="https://azure.microsoft.com/en-au/free/">https://azure.microsoft.com/en-au/free/</a></p>
+<p>This gives you some Azure services, like Windows &amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.</p>
+<p>To see everything included in the free account, click <a href="https://azure.microsoft.com/en-au/free/free-account-faq/">here</a>.</p>
+<p>Note: Don&rsquo;t expect the server deployed under the free tier to be fast - we are limited to 1GB RAM and 1 vCPU with the B1s instance size.</p>
+<h1 id="this-guide">This guide</h1>
+<p>This guide will cover deploying a Windows Server VM to Azure and ensuring (at the time of writing this at least) that usage is contrained to the free account limits. This means that if you do everything correctly, you shouldn&rsquo;t have any on-going charges for the first 12 months - provided your usage doesn&rsquo;t exceed the free tier limits.</p>
+<p>The Azure free account gives you approx US$200 to use on services for the first 30 days, so if you happen to make a mistake, you&rsquo;ll know the next time you log into Azure as you&rsquo;re available credit will have decreased.</p>
+<h1 id="create-a-windows-server-virtual-machine">Create a Windows Server Virtual Machine</h1>
+<p>From Azure Home, click <strong>Create a resource</strong>.</p>
+<p><img src="azure1.png" alt="1"></p>
+<p>In the <strong>Search the Marketplace</strong> box, type <code>Windows Server</code> and select it from the autocomplete box.</p>
+<p>Leave the software plan as the default (we will change it in the next step) and click <strong>Create</strong>.</p>
+<p><img src="azure2.png" alt="2"></p>
+<h2 id="basics">Basics</h2>
+<p>On the next page:</p>
+<ol>
+<li>Leave <strong>Subscription</strong> as the default. It should say <code>Azure subscription 1</code> or similar.</li>
+<li>Create a new <strong>Resource Group</strong>. Call it whatever you like. I called mine <code>WinServerRG</code></li>
+<li>Give your VM a name.</li>
+<li>Select the appropriate Azure region to deploy your VM. This should be as close to your location as possible. I chose <code>Australia East</code>.</li>
+<li>Leave <strong>Availability Options</strong> as <code>No infrastructure redundancy required</code>.</li>
+</ol>
+<p>For the <strong>Image</strong> field, click <strong>Browse all public and private images</strong>. Scroll down the list and select an image prefixed with <code>[smalldisk]</code>. I selected <strong>[smalldisk] Windows Server 2019 Datacenter</strong>.</p>
+<p><img src="azure3.png" alt="3"></p>
+<p>The <code>[smalldisk]</code> image options limit the OS disk to 30GB which allows us to stay within the limitations of the Azure free tier. Microsoft give us 2x 64GB of Premium SSD storage as part of the free tier, but by default, a normal Windows Server instance will deploy an OS disk with a 128GB Premium SSD disk.
+<strong>This will cause you to be charged for a 128GB disk if you use a normal Windows Server image.</strong></p>
+<p>Note that this still doesn&rsquo;t keep us within the free tier. Azure will attribute the 30GB OS disk size to a 32GB Premium SSD&hellip; which is not covered by the free tier. After we deploy the VM, we can re-size the OS drive to ~60GB which will be covered by one of our free 64GB Premium SSDs.</p>
+<p>Next, we need to select the size of the VM.
+<strong>Warning: Be sure to change this! The default size selected is typically very expensive!</strong></p>
+<p>Click <strong>Change size</strong> and select <strong>B1s</strong> as the size of the VM instance.<!-- raw HTML omitted -->
+For the Windows OS, Microsoft include 750 hours per month (for the 1st 12 months) of B1s usage as part of the free tier.
+NB: 750 hours is just over 31 days. So your entire month is covered, every month, for the first 12 months for this single VM.</p>
+<p><img src="azure4.png" alt="4"></p>
+<p>Next, give your VM a username and <strong>STRONG</strong> password.</p>
+<p>For <strong>Inbound port rules</strong>, select <strong>RDP (3389)</strong> as the allowed inbound service. This will allow you to remotely connect to your VM once deployed. I also selected <strong>HTTP (80)</strong> and <strong>HTTPS (443)</strong>.</p>
+<p>It is critical that you have a strong password defined and that you have very restrictive inbound network security rules in the coming steps. <strong>If you don&rsquo;t, you have a significant change of your VM being hacked or attacked by a malicious entity.</strong></p>
+<p>Click <strong>Next</strong> to go to the <strong>Disks</strong> tab where we will define the storage to be used.</p>
+<h2 id="disks">Disks</h2>
+<p>Leave <strong>Premium SSD</strong> selected as the OS disk type.
+This allocates a 32GB Premium SSD as the OS drive. However, only 2x 64GB disks are covered by the free tier.
+<strong>As such, after we create the VM, we will need to change the OS disk size to ensure Azure uses a 64GB disk which will be free.</strong></p>
+<p>For <strong>Data disks</strong> select <strong>Create and attach a new disk</strong>.</p>
+<p><img src="azure5.png" alt="5"></p>
+<p>On the next screen change the size of the disk to <code>64GB</code>, leave the <strong>Source type</strong> as <code>None</code>, and give it whatever name you want.</p>
+<p><img src="azure6.png" alt="6"></p>
+<p>Click OK to return to the <strong>Disks</strong> tab and you will see your new disk listed under the <strong>Data disks</strong> section.</p>
+<p>Now click <strong>Next</strong> to go to the <strong>Networking</strong> tab where we will define how our VM will be connected to the network and how open it will be for remote access.</p>
+<h2 id="networking">Networking</h2>
+<p>First, click to create a new Virtual Network.</p>
+<p>The <strong>Address range</strong> will be populated to <code>10.0.0.0/16</code> by default. You can change this to whatever you want. I set my vnet address range to <code>10.99.0.0/16</code>.</p>
+<p>Next you need to carve out a smaller subnet from within the <code>/16</code> vnet we specified above. Give it a name (it can be anything - I called mine <code>Infrastructure</code>), and set the CIDR range. I used <code>10.99.0.0/24</code>.</p>
+<p><img src="azure7.png" alt="7"></p>
+<p>Click OK when you are done and select both the Virtual network and subnet you created.</p>
+<p>Next click to create a new Public IP. Give it a name, set the <em>SKU</em> as <code>Basic</code> and the <strong>Assignment</strong> as <code>Static</code>.</p>
+<p>Your first 3 fields will look something like this:</p>
+<p><img src="azure7-2.png" alt="7-2"></p>
+<p>This next step is <strong>CRITICAL</strong> to get correct. Failing to do so will expose your VM to the internet making it vulnerable to attack.</p>
+<p>For <strong>NIC network security group</strong>, select <strong>Advanced</strong>, and click to create a new security group.</p>
+<p><img src="azure9.png" alt="9"></p>
+<p>Give the new security group a name and <strong>delete the default inbound rule present</strong>. Click to add a new inbound rule.</p>
+<p><img src="azure10.png" alt="10"></p>
+<p>We are going to restrict remote access to your Windows Server VM from your current IP address only. For me, this was my home IP, meaning I&rsquo;ll only be able to access the VM when I&rsquo;m at home. Not a big deal and we can always change or update this later.</p>
+<p>To find your current public IP address, open a new tab and simply search Google for <code>What is my IP?</code>. You&rsquo;ll see something like this:</p>
+<p><img src="azure8.png" alt="8"></p>
+<p>I&rsquo;ve modified this image to obscure my own IP. Select and copy the IP shown and go back to your Azure tab.</p>
+<p>Change <strong>Source</strong> field for the inbound security rule to <code>IP Address</code>. Under <strong>Source IP address/CIDR ranges</strong> paste in your IP address from Google.</p>
+<p>Leave <strong>Source port ranges</strong> as an asterisk <code>*</code>, <strong>Destination</strong> as <code>Any</code>, but change the <strong>Destination port ranges</strong> as needed. At the very least, add port <code>3389</code> which is the inbound port for RDP. Without this, you won&rsquo;t be able to remotely connect to the VM. You can add other ports in too, like <code>80</code> (for HTTP) or <code>443</code> (for HTTPS) - just separate ports with a comma, eg: <code>3389,80,443</code></p>
+<p>To open all inbound ports to your VM, you can use an asterisk <code>*</code> instead to denote <em>any</em> port.</p>
+<p>Make sure the <strong>Action</strong> is set to <strong>Allow</strong>. Give the rule a name, and you can change the priority if needed. Click <strong>Add</strong> when finished.</p>
+<p>Your rule will look something like the following:</p>
+<p><img src="azure11.png" alt="11"></p>
+<p>Next, click to add a new outbound rule. We will explicitly set a rule that allows our VM to reach any destination on the internet.</p>
+<p>You can leave the <strong>Source</strong>, <strong>Source port ranges</strong>, and <strong>Destination</strong> as <code>Any</code>. Change the default <strong>Destination port ranges</strong> from <code>8080</code> to an asterisk <code>*</code>
+<strong>Without this, your VM will only be able to connect to remote destinations on port 8080</strong>.</p>
+<p>Make sure the <strong>Action</strong> is set to <code>Allow</code>. GIve the outbound rule a name and click <strong>Add</strong> when you are done.</p>
+<p><img src="azure12.png" alt="12"></p>
+<p>You are now finished configuring your network secutity group. It should look similar to the following:</p>
+<p><img src="azure13.png" alt="13"></p>
+<p>Click OK to create it.</p>
+<p>Leave <strong>Accelerated networking</strong> set to <code>Off</code> and <strong>Load Balancing</strong> set to <code>No</code>. Click Next to go to the <strong>Management</strong> tab next.</p>
+<h2 id="management">Management</h2>
+<p>Not much to do on this page. Under the <strong>Monitoring</strong> section, set the <strong>Identity</strong> and <strong>Auto-shutdown</strong> options to <code>Off</code>.</p>
+<p><img src="azure14.png" alt="14"></p>
+<p>You can skip the <strong>Advanced</strong> and <strong>Tags</strong> tabs. Go to the <strong>Review + create</strong> tab when ready.</p>
+<h2 id="review-and-create">Review and Create</h2>
+<p>Make sure everything here is as expected, particularly the VM size/instance type selected. <strong>This should be <code>B1s</code> to qualify for free tier usage.</strong></p>
+<p>Keep in mind that if you make a change to the first <strong>Basics</strong> tab, it will typically wipe all the other tabs meaning you&rsquo;ll need to fill in all of the above all over again.</p>
+<p>Click <strong>Create</strong> when you&rsquo;re ready to initialize the VM.</p>
+<p><img src="azure15.png" alt="15"></p>
+<h1 id="deployment">Deployment</h1>
+<p>After you click <strong>Create</strong> you&rsquo;ll be redirected to the deployment screen for your VM where you can see the status for each element (like the VM itself, disks, security group, etc) being created.</p>
+<p><img src="azure16.png" alt="16"></p>
+<p>Sit back as this can 2-5 minutes to complete. You&rsquo;ll see the deployment complete screen when your VM is ready.</p>
+<p>If you have any errors during deployment. Make sure you followed the guide exactly. My first deployment failed because I didn&rsquo;t explicitly click to create resources like the Virtual network or subnet - thinking that these would be automatically created and I wouldn&rsquo;t have to do anything. If you still have issues, <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/windows/quick-create-portal">Microsoft&rsquo;s Quickstart Guide for Windows VMs</a> may help.</p>
+<h1 id="adjust-the-os-disk-capacity-for-free-tier-compatibility">Adjust the OS Disk Capacity for Free Tier Compatibility</h1>
+<p>As explained above, the <code>[smalldisk]</code> Windows Server image only requires 30GB of OS disk space, however this places us within the threshold of the 32GB Premium SSD - which is NOT included in the free Azure tier.</p>
+<p>As such, we must expand the 30GB OS disk to ensure we hit the 64GB SSD thereshold and are therefore not billed.</p>
+<p>From the Azure Home page, open the menu and go to <strong>Virtual Machines</strong>. If you can&rsquo;t find the <strong>Virtual Machines</strong> page, you can search for it at the top.</p>
+<p>This will show you a list of your VMs. Click the VM you just created to view it in detail.</p>
+<p>If your VM is running, you will need to STOP it by clicking the <strong>Stop</strong> button. This can take several minutes. You cannot resize a disk in Azure while the VM it is attached to is running.</p>
+<p><img src="aad25.png" alt="aad25"></p>
+<p>When the VM has stopped, under <strong>Settings</strong>, click <strong>Disks</strong>.</p>
+<p>Select the disk listed under <strong>OS disk</strong>.</p>
+<p><img src="aad26.png" alt="aad26"></p>
+<p>Click <strong>Configuration</strong> in the side navigation menu and enter a new size for the drive. Make sure it is greater than 32GB and less than 64GB. When you are done, click <strong>Save</strong>. You can then return to the VM screen and power it on again.</p>
+<p>If you want to make use of this extra space inside the VM, you will need to expand the OS drive via <strong>Computer Management</strong> in Windows.</p>
+<h1 id="connecting-to-your-virtual-machine">Connecting to your Virtual Machine</h1>
+<p>From the Azure Home page, open the menu and go to <strong>Virtual Machines</strong>. If you can&rsquo;t find the <strong>Virtual Machines</strong> page, you can search for it at the top.</p>
+<p>This will show you a list of your VMs. Click the VM you just created to view it in detail.</p>
+<p>Click the <strong>Connect</strong> button in the top menu. Note down the public IP assigned to your VM and the port number displayed (this should be 3389 for RDP). You will use these to connect to your VM.</p>
+<p><img src="azure17.png" alt="17"></p>
+<p>If you are on a Windows PC, you can download the RDP file and open it to connect to your VM.</p>
+<p>If you are on MacOS, you&rsquo;ll need something like <a href="https://itunes.apple.com/us/app/microsoft-remote-desktop/id715768417?mt=12">Microsoft&rsquo;s Remote Desktop Client from the Mac App Store</a>, or <a href="https://www.royalapps.com/ts/mac/features">Royal TSX</a> to connect.</p>
+<p>The username and password are the ones you specified when you created the VM.</p>
+<h1 id="basic-configuration-tasks">Basic Configuration Tasks</h1>
+<h2 id="1---check-for-system-updates-and-configure-updates">1 - Check for System Updates and Configure Updates</h2>
+<p>Go to <strong>Start</strong> <strong>&gt;</strong> <strong>Settings</strong> (the gear icon on the left side) <strong>&gt;</strong> <strong>Update &amp; Security</strong></p>
+<p><img src="azure18.png" alt="18"></p>
+<p>Check for any system updates that are available, and configure the active hours for the server (the times outside of which the server can restart to install it&rsquo;s updates). I set my active hours to be 7AM to 1AM daily, which means updates and restarts can occur between 1AM and 7AM each day.</p>
+<h2 id="2---set-the-server-name">2 - Set the Server Name</h2>
+<p>Under <strong>Server Manager &gt; Local Server</strong>, on the right side, click the <strong>Computer name</strong> field to modify.</p>
+<p>You could have also accessed the Windows Update settings from the previous step in this page.</p>
+<p>Click on the <strong>Refresh</strong> button at the top of the screen to make the Server Manager window reflect the changes.</p>
+<p><img src="azure19.png" alt="19"></p>
+<h2 id="3---set-the-time-zone">3 - Set the Time Zone</h2>
+<p>This time under Server Manager, click <strong>Time zone</strong>. Azure sets the server to <code>UTC</code> by default. Change this to your time zone as applicable.</p>
+<h2 id="4---set-a-static-private-ipv4-address">4 - Set a Static Private IPv4 Address</h2>
+<p>We&rsquo;re currently accessing the server via a public IP address. Azure performs NAT to convert this to one of our private virtual network IPs on the server side. That is, the public IP is mapped to one of our 253 usable IP addresses in the <code>10.99.0.0/24</code> address space (or similar depending on how you configured your network).</p>
+<p>By default, it is assigned one of these IPs dynamically. We need to change this to static to ensure the server always has the same private IP.</p>
+<p>Open Command Prompt and issue the command <code>ipconfig</code></p>
+<p><img src="azure19-2.png" alt="19-2"></p>
+<p>My server has been assigned the IP of <code>10.99.0.5</code>. Note down the <strong>IP</strong>, <strong>subnet mask</strong>, and <strong>default gateway</strong>.</p>
+<p>Go back to <strong>Server Manager &gt; Local Server</strong> again, and this time click <strong>Ethernet</strong> on the left side.</p>
+<p>Right-click on the network adaptor and click <strong>Properties</strong>. Select <strong>Internet Protocol Version 4 (TCP/IPv4)</strong> and click <strong>Properties</strong>. Optionally, untick <strong>Internet Protocol Version 6 (TCP/IPv6)</strong> to disable IPv6.</p>
+<p><img src="azure20.png" alt="20"></p>
+<p>Enter the IP address, subnet mask, and default gateway obtained above. Additionally, manually specify IPs for DNS. I used Cloudflare: <code>1.1.1.1</code> and <code>1.0.0.1</code>.</p>
+<p><strong>Make sure you triple check the IPs entered!</strong> You may lose access to your VM otherwise!</p>
+<p>Click OK when done.</p>
+<p>Your RDP connection will drop. Don&rsquo;t panic. Wait a few seconds, then reconnect.</p>
+<h2 id="5---restart-the-server">5 - Restart the Server</h2>
+<p>You should restart the server so your changes can take effect (and updates can be installed).</p>
+<h1 id="finish">Finish</h1>
+<p>Well done! You should now have a working Windows Server deployed using the Azure free tier with a very basic configuration applied.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>[How to] Upgrade your PS4 to an SSD</title>
+            <link>https://nathancatania.com/posts/upgrade-your-ps4-to-an-ssd/</link>
+            <pubDate>Fri, 16 Aug 2019 00:00:00 +0000</pubDate>
+            <author>hello@nathancatania.com (Nathan Catania)</author>
+            <guid>https://nathancatania.com/posts/upgrade-your-ps4-to-an-ssd/</guid>
+            <description>This guide will work for all models of PlayStation 4, however the location of the hard-drive bay is different between models.
+Replacing your Hard Drive will NOT void your warranty and is covered in an official support article.
+Why would you want to do this? A few reasons. Namely:
+  You need more space for games. Many PS4s ship with a 500GB HDD which can be filled quickly.
+  You want faster load times.</description>
+            <content type="html"><![CDATA[<p>This guide will work for all models of PlayStation 4, however the location of the hard-drive bay is different between models.</p>
+<p>Replacing your Hard Drive will NOT void your warranty and is covered in an <a href="https://support.playstation.com/s/article/Upgrade-PS4-HDD">official support article</a>.</p>
+<h1 id="why-would-you-want-to-do-this">Why would you want to do this?</h1>
+<p>A few reasons. Namely:</p>
+<ul>
+<li>
+<p><strong>You need more space for games.</strong> Many PS4s ship with a 500GB HDD which can be filled quickly.</p>
+</li>
+<li>
+<p><strong>You want faster load times.</strong> Upgrading your PC or Laptop to an SSD makes a night and day difference to performance. The PS4 is hampered by a mechanical drive, so by upgrading it so an SSD we should expect a similar performance increase.</p>
+</li>
+</ul>
+<h1 id="how-long-will-it-take">How long will it take?</h1>
+<p>I was able to have my PS4 back up and running playing games in about 4-5 hours. The majority of this comes from the time taken to backup and restore the data on the PS4 (including all of the games).</p>
+<p>For reference, I had about 332GB of content on my PS4&rsquo;s existing HDD. The actual drive swap took 10 minutes at most.</p>
+<p>I recommend going through your PS4&rsquo;s library and deleting any games that you haven&rsquo;t played in a while. This will drastically cut down the backup and restore time. Most disc based games consume 30-50GB of space.</p>
+<h1 id="what-will-you-need">What will you need?</h1>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1x External Hard Drive</strong></td>
+<td>This is used to backup your existing PS4 HDD so we can restore all of your content to your new SSD or HDD.</td>
+</tr>
+<tr>
+<td><strong>1x USB Drive (at least 2GB)</strong></td>
+<td>When you install the new drive into the PS4, you need to re-install the PS4 Operating System as well. We&rsquo;ll be loading a copy of the software onto this USB and using it for the install.</td>
+</tr>
+<tr>
+<td><strong>1x Phillips Head Screwdriver</strong></td>
+<td>You&rsquo;ll need a small one. There are at least 5 screws you&rsquo;ll need to undo to access the drive.</td>
+</tr>
+<tr>
+<td><strong>1x New SSD or HDD</strong></td>
+<td>This is your replacement drive to be installed. I went with a Crucial MX500 1TB SSD.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="what-drive-should-you-buy">What drive should you buy?</h1>
+<p>The PS4 only takes 2.5&rdquo; drives (no more than 9.5mm in height). These drives are typically sold as laptop drives.</p>
+<p>As my upgrade was to an SSD, I purchased a <strong>Crucial MX500 1TB 2.5&rdquo; SSD</strong>. This cost approx $140 AUD (~$85 USD before taxes)</p>
+<figure>
+    <img src="mx500.jpg"
+         alt="Crucial MX500 1TB 2.5-inch SSD"/> <figcaption>
+            <p>Crucial MX500 1TB 2.5-inch SSD</p>
+        </figcaption>
+</figure>
+
+<hr>
+<h1 id="step-1---prepare-your-external-drives">Step 1 - Prepare your external drives</h1>
+<h2 id="external-drive-for-backup">External Drive for Backup</h2>
+<p>To backup your PS4, you will need an external hard drive large enough to fit the current contents of your PS4.</p>
+<p><strong>The external drive MUST be formatted as FAT32 or ExFAT.</strong> I formatted my drive as ExFAT.</p>
+<h2 id="usb-stick-for-os-re-install">USB Stick for OS Re-install</h2>
+<p>You will also need a USB Flash Drive at least 2GB in size. This should be formatted as FAT32. We will use this drive to re-install the PS4&rsquo;s operating system after replacing the drive.</p>
+<h1 id="step-2---download-the-ps4-operating-system">Step 2 - Download the PS4 Operating System</h1>
+<p>When we swap the drive of the PS4, the OS must be re-installed. We need to download the PS4 firmware from Sony in order to do this.</p>
+<p>Sony makes two types of firmware file available: a smaller upgrade file (~445 MB) and a full re-install file (~996 MB). Most guides that I read pointed me towards using the first one, which DID NOT WORK.</p>
+<p><a href="https://www.playstation.com/en-gb/get-help/ps4-system-software/">Click here to download the PS4 firmware</a>. At the time of writing this post, the latest version is 6.72.</p>
+<p>Scroll down until you reach the section:</p>
+<blockquote>
+<p>Update or reinstall PS4 system software using a USB</p>
+</blockquote>
+<p>There are two tabs:</p>
+<ol>
+<li>Update PS4 system software using USB</li>
+<li><strong>Reinstall PS4 system software using USB</strong></li>
+</ol>
+<p>Select the second one, then click the button to download the firmware file.</p>
+<figure>
+    <img src="update1.jpg"
+         alt="Download the correct PS4 firmware file"/> <figcaption>
+            <p>Download the correct PS4 firmware file</p>
+        </figcaption>
+</figure>
+
+<p><strong>You MUST name the firmware file <code>PS4UPDATE.PUP</code></strong></p>
+<p>Next, go to the USB Stick you prepared in Step 1. The PS4 will only recognize the firmware file if it is placed inside a special folder structure.</p>
+<p>You will need to create 2x folders; one inside the other.</p>
+<ol>
+<li>In the root/base of the USB, create a folder called <code>PS4</code>.</li>
+<li>Inside the <code>PS4</code> folder, create another folder called <code>UPDATE</code></li>
+</ol>
+<p>Now copy the <code>PS4UPDATE.PUP</code> file into the <code>UPDATE</code> folder.</p>
+<p>The full file path on the USB stick should be: <code>/PS4/UPDATE/PS4UPDATE.PUP</code></p>
+<figure>
+    <img src="update2.jpg"
+         alt="Required folder structure for the PS4 firmware file"/> <figcaption>
+            <p>Required folder structure for the PS4 firmware file</p>
+        </figcaption>
+</figure>
+
+<p>Once you have done this, place the USB stick aside and move onto the next step.</p>
+<h1 id="step-3---backing-up-the-ps4">Step 3 - Backing Up the PS4</h1>
+<blockquote>
+<p>Before backing up your PS4, you should go through your game library and remove as many installed games as possible. This will drastically reduce the time required to complete the backup and restore processes.</p>
+</blockquote>
+<p>Plug your EXTERNAL drive prepared in Step 1 into the PS4.</p>
+<p>On the PS4&rsquo;s menu, navigate to:<!-- raw HTML omitted -->
+<strong>Settings &gt; System &gt; Back Up and Restore &gt; Back Up</strong></p>
+<figure>
+    <img src="backup1.jpg"
+         alt="The Back Up option is under Settings &amp;gt; System"/> <figcaption>
+            <p>The Back Up option is under Settings &gt; System</p>
+        </figcaption>
+</figure>
+
+<p>The PS4 will ask you what you want to backup. Everything will be selected by default.
+If your external drive was formatted correctly, the PS4 will display the amount of free space on the drive. I ticked everything then clicked Next.</p>
+<figure>
+    <img src="backup2.jpg"
+         alt="Select what you would like to backup"/> <figcaption>
+            <p>Select what you would like to backup</p>
+        </figcaption>
+</figure>
+
+<p>If your drive cannot be used, the &ldquo;Next&rdquo; button will be greyed out and the drive will display no usable free space. In this case, check that your drive has been formatted correctly. If you are using FAT32, try formatting as ExFAT instead.</p>
+<p>Once you click &ldquo;Next&rdquo;, the backup process will begin. Initially the PS4 will estimate a massive amount of time to complete the backup (like 8 hours), but it will slowly adjust and decrease.</p>
+<p>My backup of 332GB took about 90-100 minutes all up.</p>
+<figure>
+    <img src="backup3.jpg"
+         alt="The backup process is runnning"/> <figcaption>
+            <p>The backup process is runnning</p>
+        </figcaption>
+</figure>
+
+<h1 id="step-4---shutdown-the-ps4">Step 4 - Shutdown the PS4</h1>
+<p>Once the backup process has finished, completely <strong>Power Off</strong> your PS4. Do NOT put it into Rest Mode - it needs to be completely shut down.</p>
+<p>Once it has been powered off, unplug the console completely and move it to a desk or table: It is time to replace the drive.</p>
+<h1 id="step-5---accessing-the-ps4-hdd">Step 5 - Accessing the PS4 HDD</h1>
+<blockquote>
+<p>This step will be different depending on the model of PS4 you have. The location of the HDD bay is different across models. <!-- raw HTML omitted --><!-- raw HTML omitted -->My PS4 is the Pro model.<!-- raw HTML omitted --><!-- raw HTML omitted -->Sony has model specific instructions <a href="https://support.playstation.com/s/article/Upgrade-PS4-HDD?language=en_US">here</a>.</p>
+</blockquote>
+<p>On the back (or side) of the PS4, look for a removable panel.</p>
+<figure>
+    <img src="swap1.jpg"
+         alt="Accessing the drive tray"/> <figcaption>
+            <p>Accessing the drive tray</p>
+        </figcaption>
+</figure>
+
+<p>This may require a bit of force to pry away from the console. Doing so will expose the drive tray.</p>
+<figure>
+    <img src="swap2.jpg"
+         alt="The exposed drive tray"/> <figcaption>
+            <p>The exposed drive tray</p>
+        </figcaption>
+</figure>
+
+<p>Using your small Phillips head screwdriver, remove the screw securing the drive tray in place. The tray should slide out towards you..</p>
+<p>The picture below shows the removed tray with the old HDD in place. The drive is secured in the tray by 4 screws: 2 on either side of the tray. Remove these screws to remove the drive.</p>
+<p>Note that bottom of the drive faces upwards when placed into the tray.</p>
+<figure>
+    <img src="swap3.jpg"
+         alt="The old HDD"/> <figcaption>
+            <p>The old HDD</p>
+        </figcaption>
+</figure>
+
+<p>The empty tray, the old HDD, and the new SSD to be installed:</p>
+<figure>
+    <img src="swap4.jpg"
+         alt="The drive tray, old HDD, and new SSD side-by-side."/> <figcaption>
+            <p>The drive tray, old HDD, and new SSD side-by-side.</p>
+        </figcaption>
+</figure>
+
+<p>Place the new drive/SSD into the tray with the bottom of the drive facing upwards.</p>
+<p><strong>WARNING: If the new drive is not placed in the correct orientation, it will not slide back into the PS4, and you risk damaging the connector.</strong></p>
+<p>Secure the drive with the 4 screws you removed earlier.</p>
+<figure>
+    <img src="swap5.jpg"
+         alt="The new SSD mounted in the drive tray"/> <figcaption>
+            <p>The new SSD mounted in the drive tray</p>
+        </figcaption>
+</figure>
+
+<p>Slide the drive tray back into the PS4. It should sit flush the way it did before with minimal force required. <em>If it does not go back in all the way, check that you have mounted the drive the correct way up.</em></p>
+<p>Screw the drive bay back into place, and snap the removable plastic cover back on.</p>
+<p>Done!</p>
+<h1 id="step-6---re-installing-the-ps4-operating-system">Step 6 - Re-installing the PS4 Operating System</h1>
+<h2 id="safe-mode-install">Safe Mode Install</h2>
+<p>Plug your PS4 back in - do not power it on just yet.</p>
+<p>Insert the USB stick containing the PS4 Firmware File you downloaded in Step 2.</p>
+<p>Power on the PS4.</p>
+<p>The PS4 will boot into Safe Mode. This is OK and normal.</p>
+<p>If your USB was configured correctly and you downloaded the correct firmware file, the PS4 will prompt you to initialize the system and re-install the OS.</p>
+<p>Proceed. The software will install and your PS4 will reboot.</p>
+<figure>
+    <img src="install1.jpg"
+         alt="Re-installing the OS"/> <figcaption>
+            <p>Re-installing the OS</p>
+        </figcaption>
+</figure>
+
+<p>If there is an issue with your USB stick or the firmware file, the PS4 will give you an error like the following:</p>
+<blockquote>
+<p>The update file cannot be used.<!-- raw HTML omitted -->Connect a USB storage device that contains an upgrade file for reinstallation for version [VERSION] or later.<!-- raw HTML omitted -->(CE-34788-0)</p>
+</blockquote>
+<figure>
+    <img src="install2.jpg"
+         alt="Safe Mode USB error"/> <figcaption>
+            <p>Safe Mode USB error</p>
+        </figcaption>
+</figure>
+
+<p>If this happens to you, the fix is usually quite trivial:</p>
+<ol>
+<li>Check your USB is formatted correctly as FAT32. Alternatively, try a different USB stick.</li>
+<li>Check your folder structure is correct. The PS4 firmware file should be inside a folder called <code>UPDATE</code>, which itself should be in a folder called <code>PS4</code>. The <code>PS4</code> folder should not be within any other folder and should be located in the root of the USB.</li>
+<li>Check your USB does not have multiple partitions. If you don&rsquo;t know what this is, you should be OK.</li>
+<li>Check the PS4 firmware file is named correctly: <code>PS4UPDATE.PUP</code> It must be called this EXACTLY.</li>
+<li>Make sure you downloaded the correct firmware file! You want the larger firmware file intended for re-installs, not the smaller firmware file for upgrades.</li>
+</ol>
+<h2 id="system-initialization">System Initialization</h2>
+<p>Once the install finishes, your PS4 will reboot to a &ldquo;Welcome&rdquo; screen and will prompt you to setup the PS4 from factory-default settings. Follow the prompts until you get to the PS4 menu.</p>
+<figure>
+    <img src="install3.jpg"
+         alt="Initialization is complete"/> <figcaption>
+            <p>Initialization is complete</p>
+        </figcaption>
+</figure>
+
+<p>Don&rsquo;t bother signing into PSN. Instead, we are going to restore all of your content in the next step.</p>
+<h1 id="step-7---restoring-the-ps4">Step 7 - Restoring the PS4</h1>
+<p>Congratulations, your new drive should be working nicely! We&rsquo;re now going to restore all of your content that we backed up earlier.</p>
+<p>First, plug in your EXTERNAL hard drive that was used for the PS4 backup.</p>
+<p>Navigate to: <strong>Settings &gt; System &gt; Back Up and Restore &gt; Restore</strong></p>
+<p>Follow the prompts. You may get a message that your PS4 will initialize itself (again) before starting the restore process. This is OK. Proceed.</p>
+<p><figure>
+    <img src="restore1.jpg"
+         alt="Starting the Restore process"/> <figcaption>
+            <p>Starting the Restore process</p>
+        </figcaption>
+</figure>
+
+{% include image.html path=&quot;2019-08-16/restore1.jpg&rdquo;
+path-detail=&quot;2019-08-16/restore1.jpg&rdquo;
+alt=&quot;Starting the Restore process&rdquo; %}</p>
+<p>Like the backup process, the restore process can take quite some time. My data was restored in about 110 minutes.</p>
+<figure>
+    <img src="restore2.jpg"
+         alt="Restore in progress&amp;hellip;"/> <figcaption>
+            <p>Restore in progress&hellip;</p>
+        </figcaption>
+</figure>
+
+<p>Once the restore is completed, your PS4 will reboot. You may be asked some questions similar to the initialization process earlier. Don&rsquo;t panic. All of your data is OK.</p>
+<p>Your PS4 should launch to it&rsquo;s menu with all of your games, content and data restored.</p>
+<h1 id="finish">Finish</h1>
+<p>Well done you are finished!
+Enjoy your new drive. If you installed an SSD - enjoy the faster load times.</p>
+<p>While the improvement isn&rsquo;t as profound as it would be on a PC, I found the PS4 menu itself to be a fair bit smoother.</p>
+<p>Testing with Destiny 2, I noticed (on average) a ~50% reduction in load times across the majority of activities. YMMV of course.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>ZTP Juniper devices with Sky Enterprise</title>
+            <link>https://nathancatania.com/posts/ztp-juniper-devices-with-sky-enterprise/</link>
+            <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
+            <author>hello@nathancatania.com (Nathan Catania)</author>
+            <guid>https://nathancatania.com/posts/ztp-juniper-devices-with-sky-enterprise/</guid>
+            <description>1.0 - ZTP Overview Arguably, the best feature of Sky Enterprise is its ability to make Zero Touch Provisioning (ZTP) of Juniper devices a breeze. You no longer need to mess around with DHCP options, nor do you need to ensure your config files are accessible via FTP.
+Sky Enterprise allows you to ZTP your devices through the concept of &amp;ldquo;ZTP Templates&amp;rdquo;. A ZTP template is the Junos configuration you wish to apply to a device, exported in XML format (instead of the normal C-like syntax of Junos), with some variables added in - allowing you to re-use the same template across multiple devices.</description>
+            <content type="html"><![CDATA[<h1 id="10---ztp-overview">1.0 - ZTP Overview</h1>
+<p>Arguably, the best feature of Sky Enterprise is its ability to make Zero Touch Provisioning (ZTP) of Juniper devices a breeze. You no longer need to mess around with DHCP options, nor do you need to ensure your config files are accessible via FTP.</p>
+<p>Sky Enterprise allows you to ZTP your devices through the concept of &ldquo;ZTP Templates&rdquo;. A ZTP template is the Junos configuration you wish to apply to a device, exported in XML format (instead of the normal C-like syntax of Junos), with some variables added in - allowing you to re-use the same template across multiple devices.</p>
+<h2 id="why-you-should-bother-with-ztp">Why you should bother with ZTP?</h2>
+<p>ZTP allows you to simply ship a device to site, install it, and plug it in &ndash; that&rsquo;s it! No more pre-staging!</p>
+<p>The device will not only download its configuration and configure itself, but will also on-board itself and start streaming telemetry to your Sky Enterprise dashboard.</p>
+<p>While this is valuable for SRX and NFX devices, most people in the Juniper ecosystem will likely find it far more timesaving for deploying EX series switches in bulk.</p>
+<h2 id="ztp-methods">ZTP Methods</h2>
+<p>There are 2 methods of ZTP on most branch Junos devices:</p>
+<ol>
+<li>Autoinstallation</li>
+<li>Phone-Home Client</li>
+</ol>
+<p>Both options are typically present in the factory default config.</p>
+<h3 id="autoinstallation">Autoinstallation</h3>
+<p>Autoinstallation is traditional ZTP that relies on DHCP options.</p>
+<pre><code>system {
+    autoinstallation {
+        traceoptions {
+            level verbose;
+            flag {
+                all;
+            }
+        }
+        interfaces {
+            ge-0/0/0 {
+                bootp;
+            }
+            ge-0/0/15 {
+                bootp;
+            }
+        }
+    }
+}
+</code></pre><p>Autoinstallation does not require external WAN access to provision the device, but does typically take more effort to get working.
+This guide will not discuss ZTP via the Autoinstallation method.</p>
+<h3 id="phone-home-client">Phone-Home Client</h3>
+<p>With the Phone-Home Client method (which both Sky Enterprise and Contrail SD-WAN use), the device will continuously call home and present its serial number to <code>redirect.juniper.net</code>.</p>
+<pre><code>system {
+    phone-home {
+        server https://redirect.juniper.net;
+        rfc-complaint;
+    }
+}
+</code></pre><p>When you add a new ZTP device with Sky Enterprise, your device serial number is automatically added to the <code>redirect.juniper.net</code> server.</p>
+<p>When the device reaches <code>redirect.juniper.net</code>, the server checks to see if the serial number of the device is present in its database. The serial number is associated with the location (and associated certificate) the device can retrieve its configuration from - in this case, the FQDN of the bootstrap server of Sky Enterprise:</p>
+<pre><code>go.oneconfig.com/restconf/data/juniper-zerotouch-bootstrap-server:devices/device=&lt;DEVICE-SERIAL-NUMBER&gt;/notification
+</code></pre><p>The device will then contact and present its serial number to this new server.</p>
+<p>Sky Enterprise will not respond with the configuration of the device until an Administrator authorizes the ZTP process within the UI - this provides an additional layer of security in case the device is lost or stolen.</p>
+<p>If the device serial number is not present within <code>redirect.juniper.net</code>, the device will not be redirected anywhere and the phone-home process will continue to loop until removed from configuration.</p>
+<h2 id="ztp-requirements">ZTP Requirements</h2>
+<h3 id="network-requirements">Network Requirements</h3>
+<p>As you won&rsquo;t be pre-staging your devices, they will need to use DHCP to obtain network settings and perform the initial connection to complete the ZTP process.</p>
+<p>The devices require:</p>
+<ul>
+<li>IP address</li>
+<li>Default Route</li>
+<li>DNS server(s).</li>
+</ul>
+<p>DNS is especially important, as without it, the device will not be able to resolve <code>redirect.juniper.net</code>; causing ZTP to fail.</p>
+<h3 id="software-requirements">Software Requirements</h3>
+<p>For the phone-home client to be present in the factory default configuration, the minimum software requirements are:</p>
+<ul>
+<li><strong>SRX devices:</strong> Junos 15.1X49-D110 or above.</li>
+<li><strong>EX devices:</strong> Junos 18.2R1 or above (18.3R1 or above for Contrail SD-WAN 5.0)</li>
+</ul>
+<h3 id="cabling-requirements">Cabling Requirements</h3>
+<ul>
+<li>EX devices will automatically obtain a DHCP lease at boot via the Out-of-Band Management Port on the <code>vme.0</code> interface.</li>
+<li>SRX devices will automatically obtain a DHCP lease at boot via port <code>ge-0/0/0</code> for in-band management, and <code>fxp0</code> (MGMT Port) for Out-of-Band management.</li>
+<li>The 4G/LTE mPIM can also be used for SRX ZTP, as this will (in most cases) automatically obtain IP connectivity from the carrier.</li>
+</ul>
+<hr>
+<h1 id="20---zero-touch-provisioning-ztp-with-sky-enterprise">2.0 - Zero Touch Provisioning (ZTP) with Sky Enterprise</h1>
+<p>This section will walk through the process of creating a ZTP template, loading it into Sky Enterprise, and using it provision a new device.</p>
+<p>Baseline example ZTP templates are provided as a starting point.</p>
+<h2 id="ztp-templates">ZTP Templates</h2>
+<p>A ZTP template is the configuration you wish to provision on a device (or group of devices), slightly modified with variables to enable it to be re-used.</p>
+<p>Sky Enterprise requires that ZTP templates be in XML format.</p>
+<p>The process for creating a ZTP template from scratch is as follows:</p>
+<ol>
+<li>Create your required config in Junos.</li>
+<li>Export the config in XML format and copy it to a text-editor (or into the example template above).</li>
+<li>Add variables where required (in Jinja2 format).</li>
+<li>Paste the template into Sky Enterprise.</li>
+</ol>
+<h3 id="example-ztp-templates">Example ZTP Templates</h3>
+<p>The example templates below contain the required configuration for the device to function with Sky Enterprise. You can add your own XML config in freely.</p>
+<ul>
+<li><a href="https://github.com/nathancatania/Junos-Notes/blob/master/SkyEnterprise/ZTP/srx-ztp-template.xml">SRX Example ZTP Template</a></li>
+<li><a href="https://github.com/nathancatania/Junos-Notes/blob/master/SkyEnterprise/ZTP/ex-ztp-template.xml">EX Example ZTP Template</a></li>
+</ul>
+<h3 id="obtaining-your-xml-configuration">Obtaining your XML Configuration</h3>
+<p>Do not try and create your own XML config from scratch - create the config on a Junos device then export it as XML.</p>
+<p>To display your config as XML in Junos and save it to file:</p>
+<pre><code>show configuration | display xml | save /tmp/xmlconfig.xml
+</code></pre><p>Get the saved file from Junos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">scp username@device-hostname:/tmp/xmlconfig.xml ~/path/to/save/file/to
+</code></pre></div><h3 id="overriding-existing-configuration">Overriding Existing Configuration</h3>
+<p>Currently SkyEnterprise cannot override any existing configuration (ie: the factory default configuration).</p>
+<p>The current workaround is to delete the section of config you wish to override, and then re-add your new config.</p>
+<p>To delete sections of config in XML, add the <code>delete</code> parameter to a parent XML tag. For example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;device</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://juniper.net/zerotouch-bootstrap-server&#34;</span><span style="color:#f92672">&gt;</span>
+  ...
+  <span style="color:#f92672">&lt;configuration&gt;</span>
+    <span style="color:#f92672">&lt;config&gt;</span>
+      <span style="color:#f92672">&lt;configuration&gt;</span>
+         ...
+         ...
+         <span style="color:#f92672">&lt;security</span> <span style="color:#a6e22e">delete=</span><span style="color:#e6db74">&#34;delete&#34;</span><span style="color:#f92672">/&gt;</span>
+         <span style="color:#f92672">&lt;security&gt;</span>
+            <span style="color:#f92672">&lt;log&gt;</span>
+               <span style="color:#f92672">&lt;mode&gt;</span>stream<span style="color:#f92672">&lt;/mode&gt;</span>
+               <span style="color:#f92672">&lt;report&gt;&lt;/report&gt;</span>
+            <span style="color:#f92672">&lt;/log&gt;</span>
+            <span style="color:#f92672">&lt;pki&gt;</span>
+               ...
+            <span style="color:#f92672">&lt;/pki&gt;</span>
+         <span style="color:#f92672">&lt;/security&gt;</span>
+         ...
+         ...
+      <span style="color:#f92672">&lt;/configuration&gt;</span>
+    <span style="color:#f92672">&lt;/config&gt;</span>
+  <span style="color:#f92672">&lt;/configuration&gt;</span>
+
+<span style="color:#f92672">&lt;/device&gt;</span>
+</code></pre></div><p>Sections of the snippet above have been omitted for brevity.</p>
+<p>In the example above, everything under the original <code>security</code> section of the config is deleted. A user defined <code>security</code> config is then added.</p>
+<h3 id="variables">Variables</h3>
+<p>There wouldn&rsquo;t be much point to ZTP if the same hardcoded config had to be used for every device. Likewise, it would be tedious to have to upload a different config for every device you wish to provision.</p>
+<p>The answer to this is <strong>Variables</strong>.</p>
+<p>Replacing hardcoded values in your ZTP template with variables allows the template to be used across multiple devices. When assigning a specific ZTP template to a device, Sky Enterprise will prompt you to fill in a value for all variables detected in the template. When a device contacts Sky Enterprise and requests its config, Sky Enterprise renders the template with the variable values given and pushes the config to the device.</p>
+<p>Using this method, each device that uses the same template will have its own unique configuration.</p>
+<h4 id="format">Format</h4>
+<p>Sky Enterprise uses Jinja templating to render ZTP templates.</p>
+<p>To create a variable, enclose the name of the variable within <strong>two</strong> curly brackets. For example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#75715e">{{</span> management_ip_and_cidr <span style="color:#75715e">}}</span>
+</code></pre></div><p>When you assign the template to a device, Sky Enterprise will prompt you to fill in a value for the <code>management_ip_and_cidr</code> variable.</p>
+<h4 id="rules-and-restrictions">Rules and Restrictions</h4>
+<p>When naming your variables, remember KISS (Keep It Simple Stupid):</p>
+<ul>
+<li>Do not use special characters or symbols other than underscore _</li>
+<li>Do not use spaces.</li>
+<li>Numbers are ok, but try not to start the variable with a number.</li>
+<li>Be descriptive so you can remember what the variable is for.</li>
+<li>Consider using two variables for ip/cidr notation,<!-- raw HTML omitted -->eg: <code>{{ ip }}/{{ cidr }}</code></li>
+<li>Do not use a Sky Enterprise Special or Reserved variable names (see below).</li>
+</ul>
+<h4 id="sky-enterprise-reserved-variables">Sky Enterprise Reserved Variables</h4>
+<p>You should ensure that any ZTP template you create includes the configuration required for the device to communicate back to Sky Enterprise.</p>
+<p>NB: The example ZTP templates from the section above already include this.</p>
+<p>The following variables are reserved by Sky Enterprise and are automatically pre-filled when rendering the configuration from the template.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#75715e">{{</span> ztp_username <span style="color:#75715e">}}</span>
+<span style="color:#75715e">{{</span> ztp_password <span style="color:#75715e">}}</span>
+<span style="color:#75715e">{{</span> ztp_host_id <span style="color:#75715e">}}</span>
+<span style="color:#75715e">{{</span> ztp_secret <span style="color:#75715e">}}</span>
+</code></pre></div><h2 id="example-ztp-template-with-variables">Example ZTP Template with Variables</h2>
+<p>The config snippet below describes how to use the variables within a template. You can view the full example here.</p>
+<p>This example config is for an SRX device, and simply sets the hostname, DNS nameservers, <code>fxp0</code> management interface, and a default route to the gateway. Parts of the config (like the root password, and Sky Enterprise specific config) have been omitted.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;device</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://juniper.net/zerotouch-bootstrap-server&#34;</span><span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;unique-id&gt;</span>{{ serial }}<span style="color:#f92672">&lt;/unique-id&gt;</span>
+  <span style="color:#f92672">&lt;configuration&gt;</span>
+    <span style="color:#f92672">&lt;config&gt;</span>
+      <span style="color:#f92672">&lt;configuration&gt;</span>
+        <span style="color:#f92672">&lt;system&gt;</span>
+          <span style="color:#f92672">&lt;host-name&gt;</span>{{ hostname }}<span style="color:#f92672">&lt;/host-name&gt;</span>
+          <span style="color:#f92672">&lt;name-server&gt;</span>
+            <span style="color:#f92672">&lt;name&gt;</span>{{ dns_server_1 }}<span style="color:#f92672">&lt;/name&gt;</span>
+          <span style="color:#f92672">&lt;/name-server&gt;</span>
+          <span style="color:#f92672">&lt;name-server&gt;</span>
+            <span style="color:#f92672">&lt;name&gt;</span>{{ dns_server_2 }}<span style="color:#f92672">&lt;/name&gt;</span>
+          <span style="color:#f92672">&lt;/name-server&gt;</span>
+        <span style="color:#f92672">&lt;/system&gt;</span>
+        <span style="color:#f92672">&lt;interfaces&gt;</span>
+           <span style="color:#f92672">&lt;interface</span> <span style="color:#a6e22e">delete=</span><span style="color:#e6db74">&#34;delete&#34;</span><span style="color:#f92672">/&gt;</span>
+              <span style="color:#f92672">&lt;name&gt;</span>fxp0<span style="color:#f92672">&lt;/name&gt;</span>
+           <span style="color:#f92672">&lt;/interface&gt;</span>
+           <span style="color:#f92672">&lt;interface&gt;</span>
+              <span style="color:#f92672">&lt;name&gt;</span>fxp0<span style="color:#f92672">&lt;/name&gt;</span>
+              <span style="color:#f92672">&lt;unit&gt;</span>
+                 <span style="color:#f92672">&lt;name&gt;</span>0<span style="color:#f92672">&lt;/name&gt;</span>
+                 <span style="color:#f92672">&lt;family&gt;</span>
+                    <span style="color:#f92672">&lt;inet&gt;</span>
+                       <span style="color:#f92672">&lt;address&gt;</span>
+                          <span style="color:#f92672">&lt;name&gt;</span>{{ oob_management_ip_and_cidr }}<span style="color:#f92672">&lt;/name&gt;</span>
+                       <span style="color:#f92672">&lt;/address&gt;</span>
+                    <span style="color:#f92672">&lt;/inet&gt;</span>
+                 <span style="color:#f92672">&lt;/family&gt;</span>
+              <span style="color:#f92672">&lt;/unit&gt;</span>
+           <span style="color:#f92672">&lt;/interface&gt;</span>
+        <span style="color:#f92672">&lt;/interfaces&gt;</span>
+        <span style="color:#f92672">&lt;routing-options&gt;</span>
+           <span style="color:#f92672">&lt;static&gt;</span>
+              <span style="color:#f92672">&lt;route&gt;</span>
+                 <span style="color:#f92672">&lt;name&gt;</span>0.0.0.0/0<span style="color:#f92672">&lt;/name&gt;</span>
+                 <span style="color:#f92672">&lt;next-hop&gt;</span>{{ gateway_ip }}<span style="color:#f92672">&lt;/next-hop&gt;</span>
+              <span style="color:#f92672">&lt;/route&gt;</span>
+            <span style="color:#f92672">&lt;/static&gt;</span>
+        <span style="color:#f92672">&lt;/routing-options&gt;</span>
+      <span style="color:#f92672">&lt;/configuration&gt;</span>
+    <span style="color:#f92672">&lt;/config&gt;</span>
+  <span style="color:#f92672">&lt;/configuration&gt;</span>
+<span style="color:#f92672">&lt;/device&gt;</span>
+</code></pre></div><p>Now, when deploying this template to SkyEnterprise, we will be prompted to fill in values for each of the above variables.</p>
+<p>Sky Enterprise will then render the template with these variables and push the config to the device when it contacts the phone-home server.</p>
+<p>Note that the <code>fxp0</code> interface is first deleted and then re-added via the template config. This is in case there is an existing <code>fxp0</code> configuration (as is the case with most factory default configs).</p>
+<h2 id="loading-the-template-into-sky-enterprise">Loading the Template into Sky Enterprise</h2>
+<p>Once you have your template completed, you&rsquo;re ready to load it into Sky Enterprise.</p>
+<p>From the Sky Enterprise UI, navigate to <code>CONFIGURATION</code> &gt; <code>ZTP</code>:</p>
+<figure>
+    <img src="1.png"
+         alt="Navigate to the ZTP tab under Configuration"/> <figcaption>
+            <p>Navigate to the ZTP tab under Configuration</p>
+        </figcaption>
+</figure>
+
+<p>Click <code>Add ZTP Template</code>. Here you will give your template a name, description, and paste the entire ZTP template (in XML) that you created above.</p>
+<figure>
+    <img src="2.png"
+         alt="Paste in your ZTP template and give it a name"/> <figcaption>
+            <p>Paste in your ZTP template and give it a name</p>
+        </figcaption>
+</figure>
+
+<h2 id="provisioning-a-new-device">Provisioning a New Device</h2>
+<p>Next, you will use your new template to Zero Touch a new device.</p>
+<p>From the UI, navigate to <code>HOME</code> &gt; <code>DEVICES</code>:</p>
+<figure>
+    <img src="3.png"
+         alt="To add a new device, navigate to the Devices tab under Home"/> <figcaption>
+            <p>To add a new device, navigate to the Devices tab under Home</p>
+        </figcaption>
+</figure>
+
+<p>Click <code>Add Device</code>:</p>
+<ol>
+<li>Give your device a name (this will be displayed in the UI)</li>
+<li>Select whether it is a firewall (SRX), switch (EX), or NFX device.</li>
+<li>Select <code>Create ZTP Device</code></li>
+<li>Populate the device Serial Number. <strong>This is added to the Juniper redirect server.</strong></li>
+<li>Select the ZTP template to be used.</li>
+<li>Populate any variables.</li>
+<li>Click <code>Create Device</code></li>
+</ol>
+<figure>
+    <img src="4.png"
+         alt="Populate details for your ZTP device"/> <figcaption>
+            <p>Populate details for your ZTP device</p>
+        </figcaption>
+</figure>
+
+<p><strong>NB: It is VERY important that the Serial Number you enter is correct.</strong>
+The device will not be able to obtain its configuration otherwise as the correct serial will not be present in the redirect server.</p>
+<h2 id="authorizing-the-device">Authorizing the Device</h2>
+<blockquote>
+<p>And now we play the waiting game&hellip;</p>
+</blockquote>
+<p>Sky Enterprise is usually quite quick about adding the Serial Number to the redirect server, but this can take up to 15 minutes.</p>
+<p>Navigate back to <code>CONFIGURATION</code> &gt; <code>ZTP</code>. Your device&rsquo;s status is reflected here. If the device has successfully contacted Sky Enterprise, the state field should be <code>Authorization Required</code>. For security reasons, Sky Enterprise will not push the configuration to the device until you or another admin authorizes the ZTP process.</p>
+<p>To initiate the ZTP process, click the menu icon next to the device name, and select <code>Authorize</code>.</p>
+<figure>
+    <img src="5.png"
+         alt="Authorize the ZTP process"/> <figcaption>
+            <p>Authorize the ZTP process</p>
+        </figcaption>
+</figure>
+
+<p>If you have email notifications configured, Sky Enterprise will notify you that a device has requested authorization to ZTP.</p>
+<figure>
+    <img src="6.png"
+         alt="Email notification for ZTP"/> <figcaption>
+            <p>Email notification for ZTP</p>
+        </figcaption>
+</figure>
+
+<p>If the ZTP process completes successfully, your device should appear under <code>HOME</code> &gt; <code>DEVICES</code> as <code>ONLINE</code>.</p>
+<p><strong>Congratulations! You just Zero Touched a device!</strong></p>
+<p><em>Not working? See Section 4.0 for Troubleshooting tips.</em></p>
+<hr>
+<h1 id="30---operational-mode-commands-and-stage-2-configuration">3.0 - Operational Mode Commands and Stage 2 Configuration</h1>
+<p>Sky Enterprise does not allow you to run operational mode commands as part of the ZTP process. Likewise, there is no Stage 2 configuration permitted.</p>
+<p>Only a single rendered configuration can be pushed as part of ZTP per device. This raises several questions, like:</p>
+<ol>
+<li>How do you manage PKI for features such as VPNs and SSL Proxy?</li>
+<li>How do you run enrollment commands or OP scripts for features like Sky ATP?</li>
+<li>How do you run HA commands for Stacking or Clustering?</li>
+</ol>
+<p>All of these examples require Operational Mode commands such as as<!-- raw HTML omitted --><code>request chassis cluster ...</code> or <code>request security ...</code>.</p>
+<p>Sky Enterprise supports some of this functionality through its UI - like Virtual Chassis/Stacking config. You can additionally run commands through the &lsquo;Virtual CLI&rsquo; of Sky Enterprise UI. However, both of these are still manual processes.</p>
+<p>What if you wanted to automate this as part of the ZTP process?<!-- raw HTML omitted -->
+Event Policies are the answer!</p>
+<h2 id="event-policies--triggering-events">Event Policies &amp; Triggering Events</h2>
+<p>An Event Policy can be used to trigger the completion of additional tasks after the ZTP process has completed. For example, running Operational Mode commands, or running a script to apply additional (Stage 2) config.</p>
+<p>You would include the Event Policy configuration as part of the initial ZTP template used to provision your device.</p>
+<p>A good use case for this is PKI management on SRX. You can use an Event Policy to trigger the <code>request security pki</code> commands to obtain certificates from a CA and enroll them on the device in order to bring up VPNs or utilize SSL Proxy.</p>
+<h2 id="find-an-event-to-trigger-event-policy">Find an Event to Trigger Event Policy</h2>
+<p>First, locate an appropriate event (usually a Syslog event) to trigger your Event Policy.</p>
+<p>To obtain a complete list of all events that a policy can be triggered with, use the following command in Configuration Mode (this might be slow):</p>
+<pre><code>set event-options policy test-policy1 events ?
+</code></pre><p>The <code>?</code> at the end of the command will load the complete list of all event triggers.</p>
+<p>Ideally, you want to pick an event that would not be encountered again once the required commands have been run (or Stage 2 config applied).</p>
+<p>For the example mentioned in the section above, if we try and bring up an IPsec VPN without any of the required PKI present, we will see the event <code>pkid_no_keypair</code> in the messages log. We can use this as an Event Policy trigger event.</p>
+<p>A good method of finding events that you can trigger on is to apply your config to a test device, and watch the <code>messages</code> log to see what events/warnings/errors occur. You can&rsquo;t trigger on everything here (the event must be in the list obtained above), but it is a good starting point to determine what issues your device is having as a result of not running the appropriate commands.</p>
+<pre><code>show log messages | last 50
+</code></pre><h2 id="configuring-an-event-policy">Configuring an Event Policy</h2>
+<p>The following is an example of an Event Policy:</p>
+<pre><code>event-options {
+    policy ca_request {
+        events pkid_no_keypair;
+        then {
+            execute-commands {
+                commands {
+                    &quot;op url https://raw.githubusercontent.com/nathancatania/Junos-Notes/master/POCs/SDWAN_Lite/enrol.slax&quot;;
+                }
+            }
+        }
+    }
+}
+</code></pre><p>This policy will execute on the <code>pkid_no_keypair</code> event, and will run a remote SLAX script, which in itself will run multiple Operational Mode commands.</p>
+<p>You do not need to run a script to execute commands - you can set the Event Policy to run Operational Mode commands directly.</p>
+<p>There is a small caveat to this:
+<!-- raw HTML omitted -->Commands in the Event Policy are bound by a character limit. If your command exceeds the limit, the policy will not commit. The workaround to this is to run the command via a script.</p>
+<p>If you examine the script above, you will see that it runs 3x Operational Mode commands:</p>
+<pre><code>request security pki ca-certificate enroll ca-profile sdwan-profile
+
+request security pki generate-key-pair certificate-id sdwan-local
+
+request security pki local-certificate enroll ca-profile sdwan-profile certificate-id sdwan-local domain-name juniper.example email ncatania@juniper.example ip-address 10.20.30.2 subject DC=juniper.example,CN=srxce1,OU=engineering,O=juniper,L=melbourne,ST=australia,C=au challenge-password E2B42DC325CA34D0
+</code></pre><p>The last command exceeds the character limit; hence a script is used to run it instead.</p>
+<p>You can get creative with your Event Policies, including applying additional configuration to your devices. The trick is to finding the correct event to trigger on.</p>
+<h2 id="event-policy-caveats">Event Policy Caveats</h2>
+<h3 id="continuous-policy-execution">Continuous Policy Execution</h3>
+<p>If you are worried about your Event Policy continuously executing, you can use it to trigger additional config that has it remove itself after doing what it needs to do.</p>
+<h3 id="script-privacy">Script Privacy</h3>
+<p>Any script that you execute will need to be hosted remotely, as you cannot add files to the device as part of the ZTP process.</p>
+<p>In the case of SRX and NFX ZTP, you could include a PSK IPsec VPN in your initial ZTP config that allows the device to reach the remote script in your internal network. This ensures you don&rsquo;t have to host your script publicly if it contains sensitive information.</p>
+<p>For EX switches, the device should be able to reach your internal network through whichever firewall or gateway it is connected to.</p>
+<hr>
+<h1 id="40---troubleshooting">4.0 - Troubleshooting</h1>
+<h2 id="checking-logs">Checking Logs</h2>
+<p>If you find you are having issues with the ZTP process, examining the <code>messages</code> log can assist with troubleshooting:</p>
+<pre><code>show log messages | match phone-home | last 50
+</code></pre><p>For more in-depth detail, you can modify the phone-home client to enable <code>traceoptions</code> (AKA debug logging):</p>
+<pre><code>set system phone-home traceoptions flag all
+set system phone-home traceoptions file phc.log
+</code></pre><p>This will log detailed output from the phone-home client to a log file called <code>phc.log</code>. To examine this file:</p>
+<pre><code>show log phc.log | last
+</code></pre><h2 id="failed-configuration">Failed Configuration</h2>
+<p>If your configuration failed to apply, you will see something like this in the <code>messages</code> log:</p>
+<pre><code>root@srx340&gt; show log messages | last
+[...]
+May 14 02:17:29  srx340 phone-home: phcd_platform_junos_commit: Read:error: configuration check-out failed
+May 14 02:17:29  srx340 phone-home: phcd_platform_junos_apply_config: vnf_name:Local config failed!
+May 14 02:17:29  srx340 phone-home: phcd_act_download_cfg: Failed to apply received configuration
+May 14 02:17:29  srx340 phone-home: The stage1 configuration failed to committed on the device
+</code></pre><p>Looking further up the log, or examining the traceoptions log from the phone-home client, will usually reveal the reason as to why the configuration failed.</p>
+<p>This is usually due to a malformed or invalid XML config.</p>
+<h2 id="srx-troubleshooting">SRX Troubleshooting</h2>
+<p>The SRX has a few quirks that may cause issues for you when attempting ZTP.</p>
+<pre><code>******
+May 14 02:17:29  srx340 phone-home: phcd_platform_junos_commit: Read:error: AUTHENTICATION service may not be de-configured while clients are present. Please clear bindings
+******
+May 14 02:17:29  srx340 phone-home: phcd_platform_junos_commit: Read:error: configuration check-out failed
+May 14 02:17:29  srx340 phone-home: phcd_platform_junos_apply_config: vnf_name:Local config failed!
+May 14 02:17:29  srx340 phone-home: phcd_act_download_cfg: Failed to apply received configuration
+May 14 02:17:29  srx340 phone-home: The stage1 configuration failed to committed on the device
+</code></pre><p>Note the first line in the log. With the factory default config, branch SRX devices have a DHCP server configured on <code>ge-0/0/0.0</code>. If you attempt to ZTP the device via this port, and remove the DHCP server config as part of your Stage 1 config, the deployment may fail. The device will not let you remove the the DHCP server settings as long as the port is in use.</p>
+<p>If you hit this issue, as a workaround try to ZTP with LTE or a different port - such as <code>fxp0</code>. Failing that, leave the DHCP server configuration intact and remove it after the ZTP process completes.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Connect Juniper Sky Enterprise to Aerohive HiveManager</title>
+            <link>https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/</link>
+            <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
+            <author>hello@nathancatania.com (Nathan Catania)</author>
+            <guid>https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/</guid>
+            <description>Introduction Juniper Sky Enterprise is a neat little application that can manage and provision SRX, EX, and NFX series products from Juniper Networks. Sky Enterprise also allows you to monitor (but not configure) any Aerohive APs that you have deployed, however the documentation on how to do so is hidden away on the OneConfig website.
+This post will walk through the process of adding your Aerohive APs to your Sky Enterprise inventory.</description>
+            <content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p>Juniper Sky Enterprise is a neat little application that can manage and provision SRX, EX, and NFX series products from Juniper Networks. Sky Enterprise also allows you to monitor (but not configure) any Aerohive APs that you have deployed, however the documentation on how to do so is <a href="https://oneconfig.com/support/hivemanager-api-integration/">hidden away on the OneConfig website.</a></p>
+<p>This post will walk through the process of adding your Aerohive APs to your Sky Enterprise inventory.</p>
+<p>In short:</p>
+<ul>
+<li>To link Sky Enterprise and HiveManager, we need to give Sky Enterprise an <code>Owner ID</code> and <code>API Authorization Token</code> from HiveManager. This allows Sky Enterprise to utilize HiveManager&rsquo;s API to pull information about your APs.</li>
+<li>You can generate API tokens from within HiveManager, but you require a <code>Client ID</code> in order to do so.</li>
+<li>Normally to obtain a <code>Client ID</code>, we would register and create an application at the Aerohive Developer site, however in this case, Sky Enterprise is the application itself that we want to integrate with, so we will use their Client ID.</li>
+</ul>
+<p>Let&rsquo;s get started!</p>
+<hr>
+<h2 id="step-1---retrieve-your-owner-id-from-hivemanager">Step 1 - Retrieve your Owner ID from HiveManager</h2>
+<p><a href="https://cloud.aerohive.com/login">Login to Aerohive HiveManager</a> using your existing credentials.</p>
+<p>Hover over your name in the top right corner and click <strong>About HiveManager</strong></p>
+<figure>
+    <img src="1.png"
+         alt="Click &amp;lsquo;About HiveManager&amp;rsquo; to obtain your Owner ID"/> <figcaption>
+            <p>Click &lsquo;About HiveManager&rsquo; to obtain your Owner ID</p>
+        </figcaption>
+</figure>
+
+<p>Your <strong>Owner ID</strong> is also known as your the <code>VHM Id</code>.</p>
+<figure>
+    <img src="2.png"
+         alt="Your Owner ID is the VHM Id"/> <figcaption>
+            <p>Your Owner ID is the VHM Id</p>
+        </figcaption>
+</figure>
+
+<p><strong>Copy down the <code>VHM Id</code> displayed. You will need this in a later step.</strong></p>
+<hr>
+<h2 id="step-2---generate-an-api-token-in-hivemanager">Step 2 - Generate an API Token in HiveManager</h2>
+<p>Hover over your name in the top right corner again, but this time click <strong>Global Settings</strong></p>
+<figure>
+    <img src="3.png"
+         alt="Access the Global Settings for HiveManager"/> <figcaption>
+            <p>Access the Global Settings for HiveManager</p>
+        </figcaption>
+</figure>
+
+<p>Click <strong>API Token Management</strong> under <strong>API</strong> in the menu on the left. Then click the <code>+</code> button to generate a new token.</p>
+<p>In the popup, paste in the code <code>e4ba0053</code>.</p>
+<figure>
+    <img src="4.png"
+         alt="Generate the API Access Token needed in Sky Enterprise"/> <figcaption>
+            <p>Generate the API Access Token needed in Sky Enterprise</p>
+        </figcaption>
+</figure>
+
+<blockquote>
+<p><code>e4ba0053</code> is the Client ID for Sky Enterprise. It is essential that you use this code or else you will run into issues with your credentials later.</p>
+</blockquote>
+<p>Click <strong>Generate</strong> to create an API Access Token.</p>
+<p><strong>Copy down the <code>Access Token</code> displayed. You will need this in a later step.</strong></p>
+<hr>
+<h2 id="step-3---get-the-url-of-your-hivemanager-region">Step 3 - Get the URL of your HiveManager Region</h2>
+<p>While browsing HiveManager, note down the URL in use. Copy from the <code>https://</code> part through to the <code>.com</code></p>
+<figure>
+    <img src="5.png"
+         alt="Copy the highlighted part of the HiveManager URL"/> <figcaption>
+            <p>Copy the highlighted part of the HiveManager URL</p>
+        </figcaption>
+</figure>
+
+<p>For example: For the Australian Data Center, the URL to be copied will be:</p>
+<pre><code>https://cloud-aus.aerohive.com
+</code></pre><hr>
+<h2 id="step-4---linking-sky-enterprise-to-hivemanager">Step 4 - Linking Sky Enterprise to HiveManager</h2>
+<p><a href="https://skyenterprise.juniper.net/">Login to Juniper Sky Enterprise</a> using your existing credentials.</p>
+<p>Click <strong>Settings</strong> in the menu bar at the top. Scroll down to the <strong>Aerohive</strong> option and tick the checkbox.</p>
+<figure>
+    <img src="6.png"
+         alt="Enable Aerohive monitoring in Sky Enterprise"/> <figcaption>
+            <p>Enable Aerohive monitoring in Sky Enterprise</p>
+        </figcaption>
+</figure>
+
+<ul>
+<li>Copy your <code>Owner ID</code> (AKA <code>VHM Id</code>) obtained in Step 1 into the <strong>Owner ID</strong> field.</li>
+<li>Copy the <code>Access Token</code> generated in Step 2 into the <strong>Authentication Token</strong> field.</li>
+<li>Copy the HiveManager URL from Step 3 into the <strong>Regional Data Center</strong> field.</li>
+</ul>
+<p>When you are done, scroll to the bottom of the page and click <strong>Update</strong>. A green notification from Sky Enterprise will let you know all is well.</p>
+<p>If Sky Enterprise responds with an &ldquo;invalid credentials&rdquo; message, check that they information you have entered into the fields above is correct.</p>
+<hr>
+<h2 id="step-5---verify-your-aerohive-aps-can-be-viewed-in-sky-enterprise">Step 5 - Verify your Aerohive APs can be viewed in Sky Enterprise</h2>
+<p>If the above step was successful, you should now have a <strong>Wifi APs</strong> tab under the <strong>Devices</strong> menu. This will list all of the APs you have in your HiveManager inventory.</p>
+<figure>
+    <img src="7.png"
+         alt="List of APs in Sky Enterprise"/> <figcaption>
+            <p>List of APs in Sky Enterprise</p>
+        </figcaption>
+</figure>
+
+<p>You can click the dropdown box/link next to each AP for more information, or a link back to HiveManager.</p>
+<figure>
+    <img src="8.png"
+         alt="Viewing AP information in Sky Enterprise"/> <figcaption>
+            <p>Viewing AP information in Sky Enterprise</p>
+        </figcaption>
+</figure>
+
+]]></content>
+        </item>
+        
+        <item>
+            <title>Unlock or change the super password for Junos Space 17.2, 18.X</title>
+            <link>https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/</link>
+            <pubDate>Mon, 19 Feb 2018 00:00:00 +0000</pubDate>
+            <author>hello@nathancatania.com (Nathan Catania)</author>
+            <guid>https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/</guid>
+            <description>Introduction For Junos Space and its associated applications, if you have forgotten the password to the super account (or have locked yourself out of the account), you can reset the password and/or unlock the account by modifying the super user&amp;rsquo;s entry in the build_db DB of MySQL; via the Unix CLI in Space&amp;rsquo;s &amp;ldquo;debug&amp;rdquo; mode.
+However in release 17.2R1, the default password of the jboss user (which is required in order to access the MySQL CLI in the first place) has changed.</description>
+            <content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p>For Junos Space and its associated applications, if you have forgotten the password to the <strong>super</strong> account (or have locked yourself out of the account), you can reset the password and/or unlock the account by modifying the super user&rsquo;s entry in the <code>build_db</code> DB of MySQL; via the Unix CLI in Space&rsquo;s &ldquo;debug&rdquo; mode.</p>
+<p>However in release 17.2R1, the default password of the <strong>jboss</strong> user (which is required in order to access the MySQL CLI in the first place) has changed. <del>As far as I can tell, Juniper has not documented this anywhere.</del></p>
+<blockquote>
+<p>Update July 2018:</p>
+<ul>
+<li>Juniper have now documented this changed in a <a href="https://kb.juniper.net/InfoCenter/index?page=content&amp;id=KB17582">KB article</a> (J-net login required).</li>
+<li>This process is will also work with Junos Space releases 18.1 and 18.2.<!-- raw HTML omitted --></li>
+</ul>
+</blockquote>
+<p>Previously, you would access the MySQL CLI using the user <strong>jboss</strong> and the password <strong>netscreenos</strong>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -pnetscreenos build_db</span>
+...
+...
+Welcome to the MySQL monitor.  Commands end with ; or <span style="color:#ae81ff">\g</span>.
+Copyright <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+mysql&gt;
+</code></pre></div><p>In Space 17.2R1 (and above), the same credentials do not work:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -pnetscreenos build_db</span>
+ERROR <span style="color:#ae81ff">1045</span> <span style="color:#f92672">(</span>28000<span style="color:#f92672">)</span>: Access denied <span style="color:#66d9ef">for</span> user <span style="color:#e6db74">&#39;jboss&#39;</span>@<span style="color:#e6db74">&#39;localhost&#39;</span> <span style="color:#f92672">(</span>using password: YES<span style="color:#f92672">)</span>
+</code></pre></div><p>So if you&rsquo;ve locked your <strong>super</strong> user account or forgotten its password, what do you do now?</p>
+<h2 id="new-sql-password">New SQL password</h2>
+<p>It seems as of 17.2, during installation, Space will automatically generate a random password for the <strong>jboss</strong> user of the MySQL database.</p>
+<p>Lucky for us (?), Space also stores this generated password in plaintext (!! 😱) for us to reference.</p>
+<p>The passwords are located at: <code>/etc/sysconfig/JunosSpace/pwd</code></p>
+<p>Dumping them to screen, we can copy the password for the <strong>jboss</strong> user:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /etc/sysconfig/JunosSpace/pwd</span>
+
+mysql.repUser<span style="color:#f92672">=</span>-BkGJCdQSEktjxIVRlF4rBOx9g3LHgCM
+mysql.repAdmin<span style="color:#f92672">=</span>p8AGI_-jAbsNlKq4cnnSVb0rh1aeOLO-
+postgres.postgres<span style="color:#f92672">=</span>postgres
+postgres.opennms<span style="color:#f92672">=</span>opennms
+postgres.replication<span style="color:#f92672">=</span>replication
+cassandra.jboss<span style="color:#f92672">=</span>netscreen
+jboss.admin<span style="color:#f92672">=</span>LJrZaVdj++++50395922
+mysql.root<span style="color:#f92672">=</span>BCiIAlkj5_NZj83VQpuX4E2oSRBHTlWA
+mysql.jboss<span style="color:#f92672">=</span>AEYZIMccv0Uq8ct_WoSgbo0BB4Wwu8RH
+</code></pre></div><p>You want the <code>mysql.jboss=</code> string, which in the example above is: <code>AEYZIMccv0Uq8ct_WoSgbo0BB4Wwu8RH</code></p>
+<p><strong>This is your password to authenticate the MySQL jboss user!</strong></p>
+<p>You can now access the MySQL CLI:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -p&lt;YOU-JBOSS-PASSWORD&gt; build_db</span>
+...
+...
+Welcome to the MySQL monitor.  Commands end with ; or <span style="color:#ae81ff">\g</span>.
+Copyright <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+mysql&gt;
+</code></pre></div><p>Replace the <code>&lt;YOUR-JBOSS-PASSWORD&gt;</code> with the string retrieved above. You will now have access to the CLI.</p>
+<h2 id="fixing-the-super-account">Fixing the super account</h2>
+<p>Now that we have the password to access our MySQL CLI, we can finally unlock or reset the <strong>super</strong> account to regain access to our Space applications.</p>
+<h3 id="unlocking-the-super-account">Unlocking the super account</h3>
+<p>If the super account is <strong>locked</strong>, you can unlock it from the MySQL CLI. Enter the following two DB queries/commands at the <code>mysql&gt;</code> shell prompt:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">select</span> * from USER_IP_ADDRESS where user_id in <span style="color:#f92672">(</span><span style="color:#66d9ef">select</span> id from USER where name LIKE <span style="color:#e6db74">&#39;%super%&#39;</span><span style="color:#f92672">)</span><span style="color:#ae81ff">\G</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">DELETE FROM USER_IP_ADDRESS where user_id in <span style="color:#f92672">(</span><span style="color:#66d9ef">select</span> id from USER where name LIKE <span style="color:#e6db74">&#39;%super%&#39;</span><span style="color:#f92672">)</span>;
+</code></pre></div><p>The super account should now be unlocked.</p>
+<h3 id="changing-the-super-account-password">Changing the super account password</h3>
+<p>If you have forgotten the password to the super account, you can reset it by altering the database entry for the &lsquo;super&rsquo; user. The password field takes an encrypted value. <strong>We will reset the password to the default value <code>juniper123</code></strong>. This will allow you to login and then change it to something more secure through the GUI.</p>
+<p>To login to the DB and change the password in one command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mysql -ujboss -p<span style="color:#66d9ef">$(</span>grep mysql.jboss /etc/sysconfig/JunosSpace/pwd | awk -F<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{print $2}&#39;</span><span style="color:#66d9ef">)</span> build_db -e <span style="color:#e6db74">&#34;UPDATE USER set password=&#39;ok89Nva6qHxytSHsP8AeLg==&#39; where name=&#39;super&#39;&#34;</span>
+</code></pre></div><p>This fetches the jboss password from the <code>pwd</code> file and executes the SQL statement to change the super user&rsquo;s password to <code>ok89Nva6qHxytSHsP8AeLg==</code> which represents <code>juniper123</code></p>
+<h3 id="finish">Finish</h3>
+<p>You should now be able to login to the Junos Space GUI using the username <code>super</code> and password <code>juniper123</code>.</p>
+<p><strong>Make sure to change the super password immediately to something more secure!</strong></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Deploy a multi-node, multi-server Kafka Cluster with Docker</title>
+            <link>https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/</link>
+            <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
+            <author>hello@nathancatania.com (Nathan Catania)</author>
+            <guid>https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/</guid>
+            <description>What is Kafka? Essentially:
+ Kafka is an open-source, very scalable, distributed messaging platform by Apache. It is designed to handle large volumes of data in real-time efficiently.
+ Kafka works on the concept of a &amp;ldquo;publish-subscribe&amp;rdquo; methodology:
+ &amp;ldquo;Producers&amp;rdquo; will push content to the Kafka cluster, to a destination &amp;ldquo;topic&amp;rdquo;. A Kafka cluster is managed by Zookeeper, and can contain one or more &amp;ldquo;Brokers&amp;rdquo;. Brokers manage topics and the associated ingress and egress messages.</description>
+            <content type="html"><![CDATA[<h2 id="what-is-kafka">What is Kafka?</h2>
+<p><a href="https://kafka.apache.org/intro.html">Essentially:</a></p>
+<blockquote>
+<p>Kafka is an open-source, very scalable, distributed messaging platform by Apache. It is designed to handle large volumes of data in real-time efficiently.</p>
+</blockquote>
+<p>Kafka works on the concept of a &ldquo;publish-subscribe&rdquo; methodology:</p>
+<ul>
+<li>&ldquo;Producers&rdquo; will push content to the Kafka cluster, to a destination &ldquo;topic&rdquo;.</li>
+<li>A Kafka cluster is managed by Zookeeper, and can contain one or more &ldquo;Brokers&rdquo;.</li>
+<li>Brokers manage topics and the associated ingress and egress messages.</li>
+<li>&ldquo;Consumers&rdquo; subscribe to specific topics and will receive a continuous stream of data from the cluster for as long as there is a Producer pushing content to that topic.</li>
+</ul>
+<p>Topics have two key properties: <em>partitions</em> and <em>replication factors</em>.</p>
+<ul>
+<li><em>Partitions</em> logically separate the messages within a topic into small &ldquo;groups&rdquo; which are distributed between all available brokers. For example, if there are 3 brokers in a cluster, and a topic has 6 partitions, Broker #1 might be assigned Partition #3 &amp; #6, Broker #2 - Partition #1 &amp; #5, and Broker #3 - Partition #2 &amp; #4.</li>
+<li>A <em>replication factor</em> helps add redundancy to a topic and its partitions across the available Brokers. Using the example above, if the same topic has a replication factor of 3, then each broker would have a copy of the partitions managed by other brokers in addition to its own. Hence, if a broker goes down, the messages stored in the partitions held by it are not lost.</li>
+</ul>
+<p>The cool thing about Kafka consumers is that, when they are grouped together and used in conjunction with partitions, they can automatically load balance incoming messages between them!</p>
+<p>This is really handy for avoiding Consumer bottlenecks if you are dealing with real-time data in high volumes. If a Consumer cannot process the incoming messages fast enough, it will fall behind and you will begin to notice an increasing delay between the current time and the incoming message. If a second Consumer is added to the same group as the first, and both are subscribed to a topic with 6 partitions, then Consumer #1 might be assigned messages from Partition #1, #2, #5, and Consumer #2 might be assigned messages from Partition #3, #4, #6. This is instead of Consumer #1 bottlenecking by having to process Partitions #1-6 by itself.</p>
+<h2 id="why-docker">Why Docker?</h2>
+<p>Deploying Kafka in Docker greatly simplifies deployment as we do not need to manually configure each broker individually!</p>
+<p>We can use single Docker Compose file to deploy Kafka to multiple server instances using Docker Swarm in a single command. Additionally, Docker allows us to easily scale up our cluster to additional nodes in the future if we require.</p>
+<h2 id="requirements">Requirements</h2>
+<p>When deployed via Docker, Kafka tends to use approximately 1.3 GB - 1.5 GB of RAM per broker - so make sure your server instances have enough memory allocated and available.</p>
+<h2 id="process">Process</h2>
+<p>Before proceeding, make sure you have Docker installed on ALL of the servers you wish to deploy Kafka to.</p>
+<h3 id="part-1---create-a-docker-swarm">Part 1 - Create a Docker Swarm</h3>
+<p>To begin, we need to initialize a Docker Swarm. A Swarm will consist of at least one Master Node, and one or more Worker Nodes (or, if you just have a single server instance, a single Master Node).</p>
+<h4 id="1-initialize-the-swarm--master-node">1. Initialize the Swarm &amp; Master Node</h4>
+<p>On the server instance you have designated to be the Master, initialize the Swarm. This will set the current instance as the Master node:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker swarm init --advertise-addr <span style="color:#f92672">[</span>MANAGER-IP<span style="color:#f92672">]</span>:2377
+</code></pre></div><p>Where <code>[MANAGER-IP]</code> is the static IP address of the server instance.
+You can find this using <code>ifconfig</code>.</p>
+<p>This will generate a unique command which you will run on all other nodes in the next section in order to designate them as Worker nodes.</p>
+<p>Save this command in a safe place.</p>
+<p>Example (<strong>your command and token will be different!</strong>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker swarm join --token SWMT<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>ewrp <span style="color:#f92672">[</span>MANAGER-IP<span style="color:#f92672">]</span>:2377
+</code></pre></div><h4 id="2-check-your-firewall">2. Check your firewall</h4>
+<p>Swarm nodes use port 2377 to communicate with the Master node which must not be blocked by any firewall.</p>
+<p>Additionally, Swarm daemons use ports 7946 (tcp/udp) and 4789 (udp) to communicate.</p>
+<p>Make sure your all of your instances are able to communicate:</p>
+<ul>
+<li>TCP/UDP traffic on ports 2377 and 7946.</li>
+<li>UDP traffic on port 4789.</li>
+</ul>
+<h4 id="3-configure-the-worker-nodes">3. Configure the Worker Nodes</h4>
+<p>On all other server instances you wish to deploy Kafka on, run the command generated in the step #1 above. This will add these instances to the Docker Swarm as Worker Nodes.</p>
+<p>If you are having issues:</p>
+<ul>
+<li>As per Step #2 above, make sure all your instances can communicate on the specified ports.</li>
+<li>Make sure all of your instances have static IP addresses assigned to them.</li>
+</ul>
+<h4 id="4-verify-the-swarm">4. Verify the Swarm</h4>
+<p>On the <strong>Master Node</strong> only, run the following command to check the status of all nodes in the swarm:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker node ls
+</code></pre></div><h3 id="part-2---deploying-kafka">Part 2 - Deploying Kafka</h3>
+<h4 id="1-create-docker-composeyml">1. Create docker-compose.yml</h4>
+<p>Copy the following into a file named <code>docker-compose.yml</code> on the Master Node:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">version</span>: <span style="color:#e6db74">&#39;3.2&#39;</span>
+<span style="color:#66d9ef">services</span>:
+   <span style="color:#66d9ef">zookeeper</span>:
+      <span style="color:#66d9ef">image</span>: wurstmeister/zookeeper
+      <span style="color:#66d9ef">ports</span>:
+         - <span style="color:#e6db74">&#34;2181:2181&#34;</span>
+
+   <span style="color:#66d9ef">kafka</span>:
+      <span style="color:#66d9ef">image</span>: wurstmeister/kafka:latest
+      <span style="color:#66d9ef">deploy</span>:
+         <span style="color:#66d9ef">mode</span>: global
+      <span style="color:#66d9ef">ports</span>:
+         - <span style="color:#66d9ef">target</span>: <span style="color:#ae81ff">9094</span>
+           <span style="color:#66d9ef">published</span>: <span style="color:#ae81ff">9094</span>
+           <span style="color:#66d9ef">protocol</span>: tcp
+           <span style="color:#66d9ef">mode</span>: host
+      <span style="color:#66d9ef">environment</span>:
+         <span style="color:#66d9ef">HOSTNAME_COMMAND</span>: <span style="color:#e6db74">&#34;docker info | grep ^Name: | cut -d&#39; &#39; -f 2&#34;</span> <span style="color:#75715e"># Normal instances</span>
+         <span style="color:#75715e"># HOSTNAME_COMMAND: &#34;curl http://169.254.169.254/latest/meta-data/public-hostname&#34; # AWS Only</span>
+         <span style="color:#66d9ef">KAFKA_ZOOKEEPER_CONNECT</span>: zookeeper:<span style="color:#ae81ff">2181</span>
+         <span style="color:#66d9ef">KAFKA_LISTENER_SECURITY_PROTOCOL_MAP</span>: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+         <span style="color:#66d9ef">KAFKA_ADVERTISED_PROTOCOL_NAME</span>: OUTSIDE
+         <span style="color:#66d9ef">KAFKA_ADVERTISED_PORT</span>: <span style="color:#ae81ff">9094</span>
+         <span style="color:#66d9ef">KAFKA_PROTOCOL_NAME</span>: INSIDE
+         <span style="color:#66d9ef">KAFKA_PORT</span>: <span style="color:#ae81ff">9092</span>
+         <span style="color:#66d9ef">KAFKA_CREATE_TOPICS</span>: myTopic:<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">3</span>,anotherTopic:<span style="color:#ae81ff">2</span>:<span style="color:#ae81ff">2</span>
+      <span style="color:#66d9ef">volumes</span>:
+         - /var/run/docker.sock:/var/run/docker.sock
+</code></pre></div><ul>
+<li>The Zookeeper container is responsible for managing the Kafka cluster.</li>
+<li>Using the above configuration, you will be able to connect to your Kafka brokers using port 9094 at their designated IP/hostname.</li>
+<li>Alter <code>CREATE_KAFKA_TOPICS</code> in to pre-allocate your topic names. Separate multiple topics with commas.
+<ul>
+<li>In the file above, two topics will be created: One with 3 partitions and 3 replications, and another with 2 partitions and 2 replications.</li>
+</ul>
+</li>
+<li>You can specify an <code>environment</code> entry for most (if not all) Kafka configuration options. For more information, see <a href="https://github.com/wurstmeister/kafka-docker#pre-requisites">here</a>.</li>
+</ul>
+<p><!-- raw HTML omitted -->__If you are deploying to AWS!__<!-- raw HTML omitted -->
+Comment out the <strong>first</strong> <code>HOSTNAME_COMMAND</code> line under <code>environment</code> and uncomment the <strong>second</strong> <code>HOSTNAME_COMMAND</code>.</p>
+<p>There is a different method to resolving the instance hostname for AWS instances, which is critical to Kafka. <strong>Failing to do this will mean that while your broker(s) will be deployed, nothing will be able to find or connect to them.</strong></p>
+<h4 id="2-check-your-firewall-again">2. Check your firewall (again)</h4>
+<ul>
+<li>Kafka communicates with Zookeeper on port 2181.</li>
+<li>Kafka will listen for connections on 9094 and communicate internally on port 9092.</li>
+<li>Make sure these ports are open for TCP/UDP traffic or you may have communication issues.</li>
+</ul>
+<h4 id="3-deploy-the-kafka-stack">3. Deploy the Kafka stack</h4>
+<p>On the Master Node, run the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker stack deploy --compose-file docker-compose.yml kafka
+</code></pre></div><ul>
+<li>This will deploy a Kafka broker to each node in the Swarm, and bring online ONE Zookeeper management container.</li>
+<li>Additionally, any Kafka topics specified in the <code>docker-compose.yml</code> file will be initialized.</li>
+<li>The deployed service will have the name <code>kafka</code>.</li>
+</ul>
+<h4 id="4-verify-status">4. Verify status</h4>
+<p>You can use the following command to verify the status of the Kafka stack:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker stack services kafka
+</code></pre></div><p>The status for all containers should be shown. A successful launch on 3 servers (for example) should show 3/3 replicas for Kafka and 1/1 replicas for Zookeeper.</p>
+<h3 id="part-3---stopping-the-cluster">Part 3 - Stopping the cluster</h3>
+<p>Simply run the following command on the Master node:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker stack rm kafka
+</code></pre></div><h3 id="part-4---sending--receiving-data-using-your-kafka-cluster">Part 4 - Sending &amp; Receiving data using your Kafka cluster</h3>
+<p>The Kafka stack deployed above will initialize a single Kafka container on each node within the Swarm. Hence the IP address of each node is the IP address of a Kafka broker within the Kafka cluster.</p>
+<p>The Kafka brokers will listen for Consumer applications and Producers on port 9094.</p>
+<p>It does not matter which broker IP/hostname you use for the producer/consumer connection.
+In many applications or APIs (eg: Telegraf, kafka-python etc) in which you can specify a list of brokers, only the first broker is used. The others are used as fallback (in the specified order) in case the preceding broker is unavailable or down.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Installing Docker CE on an Air Gapped RHEL system</title>
+            <link>https://nathancatania.com/posts/installing-docker-on-red-hat-with-no-internet-access/</link>
+            <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+            <author>hello@nathancatania.com (Nathan Catania)</author>
+            <guid>https://nathancatania.com/posts/installing-docker-on-red-hat-with-no-internet-access/</guid>
+            <description>Introduction I recently completed a deployment inside a customer&amp;rsquo;s lab involving several containerized services, in which the server instances provided were not permitted to have direct access to the internet. To add to the issue, the instances themselves were running RHEL 7.3 with no active subscription.
+There were several problems in play here:
+ Docker only make their Enterprise Edition (EE) compatible with RHEL. The usual free Community Edition (CE) is not officially supported.</description>
+            <content type="html"><![CDATA[<h1 id="introduction">Introduction</h1>
+<p>I recently completed a deployment inside a customer&rsquo;s lab involving several containerized services, in which the server instances provided were not permitted to have direct access to the internet. To add to the issue, the instances themselves were running RHEL 7.3 with no active subscription.</p>
+<p>There were several problems in play here:</p>
+<ol>
+<li>Docker only make their Enterprise Edition (EE) compatible with RHEL. The usual free Community Edition (CE) is not officially supported.</li>
+<li>Attempting to circumvent #1 by installing the RPM for Centos resulted in dependency issues.</li>
+<li>Normally these dependency issues would be trivial to resolve with internet access, however in this case, no internet access was available on the instances.</li>
+<li>Attempting to manually download the dependencies on another machine and transfer them to the servers resulted in more dependency issues (it was a tree of dependencies!)</li>
+<li>How can the required container images be pulled with no internet access?</li>
+</ol>
+<p>The below writeup should cover the solution to all of these issues, so no matter what your issue is - I hope this is useful to you.</p>
+<p><em>As always, proceed at your own risk. I will not be held responsible for any problems that result as a result of you following this guide.</em></p>
+<hr>
+<h1 id="part-1---configure-a-local-repository">Part 1 - Configure a local repository</h1>
+<p><em>Skip this step if you have internet access on your target server as any issues with dependencies should resolve themselves automatically.</em></p>
+<p>To resolve the dependency issues on RHEL, we are going to create a local Yum repository from the Red Hat installation media which contains resolutions to our dependency issues.</p>
+<h2 id="1-download-the-rhel-iso">1. Download the RHEL ISO</h2>
+<ul>
+<li>Download the RHEL ISO for your applicable version (7.2, 7.3 etc).</li>
+<li>RHEL ISOs can be downloaded from the <a href="https://www.gitbook.com/book/nathancatania/telemetry-backbone-installation/edit#">RedHat developer page</a> (free account required).</li>
+<li>You can use the below command to check your version if unsure:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat /etc/redhat-release
+</code></pre></div><h2 id="2-copy-the-iso-to-the-required-servers">2. Copy the ISO to the required servers</h2>
+<ul>
+<li>The ISO will need to be copied to all the servers which Docker is to be installed on.</li>
+</ul>
+<p>Example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">scp rhel-server-7.X-x86_64-dvd.iso &lt;user&gt;@&lt;hostname&gt;:
+</code></pre></div><h2 id="3-mount-the-iso">3. Mount the ISO</h2>
+<ul>
+<li>Mount the ISO on your target server:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mount -o loop rhel-server-7.X-x86_64-dvd.iso /mnt
+</code></pre></div><h2 id="4-copy-the-repository-locally">4. Copy the repository locally</h2>
+<ul>
+<li>Copy the repository from the mounted ISO and set the correct permissions.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp /mnt/media.repo /etc/yum.repos.d/rhel7dvd.repo
+chmod <span style="color:#ae81ff">644</span> /etc/yum.repos.d/rhel7dvd.repo
+</code></pre></div><h2 id="5-edit-the-repo-file">5. Edit the repo file</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vi /etc/yum.repos.d/rhel7dvd.repo
+</code></pre></div><p><em>If you haven&rsquo;t used vi before, press <code>a</code> to enter edit mode, <code>ESC</code> to exit edit mode, and <code>:wq</code> to save and quit.</em></p>
+<ul>
+<li>Change the <code>gpgcheck=0</code> parameter to <code>1</code>.</li>
+<li>Add the following 3 lines to the end of file (but before the <code>~</code> characters in the editor):</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+baseurl<span style="color:#f92672">=</span>file:///mnt/
+gpgkey<span style="color:#f92672">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+</code></pre></div><p>Save and exit vi.</p>
+<h2 id="6-clean-the-repositories">6. Clean the repositories</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum clean all <span style="color:#f92672">&amp;&amp;</span> subscription-manager clean
+</code></pre></div><h2 id="7-verify-the-repo-works">7. Verify the repo works</h2>
+<p>This should generate a very long packages list if working correctly.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum  --noplugins list
+</code></pre></div><hr>
+<h1 id="part-2---install-docker-ce">Part 2 - Install Docker CE</h1>
+<p>Attempting to install the RPM for Centos will fail due to a missing dependency. In this part, we will download Docker CE and the dependency manually and install.</p>
+<h2 id="1-download-the-docker-ce-rpm-for-centos">1. Download the Docker CE RPM for Centos</h2>
+<p><em><strong>Note 1:</strong> At the time of this post, Docker 17.09.0 CE was the latest version available for Centos. You may wish to check for a more up-to-date version if applicable.</em></p>
+<p><em><strong>Note 2:</strong> The Container SELinux dependency below was for RHEL 7.3. Your version may differ. Please confirm before proceeding.</em>
+On your internet-enabled machine, download the Docker 17.09.0 CE package and its dependency.</p>
+<p>If your instance does not have internet access, you will need to complete this step on a connected machine and then transfer the files across.</p>
+<p>Docker CE:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-17.09.0.ce-1.el7.centos.x86_64.rpm -o docker.rpm
+</code></pre></div><p>Dependency:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl http://mirror.centos.org/centos/7.3.1611/extras/x86_64/Packages/container-selinux-2.9-4.el7.noarch.rpm -o containerselinux.rpm
+</code></pre></div><h2 id="2-install">2. Install</h2>
+<p>Make sure to run the command with both RPMs in the specific order below! The dependency should be installed first!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install -y containerselinux.rpm docker.rpm
+</code></pre></div><p>If the above command succeeds: congratulations! You have successfully installed Docker CE on Red Hat!</p>
+<h2 id="3-optional-start-docker">3. [OPTIONAL] Start Docker</h2>
+<p>Start Docker and set it to start at boot.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl start docker
+systemctl enable docker
+</code></pre></div><hr>
+<h1 id="part-3---transfer-docker-images">Part 3 - Transfer Docker images</h1>
+<p><em>This step is not required if you have internet access available on your server</em></p>
+<p>Now that Docker is installed, there is the issue of: how do we actually get our Docker images onto the server if there is no internet access available?</p>
+<p>The answer is: You will pull the images on another (internet-connected) machine with Docker, save the images, and then transfer them across to your server. Docker will always attempt to use a local image <strong>first</strong> before pulling the image from a remote repo.</p>
+<h2 id="1-pull-the-required-docker-images">1. Pull the required Docker images</h2>
+<p>In this example, we will be pulling the images for both Zookeeper and Kafka (your images might differ).</p>
+<p>On an internet-enabled machine with Docker installed, run the following:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker pull my_docker_image
+save -o my_docker_image.docker my_docker_image
+</code></pre></div><p>Replacing <code>my_docker_image</code> with the same of the image you want to pull and save.</p>
+<p>For example, for both Kafka and Zookeeper:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker pull wurstmeister/zookeeper
+docker pull wurstmeister/kafka:latest
+docker save -o zookeeper_image.docker wurstmeister/zookeeper
+docker save -o kafka_image.docker wurstmeister/kafka
+</code></pre></div><p>Copy the <code>.docker</code> file(s) you saved across to your target server.</p>
+<h2 id="2-load-the-docker-images">2. Load the Docker images</h2>
+<p>On your target (non-internet connected) server, load the Docker images into inventory with:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker load -i my_image_name
+</code></pre></div><p>For example, again for both Kafka and Zookeeper:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker load -i kafka_image.docker
+docker load -i zookeeper_image.docker
+</code></pre></div><h2 id="3-done">3. Done!</h2>
+<p>You can now use Docker as you normally would with the images loaded above.</p>
+]]></content>
+        </item>
+        
+    </channel>
+</rss>

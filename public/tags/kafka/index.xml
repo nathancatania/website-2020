@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kafka on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/kafka/</link>
+    <description>Recent content in kafka on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>hello@nathancatania.com (Nathan Catania)</managingEditor>
+    <webMaster>hello@nathancatania.com (Nathan Catania)</webMaster>
+    <lastBuildDate>Fri, 15 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://nathancatania.com/tags/kafka/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Deploy a multi-node, multi-server Kafka Cluster with Docker</title>
+      <link>https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/</link>
+      <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/</guid>
+      <description>What is Kafka? Essentially:
+ Kafka is an open-source, very scalable, distributed messaging platform by Apache. It is designed to handle large volumes of data in real-time efficiently.
+ Kafka works on the concept of a &amp;ldquo;publish-subscribe&amp;rdquo; methodology:
+ &amp;ldquo;Producers&amp;rdquo; will push content to the Kafka cluster, to a destination &amp;ldquo;topic&amp;rdquo;. A Kafka cluster is managed by Zookeeper, and can contain one or more &amp;ldquo;Brokers&amp;rdquo;. Brokers manage topics and the associated ingress and egress messages.</description>
+    </item>
+    
+  </channel>
+</rss>

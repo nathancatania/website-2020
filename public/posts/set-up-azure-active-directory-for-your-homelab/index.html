@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia hello@nathancatania.com Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="Get an Azure Free Account Before you start, you will need to sign up for a free Azure account: https://azure.microsoft.com/en-au/free/
+This gives you some Azure services, like Windows &amp;amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.
+With Azure AD free, you can freely create users and groups, but groups cannot be assigned and synchronized to enterprise applications." />
+<meta name="keywords" content="blog, website, official, azure, guides, lab" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/set-up-azure-active-directory-for-your-homelab/" />
+
+
+    <title>
+        
+            Set up Azure Active Directory (Azure AD) for free :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.c7bbcf8c9520939898c82877a1b2fc2827871e3f2c3245a3b8da29f9796264cc.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Set up Azure Active Directory (Azure AD) for free">
+<meta itemprop="description" content="Configure the free version of Azure AD for your lab environment using your own domain name.">
+<meta itemprop="datePublished" content="2019-12-31T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-12-31T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="674">
+<meta itemprop="image" content="https://nathancatania.com"/>
+
+
+
+<meta itemprop="keywords" content="azure,guides,lab," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://nathancatania.com"/>
+
+<meta name="twitter:title" content="Set up Azure Active Directory (Azure AD) for free"/>
+<meta name="twitter:description" content="Configure the free version of Azure AD for your lab environment using your own domain name."/>
+
+
+
+    <meta property="og:title" content="Set up Azure Active Directory (Azure AD) for free" />
+<meta property="og:description" content="Configure the free version of Azure AD for your lab environment using your own domain name." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/set-up-azure-active-directory-for-your-homelab/" />
+<meta property="og:image" content="https://nathancatania.com"/>
+<meta property="article:published_time" content="2019-12-31T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-12-31T00:00:00+00:00" /><meta property="og:site_name" content="Nathan Catania" />
+
+
+
+
+
+
+    <meta property="article:published_time" content="2019-12-31 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://nathancatania.com/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>4 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/set-up-azure-active-directory-for-your-homelab/">Set up Azure Active Directory (Azure AD) for free</a>
+            </h1>
+
+            
+                <img src="banner.png" class="post-cover" />
+            
+
+            <div class="post-content">
+                <h1 id="get-an-azure-free-account">Get an Azure Free Account</h1>
+<p>Before you start, you will need to sign up for a free Azure account: <a href="https://azure.microsoft.com/en-au/free/">https://azure.microsoft.com/en-au/free/</a></p>
+<p>This gives you some Azure services, like Windows &amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.</p>
+<p>With Azure AD free, you can freely create users and groups, but groups cannot be assigned and synchronized to enterprise applications. To do this you will need a premium account.</p>
+<p>To see everything included in the free account, click <a href="https://azure.microsoft.com/en-au/free/free-account-faq/">here</a>.</p>
+<h1 id="get-a-domain-name">Get a Domain Name</h1>
+<p>You&rsquo;ll be integrating your own domain name into Azure AD in this guide, so you&rsquo;ll need one if you don&rsquo;t already. Domains are pretty cheap depending on the TLD. You can often find ones for $1-2/year.</p>
+<p><a href="https://www.namecheap.com/">NameCheap</a>, <a href="https://domains.google/">Google Domains</a>, <a href="https://porkbun.com/">Porkbun</a> are all good sites to get a domain from.</p>
+<h1 id="create-a-new-tenant">Create a new tenant</h1>
+<p>From the Azure Home screen, open the menu and go to <strong>Azure Active Directory</strong>.</p>
+<p><img src="aad1.png" alt="1"></p>
+<p>You&rsquo;ll see the default directory. Ignore this and select <strong>Create a directory</strong> from the top.</p>
+<p><img src="aad2.png" alt="2"></p>
+<p>Under the <strong>Basics</strong> tab, select <strong>Azure Active Directory</strong>. Click next to go to the <strong>Configuration</strong> tab.</p>
+<p><img src="aad3.png" alt="3"></p>
+<p>Give your &ldquo;Organization&rdquo; a name. I went with my own name. You&rsquo;ll also need to select an Initial Domain Name. This will be a subdomain on the <code>onmicrosoft.com</code> domain. Eg: <code>nathanc.onmicrosoft.com</code></p>
+<p>You cannot delete this domain, but can optionally add your own domain name in a later step. The subdomain you pick here must be unique and connot have been used before by any other Azure user.</p>
+<p>Finally, select your country so you can be allocated to the closest DC region.</p>
+<p>When you are done, click next to go to the <strong>Review + Create</strong> tab. Review your selection and click <strong>Create</strong> when you are ready.</p>
+<p><img src="aad4.png" alt="4"></p>
+<h1 id="add-a-custom-domain">Add a custom domain</h1>
+<p>While you could use the <code>*.onmicrosoft.com</code> domain for your lab, it&rsquo;s generally a better idea to use your own custom domain name. This allows you to have identities such as <a href="mailto:nathan@mydomain.com">nathan@mydomain.com</a> instead of <a href="mailto:nathan@nathanc.onmicrosoft.com">nathan@nathanc.onmicrosoft.com</a>.</p>
+<p>Once your tenant has been created, on the side panel for your new directory, click <strong>Custom domain names</strong>. Then click <strong>Add custom domain</strong> at the top.</p>
+<p><img src="aad5.png" alt="5"></p>
+<p>Enter in your full domain name, <strong>including the top-level</strong>, eg: <code>.com</code>, <code>.net</code>, <code>.cool</code> etc.</p>
+<p>You&rsquo;ll be promoted to add a new TXT DNS record with your domain registrar using the infomation displayed. Once you&rsquo;ve done so, you can click <strong>Verify</strong>. The record may fail to validate straight away: it can take up to 72 hours before the validation works, although for me it took roughly 5 minutes.</p>
+<p><img src="aad6.png" alt="6"></p>
+<p>Once verified, elect to make your custom domain the primary domain for your new directory.</p>
+<h1 id="add-some-users">Add some users</h1>
+<p>From the directory side menu under <strong>Manage</strong>, click <strong>Users</strong>, then <strong>New User</strong>.</p>
+<p><img src="aad7.png" alt="7"></p>
+<p>Fill in the following fields for the user:</p>
+<ol>
+<li>Username</li>
+<li>Name</li>
+<li>Password</li>
+<li>Job Title &amp; Department</li>
+</ol>
+<p>Users will be provisioned with the basic <strong>User</strong> role by default. You can add additional roles &amp; permissions if needed. We haven&rsquo;t setup any groups yet so leave that part alone.</p>
+<p><img src="aad8.png" alt="8"></p>
+<p>When you&rsquo;re finished, you&rsquo;ll be returned to the <strong>All users</strong> page with your new user created.</p>
+<p>For a homelab, might be helpful to create several dummy users.</p>
+<h1 id="create-some-groups">Create some groups</h1>
+<p>Groups are exactly that: Secure grouping of users to simplify access policies within certain applications.</p>
+<p>From the directory side menu under <strong>Manage</strong>, click <strong>Groups</strong>, then <strong>New Group</strong>. You&rsquo;ll notice I already have some groups defined.</p>
+<p><img src="aad9.png" alt="9"></p>
+<p>Leave the <strong>Group type</strong> as <strong>Security</strong>. Give you group a name and description.</p>
+<p>Here you can assign an owner of the group, as well as members from a list of users you created earlier. You can also assign existing groups as a member making this new group the parent superset.</p>
+<p><img src="aad10.png" alt="10"></p>
+<p>Click <strong>Create</strong> when you are done.</p>
+<h1 id="adding-enterprise-applications-for-sso">Adding Enterprise Applications for SSO</h1>
+<p>From the directory side menu under <strong>Manage</strong>, click <strong>Enterprise applications</strong>, then <strong>New application</strong>.</p>
+<p><img src="aad11.png" alt="11"></p>
+<p>Search for the application you want to provide SSO to.</p>
+<p>When you have found your application, click <strong>Create</strong>.</p>
+<p><img src="aad12.png" alt="12"></p>
+<h1 id="finish">Finish</h1>
+<p>Azure AD should now be configured with some users and groups.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/azure">azure</a></span><span class="tag"><a href="https://nathancatania.com/tags/guides">guides</a></span><span class="tag"><a href="https://nathancatania.com/tags/lab">lab</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>674 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-12-31</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Integrate Zscaler ZIA with Azure AD</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/">
+                                <span class="button__text">Deploy Windows Server with an Azure Free Account</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/nathancatania.com">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

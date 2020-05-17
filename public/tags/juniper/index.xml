@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>juniper on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/juniper/</link>
+    <description>Recent content in juniper on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>hello@nathancatania.com (Nathan Catania)</managingEditor>
+    <webMaster>hello@nathancatania.com (Nathan Catania)</webMaster>
+    <lastBuildDate>Thu, 13 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://nathancatania.com/tags/juniper/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ZTP Juniper devices with Sky Enterprise</title>
+      <link>https://nathancatania.com/posts/ztp-juniper-devices-with-sky-enterprise/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/posts/ztp-juniper-devices-with-sky-enterprise/</guid>
+      <description>1.0 - ZTP Overview Arguably, the best feature of Sky Enterprise is its ability to make Zero Touch Provisioning (ZTP) of Juniper devices a breeze. You no longer need to mess around with DHCP options, nor do you need to ensure your config files are accessible via FTP.
+Sky Enterprise allows you to ZTP your devices through the concept of &amp;ldquo;ZTP Templates&amp;rdquo;. A ZTP template is the Junos configuration you wish to apply to a device, exported in XML format (instead of the normal C-like syntax of Junos), with some variables added in - allowing you to re-use the same template across multiple devices.</description>
+    </item>
+    
+    <item>
+      <title>Connect Juniper Sky Enterprise to Aerohive HiveManager</title>
+      <link>https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/</link>
+      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/</guid>
+      <description>Introduction Juniper Sky Enterprise is a neat little application that can manage and provision SRX, EX, and NFX series products from Juniper Networks. Sky Enterprise also allows you to monitor (but not configure) any Aerohive APs that you have deployed, however the documentation on how to do so is hidden away on the OneConfig website.
+This post will walk through the process of adding your Aerohive APs to your Sky Enterprise inventory.</description>
+    </item>
+    
+    <item>
+      <title>Unlock or change the super password for Junos Space 17.2, 18.X</title>
+      <link>https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/</link>
+      <pubDate>Mon, 19 Feb 2018 00:00:00 +0000</pubDate>
+      <author>hello@nathancatania.com (Nathan Catania)</author>
+      <guid>https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/</guid>
+      <description>Introduction For Junos Space and its associated applications, if you have forgotten the password to the super account (or have locked yourself out of the account), you can reset the password and/or unlock the account by modifying the super user&amp;rsquo;s entry in the build_db DB of MySQL; via the Unix CLI in Space&amp;rsquo;s &amp;ldquo;debug&amp;rdquo; mode.
+However in release 17.2R1, the default password of the jboss user (which is required in order to access the MySQL CLI in the first place) has changed.</description>
+    </item>
+    
+  </channel>
+</rss>
