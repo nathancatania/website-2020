@@ -18,7 +18,7 @@ paginate     = 15
 
   # Metadata mostly used in document's head
   description = "The official website of Nathan Catania &#10003;"
-  keywords = "homepage, blog, website, official"
+  keywords = "homepage, blog, website, official, engineer, saas, zscaler, security, juniper, telstra, sales, se"
   images = [""]
 
   # Directory name of your blog content (default is `content/posts`)
@@ -26,6 +26,9 @@ paginate     = 15
 
   # Default theme "light" or "dark"
   defaultTheme = "light"
+
+  # Prefix of link to the git commit detail page. GitInfo must be enabled.
+  gitUrl = "https://github.com/nathancatania/website/commit/"
 
   # Social icons
   [[params.social]]
