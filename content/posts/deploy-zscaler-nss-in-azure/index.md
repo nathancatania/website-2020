@@ -721,7 +721,7 @@ Zscaler documentation covers how to configure feeds for a variety of features:
 
 ## 2. Configuring MCAS
 
-If you're looking to integrate with Microsoft Cloud App Security (MCAS), I've written a detailed guide here.
+If you're looking to integrate with Microsoft Cloud App Security (MCAS), [I've written a detailed guide here](/posts/integrate-zia-and-mcas).
 
 ---
 
