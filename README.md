@@ -1,4 +1,6 @@
 # Personal Website
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1958f9dd-27c6-42b8-b7d9-f11d4dc2f0eb/deploy-status)](https://app.netlify.com/sites/icebreaker-382490/deploys)
+
 My personal website ([nathancatania.com](https://nathancatania.com)) created with Hugo and served with Netlify. The theme is a [modified](https://github.com/nathancatania/website/blob/master/CHANGELOG) version of the [hello-friend-ng](https://github.com/rhazdon/hugo-theme-hello-friend-ng) theme.
 
 ## Setup
@@ -19,9 +21,9 @@ cd themes
 git submodule add https://github.com/rhazdon/hugo-theme-hello-friend-ng.git themes/hello-friend-ng
 ```
 
-4. Start the Hugo server with drafts enabled:
+4. Start the Hugo server with drafts and future-dated posts enabled:
 ```
-hugo server -D
+hugo server -D -F
 ```
 
 5. Navigate to [http://localhost:1313/](http://localhost:1313/) to preview the website.
@@ -101,3 +103,8 @@ The Hugo team have posted a great guide to initial deployment with Netlify [here
 
 ### Updates
 Netlify will build and redeploy the site every time changes are pushed to the git repo; no additional taks required (CD).
+
+## TODO
+* Customize archetype to use correct front matter
+* Re-add comments (?)
+* Favicons

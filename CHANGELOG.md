@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2020-06-30
+- New Post: Deploy Zscaler NSS in Azure
+- New Post: Integrate Zscaler with Microsoft Cloud App Security (MCAS)
+- Modified README to include running Hugo in dev environment with future-dated posts (-F) enabled
+- Updated post: "Deploying ZPA ZEN Connectors" with notes regarding correctly pasting the API key
+
 ## 2020-05-17
 - Moved website to Hugo + Netlify (from Jekyll + GitHub Pages - old repo [here](https://github.com/nathancatania/nathancatania.com))
 - Modified [hello-friend-ng](https://github.com/rhazdon/hugo-theme-hello-friend-ng) theme as per the following:

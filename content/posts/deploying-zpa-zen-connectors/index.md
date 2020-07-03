@@ -252,13 +252,13 @@ VM based connectors are set to use DHCP by default. Alternatively, to set static
    ```shell
    [admin@zpa-connector ~]$ sudo nano /etc/sysconfig/network-scripts/ifcfg-eth0
    ...
-   DEVICE="eth0"
-   BOOTPROTO="none"
-   ONBOOT="yes"
-   NETWORK="10.0.10.0"
-   NETMASK="255.255.255.0"
-   IPADDR="10.0.10.16"
-   USERCTL="no"
+   DEVICE=eth0
+   BOOTPROTO=none
+   ONBOOT=yes
+   NETWORK=10.0.10.0
+   NETMASK=255.255.255.0
+   IPADDR=10.0.10.16
+   USERCTL=no
    ```
 
 2. To set the default gateway, edit `/etc/sysconfig/network`
@@ -418,8 +418,12 @@ Create a file `/opt/zscaler/var/provision_key` with permissions `644`:
 Copy the PK into the `provision_key` file. Make sure you encase it in double quotes `" "`:
 
 ```shell
-[admin@zpa-connector ~]$ sudo echo "<Your-Provisioning-Key" | sudo tee /opt/zscaler/var/provision_key
+[admin@zpa-connector ~]$ sudo echo "<Your-Provisioning-Key>" | sudo tee /opt/zscaler/var/provision_key
 ```
+
+Note: **Beware of the type of double quotation marks you use** when you paste in the provisioning key! If you're copying and pasting into a console window, this can be auto-corrected to a left or right quotation mark (Unicode `U+201C` and `U+201D`) instead of the standard neutral double quotes (Unicode `U+0022`). If this happens the command will fail and the provisioning key will be incorrect.
+
+You might be better off manually typing `sudo echo "`, pasting the provisioning key, manually typing the closing quote mark, then pasting the remaining part of the command ` | sudo tee /opt/zscaler/var/provision_key`.
 
 Check the key is correct:
 
