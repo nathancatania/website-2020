@@ -134,7 +134,7 @@ Mac OS requires a little bit more effort to get going than Windows does. We need
 3. Process the .app file and convert to .pkg (Intune can only work with pkg files on Mac OS)
 4. Wrap the .pkg file using the [Intune App Wrapping Tool](https://github.com/msintuneappsdk/intune-app-wrapping-tool-mac) (creates an `.intunemac` file)
 
-> **If you're using MacOS Catalina 10.15 or higher, you MUST use Z-App v2.1.X or above.** Catalina introduced the requirement that apps are notorized by their developers. Only Z-App releases v2.1 and above are notorized by Zscaler.
+> **If you're using MacOS Catalina 10.15 or higher, you MUST use Z-App v2.1.X or above.** Catalina introduced the requirement that apps are notarized by their developers. Only Z-App releases v2.1 and above are notarized by Zscaler.
 
 
 
@@ -142,15 +142,34 @@ Mac OS requires a little bit more effort to get going than Windows does. We need
 
 An Apple Developer Account is recommeneded.
 
-You can proceed and deploy the agent *without* an Apple Developer account, however you will not be able to sign the .pkg file created below with a valid Developer ID. This will result in your users receiving an error about an the software coming from an 'Unidentified Developer', and depending on security settings, may block the install altogether.
+You can proceed and deploy the agent *without* an Apple Developer account, however you will not be able to sign and notarize the .pkg file created below without a valid Developer ID. This will result in your users receiving an error about an the software coming from an 'Unidentified Developer', and depending on security settings, may block the install altogether.
 
 ![6](6.jpg)
 
-If you enroll in the [Apple Developer program](https://developer.apple.com/enroll/) (US$99), you can sign your package which will make this error go away. If you're an organization running a Mac OS deployment, you will most likely have a developer account for the company already.
+If you enroll in the [Apple Developer program](https://developer.apple.com/enroll/) (US$99), you can sign and notarize your package which will make this error go away. If you're an organization running a Mac OS deployment, you will most likely have a developer account for the company already.
 
 > But shouldn't Zscaler have already signed the app I'm deploying?
 
-Yes, Zscaler HAS both signed and notorized the .app package that will be installed. The problem with Intune is that it can only deploy .pkg files to Mac OS. **We need to wrap our .app file inside a .pkg file for it to work with Intune, and it is this pkg file that needs to be signed.**
+Yes, Zscaler HAS both signed and notarized the .app package that will be installed. The problem with Intune is that it can only deploy .pkg files to Mac OS. **We need to wrap our .app file inside a .pkg file for it to work with Intune, and it is this pkg file that needs to be signed and notarized as well.**
+
+To sign an notarize the `.pkg`, you will need both the **Developer ID Installer** and **Developer ID Application** certificates. You can create these under the [**Certificates, Identifiers & Profiles**](https://developer.apple.com/account/resources/) section of your developer account, but will need a Certificate Signing Request (CSR) to do so: Apple have a brief guide on how to generate one using Keychain, [here](https://help.apple.com/developer-account/#/devbfa00fef7).
+
+![8](8.png)
+
+Download the certificates when you have them and click to open the `.cer` files in Keychain. Add them as a **login** certificate.
+
+You can check the certificates have been installed correctly by running the following command:
+
+```
+security find-identity -p basic -v
+
+  1) XXXXX[REDACTED] "Developer ID Installer: Nathan Catania (XXXXXXXXXX)"
+  2) XXXXX[REDACTED] "Developer ID Application: Nathan Catania (XXXXXXXXXX)"
+  3) [REDACTED] "[REDACTED]"
+     3 valid identities found
+```
+
+If you have the **Developer ID Installer** and **Developer ID Application** certificates, you're good to proceed.
 
 
 
@@ -172,13 +191,13 @@ We need to create a post-installation script to actually install the .app packag
 
 We need a way to run and install the .app file itself *after* Intune has pushed out the `.pkg` to the user's device; including arguments to customize the install. This is what the post-installation script will do for us.
 
-To start, on a Mac OS device:
+To start, on a Mac OS device **open Terminal**:
 
 Create a folder called `scripts`. Inside this folder, create a file called `postinstall`. 
 ```
 mkdir scripts && cd scripts && touch postinstall && pwd
 ...
-> /Users/nathan/scripts
+> /Users/nathan/package/scripts
 ```
 Note down the full path to the `scripts` directory - we'll need this later.
 
@@ -224,43 +243,169 @@ Intune only supports `pkg` files for Mac OS. A `.pkg` file is analogous to an MS
 
 We'll be using the built-in `pkgbuild` tool to do this. Open Terminal and run the following command (change the file paths before running):
 ```shell
-pkgbuild --install-location /Applications \
+pkgbuild --install-location /tmp \
 --scripts /Path/to/scripts/directory \
 --component "/Path/to/Zscaler-Installer.app" \
---sign "Developer ID Installer: MY-DEV-NAME" \
+--sign "Developer ID Installer: MY-DEV-NAME (UXXXXXXXXX)" \
 --identifier "com.zscaler.zscalerappinstaller" \
 --version "1.0" \
 "/Path/to/save/pkg-file.pkg"
 ```
 
+* `--install-location` should point to the `tmp` folder, or somewhere writeable. The `.pkg` will unpack itself here, then run the `.app` installer; which will install Z-App to the `/Applications` directory as required. If you change this from `/tmp`, you'll need to update the `postinstall` script as well.
 * Make sure the `--scripts` argument is the path to the `scripts` folder you created in the step above.
-
 * For the `--component` argument, the file path should point to the Zscaler App .app installer file you downloaded in Step #1.
-
 * If you don't want your users to recieve an error that your package is from an 'Unidentified Developer' (which will prevent installation entirely), you will need to sign the package using a valid Apple Developer ID. To do this, you will need to enroll in the Apple Developer program (US$99). If you are an organization, you probably have already done this. Make sure you correctly substitute `MY-DEV-NAME` with your correct Developer name / org name.
   * __If you don't care about the 'Unidentified Developer' error, you can remove the__ `--sign` __argument.__
   * If you're not sure about your team / developer / org certificate name, you can check this under the **Certificates, Identifiers & Profiles** section of your developer account, [here](https://developer.apple.com/account/resources/).
-
 * `--version` has no relationship to the actual Zscaler App version. This is only used by Intune. If you ever deploy another pkg via Intune for a different version of Z-App, you'll need to increment this (eg: Version 1.1) so that Intune can tell the pkg files apart. Note that Z-App has it's own update mechanism, so you don't need to worry about using Intune to push out updates to the Zscaler App software.
-
 * The last path listed points to the location where you want to save the output pkg file.
 
 For example:
-```
+```shell
 pkgbuild --install-location /tmp \
---scripts /Users/nathan/scripts \
---component "/Users/nathan/Downloads/Zscaler-osx-2.1.2.38-installer.app" \
+--scripts /Users/nathan/package/scripts \
+--component "/Users/nathan/package/Zscaler-osx-2.1.2.38-installer.app" \
+--sign "Developer ID Installer: Nathan Catania (UXXXXXXXXX)" \
+--identifier "com.zscaler.zscalerappinstaller" \
 --version "1.0" \
-"/Users/nathan/Downloads/ZscalerInstaller.pkg"
+"/Users/nathan/package/zappinstaller.pkg"
 
-pkgbuild: Adding component at /Users/nathan/Downloads/Zscaler-osx-2.1.2.38-installer.app
+pkgbuild: Adding component at /Users/nathan/package/Zscaler-osx-2.1.2.38-installer.app
 pkgbuild: Adding top-level postinstall script
-pkgbuild: Wrote package to /Users/nathan/Downloads/ZscalerInstaller.pkg
+pkgbuild: Using timestamp authority for signature
+pkgbuild: Signing package with identity "Developer ID Installer: Nathan Catania (UXXXXXXXXX)" from keychain
+pkgbuild: Adding certificate "Developer ID Certification Authority"
+pkgbuild: Adding certificate "Apple Root CA"
+pkgbuild: Wrote package to /Users/nathan/package/zappinstaller.pkg
 ```
 
 
 
-### 4. Test the PKG
+If you signed your package, you can validate the signatures using `pkgutil`:
+
+```
+pkgutil --check-signature /path/to/pkg.pkg
+```
+
+For example:
+
+```
+pkgutil --check-signature /Users/nathan/package/zappinstaller.pkg 
+Package "zappinstaller.pkg":
+   Status: signed by a certificate trusted by Mac OS X
+   Certificate Chain:
+    1. Developer ID Installer: Nathan Catania (UXXXXXXXXX)
+       SHA1 fingerprint: E3 CB 24 EA 50 74 B6 82 EF DA 5C 43 17 8D BA D2 40 CC ED F5
+       -----------------------------------------------------------------------------
+    2. Developer ID Certification Authority
+       SHA1 fingerprint: 3B 16 6C 3B 7D C4 B7 51 C9 FE 2A FA B9 13 56 41 E3 88 E1 86
+       -----------------------------------------------------------------------------
+    3. Apple Root CA
+       SHA1 fingerprint: 61 1E 5B 66 2C 59 3A 08 FF 58 D1 4A E2 24 52 D1 98 DF 6C 60
+```
+
+
+
+### 4. (OPTIONAL) Notorize the PKG
+
+You only need to do this step if you signed the `.pkg` file in the previous step. Otherwise you can skip to the next step.
+
+What is notarization? According to Apple:
+
+> Notarization gives users more confidence that the Developer ID-signed software you distribute has been checked by Apple for malicious components. If there are no issues, the notary service generates a ticket for you to staple to your software; the notary service also publishes that ticket online where Gatekeeper can find it.
+>
+> Beginning in macOS 10.14.5, software signed with a new Developer ID certificate and all new or updated kernel extensions must be notarized to run. Beginning in macOS 10.15 [Catalina], all software built after June 1, 2019, and distributed with Developer ID must be notarized.
+
+We're going to notarize the `.pkg` file via the command-line. To do this, you'll need to [generate an **App Specific Password**](https://support.apple.com/en-us/HT204397) for your the Apple ID of your Developer Account:
+
+> **How to generate an app-specific password**
+>
+> 1. Sign in to your [Apple ID account page](https://appleid.apple.com/account/home).
+> 2. In the Security section, click Generate Password below App-Specific Passwords.
+> 3. Follow the steps on your screen.
+
+Next, open **Keychain** and click the "+" icon to add a new Keychain Item.
+
+* For **Keychain Item Name**, enter `notarization-tool`
+* For **Account Name**, enter the email associated with your Developer Account / Apple ID.
+* For **Password**, copy and paste the app-specific password from your Apple ID account.
+
+![9](9.png)
+
+To request notarization from Apple, run the following command (replacing the values with your own):
+
+```shell
+xcrun altool --notarize-app \
+--username "appleid@example.com" \
+--password "@keychain:notarization-tool" \
+--asc-provider "UXXXXXXXXX" \
+--primary-bundle-id "com.zscaler.zscalerappinstaller" \
+--file "/Path/to/pkg.pkg"
+```
+
+
+
+| Field               | Value                                                        |
+| ------------------- | ------------------------------------------------------------ |
+| `username`          | The Apple ID username associated with your Apple Developer Account |
+| `password`          | Enter `@keychain:` followed by the name of the Keychain Item which you saved your app-specific password to. This will fetch the password from the keychain. |
+| `asc-provider`      | This is the Team ID from your Developer Account. You can find this by logging into your Developer Account and reviewing your profile |
+| `primary-bundle-id` | This should match the identifier you specified when you created the pkg. |
+| `file`              | The path to the .pkg file                                    |
+
+For example:
+
+```shell
+xcrun altool --notarize-app \
+--username "[redacted]@gmail.com" \
+--password "@keychain:notarization-tool" \
+--asc-provider "UXXXXXXXXX" \
+--primary-bundle-id "com.zscaler.zscalerappinstaller" \
+--file "/Users/nathan/package/zappinstaller.pkg"
+
+...
+RequestUUID = 53acc70a-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+```
+
+The command will take a while to run as it is uploading your `.pkg` file to Apple. Once done, it will return a UUID which you can use to check the status of your notarization request:
+
+```shell
+xcrun altool --notarization-info "53acc70a-XXXX-XXXX-XXXX-XXXXXXXXXXXX" \
+--username "[redacted]@gmail.com" \
+--password "@keychain:notarization-tool"
+
+...
+Date: 2020-07-06 10:37:20 +0000
+Hash: [redacted]
+LogFileURL: https://osxapps-ssl.itunes.apple.com/itunes-assets/Enigma114/[redacted]
+RequestUUID: 53acc70a-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+Status: success
+Status Code: 0
+Status Message: Package Approved
+```
+
+Once the process is complete (mine took under 10 minutes), you'll recieve a confirmation email as to whether your request was successful or not.
+
+The last step is to staple the notarization ticket to the `.pkg` file. This ensures that a Mac device that is offline can still validate that the `.pkg` file is notarized:
+
+```
+xcrun stapler staple /path/to/pkg.pkg
+```
+
+Note: If your command fails, wait a few minutes and try again. If your command continuously fails, and your traffic is going through ZIA or another proxy, you will need to bypass `api.apple-cloudkit.com` from SSL inspection due to certificate pinning.
+
+Validate the staple action was successful:
+
+```
+xcrun stapler validate /path/to/pkg.pkg
+```
+
+
+
+
+
+### 5. Test the PKG
 
 Before going further, test your PKG file by running it and seeing if it successfully installed the Zscaler App silently. Make sure you don't already have Z-App installed when doing this however!
 
@@ -268,7 +413,7 @@ If you have an existing installation of Z-App, you can remove it under `Applicat
 
 
 
-### 5. Create an .intunemac file
+### 6. Create an .intunemac file
 
 Once you've verified your PKG file functions correctly, we need to wrap it for use with Intune.
 
@@ -290,7 +435,7 @@ Locate the PKG file you created above and use the `IntuneAppUtil` tool to wrap t
 
 For example:
 ```
-./IntuneAppUtil -c /Users/nathan/Downloads/ZscalerInstaller.pkg -o /Users/nathan/Downloads
+./IntuneAppUtil -c /Users/nathan/package/zappinstaller.pkg -o /Users/nathan/package
 
 ...
 Creating intunemac file for /Users/nathan/Downloads/Zscaler-osx-2.1.2.38-installer.pkg
@@ -306,7 +451,7 @@ If everything went well, you should see the `.intunemac` file in your specified 
 
 
 
-### 6. Add a new Line-of-Business app in MEM
+### 7. Add a new Line-of-Business app in MEM
 
 In the **Apps** menu of the [MEM portal](https://endpoint.microsoft.com/), navigate to **Apps > All Apps > Add**. In the panel that appears, scroll to the bottom and under the **Other** heading, select **Line-of-business app**.
 
@@ -333,7 +478,7 @@ In the next panel, we'll select the groups of users to which the Zscaler App for
 
 If you've been following along previous parts of this guide, you'll already have Groups (from Azure AD) available. It's now time to put them to use!
 
-* For **Required**, select the group **ZscalerApp_Mandatory**.
+* For **Required**, select the group **ZscalerApp - Mandatory**.
 * For **Available for enrolled devices**, select the groups **ZIA_Entitlement** and **ZPA_Entitlement**
 
 ![5](5.png)
@@ -342,13 +487,66 @@ Click **Next** to continue and then **Create** on the following screen. Your app
 
 If you don't wish to add Android or iOS devices, you can skip the next few sections and jump to where we add users to specific apps.
 
+---
+
+
+
+## iOS and iPadOS
+
+### 1. Create a Device Configuration Profile for VPN
+
+Z-App requires the use of a VPN profile on the device which Intune will deploy for us. We need to create it first however.
+
+In the **Devices** menu of the 
+
+On the next screen, give the VPN a name then click **Next** to got to the **Configuration Settings** tab.
+
+<PIC>
+
+Under **Assignments** select **All users and all devices**. Review your configuration, then add the profile.
+
+
+
+In the **Apps** menu of the [MEM portal](https://endpoint.microsoft.com/), navigate to **Apps > All Apps > Add**. In the panel that appears, under the **Store Apps** heading, select **iOS store app**.
+
+![10](10.png)
+
+When prompted, search for "**Zscaler**" and select the Zscaler App.
+
+![11](11.png)
+
+On the next page, most of the App information will be populated for you. Click **Next** to move to the **Assignments** tab.
+
+![12](12.png)
+
+In the next panel, we'll select the groups of users to which the Zscaler App for for iOS/iPadOS is mandatory ("Required" heading), and the groups of users in which we want to make it available to install as an option ("Available for enrolled devices" heading).
+
+If you've been following along previous parts of this guide, you'll already have Groups (from Azure AD) available. It's now time to put them to use!
+
+* For **Required**, select the group **ZscalerApp - Mandatory**.
+* For **Available for enrolled devices**, select the groups **ZIA_Entitlement** and **ZPA_Entitlement**
+
+<PIC>
+
+
+
 Google Play https://play.google.com/store/apps/details?id=zscaler.com.zscaler
 
 
 
 # Enroll your device with Intune
 
-In order for software to be pushed out to your devices, you need to enroll them in Intune as either a User-owned (BYOD) or Company-owned device. This is outside the scope of this guide, but is not difficult to do. You will need ot download the Intune Installer for your device, sign-in via SSO using a valid user in Azure AD, and complete the installation.
+## Configure Intune for Apple Devices
+
+Apple requires an MDM Push Certificate to enable management of iOS, iPadOS and macOS devices. You'll need to [follow the steps outlined by Microsoft here](https://docs.microsoft.com/en-us/mem/intune/enrollment/apple-mdm-push-certificate-get) before you can enroll any Apple devices.
+
+![13](13.png)
+
+
+
+There are some additional steps you need to complete before you 
+
+In order for software to be pushed out to your devices, you need to enroll them in Intune as either a User-owned (BYOD) or Company-owned device. This is outside the scope of this guide, but is not difficult to do. You will need to download the Intune Installer for your device, sign-in via SSO using a valid user in Azure AD, and complete the installation.
 
 * Enroll Windows 10: https://docs.microsoft.com/en-us/mem/intune/user-help/enroll-windows-10-device
 * Enroll Mac OS: https://docs.microsoft.com/en-us/mem/intune/user-help/enroll-your-device-in-intune-macos-cp

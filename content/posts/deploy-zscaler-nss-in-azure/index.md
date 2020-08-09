@@ -61,7 +61,7 @@ You need an Azure Subscription (even if it is part of the free tier) to continue
 
 Ensure you have an existing subscription present, you click **Add** to create one if you need to.
 
-**Warning!**with any IaaS provider, you have the potential to rack up large charges if you aren't careful! Proceed at your own risk!
+**Warning!** You have the potential to rack up large charges if you aren't careful! Proceed at your own risk!
 
 
 

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2020-08-09
+
+- New Post: Integrate Zscaler with Azure Sentinel
+- Fixed some typos on previous posts
+
 ## 2020-06-30
 - New Post: Deploy Zscaler NSS in Azure
 - New Post: Integrate Zscaler with Microsoft Cloud App Security (MCAS)

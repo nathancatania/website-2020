@@ -43,7 +43,7 @@ In your ZIA portal, navigate to **Administration > Nanolog Streaming Service**.
 
 ![1](1.png)
 
-Select the tab **NSS Feeds**, then select **Add MCAS NSS Feed**.
+Select the **NSS Feeds** tab, then select **Add MCAS NSS Feed**.
 
 ![2](2.png)
 
@@ -163,7 +163,7 @@ In this example, Reddit was marked as unsanctioned and configured with a Caution
 
 ![14](14.png)
 
-If you have issues with your block not applying, check have SSL Inspection configured (you should have!) and you aren't accidentally bypassing the site. A site is SSL inspected if you can see the Zscaler Root CA and Intermediate Root CA present when examining the SSL certificate of the site.
+If you have issues with your block not applying, check you have SSL Inspection configured that and you aren't accidentally bypassing/exempting the site. A site is being SSL inspected if you can see the Zscaler Root CA and Intermediate Root CA present when examining the SSL certificate of the site.
 
 ![15](15.png)
 
