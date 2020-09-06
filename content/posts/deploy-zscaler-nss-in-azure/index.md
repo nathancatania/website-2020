@@ -9,8 +9,28 @@ draft: false
 toc: true
 ---
 
-> **STOP!** You can't follow this guide without an Azure subscription. This guide WILL rack up some small charges for VM and storage resources in Azure, so be careful. If you're using the Azure Free Account, you should have US$200 of credit to use as part of your free subscription and may be able to avoid charges. Proceed at your own risk.
+This guide will cover deployment of a Nanolog Streaming Service (NSS) VM within Azure. NSS can also be deployed on-premise using an OVA file, or in AWS.
 
+If you're planning to integrate with Microsoft Cloud App Security (MCAS) or Azure Sentinel, you'll require a healthy NSS deployment, and it is highly recommended that you use Azure.
+
+> Why do I need to deploy a VM to stream logs to a SIEM? Can't Zscaler just send logs to my SIEM directly?
+
+Your logs are stored in Zscaler's Nanolog clusters in a highly compressed and encoded format. The NSS VM connects to both the Nanolog cluster and the Zscaler control plane, grabs the logs, decodes them, and forwards them to your SIEM over a TCP connection. Think of NSS as a log gateway!
+
+# Before you begin
+
+## Be aware of potential charges
+
+You can't follow this guide without an Azure subscription. If you're deploying in as part of demo or lab environment, be careful: This guide WILL rack up some charges for VM and storage resources in Azure.
+
+If you're using the Azure Free Account, you should have US$200 of credit to use as part of your free subscription and may be able to avoid charges.
+
+Proceed at your own risk.
+
+## You'll need a subscription to the NSS feature
+Not all Zscaler subscriptions allow you to use NSS. In the ZIA Portal, navigate the **Administration** tab. If you don't see **Nanolog Streaming Service** listed as an option, then you are most likely not subscribed to the NSS feature and will need to chat to your account team.
+
+---
 
 
 # Part 1 - Create an NSS Virtual Appliance

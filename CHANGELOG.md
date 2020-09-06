@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2020-09-06
+
+- New Post: Configure Pi-Hole DNS + Cloudflare DNS over HTTPS (DoH) on a Raspberry Pi
+  - This was a post I drafted in Feb, but never published for some reason.
+- Fixed some text in my previous Sentinel & MCAS posts.
+
 ## 2020-08-09
 
 - New Post: Integrate Zscaler with Azure Sentinel

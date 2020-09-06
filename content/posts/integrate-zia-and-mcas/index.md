@@ -19,8 +19,11 @@ You must have a subscription for both MCAS and Zscaler's Nanolog Streaming Servi
 ## 1. Zscaler NSS
 To stream Zscaler logs to MCAS, you will need to have deployed and configured Zscaler's Nanolog Streaming Service (NSS) in the ZIA admin portal - this allows you to stream logs from their logging clusters (called Nanolog) towards a SIEM or product of your choice (in this case, MCAS).
 
-You can deploy the VM for NSS on-prem (available as an OVA image) or in AWS or Azure.
-For deployment in Azure, you can review my guide here. Zscaler documentation is available for [VMware](https://help.zscaler.com/zia/nss-deployment-guide-vmware-vsphere) and [AWS](https://help.zscaler.com/zia/nss-deployment-guide-amazon-web-services).
+You can deploy the VM for NSS on-prem (available as an OVA image) or in AWS or Azure (Azure is strongly recommended).
+
+For deployment in Azure, you can [review my guide here](/posts/deploy-zscaler-nss-in-azure/).
+
+Zscaler documentation is available for [VMware](https://help.zscaler.com/zia/nss-deployment-guide-vmware-vsphere) and [AWS](https://help.zscaler.com/zia/nss-deployment-guide-amazon-web-services).
 
 Your NSS VM must have a state of **Healthy** to be able to integrate with MCAS.
 
@@ -163,7 +166,7 @@ In this example, Reddit was marked as unsanctioned and configured with a Caution
 
 ![14](14.png)
 
-If you have issues with your block not applying, check you have SSL Inspection configured that and you aren't accidentally bypassing/exempting the site. A site is being SSL inspected if you can see the Zscaler Root CA and Intermediate Root CA present when examining the SSL certificate of the site.
+If you your block does not apply, check that you have SSL Inspection enabled and that you aren't accidentally bypassing/exempting the site. If you can see the Zscaler Root CA and Intermediate Root CA when examining the certificate of the site, then SSL inspection is working as intended.
 
 ![15](15.png)
 
