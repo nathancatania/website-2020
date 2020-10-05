@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2020-10-06
+
+- New Post: Deploy Zscaler Client Connector with Intune (iOS & Android)
+- New Post: Deploy Zscaler Client Connector with Intune (Windows & macOS)
+
 ## 2020-09-06
 
 - New Post: Configure Pi-Hole DNS + Cloudflare DNS over HTTPS (DoH) on a Raspberry Pi
