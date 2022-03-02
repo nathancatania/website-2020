@@ -8,6 +8,7 @@ comments: true
 draft: false
 toc: true
 ---
+
 Block ads, trackers, and malware from any local device without having to use an ad-blocker; while securing your DNS traffic at the same time - sounds good!
 
 First, what is Pi-Hole? According to [Jacob Salmela, the creator of Pi-Hole](https://www.raspberrypi.org/blog/pi-hole-raspberry-pi/):
@@ -369,6 +370,7 @@ nathan@pi:~ $ sudo nano /etc/dhcpcd.conf
 ```
 
 Define a static IP, gateway, and DNS under "*Example static IP configuration*", and (optionally) define the hostname:
+
 ```
 [..snip...]
 

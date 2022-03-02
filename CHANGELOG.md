@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-03-01
+- Blew away some dust.
+- New post: Deploy Netskope Cloud Exchange
+
 ## 2020-10-06
 
 - New Post: Deploy Zscaler Client Connector with Intune (iOS & Android)
