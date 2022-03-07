@@ -297,7 +297,7 @@ To configure SSO, click the *SSO* tab under **Settings > Users**, and enable the
 
 I will post a separate guide linked below on how to configure SSO for Cloud Exchange with both Okta and Azure Active Directory (AAD).
 
-* [Guide - Link TBA] How-to Configure SSO for Cloud Exchange (Okta & Azure AD)
+* [Guide] [How-to setup SSO for Netskope Cloud Exchange (Okta & Azure AD)](/posts/sso-cloud-exchange)
 
 
 

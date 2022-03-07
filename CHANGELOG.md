@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-03-06
+- New post: How-to Configure SSO for Netskope Cloud Exchange
+
 ## 2022-03-01
 - Blew away some dust.
 - New post: Deploy Netskope Cloud Exchange
