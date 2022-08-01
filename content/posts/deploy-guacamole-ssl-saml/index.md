@@ -4,7 +4,7 @@ date: 2022-07-31
 description: "This post will cover how to configure Apache Guacamole with Single-Sign-On (SSO) authentication and automated SSL"
 cover: banner.png
 tags: [guacamole, sso, remote access, ssl]
-draft: true
+draft: false
 comments: true
 toc: true
 ---
