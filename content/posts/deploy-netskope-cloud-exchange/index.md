@@ -1,7 +1,7 @@
 ---
 title: "Deploy Netskope Cloud Exchange"
 date: 2022-03-01
-description: "This post will cover how to deploy and get started with Netskope Cloud Exchange: A platform that facilitates the sharing of dinformation (such as IOCs, risk scores, and logs) between different security vendors."
+description: "This post will cover how to deploy and get started with Netskope Cloud Exchange: A platform that facilitates the sharing of information (such as IOCs, risk scores, and logs) between different security vendors."
 cover: banner.png
 tags: [netskope, docker, lab, notes]
 draft: false
@@ -42,7 +42,7 @@ This guide will focus on using Ubuntu 20.04 LTS as the host OS, but in an enterp
 
 ## Requirements
 You will need the following to install Cloud Exchange:
-* Linux system capable of supporting the docker.io release of Docker, and Docker Compose. We recommend Ubuntu 20.04 LTS or Red Hat 8.1.
+* Linux system capable of supporting the docker.io release of Docker, and Docker Compose. We recommend Ubuntu 20.04 LTS.
 * A virtual machine with the following system requirements:
   * 2 vCPU
   * 4 GB of memory
@@ -53,7 +53,7 @@ You will need the following to install Cloud Exchange:
 ## Install Docker & Docker Compose
 If you're using a fresh VM, you'll need to install Docker and Docker Compose. The below will install Docker CE (Community Edition), which is free but does not come with support. For a production environment, I strongly recommend using Docker Enterprise.
 
-The commands below cover the installation of Docker on an Ubuntu host. For RHEL, please [see here](https://docs.docker.com/engine/install/rhel/) (you will also need to follow the steps below to install Docker Compose).
+The commands below cover the installation of Docker on an Ubuntu host. **For RHEL 8+, you will need to use Podman instead of Docker (#justredhatthings). Please see here for instructions on how to deploy CE on RHEL.**
 
 Update the existing packages on the system:
 ```
@@ -266,7 +266,7 @@ Now that you have deployed Cloud Exchange, we need to perform some initial confi
 The default username/password for the Super Administrator for Cloud Exchange is `admin`/`admin`. Once you accept the EULA, you will be prompted to change the default password. There can only be one Super Administrator and the username cannot be changed.
 
 ## Enabling Cloud Exchange Modules & Updates
-Once you are logged in, Cloud Exchange will place you into the **Settings > Generals** menu.
+Once you are logged in, Cloud Exchange will place you into the **Settings > General** menu.
 
 ![3](3.png)
 

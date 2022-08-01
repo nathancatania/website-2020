@@ -252,6 +252,10 @@ Select **SAML 2.0** as the sign-in method and click **Next**.
 
 ![29](29.png)
 
+On the next screen, set the App name to be Netskope Cloud Exchange and provide an app logo if required. Click Next to proceed to the Configure SAML section.
+
+![30](30.png)
+
 ## Copy the Cloud Exchange SSO information
 
 Log in to Cloud Exchange using the `admin` (super administrator) user, and navigate to **Settings > Users** (this settings area will only be visible to the `admin` user).
