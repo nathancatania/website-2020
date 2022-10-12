@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2022-03-06
+## 2022-10-12
+- New post: Netskope Quick Start Guide
+- Added the ability to use callouts/admonitions (eg: warning!, heads up!, caution!) using a custom Hugo shortcode
+  - `{{< callout success "Hint!" >}}This is a callout!{{< /callout >}}
+  - This also leverages Bootstrap's [icon library](https://icons.getbootstrap.com/)
+- Updated contact info
+- Turned on global emoji usage in `config.toml`
+
+## 2022-07-31
 - New post: Deploy Apache Guacamole with SSL & SAML (Azure AD & Okta) integration
 
 ## 2022-03-06

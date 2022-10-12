@@ -1,0 +1,13 @@
+{{- $callout_type := .Get 0 | default "info" -}}
+
+<div class="bd-callout bd-callout-{{ $callout_type }}">
+    <strong class="text-{{ $callout_type }}">
+        {{ if eq $callout_type "info" }}<i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        {{ else if eq $callout_type "success" }}<i class="bi bi-check-circle-fill"></i>&nbsp; 
+        {{ else if eq $callout_type "warning" }}<i class="bi bi-exclamation-diamond-fill"></i>&nbsp; 
+        {{ else if eq $callout_type "danger" }}<i class="bi bi-x-octagon-fill"></i>&nbsp; 
+        {{ end }}
+        {{ with .Get 1 }}{{ . }}{{ end }}<br>
+    </strong>
+{{ .Inner | markdownify }}
+</div>

@@ -3,6 +3,7 @@ title        = "Nathan Catania"
 languageCode = "en-us"
 theme        = "hello-friend-ng"
 paginate     = 15
+enableEmoji  = true
 
 [params]
   dateform        = "Jan 2, 2006"
@@ -18,7 +19,7 @@ paginate     = 15
 
   # Metadata mostly used in document's head
   description = "The official website of Nathan Catania &#10003;"
-  keywords = "homepage, blog, website, official, engineer, saas, zscaler, security, juniper, telstra, sales, se"
+  keywords = "homepage, blog, website, official, engineer, saas, sase, ztna, netskope, zscaler, security, juniper, telstra, sales, se"
   images = [""]
 
   # Directory name of your blog content (default is `content/posts`)
@@ -35,15 +36,10 @@ paginate     = 15
     name = "linkedin"
     url  = "https://www.linkedin.com/in/nathancatania"
 
-  [[params.social]]
-    name = "email"
-    url  = "mailto:hello@nathancatania.com"
-
   
 
 [Author]  
-  name = "Nathan Catania" 
-  email = "hello@nathancatania.com"   
+  name = "Nathan Catania"  
   bio = "Engineer // Melbourne // Australia"  
   [Author.photo]    
     url = "avatar.png" 
