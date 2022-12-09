@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-12-09
+
+* Updated post: Deploy Netskope Cloud Exchange
+  * Updated the post to work with Cloud Exchange v4 as there were several installation changes from v3.
+
 ## 2022-10-12
+
 - New post: Netskope Quick Start Guide
 - Added the ability to use callouts/admonitions (eg: warning!, heads up!, caution!) using a custom Hugo shortcode
   - `{{< callout success "Hint!" >}}This is a callout!{{< /callout >}}
