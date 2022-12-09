@@ -457,7 +457,7 @@ If your Netskope tenant was successfully added, you will start to see events syn
 
 ![9](9.png)
 
-# Configure Your Plugins
+# Configure Plugins
 Cloud Exchange uses the concept of "plugins" to determine where to send and receive data from. 
 
 You can have multiple inputs and multiple outputs: Naturally, you will want to sync data to and from your Netskope tenant(s) in addition to your other vendors.
