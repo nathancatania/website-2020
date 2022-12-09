@@ -6,18 +6,12 @@
     <description>Recent content in aerohive on Nathan Catania</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>hello@nathancatania.com (Nathan Catania)</managingEditor>
-    <webMaster>hello@nathancatania.com (Nathan Catania)</webMaster>
-    <lastBuildDate>Tue, 24 Jul 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://nathancatania.com/tags/aerohive/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 24 Jul 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://nathancatania.com/tags/aerohive/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Connect Juniper Sky Enterprise to Aerohive HiveManager</title>
       <link>https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/</link>
       <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
-      <author>hello@nathancatania.com (Nathan Catania)</author>
+      
       <guid>https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/</guid>
       <description>Introduction Juniper Sky Enterprise is a neat little application that can manage and provision SRX, EX, and NFX series products from Juniper Networks. Sky Enterprise also allows you to monitor (but not configure) any Aerohive APs that you have deployed, however the documentation on how to do so is hidden away on the OneConfig website.
 This post will walk through the process of adding your Aerohive APs to your Sky Enterprise inventory.</description>

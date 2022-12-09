@@ -6,18 +6,12 @@
     <description>Recent content in windows on Nathan Catania</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>hello@nathancatania.com (Nathan Catania)</managingEditor>
-    <webMaster>hello@nathancatania.com (Nathan Catania)</webMaster>
-    <lastBuildDate>Mon, 30 Dec 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://nathancatania.com/tags/windows/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 30 Dec 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://nathancatania.com/tags/windows/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Deploy Windows Server with an Azure Free Account</title>
       <link>https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/</link>
       <pubDate>Mon, 30 Dec 2019 00:00:00 +0000</pubDate>
-      <author>hello@nathancatania.com (Nathan Catania)</author>
+      
       <guid>https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/</guid>
       <description>Get an Azure Free Account Before you start, you will need to sign up for a free Azure account: https://azure.microsoft.com/en-au/free/
 This gives you some Azure services, like Windows &amp;amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.

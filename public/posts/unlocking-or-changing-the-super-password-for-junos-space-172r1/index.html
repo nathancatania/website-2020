@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="author" content="Engineer // Melbourne // Australia hello@nathancatania.com Nathan Catania map[url:avatar.png] ">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
 <meta name="description" content="Introduction For Junos Space and its associated applications, if you have forgotten the password to the super account (or have locked yourself out of the account), you can reset the password and/or unlock the account by modifying the super user&amp;rsquo;s entry in the build_db DB of MySQL; via the Unix CLI in Space&amp;rsquo;s &amp;ldquo;debug&amp;rdquo; mode.
 However in release 17.2R1, the default password of the jboss user (which is required in order to access the MySQL CLI in the first place) has changed." />
 <meta name="keywords" content="blog, website, official, juniper, guides" />
@@ -26,7 +26,7 @@ However in release 17.2R1, the default password of the jboss user (which is requ
 
 
 
-<link rel="stylesheet" href="/main.c7bbcf8c9520939898c82877a1b2fc2827871e3f2c3245a3b8da29f9796264cc.css">
+<link rel="stylesheet" href="/main.9fd519a9a0b8ebf84ab7728ecdb09aca39ee8527a360809f3bcecce7bb8b7c05.css">
 
 
 
@@ -34,14 +34,9 @@ However in release 17.2R1, the default password of the jboss user (which is requ
 
 
 <meta itemprop="name" content="Unlock or change the super password for Junos Space 17.2, 18.X">
-<meta itemprop="description" content="In the 17.2R1 release for Junos Space, the process for unlocking or changing the password for the super account has changed.">
-<meta itemprop="datePublished" content="2018-02-19T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2018-02-19T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="613">
-<meta itemprop="image" content="https://nathancatania.com"/>
-
-
-
+<meta itemprop="description" content="In the 17.2R1 release for Junos Space, the process for unlocking or changing the password for the super account has changed."><meta itemprop="datePublished" content="2018-02-19T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2018-02-19T00:00:00+00:00" />
+<meta itemprop="wordCount" content="613"><meta itemprop="image" content="https://nathancatania.com"/>
 <meta itemprop="keywords" content="juniper,guides," />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://nathancatania.com"/>
@@ -54,8 +49,7 @@ However in release 17.2R1, the default password of the jboss user (which is requ
     <meta property="og:title" content="Unlock or change the super password for Junos Space 17.2, 18.X" />
 <meta property="og:description" content="In the 17.2R1 release for Junos Space, the process for unlocking or changing the password for the super account has changed." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/" />
-<meta property="og:image" content="https://nathancatania.com"/>
+<meta property="og:url" content="https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/" /><meta property="og:image" content="https://nathancatania.com"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-02-19T00:00:00+00:00" />
 <meta property="article:modified_time" content="2018-02-19T00:00:00+00:00" /><meta property="og:site_name" content="Nathan Catania" />
 
@@ -151,54 +145,54 @@ However in release 17.2R1, the default password of the jboss user (which is requ
 </ul>
 </blockquote>
 <p>Previously, you would access the MySQL CLI using the user <strong>jboss</strong> and the password <strong>netscreenos</strong>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -pnetscreenos build_db</span>
-...
-...
-Welcome to the MySQL monitor.  Commands end with ; or <span style="color:#ae81ff">\g</span>.
-Copyright <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 2000, 2017, Oracle and/or its affiliates. All rights reserved.
-mysql&gt;
-</code></pre></div><p>In Space 17.2R1 (and above), the same credentials do not work:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -pnetscreenos build_db</span>
-ERROR <span style="color:#ae81ff">1045</span> <span style="color:#f92672">(</span>28000<span style="color:#f92672">)</span>: Access denied <span style="color:#66d9ef">for</span> user <span style="color:#e6db74">&#39;jboss&#39;</span>@<span style="color:#e6db74">&#39;localhost&#39;</span> <span style="color:#f92672">(</span>using password: YES<span style="color:#f92672">)</span>
-</code></pre></div><p>So if you&rsquo;ve locked your <strong>super</strong> user account or forgotten its password, what do you do now?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -pnetscreenos build_db</span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>Welcome to the MySQL monitor.  Commands end with ; or <span style="color:#ae81ff">\g</span>.
+</span></span><span style="display:flex;"><span>Copyright <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+</span></span><span style="display:flex;"><span>mysql&gt;
+</span></span></code></pre></div><p>In Space 17.2R1 (and above), the same credentials do not work:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -pnetscreenos build_db</span>
+</span></span><span style="display:flex;"><span>ERROR <span style="color:#ae81ff">1045</span> <span style="color:#f92672">(</span>28000<span style="color:#f92672">)</span>: Access denied <span style="color:#66d9ef">for</span> user <span style="color:#e6db74">&#39;jboss&#39;</span>@<span style="color:#e6db74">&#39;localhost&#39;</span> <span style="color:#f92672">(</span>using password: YES<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>So if you&rsquo;ve locked your <strong>super</strong> user account or forgotten its password, what do you do now?</p>
 <h2 id="new-sql-password">New SQL password</h2>
 <p>It seems as of 17.2, during installation, Space will automatically generate a random password for the <strong>jboss</strong> user of the MySQL database.</p>
 <p>Lucky for us (?), Space also stores this generated password in plaintext (!! 😱) for us to reference.</p>
 <p>The passwords are located at: <code>/etc/sysconfig/JunosSpace/pwd</code></p>
 <p>Dumping them to screen, we can copy the password for the <strong>jboss</strong> user:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /etc/sysconfig/JunosSpace/pwd</span>
-
-mysql.repUser<span style="color:#f92672">=</span>-BkGJCdQSEktjxIVRlF4rBOx9g3LHgCM
-mysql.repAdmin<span style="color:#f92672">=</span>p8AGI_-jAbsNlKq4cnnSVb0rh1aeOLO-
-postgres.postgres<span style="color:#f92672">=</span>postgres
-postgres.opennms<span style="color:#f92672">=</span>opennms
-postgres.replication<span style="color:#f92672">=</span>replication
-cassandra.jboss<span style="color:#f92672">=</span>netscreen
-jboss.admin<span style="color:#f92672">=</span>LJrZaVdj++++50395922
-mysql.root<span style="color:#f92672">=</span>BCiIAlkj5_NZj83VQpuX4E2oSRBHTlWA
-mysql.jboss<span style="color:#f92672">=</span>AEYZIMccv0Uq8ct_WoSgbo0BB4Wwu8RH
-</code></pre></div><p>You want the <code>mysql.jboss=</code> string, which in the example above is: <code>AEYZIMccv0Uq8ct_WoSgbo0BB4Wwu8RH</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /etc/sysconfig/JunosSpace/pwd</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mysql.repUser<span style="color:#f92672">=</span>-BkGJCdQSEktjxIVRlF4rBOx9g3LHgCM
+</span></span><span style="display:flex;"><span>mysql.repAdmin<span style="color:#f92672">=</span>p8AGI_-jAbsNlKq4cnnSVb0rh1aeOLO-
+</span></span><span style="display:flex;"><span>postgres.postgres<span style="color:#f92672">=</span>postgres
+</span></span><span style="display:flex;"><span>postgres.opennms<span style="color:#f92672">=</span>opennms
+</span></span><span style="display:flex;"><span>postgres.replication<span style="color:#f92672">=</span>replication
+</span></span><span style="display:flex;"><span>cassandra.jboss<span style="color:#f92672">=</span>netscreen
+</span></span><span style="display:flex;"><span>jboss.admin<span style="color:#f92672">=</span>LJrZaVdj++++50395922
+</span></span><span style="display:flex;"><span>mysql.root<span style="color:#f92672">=</span>BCiIAlkj5_NZj83VQpuX4E2oSRBHTlWA
+</span></span><span style="display:flex;"><span>mysql.jboss<span style="color:#f92672">=</span>AEYZIMccv0Uq8ct_WoSgbo0BB4Wwu8RH
+</span></span></code></pre></div><p>You want the <code>mysql.jboss=</code> string, which in the example above is: <code>AEYZIMccv0Uq8ct_WoSgbo0BB4Wwu8RH</code></p>
 <p><strong>This is your password to authenticate the MySQL jboss user!</strong></p>
 <p>You can now access the MySQL CLI:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -p&lt;YOU-JBOSS-PASSWORD&gt; build_db</span>
-...
-...
-Welcome to the MySQL monitor.  Commands end with ; or <span style="color:#ae81ff">\g</span>.
-Copyright <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 2000, 2017, Oracle and/or its affiliates. All rights reserved.
-mysql&gt;
-</code></pre></div><p>Replace the <code>&lt;YOUR-JBOSS-PASSWORD&gt;</code> with the string retrieved above. You will now have access to the CLI.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@space-005056a51a72 ~<span style="color:#f92672">]</span><span style="color:#75715e"># mysql -u jboss -p&lt;YOU-JBOSS-PASSWORD&gt; build_db</span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>Welcome to the MySQL monitor.  Commands end with ; or <span style="color:#ae81ff">\g</span>.
+</span></span><span style="display:flex;"><span>Copyright <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+</span></span><span style="display:flex;"><span>mysql&gt;
+</span></span></code></pre></div><p>Replace the <code>&lt;YOUR-JBOSS-PASSWORD&gt;</code> with the string retrieved above. You will now have access to the CLI.</p>
 <h2 id="fixing-the-super-account">Fixing the super account</h2>
 <p>Now that we have the password to access our MySQL CLI, we can finally unlock or reset the <strong>super</strong> account to regain access to our Space applications.</p>
 <h3 id="unlocking-the-super-account">Unlocking the super account</h3>
 <p>If the super account is <strong>locked</strong>, you can unlock it from the MySQL CLI. Enter the following two DB queries/commands at the <code>mysql&gt;</code> shell prompt:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">select</span> * from USER_IP_ADDRESS where user_id in <span style="color:#f92672">(</span><span style="color:#66d9ef">select</span> id from USER where name LIKE <span style="color:#e6db74">&#39;%super%&#39;</span><span style="color:#f92672">)</span><span style="color:#ae81ff">\G</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">DELETE FROM USER_IP_ADDRESS where user_id in <span style="color:#f92672">(</span><span style="color:#66d9ef">select</span> id from USER where name LIKE <span style="color:#e6db74">&#39;%super%&#39;</span><span style="color:#f92672">)</span>;
-</code></pre></div><p>The super account should now be unlocked.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> * from USER_IP_ADDRESS where user_id in <span style="color:#f92672">(</span><span style="color:#66d9ef">select</span> id from USER where name LIKE <span style="color:#e6db74">&#39;%super%&#39;</span><span style="color:#f92672">)</span><span style="color:#ae81ff">\G</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>DELETE FROM USER_IP_ADDRESS where user_id in <span style="color:#f92672">(</span><span style="color:#66d9ef">select</span> id from USER where name LIKE <span style="color:#e6db74">&#39;%super%&#39;</span><span style="color:#f92672">)</span>;
+</span></span></code></pre></div><p>The super account should now be unlocked.</p>
 <h3 id="changing-the-super-account-password">Changing the super account password</h3>
 <p>If you have forgotten the password to the super account, you can reset it by altering the database entry for the &lsquo;super&rsquo; user. The password field takes an encrypted value. <strong>We will reset the password to the default value <code>juniper123</code></strong>. This will allow you to login and then change it to something more secure through the GUI.</p>
 <p>To login to the DB and change the password in one command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mysql -ujboss -p<span style="color:#66d9ef">$(</span>grep mysql.jboss /etc/sysconfig/JunosSpace/pwd | awk -F<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{print $2}&#39;</span><span style="color:#66d9ef">)</span> build_db -e <span style="color:#e6db74">&#34;UPDATE USER set password=&#39;ok89Nva6qHxytSHsP8AeLg==&#39; where name=&#39;super&#39;&#34;</span>
-</code></pre></div><p>This fetches the jboss password from the <code>pwd</code> file and executes the SQL statement to change the super user&rsquo;s password to <code>ok89Nva6qHxytSHsP8AeLg==</code> which represents <code>juniper123</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mysql -ujboss -p<span style="color:#66d9ef">$(</span>grep mysql.jboss /etc/sysconfig/JunosSpace/pwd | awk -F<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{print $2}&#39;</span><span style="color:#66d9ef">)</span> build_db -e <span style="color:#e6db74">&#34;UPDATE USER set password=&#39;ok89Nva6qHxytSHsP8AeLg==&#39; where name=&#39;super&#39;&#34;</span>
+</span></span></code></pre></div><p>This fetches the jboss password from the <code>pwd</code> file and executes the SQL statement to change the super user&rsquo;s password to <code>ok89Nva6qHxytSHsP8AeLg==</code> which represents <code>juniper123</code></p>
 <h3 id="finish">Finish</h3>
 <p>You should now be able to login to the Junos Space GUI using the username <code>super</code> and password <code>juniper123</code>.</p>
 <p><strong>Make sure to change the super password immediately to something more secure!</strong></p>
@@ -254,7 +248,7 @@ mysql&gt;
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2022</span>
             
                 <span><a href="https://nathancatania.com">Nathan Catania</a></span>
             
@@ -264,7 +258,7 @@ mysql&gt;
     <div class="footer__inner">
         <div class="footer__content">
             <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
-            <span><a href="https://github.com/nathancatania/nathancatania.com">Source</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
             <span><a href="https://github.com/rhazdon">Theme</a></span>
         </div>
     </div>
@@ -278,7 +272,7 @@ mysql&gt;
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.8cc3758efe48ef82e2eb9a5f317b44c0805353a43762207be6fe8ffb05815cce7a19d37f6bf387c378a3bdfc3029981668d645374a33db4ee3480e15a4bfdc7c.js" integrity="sha512-jMN1jv5I74Li65pfMXtEwIBTU6Q3YiB75v6P&#43;wWBXM56GdN/a/OHw3ijvfwwKZgWaNZFN0oz207jSA4VpL/cfA=="></script>
 
 
 

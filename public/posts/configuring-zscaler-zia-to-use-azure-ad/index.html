@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="author" content="Engineer // Melbourne // Australia hello@nathancatania.com Nathan Catania map[url:avatar.png] ">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
 <meta name="description" content="This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZIA. Our users defined in Azure AD will be able to authenticate with Z-App/ZIA using Microsoft Single Sign-on (SSO), and we&amp;rsquo;ll also be able to start creating policies in ZIA centered around the same users, groups, and departments we&amp;rsquo;ve defined.
 By integrating with an IdP like Azure AD, we no longer need to manually manage users and their credentials ourselves in the ZIA portal." />
 <meta name="keywords" content="blog, website, official, azure, zscaler, lab, notes" />
@@ -26,7 +26,7 @@ By integrating with an IdP like Azure AD, we no longer need to manually manage u
 
 
 
-<link rel="stylesheet" href="/main.c7bbcf8c9520939898c82877a1b2fc2827871e3f2c3245a3b8da29f9796264cc.css">
+<link rel="stylesheet" href="/main.9fd519a9a0b8ebf84ab7728ecdb09aca39ee8527a360809f3bcecce7bb8b7c05.css">
 
 
 
@@ -34,14 +34,9 @@ By integrating with an IdP like Azure AD, we no longer need to manually manage u
 
 
 <meta itemprop="name" content="Integrate Zscaler ZIA with Azure AD">
-<meta itemprop="description" content="Set Azure Active Directory (AAD) as the Identity Provider (IdP) for the Zscaler Internet Access (ZIA) service. Configure SAML Single Sign-On (SSO) and SCIM Provisioning.">
-<meta itemprop="datePublished" content="2020-01-01T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-01-01T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1745">
-<meta itemprop="image" content="https://nathancatania.com"/>
-
-
-
+<meta itemprop="description" content="Set Azure Active Directory (AAD) as the Identity Provider (IdP) for the Zscaler Internet Access (ZIA) service. Configure SAML Single Sign-On (SSO) and SCIM Provisioning."><meta itemprop="datePublished" content="2020-01-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-01-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1745"><meta itemprop="image" content="https://nathancatania.com"/>
 <meta itemprop="keywords" content="azure,zscaler,lab,notes," />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://nathancatania.com"/>
@@ -54,8 +49,7 @@ By integrating with an IdP like Azure AD, we no longer need to manually manage u
     <meta property="og:title" content="Integrate Zscaler ZIA with Azure AD" />
 <meta property="og:description" content="Set Azure Active Directory (AAD) as the Identity Provider (IdP) for the Zscaler Internet Access (ZIA) service. Configure SAML Single Sign-On (SSO) and SCIM Provisioning." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/" />
-<meta property="og:image" content="https://nathancatania.com"/>
+<meta property="og:url" content="https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/" /><meta property="og:image" content="https://nathancatania.com"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-01-01T00:00:00+00:00" />
 <meta property="article:modified_time" content="2020-01-01T00:00:00+00:00" /><meta property="og:site_name" content="Nathan Catania" />
 
@@ -197,7 +191,7 @@ By integrating with an IdP like Azure AD, we no longer need to manually manage u
 <p><img src="7.png" alt="7"></p>
 <p>Next, under the <strong>All Applications</strong> menu, click <strong>New Application</strong>.</p>
 <p><img src="8.png" alt="8"></p>
-<p>In the search box to add a new application, type &ldquo;<strong>Zscaler</strong>&quot;.</p>
+<p>In the search box to add a new application, type &ldquo;<strong>Zscaler</strong>&rdquo;.</p>
 <p><img src="9.png" alt="9"></p>
 <p>Select the Zscaler application that corresponds to cloud your ZIA tenant was provisioned on. If you can&rsquo;t remember this, check the URL that you use to log into the admin portal with. For example:</p>
 <ul>
@@ -216,7 +210,7 @@ By integrating with an IdP like Azure AD, we no longer need to manually manage u
 <p>Click <strong>Upload metadata file</strong> at the top, and select the <strong>zscaler-metadata.xml</strong> file you downloaded from the ZIA admin portal earlier. This will open a panel and pre-populate some of the required info.</p>
 <p><img src="12.png" alt="12"></p>
 <p>The Sign on URL field will be empty and is required. This is the same as the pre-populated Reply URL field, so <strong>copy and paste the URL from <em>Reply URL</em> to <em>Sign on URL</em></strong>. This is of the format:</p>
-<pre><code>https://login.&lt;cloudname&gt;.net:443/sfc_sso
+<pre tabindex="0"><code>https://login.&lt;cloudname&gt;.net:443/sfc_sso
 </code></pre><p>Leave the <strong>Reply State</strong> and <strong>Logout Url</strong> fields blank.</p>
 <p><img src="13.png" alt="13"></p>
 <p>When you&rsquo;re done, click <strong>Save</strong> at the top, then X to close the panel.</p>
@@ -230,7 +224,7 @@ By integrating with an IdP like Azure AD, we no longer need to manually manage u
 <p>Close the panel by clicking X once you&rsquo;ve downloaded the certificate.</p>
 <h2 id="4---note-down-the-login-url">4 - Note down the Login URL</h2>
 <p>Expand the <strong>Configuration URLs</strong> under the <strong>5th step</strong> in the SAML configuration page, and note down/copy the <strong>Login URL</strong>: we&rsquo;ll need this later. The Login URL should be of the format:</p>
-<pre><code>https://login.microsoftonline.com/&lt;unique-token&gt;/saml2
+<pre tabindex="0"><code>https://login.microsoftonline.com/&lt;unique-token&gt;/saml2
 </code></pre><p><img src="16.png" alt="16"></p>
 <h1 id="assign-users--groups-to-the-enterprise-application">Assign Users &amp; Groups to the Enterprise Application</h1>
 <p>We now need to assign what users are authorized to use the ZIA Enterprise Application. Only the users or groups specified will be able to sign into ZIA via Microsoft SSO. If you skip this section, your user&rsquo;s won&rsquo;t be able to sign in, and you won&rsquo;t see user data populated in ZIA for you to configure policy around.</p>
@@ -410,7 +404,7 @@ By integrating with an IdP like Azure AD, we no longer need to manually manage u
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2022</span>
             
                 <span><a href="https://nathancatania.com">Nathan Catania</a></span>
             
@@ -420,7 +414,7 @@ By integrating with an IdP like Azure AD, we no longer need to manually manage u
     <div class="footer__inner">
         <div class="footer__content">
             <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
-            <span><a href="https://github.com/nathancatania/nathancatania.com">Source</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
             <span><a href="https://github.com/rhazdon">Theme</a></span>
         </div>
     </div>
@@ -434,7 +428,7 @@ By integrating with an IdP like Azure AD, we no longer need to manually manage u
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.8cc3758efe48ef82e2eb9a5f317b44c0805353a43762207be6fe8ffb05815cce7a19d37f6bf387c378a3bdfc3029981668d645374a33db4ee3480e15a4bfdc7c.js" integrity="sha512-jMN1jv5I74Li65pfMXtEwIBTU6Q3YiB75v6P&#43;wWBXM56GdN/a/OHw3ijvfwwKZgWaNZFN0oz207jSA4VpL/cfA=="></script>
 
 
 

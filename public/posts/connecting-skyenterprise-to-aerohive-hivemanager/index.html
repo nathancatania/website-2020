@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="author" content="Engineer // Melbourne // Australia hello@nathancatania.com Nathan Catania map[url:avatar.png] ">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
 <meta name="description" content="Introduction Juniper Sky Enterprise is a neat little application that can manage and provision SRX, EX, and NFX series products from Juniper Networks. Sky Enterprise also allows you to monitor (but not configure) any Aerohive APs that you have deployed, however the documentation on how to do so is hidden away on the OneConfig website.
 This post will walk through the process of adding your Aerohive APs to your Sky Enterprise inventory." />
 <meta name="keywords" content="blog, website, official, juniper, aerohive, guides" />
@@ -26,7 +26,7 @@ This post will walk through the process of adding your Aerohive APs to your Sky 
 
 
 
-<link rel="stylesheet" href="/main.c7bbcf8c9520939898c82877a1b2fc2827871e3f2c3245a3b8da29f9796264cc.css">
+<link rel="stylesheet" href="/main.9fd519a9a0b8ebf84ab7728ecdb09aca39ee8527a360809f3bcecce7bb8b7c05.css">
 
 
 
@@ -34,14 +34,9 @@ This post will walk through the process of adding your Aerohive APs to your Sky 
 
 
 <meta itemprop="name" content="Connect Juniper Sky Enterprise to Aerohive HiveManager">
-<meta itemprop="description" content="Sky Enterprise can monitor your Aerohive APs, but documentation on how to do so is a bit hard to find. This post will explain how to link Sky Enterprise to HiveManager so that you can monitor your Aerohive APs from within Sky Enterprise.">
-<meta itemprop="datePublished" content="2018-07-24T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2018-07-24T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="620">
-<meta itemprop="image" content="https://nathancatania.com"/>
-
-
-
+<meta itemprop="description" content="Sky Enterprise can monitor your Aerohive APs, but documentation on how to do so is a bit hard to find. This post will explain how to link Sky Enterprise to HiveManager so that you can monitor your Aerohive APs from within Sky Enterprise."><meta itemprop="datePublished" content="2018-07-24T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2018-07-24T00:00:00+00:00" />
+<meta itemprop="wordCount" content="620"><meta itemprop="image" content="https://nathancatania.com"/>
 <meta itemprop="keywords" content="juniper,aerohive,guides," />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://nathancatania.com"/>
@@ -54,8 +49,7 @@ This post will walk through the process of adding your Aerohive APs to your Sky 
     <meta property="og:title" content="Connect Juniper Sky Enterprise to Aerohive HiveManager" />
 <meta property="og:description" content="Sky Enterprise can monitor your Aerohive APs, but documentation on how to do so is a bit hard to find. This post will explain how to link Sky Enterprise to HiveManager so that you can monitor your Aerohive APs from within Sky Enterprise." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/" />
-<meta property="og:image" content="https://nathancatania.com"/>
+<meta property="og:url" content="https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/" /><meta property="og:image" content="https://nathancatania.com"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-07-24T00:00:00+00:00" />
 <meta property="article:modified_time" content="2018-07-24T00:00:00+00:00" /><meta property="og:site_name" content="Nathan Catania" />
 
@@ -154,17 +148,15 @@ This post will walk through the process of adding your Aerohive APs to your Sky 
 <h2 id="step-1---retrieve-your-owner-id-from-hivemanager">Step 1 - Retrieve your Owner ID from HiveManager</h2>
 <p><a href="https://cloud.aerohive.com/login">Login to Aerohive HiveManager</a> using your existing credentials.</p>
 <p>Hover over your name in the top right corner and click <strong>About HiveManager</strong></p>
-<figure>
-    <img src="1.png"
-         alt="Click &amp;lsquo;About HiveManager&amp;rsquo; to obtain your Owner ID"/> <figcaption>
+<figure><img src="1.png"
+         alt="Click &amp;lsquo;About HiveManager&amp;rsquo; to obtain your Owner ID"/><figcaption>
             <p>Click &lsquo;About HiveManager&rsquo; to obtain your Owner ID</p>
         </figcaption>
 </figure>
 
 <p>Your <strong>Owner ID</strong> is also known as your the <code>VHM Id</code>.</p>
-<figure>
-    <img src="2.png"
-         alt="Your Owner ID is the VHM Id"/> <figcaption>
+<figure><img src="2.png"
+         alt="Your Owner ID is the VHM Id"/><figcaption>
             <p>Your Owner ID is the VHM Id</p>
         </figcaption>
 </figure>
@@ -173,18 +165,16 @@ This post will walk through the process of adding your Aerohive APs to your Sky 
 <hr>
 <h2 id="step-2---generate-an-api-token-in-hivemanager">Step 2 - Generate an API Token in HiveManager</h2>
 <p>Hover over your name in the top right corner again, but this time click <strong>Global Settings</strong></p>
-<figure>
-    <img src="3.png"
-         alt="Access the Global Settings for HiveManager"/> <figcaption>
+<figure><img src="3.png"
+         alt="Access the Global Settings for HiveManager"/><figcaption>
             <p>Access the Global Settings for HiveManager</p>
         </figcaption>
 </figure>
 
 <p>Click <strong>API Token Management</strong> under <strong>API</strong> in the menu on the left. Then click the <code>+</code> button to generate a new token.</p>
 <p>In the popup, paste in the code <code>e4ba0053</code>.</p>
-<figure>
-    <img src="4.png"
-         alt="Generate the API Access Token needed in Sky Enterprise"/> <figcaption>
+<figure><img src="4.png"
+         alt="Generate the API Access Token needed in Sky Enterprise"/><figcaption>
             <p>Generate the API Access Token needed in Sky Enterprise</p>
         </figcaption>
 </figure>
@@ -197,22 +187,20 @@ This post will walk through the process of adding your Aerohive APs to your Sky 
 <hr>
 <h2 id="step-3---get-the-url-of-your-hivemanager-region">Step 3 - Get the URL of your HiveManager Region</h2>
 <p>While browsing HiveManager, note down the URL in use. Copy from the <code>https://</code> part through to the <code>.com</code></p>
-<figure>
-    <img src="5.png"
-         alt="Copy the highlighted part of the HiveManager URL"/> <figcaption>
+<figure><img src="5.png"
+         alt="Copy the highlighted part of the HiveManager URL"/><figcaption>
             <p>Copy the highlighted part of the HiveManager URL</p>
         </figcaption>
 </figure>
 
 <p>For example: For the Australian Data Center, the URL to be copied will be:</p>
-<pre><code>https://cloud-aus.aerohive.com
+<pre tabindex="0"><code>https://cloud-aus.aerohive.com
 </code></pre><hr>
 <h2 id="step-4---linking-sky-enterprise-to-hivemanager">Step 4 - Linking Sky Enterprise to HiveManager</h2>
 <p><a href="https://skyenterprise.juniper.net/">Login to Juniper Sky Enterprise</a> using your existing credentials.</p>
 <p>Click <strong>Settings</strong> in the menu bar at the top. Scroll down to the <strong>Aerohive</strong> option and tick the checkbox.</p>
-<figure>
-    <img src="6.png"
-         alt="Enable Aerohive monitoring in Sky Enterprise"/> <figcaption>
+<figure><img src="6.png"
+         alt="Enable Aerohive monitoring in Sky Enterprise"/><figcaption>
             <p>Enable Aerohive monitoring in Sky Enterprise</p>
         </figcaption>
 </figure>
@@ -227,17 +215,15 @@ This post will walk through the process of adding your Aerohive APs to your Sky 
 <hr>
 <h2 id="step-5---verify-your-aerohive-aps-can-be-viewed-in-sky-enterprise">Step 5 - Verify your Aerohive APs can be viewed in Sky Enterprise</h2>
 <p>If the above step was successful, you should now have a <strong>Wifi APs</strong> tab under the <strong>Devices</strong> menu. This will list all of the APs you have in your HiveManager inventory.</p>
-<figure>
-    <img src="7.png"
-         alt="List of APs in Sky Enterprise"/> <figcaption>
+<figure><img src="7.png"
+         alt="List of APs in Sky Enterprise"/><figcaption>
             <p>List of APs in Sky Enterprise</p>
         </figcaption>
 </figure>
 
 <p>You can click the dropdown box/link next to each AP for more information, or a link back to HiveManager.</p>
-<figure>
-    <img src="8.png"
-         alt="Viewing AP information in Sky Enterprise"/> <figcaption>
+<figure><img src="8.png"
+         alt="Viewing AP information in Sky Enterprise"/><figcaption>
             <p>Viewing AP information in Sky Enterprise</p>
         </figcaption>
 </figure>
@@ -294,7 +280,7 @@ This post will walk through the process of adding your Aerohive APs to your Sky 
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2022</span>
             
                 <span><a href="https://nathancatania.com">Nathan Catania</a></span>
             
@@ -304,7 +290,7 @@ This post will walk through the process of adding your Aerohive APs to your Sky 
     <div class="footer__inner">
         <div class="footer__content">
             <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
-            <span><a href="https://github.com/nathancatania/nathancatania.com">Source</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
             <span><a href="https://github.com/rhazdon">Theme</a></span>
         </div>
     </div>
@@ -318,7 +304,7 @@ This post will walk through the process of adding your Aerohive APs to your Sky 
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.8cc3758efe48ef82e2eb9a5f317b44c0805353a43762207be6fe8ffb05815cce7a19d37f6bf387c378a3bdfc3029981668d645374a33db4ee3480e15a4bfdc7c.js" integrity="sha512-jMN1jv5I74Li65pfMXtEwIBTU6Q3YiB75v6P&#43;wWBXM56GdN/a/OHw3ijvfwwKZgWaNZFN0oz207jSA4VpL/cfA=="></script>
 
 
 

@@ -6,24 +6,18 @@
     <description>Recent content in gaming on Nathan Catania</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>hello@nathancatania.com (Nathan Catania)</managingEditor>
-    <webMaster>hello@nathancatania.com (Nathan Catania)</webMaster>
-    <lastBuildDate>Fri, 16 Aug 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://nathancatania.com/tags/gaming/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 16 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://nathancatania.com/tags/gaming/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[How to] Upgrade your PS4 to an SSD</title>
       <link>https://nathancatania.com/posts/upgrade-your-ps4-to-an-ssd/</link>
       <pubDate>Fri, 16 Aug 2019 00:00:00 +0000</pubDate>
-      <author>hello@nathancatania.com (Nathan Catania)</author>
+      
       <guid>https://nathancatania.com/posts/upgrade-your-ps4-to-an-ssd/</guid>
       <description>This guide will work for all models of PlayStation 4, however the location of the hard-drive bay is different between models.
 Replacing your Hard Drive will NOT void your warranty and is covered in an official support article.
 Why would you want to do this? A few reasons. Namely:
-  You need more space for games. Many PS4s ship with a 500GB HDD which can be filled quickly.
-  You want faster load times.</description>
+You need more space for games. Many PS4s ship with a 500GB HDD which can be filled quickly.
+You want faster load times.</description>
     </item>
     
   </channel>

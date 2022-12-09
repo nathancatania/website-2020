@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="author" content="Engineer // Melbourne // Australia hello@nathancatania.com Nathan Catania map[url:avatar.png] ">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
 <meta name="description" content="1.0 - ZTP Overview Arguably, the best feature of Sky Enterprise is its ability to make Zero Touch Provisioning (ZTP) of Juniper devices a breeze. You no longer need to mess around with DHCP options, nor do you need to ensure your config files are accessible via FTP.
 Sky Enterprise allows you to ZTP your devices through the concept of &amp;ldquo;ZTP Templates&amp;rdquo;. A ZTP template is the Junos configuration you wish to apply to a device, exported in XML format (instead of the normal C-like syntax of Junos), with some variables added in - allowing you to re-use the same template across multiple devices." />
 <meta name="keywords" content="blog, website, official, juniper, guides" />
@@ -26,7 +26,7 @@ Sky Enterprise allows you to ZTP your devices through the concept of &amp;ldquo;
 
 
 
-<link rel="stylesheet" href="/main.c7bbcf8c9520939898c82877a1b2fc2827871e3f2c3245a3b8da29f9796264cc.css">
+<link rel="stylesheet" href="/main.9fd519a9a0b8ebf84ab7728ecdb09aca39ee8527a360809f3bcecce7bb8b7c05.css">
 
 
 
@@ -34,14 +34,9 @@ Sky Enterprise allows you to ZTP your devices through the concept of &amp;ldquo;
 
 
 <meta itemprop="name" content="ZTP Juniper devices with Sky Enterprise">
-<meta itemprop="description" content="ZTP is a great way to start down the automation path, but is often labelled &#39;too hard&#39; or &#39;too complex&#39;. This guide will cover how to ZTP Juniper devices using the Sky Enterprise management platform.">
-<meta itemprop="datePublished" content="2018-12-13T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2018-12-13T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3072">
-<meta itemprop="image" content="https://nathancatania.com"/>
-
-
-
+<meta itemprop="description" content="ZTP is a great way to start down the automation path, but is often labelled &#39;too hard&#39; or &#39;too complex&#39;. This guide will cover how to ZTP Juniper devices using the Sky Enterprise management platform."><meta itemprop="datePublished" content="2018-12-13T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2018-12-13T00:00:00+00:00" />
+<meta itemprop="wordCount" content="3073"><meta itemprop="image" content="https://nathancatania.com"/>
 <meta itemprop="keywords" content="juniper,guides," />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://nathancatania.com"/>
@@ -54,8 +49,7 @@ Sky Enterprise allows you to ZTP your devices through the concept of &amp;ldquo;
     <meta property="og:title" content="ZTP Juniper devices with Sky Enterprise" />
 <meta property="og:description" content="ZTP is a great way to start down the automation path, but is often labelled &#39;too hard&#39; or &#39;too complex&#39;. This guide will cover how to ZTP Juniper devices using the Sky Enterprise management platform." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://nathancatania.com/posts/ztp-juniper-devices-with-sky-enterprise/" />
-<meta property="og:image" content="https://nathancatania.com"/>
+<meta property="og:url" content="https://nathancatania.com/posts/ztp-juniper-devices-with-sky-enterprise/" /><meta property="og:image" content="https://nathancatania.com"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-12-13T00:00:00+00:00" />
 <meta property="article:modified_time" content="2018-12-13T00:00:00+00:00" /><meta property="og:site_name" content="Nathan Catania" />
 
@@ -219,7 +213,7 @@ Sky Enterprise allows you to ZTP your devices through the concept of &amp;ldquo;
 <p>Both options are typically present in the factory default config.</p>
 <h3 id="autoinstallation">Autoinstallation</h3>
 <p>Autoinstallation is traditional ZTP that relies on DHCP options.</p>
-<pre><code>system {
+<pre tabindex="0"><code>system {
     autoinstallation {
         traceoptions {
             level verbose;
@@ -241,7 +235,7 @@ Sky Enterprise allows you to ZTP your devices through the concept of &amp;ldquo;
 This guide will not discuss ZTP via the Autoinstallation method.</p>
 <h3 id="phone-home-client">Phone-Home Client</h3>
 <p>With the Phone-Home Client method (which both Sky Enterprise and Contrail SD-WAN use), the device will continuously call home and present its serial number to <code>redirect.juniper.net</code>.</p>
-<pre><code>system {
+<pre tabindex="0"><code>system {
     phone-home {
         server https://redirect.juniper.net;
         rfc-complaint;
@@ -249,7 +243,7 @@ This guide will not discuss ZTP via the Autoinstallation method.</p>
 }
 </code></pre><p>When you add a new ZTP device with Sky Enterprise, your device serial number is automatically added to the <code>redirect.juniper.net</code> server.</p>
 <p>When the device reaches <code>redirect.juniper.net</code>, the server checks to see if the serial number of the device is present in its database. The serial number is associated with the location (and associated certificate) the device can retrieve its configuration from - in this case, the FQDN of the bootstrap server of Sky Enterprise:</p>
-<pre><code>go.oneconfig.com/restconf/data/juniper-zerotouch-bootstrap-server:devices/device=&lt;DEVICE-SERIAL-NUMBER&gt;/notification
+<pre tabindex="0"><code>go.oneconfig.com/restconf/data/juniper-zerotouch-bootstrap-server:devices/device=&lt;DEVICE-SERIAL-NUMBER&gt;/notification
 </code></pre><p>The device will then contact and present its serial number to this new server.</p>
 <p>Sky Enterprise will not respond with the configuration of the device until an Administrator authorizes the ZTP process within the UI - this provides an additional layer of security in case the device is lost or stolen.</p>
 <p>If the device serial number is not present within <code>redirect.juniper.net</code>, the device will not be redirected anywhere and the phone-home process will continue to loop until removed from configuration.</p>
@@ -298,38 +292,38 @@ This guide will not discuss ZTP via the Autoinstallation method.</p>
 <h3 id="obtaining-your-xml-configuration">Obtaining your XML Configuration</h3>
 <p>Do not try and create your own XML config from scratch - create the config on a Junos device then export it as XML.</p>
 <p>To display your config as XML in Junos and save it to file:</p>
-<pre><code>show configuration | display xml | save /tmp/xmlconfig.xml
+<pre tabindex="0"><code>show configuration | display xml | save /tmp/xmlconfig.xml
 </code></pre><p>Get the saved file from Junos:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">scp username@device-hostname:/tmp/xmlconfig.xml ~/path/to/save/file/to
-</code></pre></div><h3 id="overriding-existing-configuration">Overriding Existing Configuration</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>scp username@device-hostname:/tmp/xmlconfig.xml ~/path/to/save/file/to
+</span></span></code></pre></div><h3 id="overriding-existing-configuration">Overriding Existing Configuration</h3>
 <p>Currently SkyEnterprise cannot override any existing configuration (ie: the factory default configuration).</p>
 <p>The current workaround is to delete the section of config you wish to override, and then re-add your new config.</p>
 <p>To delete sections of config in XML, add the <code>delete</code> parameter to a parent XML tag. For example:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;device</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://juniper.net/zerotouch-bootstrap-server&#34;</span><span style="color:#f92672">&gt;</span>
-  ...
-  <span style="color:#f92672">&lt;configuration&gt;</span>
-    <span style="color:#f92672">&lt;config&gt;</span>
-      <span style="color:#f92672">&lt;configuration&gt;</span>
-         ...
-         ...
-         <span style="color:#f92672">&lt;security</span> <span style="color:#a6e22e">delete=</span><span style="color:#e6db74">&#34;delete&#34;</span><span style="color:#f92672">/&gt;</span>
-         <span style="color:#f92672">&lt;security&gt;</span>
-            <span style="color:#f92672">&lt;log&gt;</span>
-               <span style="color:#f92672">&lt;mode&gt;</span>stream<span style="color:#f92672">&lt;/mode&gt;</span>
-               <span style="color:#f92672">&lt;report&gt;&lt;/report&gt;</span>
-            <span style="color:#f92672">&lt;/log&gt;</span>
-            <span style="color:#f92672">&lt;pki&gt;</span>
-               ...
-            <span style="color:#f92672">&lt;/pki&gt;</span>
-         <span style="color:#f92672">&lt;/security&gt;</span>
-         ...
-         ...
-      <span style="color:#f92672">&lt;/configuration&gt;</span>
-    <span style="color:#f92672">&lt;/config&gt;</span>
-  <span style="color:#f92672">&lt;/configuration&gt;</span>
-
-<span style="color:#f92672">&lt;/device&gt;</span>
-</code></pre></div><p>Sections of the snippet above have been omitted for brevity.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;device</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://juniper.net/zerotouch-bootstrap-server&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  ...
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;configuration&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;config&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;configuration&gt;</span>
+</span></span><span style="display:flex;"><span>         ...
+</span></span><span style="display:flex;"><span>         ...
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">&lt;security</span> <span style="color:#a6e22e">delete=</span><span style="color:#e6db74">&#34;delete&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">&lt;security&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;log&gt;</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#f92672">&lt;mode&gt;</span>stream<span style="color:#f92672">&lt;/mode&gt;</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#f92672">&lt;report&gt;&lt;/report&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/log&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;pki&gt;</span>
+</span></span><span style="display:flex;"><span>               ...
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/pki&gt;</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">&lt;/security&gt;</span>
+</span></span><span style="display:flex;"><span>         ...
+</span></span><span style="display:flex;"><span>         ...
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;/configuration&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/config&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/configuration&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/device&gt;</span>
+</span></span></code></pre></div><p>Sections of the snippet above have been omitted for brevity.</p>
 <p>In the example above, everything under the original <code>security</code> section of the config is deleted. A user defined <code>security</code> config is then added.</p>
 <h3 id="variables">Variables</h3>
 <p>There wouldn&rsquo;t be much point to ZTP if the same hardcoded config had to be used for every device. Likewise, it would be tedious to have to upload a different config for every device you wish to provision.</p>
@@ -339,8 +333,8 @@ This guide will not discuss ZTP via the Autoinstallation method.</p>
 <h4 id="format">Format</h4>
 <p>Sky Enterprise uses Jinja templating to render ZTP templates.</p>
 <p>To create a variable, enclose the name of the variable within <strong>two</strong> curly brackets. For example:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#75715e">{{</span> management_ip_and_cidr <span style="color:#75715e">}}</span>
-</code></pre></div><p>When you assign the template to a device, Sky Enterprise will prompt you to fill in a value for the <code>management_ip_and_cidr</code> variable.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jinja" data-lang="jinja"><span style="display:flex;"><span><span style="color:#75715e">{{</span> management_ip_and_cidr <span style="color:#75715e">}}</span>
+</span></span></code></pre></div><p>When you assign the template to a device, Sky Enterprise will prompt you to fill in a value for the <code>management_ip_and_cidr</code> variable.</p>
 <h4 id="rules-and-restrictions">Rules and Restrictions</h4>
 <p>When naming your variables, remember KISS (Keep It Simple Stupid):</p>
 <ul>
@@ -355,74 +349,72 @@ This guide will not discuss ZTP via the Autoinstallation method.</p>
 <p>You should ensure that any ZTP template you create includes the configuration required for the device to communicate back to Sky Enterprise.</p>
 <p>NB: The example ZTP templates from the section above already include this.</p>
 <p>The following variables are reserved by Sky Enterprise and are automatically pre-filled when rendering the configuration from the template.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#75715e">{{</span> ztp_username <span style="color:#75715e">}}</span>
-<span style="color:#75715e">{{</span> ztp_password <span style="color:#75715e">}}</span>
-<span style="color:#75715e">{{</span> ztp_host_id <span style="color:#75715e">}}</span>
-<span style="color:#75715e">{{</span> ztp_secret <span style="color:#75715e">}}</span>
-</code></pre></div><h2 id="example-ztp-template-with-variables">Example ZTP Template with Variables</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jinja" data-lang="jinja"><span style="display:flex;"><span><span style="color:#75715e">{{</span> ztp_username <span style="color:#75715e">}}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">{{</span> ztp_password <span style="color:#75715e">}}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">{{</span> ztp_host_id <span style="color:#75715e">}}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">{{</span> ztp_secret <span style="color:#75715e">}}</span>
+</span></span></code></pre></div><h2 id="example-ztp-template-with-variables">Example ZTP Template with Variables</h2>
 <p>The config snippet below describes how to use the variables within a template. You can view the full example here.</p>
 <p>This example config is for an SRX device, and simply sets the hostname, DNS nameservers, <code>fxp0</code> management interface, and a default route to the gateway. Parts of the config (like the root password, and Sky Enterprise specific config) have been omitted.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;device</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://juniper.net/zerotouch-bootstrap-server&#34;</span><span style="color:#f92672">&gt;</span>
-  <span style="color:#f92672">&lt;unique-id&gt;</span>{{ serial }}<span style="color:#f92672">&lt;/unique-id&gt;</span>
-  <span style="color:#f92672">&lt;configuration&gt;</span>
-    <span style="color:#f92672">&lt;config&gt;</span>
-      <span style="color:#f92672">&lt;configuration&gt;</span>
-        <span style="color:#f92672">&lt;system&gt;</span>
-          <span style="color:#f92672">&lt;host-name&gt;</span>{{ hostname }}<span style="color:#f92672">&lt;/host-name&gt;</span>
-          <span style="color:#f92672">&lt;name-server&gt;</span>
-            <span style="color:#f92672">&lt;name&gt;</span>{{ dns_server_1 }}<span style="color:#f92672">&lt;/name&gt;</span>
-          <span style="color:#f92672">&lt;/name-server&gt;</span>
-          <span style="color:#f92672">&lt;name-server&gt;</span>
-            <span style="color:#f92672">&lt;name&gt;</span>{{ dns_server_2 }}<span style="color:#f92672">&lt;/name&gt;</span>
-          <span style="color:#f92672">&lt;/name-server&gt;</span>
-        <span style="color:#f92672">&lt;/system&gt;</span>
-        <span style="color:#f92672">&lt;interfaces&gt;</span>
-           <span style="color:#f92672">&lt;interface</span> <span style="color:#a6e22e">delete=</span><span style="color:#e6db74">&#34;delete&#34;</span><span style="color:#f92672">/&gt;</span>
-              <span style="color:#f92672">&lt;name&gt;</span>fxp0<span style="color:#f92672">&lt;/name&gt;</span>
-           <span style="color:#f92672">&lt;/interface&gt;</span>
-           <span style="color:#f92672">&lt;interface&gt;</span>
-              <span style="color:#f92672">&lt;name&gt;</span>fxp0<span style="color:#f92672">&lt;/name&gt;</span>
-              <span style="color:#f92672">&lt;unit&gt;</span>
-                 <span style="color:#f92672">&lt;name&gt;</span>0<span style="color:#f92672">&lt;/name&gt;</span>
-                 <span style="color:#f92672">&lt;family&gt;</span>
-                    <span style="color:#f92672">&lt;inet&gt;</span>
-                       <span style="color:#f92672">&lt;address&gt;</span>
-                          <span style="color:#f92672">&lt;name&gt;</span>{{ oob_management_ip_and_cidr }}<span style="color:#f92672">&lt;/name&gt;</span>
-                       <span style="color:#f92672">&lt;/address&gt;</span>
-                    <span style="color:#f92672">&lt;/inet&gt;</span>
-                 <span style="color:#f92672">&lt;/family&gt;</span>
-              <span style="color:#f92672">&lt;/unit&gt;</span>
-           <span style="color:#f92672">&lt;/interface&gt;</span>
-        <span style="color:#f92672">&lt;/interfaces&gt;</span>
-        <span style="color:#f92672">&lt;routing-options&gt;</span>
-           <span style="color:#f92672">&lt;static&gt;</span>
-              <span style="color:#f92672">&lt;route&gt;</span>
-                 <span style="color:#f92672">&lt;name&gt;</span>0.0.0.0/0<span style="color:#f92672">&lt;/name&gt;</span>
-                 <span style="color:#f92672">&lt;next-hop&gt;</span>{{ gateway_ip }}<span style="color:#f92672">&lt;/next-hop&gt;</span>
-              <span style="color:#f92672">&lt;/route&gt;</span>
-            <span style="color:#f92672">&lt;/static&gt;</span>
-        <span style="color:#f92672">&lt;/routing-options&gt;</span>
-      <span style="color:#f92672">&lt;/configuration&gt;</span>
-    <span style="color:#f92672">&lt;/config&gt;</span>
-  <span style="color:#f92672">&lt;/configuration&gt;</span>
-<span style="color:#f92672">&lt;/device&gt;</span>
-</code></pre></div><p>Now, when deploying this template to SkyEnterprise, we will be prompted to fill in values for each of the above variables.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;device</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://juniper.net/zerotouch-bootstrap-server&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;unique-id&gt;</span>{{ serial }}<span style="color:#f92672">&lt;/unique-id&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;configuration&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;config&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;configuration&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;system&gt;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&lt;host-name&gt;</span>{{ hostname }}<span style="color:#f92672">&lt;/host-name&gt;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&lt;name-server&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;name&gt;</span>{{ dns_server_1 }}<span style="color:#f92672">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&lt;/name-server&gt;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&lt;name-server&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;name&gt;</span>{{ dns_server_2 }}<span style="color:#f92672">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&lt;/name-server&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/system&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;interfaces&gt;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#f92672">&lt;interface</span> <span style="color:#a6e22e">delete=</span><span style="color:#e6db74">&#34;delete&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&lt;name&gt;</span>fxp0<span style="color:#f92672">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#f92672">&lt;/interface&gt;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#f92672">&lt;interface&gt;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&lt;name&gt;</span>fxp0<span style="color:#f92672">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&lt;unit&gt;</span>
+</span></span><span style="display:flex;"><span>                 <span style="color:#f92672">&lt;name&gt;</span>0<span style="color:#f92672">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span>                 <span style="color:#f92672">&lt;family&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;inet&gt;</span>
+</span></span><span style="display:flex;"><span>                       <span style="color:#f92672">&lt;address&gt;</span>
+</span></span><span style="display:flex;"><span>                          <span style="color:#f92672">&lt;name&gt;</span>{{ oob_management_ip_and_cidr }}<span style="color:#f92672">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span>                       <span style="color:#f92672">&lt;/address&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;/inet&gt;</span>
+</span></span><span style="display:flex;"><span>                 <span style="color:#f92672">&lt;/family&gt;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&lt;/unit&gt;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#f92672">&lt;/interface&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/interfaces&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;routing-options&gt;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#f92672">&lt;static&gt;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&lt;route&gt;</span>
+</span></span><span style="display:flex;"><span>                 <span style="color:#f92672">&lt;name&gt;</span>0.0.0.0/0<span style="color:#f92672">&lt;/name&gt;</span>
+</span></span><span style="display:flex;"><span>                 <span style="color:#f92672">&lt;next-hop&gt;</span>{{ gateway_ip }}<span style="color:#f92672">&lt;/next-hop&gt;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&lt;/route&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/static&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/routing-options&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;/configuration&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/config&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/configuration&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/device&gt;</span>
+</span></span></code></pre></div><p>Now, when deploying this template to SkyEnterprise, we will be prompted to fill in values for each of the above variables.</p>
 <p>Sky Enterprise will then render the template with these variables and push the config to the device when it contacts the phone-home server.</p>
 <p>Note that the <code>fxp0</code> interface is first deleted and then re-added via the template config. This is in case there is an existing <code>fxp0</code> configuration (as is the case with most factory default configs).</p>
 <h2 id="loading-the-template-into-sky-enterprise">Loading the Template into Sky Enterprise</h2>
 <p>Once you have your template completed, you&rsquo;re ready to load it into Sky Enterprise.</p>
 <p>From the Sky Enterprise UI, navigate to <code>CONFIGURATION</code> &gt; <code>ZTP</code>:</p>
-<figure>
-    <img src="1.png"
-         alt="Navigate to the ZTP tab under Configuration"/> <figcaption>
+<figure><img src="1.png"
+         alt="Navigate to the ZTP tab under Configuration"/><figcaption>
             <p>Navigate to the ZTP tab under Configuration</p>
         </figcaption>
 </figure>
 
 <p>Click <code>Add ZTP Template</code>. Here you will give your template a name, description, and paste the entire ZTP template (in XML) that you created above.</p>
-<figure>
-    <img src="2.png"
-         alt="Paste in your ZTP template and give it a name"/> <figcaption>
+<figure><img src="2.png"
+         alt="Paste in your ZTP template and give it a name"/><figcaption>
             <p>Paste in your ZTP template and give it a name</p>
         </figcaption>
 </figure>
@@ -430,9 +422,8 @@ This guide will not discuss ZTP via the Autoinstallation method.</p>
 <h2 id="provisioning-a-new-device">Provisioning a New Device</h2>
 <p>Next, you will use your new template to Zero Touch a new device.</p>
 <p>From the UI, navigate to <code>HOME</code> &gt; <code>DEVICES</code>:</p>
-<figure>
-    <img src="3.png"
-         alt="To add a new device, navigate to the Devices tab under Home"/> <figcaption>
+<figure><img src="3.png"
+         alt="To add a new device, navigate to the Devices tab under Home"/><figcaption>
             <p>To add a new device, navigate to the Devices tab under Home</p>
         </figcaption>
 </figure>
@@ -447,9 +438,8 @@ This guide will not discuss ZTP via the Autoinstallation method.</p>
 <li>Populate any variables.</li>
 <li>Click <code>Create Device</code></li>
 </ol>
-<figure>
-    <img src="4.png"
-         alt="Populate details for your ZTP device"/> <figcaption>
+<figure><img src="4.png"
+         alt="Populate details for your ZTP device"/><figcaption>
             <p>Populate details for your ZTP device</p>
         </figcaption>
 </figure>
@@ -463,17 +453,15 @@ The device will not be able to obtain its configuration otherwise as the correct
 <p>Sky Enterprise is usually quite quick about adding the Serial Number to the redirect server, but this can take up to 15 minutes.</p>
 <p>Navigate back to <code>CONFIGURATION</code> &gt; <code>ZTP</code>. Your device&rsquo;s status is reflected here. If the device has successfully contacted Sky Enterprise, the state field should be <code>Authorization Required</code>. For security reasons, Sky Enterprise will not push the configuration to the device until you or another admin authorizes the ZTP process.</p>
 <p>To initiate the ZTP process, click the menu icon next to the device name, and select <code>Authorize</code>.</p>
-<figure>
-    <img src="5.png"
-         alt="Authorize the ZTP process"/> <figcaption>
+<figure><img src="5.png"
+         alt="Authorize the ZTP process"/><figcaption>
             <p>Authorize the ZTP process</p>
         </figcaption>
 </figure>
 
 <p>If you have email notifications configured, Sky Enterprise will notify you that a device has requested authorization to ZTP.</p>
-<figure>
-    <img src="6.png"
-         alt="Email notification for ZTP"/> <figcaption>
+<figure><img src="6.png"
+         alt="Email notification for ZTP"/><figcaption>
             <p>Email notification for ZTP</p>
         </figcaption>
 </figure>
@@ -501,21 +489,21 @@ Event Policies are the answer!</p>
 <h2 id="find-an-event-to-trigger-event-policy">Find an Event to Trigger Event Policy</h2>
 <p>First, locate an appropriate event (usually a Syslog event) to trigger your Event Policy.</p>
 <p>To obtain a complete list of all events that a policy can be triggered with, use the following command in Configuration Mode (this might be slow):</p>
-<pre><code>set event-options policy test-policy1 events ?
+<pre tabindex="0"><code>set event-options policy test-policy1 events ?
 </code></pre><p>The <code>?</code> at the end of the command will load the complete list of all event triggers.</p>
 <p>Ideally, you want to pick an event that would not be encountered again once the required commands have been run (or Stage 2 config applied).</p>
 <p>For the example mentioned in the section above, if we try and bring up an IPsec VPN without any of the required PKI present, we will see the event <code>pkid_no_keypair</code> in the messages log. We can use this as an Event Policy trigger event.</p>
 <p>A good method of finding events that you can trigger on is to apply your config to a test device, and watch the <code>messages</code> log to see what events/warnings/errors occur. You can&rsquo;t trigger on everything here (the event must be in the list obtained above), but it is a good starting point to determine what issues your device is having as a result of not running the appropriate commands.</p>
-<pre><code>show log messages | last 50
+<pre tabindex="0"><code>show log messages | last 50
 </code></pre><h2 id="configuring-an-event-policy">Configuring an Event Policy</h2>
 <p>The following is an example of an Event Policy:</p>
-<pre><code>event-options {
+<pre tabindex="0"><code>event-options {
     policy ca_request {
         events pkid_no_keypair;
         then {
             execute-commands {
                 commands {
-                    &quot;op url https://raw.githubusercontent.com/nathancatania/Junos-Notes/master/POCs/SDWAN_Lite/enrol.slax&quot;;
+                    &#34;op url https://raw.githubusercontent.com/nathancatania/Junos-Notes/master/POCs/SDWAN_Lite/enrol.slax&#34;;
                 }
             }
         }
@@ -526,7 +514,7 @@ Event Policies are the answer!</p>
 <p>There is a small caveat to this:
 <!-- raw HTML omitted -->Commands in the Event Policy are bound by a character limit. If your command exceeds the limit, the policy will not commit. The workaround to this is to run the command via a script.</p>
 <p>If you examine the script above, you will see that it runs 3x Operational Mode commands:</p>
-<pre><code>request security pki ca-certificate enroll ca-profile sdwan-profile
+<pre tabindex="0"><code>request security pki ca-certificate enroll ca-profile sdwan-profile
 
 request security pki generate-key-pair certificate-id sdwan-local
 
@@ -544,15 +532,15 @@ request security pki local-certificate enroll ca-profile sdwan-profile certifica
 <h1 id="40---troubleshooting">4.0 - Troubleshooting</h1>
 <h2 id="checking-logs">Checking Logs</h2>
 <p>If you find you are having issues with the ZTP process, examining the <code>messages</code> log can assist with troubleshooting:</p>
-<pre><code>show log messages | match phone-home | last 50
+<pre tabindex="0"><code>show log messages | match phone-home | last 50
 </code></pre><p>For more in-depth detail, you can modify the phone-home client to enable <code>traceoptions</code> (AKA debug logging):</p>
-<pre><code>set system phone-home traceoptions flag all
+<pre tabindex="0"><code>set system phone-home traceoptions flag all
 set system phone-home traceoptions file phc.log
 </code></pre><p>This will log detailed output from the phone-home client to a log file called <code>phc.log</code>. To examine this file:</p>
-<pre><code>show log phc.log | last
+<pre tabindex="0"><code>show log phc.log | last
 </code></pre><h2 id="failed-configuration">Failed Configuration</h2>
 <p>If your configuration failed to apply, you will see something like this in the <code>messages</code> log:</p>
-<pre><code>root@srx340&gt; show log messages | last
+<pre tabindex="0"><code>root@srx340&gt; show log messages | last
 [...]
 May 14 02:17:29  srx340 phone-home: phcd_platform_junos_commit: Read:error: configuration check-out failed
 May 14 02:17:29  srx340 phone-home: phcd_platform_junos_apply_config: vnf_name:Local config failed!
@@ -562,7 +550,7 @@ May 14 02:17:29  srx340 phone-home: The stage1 configuration failed to committed
 <p>This is usually due to a malformed or invalid XML config.</p>
 <h2 id="srx-troubleshooting">SRX Troubleshooting</h2>
 <p>The SRX has a few quirks that may cause issues for you when attempting ZTP.</p>
-<pre><code>******
+<pre tabindex="0"><code>******
 May 14 02:17:29  srx340 phone-home: phcd_platform_junos_commit: Read:error: AUTHENTICATION service may not be de-configured while clients are present. Please clear bindings
 ******
 May 14 02:17:29  srx340 phone-home: phcd_platform_junos_commit: Read:error: configuration check-out failed
@@ -582,7 +570,7 @@ May 14 02:17:29  srx340 phone-home: The stage1 configuration failed to committed
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/juniper">juniper</a></span><span class="tag"><a href="https://nathancatania.com/tags/guides">guides</a></span>
                 </p>
 
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>3072 Words</p>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>3073 Words</p>
 
             <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2018-12-13</p>
         </div>
@@ -623,7 +611,7 @@ May 14 02:17:29  srx340 phone-home: The stage1 configuration failed to committed
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
+            <span>&copy; 2022</span>
             
                 <span><a href="https://nathancatania.com">Nathan Catania</a></span>
             
@@ -633,7 +621,7 @@ May 14 02:17:29  srx340 phone-home: The stage1 configuration failed to committed
     <div class="footer__inner">
         <div class="footer__content">
             <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
-            <span><a href="https://github.com/nathancatania/nathancatania.com">Source</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
             <span><a href="https://github.com/rhazdon">Theme</a></span>
         </div>
     </div>
@@ -647,7 +635,7 @@ May 14 02:17:29  srx340 phone-home: The stage1 configuration failed to committed
 
 
 
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.8cc3758efe48ef82e2eb9a5f317b44c0805353a43762207be6fe8ffb05815cce7a19d37f6bf387c378a3bdfc3029981668d645374a33db4ee3480e15a4bfdc7c.js" integrity="sha512-jMN1jv5I74Li65pfMXtEwIBTU6Q3YiB75v6P&#43;wWBXM56GdN/a/OHw3ijvfwwKZgWaNZFN0oz207jSA4VpL/cfA=="></script>
 
 
 

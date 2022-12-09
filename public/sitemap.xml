@@ -1,143 +1,165 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
+    <loc>https://nathancatania.com/posts/deploy-netskope-cloud-exchange/</loc>
+    <lastmod>2022-12-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/docker/</loc>
+    <lastmod>2022-12-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/guides/</loc>
+    <lastmod>2022-12-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/</loc>
+    <lastmod>2022-12-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/netskope/</loc>
+    <lastmod>2022-12-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/posts/</loc>
+    <lastmod>2022-12-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/</loc>
+    <lastmod>2022-12-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/guide/</loc>
+    <lastmod>2022-10-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/posts/netskope-quick-start/</loc>
+    <lastmod>2022-10-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/sase/</loc>
+    <lastmod>2022-10-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/posts/deploy-guacamole-ssl-saml/</loc>
+    <lastmod>2022-07-31T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/guacamole/</loc>
+    <lastmod>2022-07-31T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/remote-access/</loc>
+    <lastmod>2022-07-31T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/ssl/</loc>
+    <lastmod>2022-07-31T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/sso/</loc>
+    <lastmod>2022-07-31T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://nathancatania.com/tags/azure/</loc>
-    <lastmod>2020-01-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2022-03-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/posts/sso-cloud-exchange/</loc>
+    <lastmod>2022-03-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/lab/</loc>
+    <lastmod>2022-03-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/notes/</loc>
+    <lastmod>2022-03-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/okta/</loc>
+    <lastmod>2022-03-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/posts/deploy-zapp-mobile-with-intune/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/intune/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/zscaler/</loc>
+    <lastmod>2020-10-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/posts/deploy-zapp-with-intune/</loc>
+    <lastmod>2020-10-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/sentinel/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/zia/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/posts/integrate-zia-and-mcas/</loc>
+    <lastmod>2020-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/mcas/</loc>
+    <lastmod>2020-07-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/posts/deploy-zscaler-nss-in-azure/</loc>
+    <lastmod>2020-06-29T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/cloudflare/</loc>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/posts/pihole-dns-doh/</loc>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/dns/</loc>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/homelab/</loc>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://nathancatania.com/tags/raspberry-pi/</loc>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://nathancatania.com/posts/deploying-zpa-zen-connectors/</loc>
     <lastmod>2020-01-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nathancatania.com/tags/lab/</loc>
-    <lastmod>2020-01-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nathancatania.com/</loc>
-    <lastmod>2020-01-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nathancatania.com/tags/notes/</loc>
-    <lastmod>2020-01-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nathancatania.com/posts/</loc>
-    <lastmod>2020-01-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nathancatania.com/tags/</loc>
-    <lastmod>2020-01-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nathancatania.com/tags/zscaler/</loc>
-    <lastmod>2020-01-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/</loc>
     <lastmod>2020-01-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/</loc>
     <lastmod>2020-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nathancatania.com/tags/guides/</loc>
-    <lastmod>2019-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/posts/set-up-azure-active-directory-for-your-homelab/</loc>
     <lastmod>2019-12-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/</loc>
     <lastmod>2019-12-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/tags/windows/</loc>
     <lastmod>2019-12-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/posts/upgrade-your-ps4-to-an-ssd/</loc>
     <lastmod>2019-08-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/tags/gaming/</loc>
     <lastmod>2019-08-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/tags/juniper/</loc>
     <lastmod>2018-12-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/posts/ztp-juniper-devices-with-sky-enterprise/</loc>
     <lastmod>2018-12-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/tags/aerohive/</loc>
     <lastmod>2018-07-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/</loc>
     <lastmod>2018-07-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/</loc>
     <lastmod>2018-02-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/</loc>
     <lastmod>2017-12-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nathancatania.com/tags/docker/</loc>
-    <lastmod>2017-12-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/tags/kafka/</loc>
     <lastmod>2017-12-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/tags/networking/</loc>
     <lastmod>2017-12-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/posts/installing-docker-on-red-hat-with-no-internet-access/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/blog/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nathancatania.com/series/</loc>
   </url>
-  
 </urlset>

@@ -6,34 +6,39 @@
     <description>Recent content in docker on Nathan Catania</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <managingEditor>hello@nathancatania.com (Nathan Catania)</managingEditor>
-    <webMaster>hello@nathancatania.com (Nathan Catania)</webMaster>
-    <lastBuildDate>Fri, 15 Dec 2017 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://nathancatania.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Fri, 09 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://nathancatania.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy Netskope Cloud Exchange</title>
+      <link>https://nathancatania.com/posts/deploy-netskope-cloud-exchange/</link>
+      <pubDate>Fri, 09 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://nathancatania.com/posts/deploy-netskope-cloud-exchange/</guid>
+      <description>The thoughts, and opinions in this post are my own and do not reflect those of Netskope. All content in this post is my own and is not endorsed by Netskope. Please follow this guide at your own risk.
+Changelog:
+1st Mar, 2022: Initial post 7th Dec, 2022: Updated guide for Cloud Exchange 4.0. What is Cloud Exchange? Cloud Exchange (CE) is a platform (free for all Netskope customers) that facilitates the exchange of information between your various security and operations platforms.</description>
+    </item>
     
     <item>
       <title>Deploy a multi-node, multi-server Kafka Cluster with Docker</title>
       <link>https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/</link>
       <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
-      <author>hello@nathancatania.com (Nathan Catania)</author>
+      
       <guid>https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/</guid>
       <description>What is Kafka? Essentially:
- Kafka is an open-source, very scalable, distributed messaging platform by Apache. It is designed to handle large volumes of data in real-time efficiently.
- Kafka works on the concept of a &amp;ldquo;publish-subscribe&amp;rdquo; methodology:
- &amp;ldquo;Producers&amp;rdquo; will push content to the Kafka cluster, to a destination &amp;ldquo;topic&amp;rdquo;. A Kafka cluster is managed by Zookeeper, and can contain one or more &amp;ldquo;Brokers&amp;rdquo;. Brokers manage topics and the associated ingress and egress messages.</description>
+Kafka is an open-source, very scalable, distributed messaging platform by Apache. It is designed to handle large volumes of data in real-time efficiently.
+Kafka works on the concept of a &amp;ldquo;publish-subscribe&amp;rdquo; methodology:
+&amp;ldquo;Producers&amp;rdquo; will push content to the Kafka cluster, to a destination &amp;ldquo;topic&amp;rdquo;. A Kafka cluster is managed by Zookeeper, and can contain one or more &amp;ldquo;Brokers&amp;rdquo;. Brokers manage topics and the associated ingress and egress messages.</description>
     </item>
     
     <item>
       <title>Installing Docker CE on an Air Gapped RHEL system</title>
       <link>https://nathancatania.com/posts/installing-docker-on-red-hat-with-no-internet-access/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
-      <author>hello@nathancatania.com (Nathan Catania)</author>
+      
       <guid>https://nathancatania.com/posts/installing-docker-on-red-hat-with-no-internet-access/</guid>
       <description>Introduction I recently completed a deployment inside a customer&amp;rsquo;s lab involving several containerized services, in which the server instances provided were not permitted to have direct access to the internet. To add to the issue, the instances themselves were running RHEL 7.3 with no active subscription.
 There were several problems in play here:
- Docker only make their Enterprise Edition (EE) compatible with RHEL. The usual free Community Edition (CE) is not officially supported.</description>
+Docker only make their Enterprise Edition (EE) compatible with RHEL. The usual free Community Edition (CE) is not officially supported.</description>
     </item>
     
   </channel>

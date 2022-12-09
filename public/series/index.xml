@@ -5,12 +5,6 @@
     <link>https://nathancatania.com/series/</link>
     <description>Recent content in Series on Nathan Catania</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <managingEditor>hello@nathancatania.com (Nathan Catania)</managingEditor>
-    <webMaster>hello@nathancatania.com (Nathan Catania)</webMaster>
-    
-	<atom:link href="https://nathancatania.com/series/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>en-us</language><atom:link href="https://nathancatania.com/series/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
