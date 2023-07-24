@@ -1,4 +1,4 @@
-ndex.---
+---
 title: "Insecure Kubernetes for Evaluation Purposes"
 date: 2023-07-24
 description: "This post covers my notes for deploying an app using Kubernetes insecurely for the purposes of evaluating cloud security services."
