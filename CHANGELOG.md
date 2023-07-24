@@ -3,10 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 ## 2022-12-09
+- New post: Insecure Kubernetes for Evaluation Purposes
 
-* Updated post: Deploy Netskope Cloud Exchange
-  * Updated the post to work with Cloud Exchange v4 as there were several installation changes from v3.
-* Updated build to use latest Hugo version
+## 2022-12-09
+
+- Updated post: Deploy Netskope Cloud Exchange
+  - Updated the post to work with Cloud Exchange v4 as there were several installation changes from v3.
+- Updated build to use latest Hugo version
 
 ## 2022-10-12
 
