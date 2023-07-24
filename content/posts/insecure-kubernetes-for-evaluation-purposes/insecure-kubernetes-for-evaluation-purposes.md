@@ -81,11 +81,11 @@ Next, we need to configure AWS CLI and authenticate it with our AWS account:
 
 2. Scroll down to the *Access keys* section and select **Create access key**.
 
-   ![13](13.png)
+![13](13.png)
 
 3. Note down both the **Access key** and **Secret access key** (the Secret access key will not be shown again after you leave this page). Click **Done**.
 
-   ![14](14.png)
+![14](14.png)
 
 4. Run the following command to authenticate the AWS CLI using your Access key and Secret access key:
 
@@ -456,7 +456,7 @@ Amazon has instructions on how to do this for EKS [here](https://docs.aws.amazon
 5. On the *Add permissions* screen, don't change anything, just click **Next** again.
 6. On the next screen, set the role name as `eksClusterRole` and make sure that you see `AmazonEKSClusterPolicy` listed as a policy name under the *Add permissions* table. Click **Create role** when you are ready to finish configuration.
 
-   ![32](32.png)
+![32](32.png)
 
 #### Create an IAM Role for the Worker Node Group
 
@@ -568,7 +568,8 @@ kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   107m
 In this step we will create the worker nodes that the master kubernetes node (deployed above) will orchestrate. A node group is simply a collection of worker nodes.
 
 1. From the `testing-cluster` details page, click the **Compute** tab, then under *Node groups*, click **Add node group**:
-   ![15](15.png)
+
+![15](15.png)
 
 2. Set the node group *name* to **node_group1**.
 3. For *Node IAM role*, select the **EKSWorkerNodePolicy** role created earlier, then click **Next**.
@@ -588,7 +589,7 @@ In this step we will create the worker nodes that the master kubernetes node (de
    * Check the box **Configure remote access to nodes**. This is useful for troubleshooting, but does increase our attack surface a bit. When prompted, select the same EC2 key pair used for the MongoDB VM from before, and the same security group, **mgmt-access**. The latter will restrict remote access to only our own IP address.
    * Click **Next** to continue.
 
-   ![36](36.png)
+![36](36.png)
 
 6. When you have finished reviewing the configuration, click **Create** to finish. This will begin the process to create the worker node(s) according to our config (which may take several minutes).
 
