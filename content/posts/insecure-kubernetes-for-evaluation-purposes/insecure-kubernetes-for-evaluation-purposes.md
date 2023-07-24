@@ -81,11 +81,11 @@ Next, we need to configure AWS CLI and authenticate it with our AWS account:
 
 2. Scroll down to the *Access keys* section and select **Create access key**.
 
-   ![13](/Users/nathan/Documents/notes/july-2023-technical-task/13.png)
+   ![13](13.png)
 
 3. Note down both the **Access key** and **Secret access key** (the Secret access key will not be shown again after you leave this page). Click **Done**.
 
-   ![14](/Users/nathan/Documents/notes/july-2023-technical-task/14.png)
+   ![14](14.png)
 
 4. Run the following command to authenticate the AWS CLI using your Access key and Secret access key:
 
@@ -164,7 +164,7 @@ If you have an existing keypair on your local system, you can use that, otherwis
   (this is not a real public key)
   ```
 
-![5](/Users/nathan/Documents/notes/july-2023-technical-task/5.png)
+![5](5.png)
 
 #### Deploy the VM
 
@@ -172,7 +172,7 @@ If you have an existing keypair on your local system, you can use that, otherwis
 2. Set the name of the VM to `MongoDB`
 3. When prompted to select an OS / AMI image, select **Browse more AMIs**.
 
-![3](/Users/nathan/Documents/notes/july-2023-technical-task/3.png)
+![3](3.png)
 
 3. Click the **Community AMIs** tab, then search for `ami-0e554a91eb4e7b6d7` (the AMI ID of the Ubuntu Server 16.04 LTS image we need). 
 
@@ -180,11 +180,11 @@ If you have an existing keypair on your local system, you can use that, otherwis
 
    * Alternatively, search for `ubuntu 16.04 amd64` and select an available AMI. Be mindful of the publish dates: the more out-of-date, the better.
 
-![1](/Users/nathan/Documents/notes/july-2023-technical-task/1.png)
+![1](1.png)
 
 4. Back on the main **Launch an instance** screen, under** **Instance type**, select the cheapest instance with 1 vCPU and 1GB memory. At the time of posting this is `t2.micro` which is also eligible for the AWS Free Tier.
 
-![2](/Users/nathan/Documents/notes/july-2023-technical-task/2.png)
+![2](2.png)
 
 5. Under the **Key pair** section, select either an existing public key, or the name of the public key you uploaded earlier.
 
@@ -203,12 +203,12 @@ If you have an existing keypair on your local system, you can use that, otherwis
 
      WARNING: In practice, this is not recommended for internal services and your should close off ALL public exposure to the VM to ensure it is secured. VMs should be managed via an inside-out ZTNA service like Cloudflare, Zscaler, or Tailscale to ensure that *nothing* is exposed directly to the internet.
 
-![6](/Users/nathan/Documents/notes/july-2023-technical-task/6.png)
+![6](6.png)
 
 7. Under **Configure storage**, set the root volume to 15GB of `gp2` storage.
 8. Finished! When you are ready to deploy the VM, click **Launch instance**.
 
-![7](/Users/nathan/Documents/notes/july-2023-technical-task/7.png)
+![7](7.png)
 
 #### Connect to the VM
 
@@ -446,17 +446,17 @@ Amazon has instructions on how to do this for EKS [here](https://docs.aws.amazon
 
 2. From the left-side menu, under **Access Management**, select **Roles**. On the next screen, select **Create role**:
 
-![4](/Users/nathan/Documents/notes/july-2023-technical-task/4.png)
+![4](4.png)
 
 3. For *Trusted entity type* select **AWS service**.
 4. For *Use case* select **EKS** from the dropdown list, then select **EKS - Cluster**. Click **Next**.
 
-![31](/Users/nathan/Documents/notes/july-2023-technical-task/31.png)
+![31](31.png)
 
 5. On the *Add permissions* screen, don't change anything, just click **Next** again.
 6. On the next screen, set the role name as `eksClusterRole` and make sure that you see `AmazonEKSClusterPolicy` listed as a policy name under the *Add permissions* table. Click **Create role** when you are ready to finish configuration.
 
-   ![32](/Users/nathan/Documents/notes/july-2023-technical-task/32.png)
+   ![32](32.png)
 
 #### Create an IAM Role for the Worker Node Group
 
@@ -494,17 +494,17 @@ By default, secrets are stored in the Kubernetes API are unencrypted. EKS suppor
 1. Open the [AWS EKS Console](https://console.aws.amazon.com/eks).
 1. From the **Add cluster** dropdown menu, select **Create**.
 
-![33](/Users/nathan/Documents/notes/july-2023-technical-task/33.png)
+![33](33.png)
 
 3. For *Name*, enter `testing-cluster`.
 4. For *Kubernetes version*, select the highest version available (1.27 at the time of writing)
 5. For *Cluster service role*, select the `eksClusterRole` you created earlier.
 
-​		![9](/Users/nathan/Documents/notes/july-2023-technical-task/9.png)
+​		![9](9.png)
 
 6. Under *Secrets encryption*, check **Turn on envelope encryption of Kubernetes secrets using KMS** and select the `EKS_Secrets_Key` that you created earlier from the *KMS key* dropdown. Click **Next** to proceed.
 
-​		![10](/Users/nathan/Documents/notes/july-2023-technical-task/10.png)
+​		![10](10.png)
 
 7. Under *Networking* select:
    * The VPC that cluster resources will be provisioned in.
@@ -520,11 +520,11 @@ By default, secrets are stored in the Kubernetes API are unencrypted. EKS suppor
 
 Your cluster will take several minutes to create, so now is the perfect time to take a break!
 
-![11](/Users/nathan/Documents/notes/july-2023-technical-task/11.png)
+![11](11.png)
 
 Once your cluster is created, take note of the API server endpoint and the OpenID Connect provider URL:
 
-![12](/Users/nathan/Documents/notes/july-2023-technical-task/12.png)
+![12](12.png)
 
 #### Copy the cluster config to `kubectl`
 
@@ -568,17 +568,17 @@ kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   107m
 In this step we will create the worker nodes that the master kubernetes node (deployed above) will orchestrate. A node group is simply a collection of worker nodes.
 
 1. From the `testing-cluster` details page, click the **Compute** tab, then under *Node groups*, click **Add node group**:
-   ![15](/Users/nathan/Documents/notes/july-2023-technical-task/15.png)
+   ![15](15.png)
 
 2. Set the node group *name* to **node_group1**.
 3. For *Node IAM role*, select the **EKSWorkerNodePolicy** role created earlier, then click **Next**.
 
-![34](/Users/nathan/Documents/notes/july-2023-technical-task/34.png)
+![34](34.png)
 
 4. On the next screen, under *Node group compute configuration*, leave **Amazon Linux 2** selected, but change the *Instance type* to `t3.medium` .  This is the instance type of the worker nodes that the cluster will spin up/down as needed.
    * When picking an instance size, don't overly skimp out on compute here to save costs. Kubernetes is finicky with resources and going to small will result in failed pod deployments due to a lack of resources.
 
-![35](/Users/nathan/Documents/notes/july-2023-technical-task/35.png)
+![35](35.png)
 
 4. Under *Node group scaling configuration*, leave the default values as 2/2/2. Click **Next**.
 
@@ -588,11 +588,11 @@ In this step we will create the worker nodes that the master kubernetes node (de
    * Check the box **Configure remote access to nodes**. This is useful for troubleshooting, but does increase our attack surface a bit. When prompted, select the same EC2 key pair used for the MongoDB VM from before, and the same security group, **mgmt-access**. The latter will restrict remote access to only our own IP address.
    * Click **Next** to continue.
 
-   ![36](/Users/nathan/Documents/notes/july-2023-technical-task/36.png)
+   ![36](36.png)
 
 6. When you have finished reviewing the configuration, click **Create** to finish. This will begin the process to create the worker node(s) according to our config (which may take several minutes).
 
-![37](/Users/nathan/Documents/notes/july-2023-technical-task/37.png)
+![37](37.png)
 
 To verify that the worker nodes are active, we can use `kubectl`:
 
@@ -606,7 +606,7 @@ ip-172-31-7-192.ap-southeast-2.compute.internal    Ready    <none>   19m   v1.27
 
 Likewise, if you return to the details page of the EKS cluster and select the *Compute* tab, you will now see the node group and the provisioned worker nodes:
 
-![38](/Users/nathan/Documents/notes/july-2023-technical-task/38.png)
+![38](38.png)
 
 
 
@@ -622,11 +622,11 @@ NEVER DO THIS IN PRODUCTION OR IN A REAL ENVIRONMENT!
 
 Go to the [S3 Management Console](https://console.aws.amazon.com/s3/) and select **Create Bucket**.
 
-![16](/Users/nathan/Documents/notes/july-2023-technical-task/16.png)
+![16](16.png)
 
 Provide a name for the bucket (eg: `totallysecurebucket`), select the region (eg: `ap-southeast-2`), and ensure (under *Object Ownership*) that ACLs are disabled.
 
-![17](/Users/nathan/Documents/notes/july-2023-technical-task/17.png)
+![17](17.png)
 
 Under the section *Block Public Access settings for this bucket*, de-select the **Block all public access** checkbox and check the acknowledgement checkbox that appears at the bottom. This will make the bucket completely public.
 
@@ -636,7 +636,7 @@ To make objects in the bucket publicly readable, we need to create and apply a p
 
 From the S3 Management Console, click the name of the bucket created above and select the **Permissions** tab. Scroll down and under the *Bucket Policy* section, click **Edit**.
 
-![18](/Users/nathan/Documents/notes/july-2023-technical-task/18.png)
+![18](18.png)
 
 Paste in the following (overwriting all existing text) and substitute `<your-bucket-name>` with the name of your S3 bucket:
 
@@ -659,11 +659,11 @@ Paste in the following (overwriting all existing text) and substitute `<your-buc
 
 Click **Save changes** to finish.
 
-![19](/Users/nathan/Documents/notes/july-2023-technical-task/19.png)
+![19](19.png)
 
 Your bucket will now have an orange `Publicly accessible` warning underneath it's name, and under the **Permissions** tab in the *Permissions overview* section, *Access* should now say *Public*.
 
-![20](/Users/nathan/Documents/notes/july-2023-technical-task/20.png)
+![20](20.png)
 
 
 
@@ -834,7 +834,7 @@ Note that you don't have to use `chat` as the subdomain. Use whatever you like a
 
 In my case, I will be using the sub-domain `chat.lightwave.cloud`, so I would add a CNAME record to my `lightwave.cloud` domain's DNS that points `chat` to `a51aca6bf603b441597c74851e09f1ef-206136540.ap-southeast-2.elb.amazonaws.com`:
 
-![21](/Users/nathan/Documents/notes/july-2023-technical-task/21.png)
+![21](21.png)
 
 You can check whether your record was added correctly by using `nslookup`:
 
@@ -1076,7 +1076,7 @@ kubectl describe service rocketchat -n rocket
 
 We should not be able to go to visit our domain (`chat.domain.com`) in a browser to check that the web app is live. If everything is OK, then the Rocket.Chat UI should load and be secured with an SSL certificate issued from Let's Encrypt:
 
-![22](/Users/nathan/Documents/notes/july-2023-technical-task/22.png)
+![22](22.png)
 
 ---
 
@@ -1201,7 +1201,7 @@ Click **JSON** and paste the following into the policy editor:
 }
 ```
 
-![25](/Users/nathan/Documents/notes/july-2023-technical-task/25.png)
+![25](25.png)
 
 Click the **Review policy** button to continue.
 
@@ -1212,7 +1212,7 @@ Both **EC2** and **S3** should be referenced as services defined in the policy. 
 *  For **EC2** ensure that the access level is **Full access**, and the resource is **All resources**.
 * For **S3** ensure that the access level is **Limited: Read, Write**, and the resource references your bucket name.
 
-![26](/Users/nathan/Documents/notes/july-2023-technical-task/26.png)
+![26](26.png)
 
 Once you are satisfied, click the **Create policy button**.
 
@@ -1224,19 +1224,19 @@ From the IAM Console, this time select **Roles** in the left sidebar, then click
 
 For **Step 1 - Select trusted entity**, ensure that **AWS service** is selected as the entity type, and **EC2** is selected as the use case.
 
-![23](/Users/nathan/Documents/notes/july-2023-technical-task/23.png)
+![23](23.png)
 
 Click next to continue.
 
 On the next screen (*Step 2 - Add permissions*), select the **EC2FullAccess** policy you created (you may need to search for it).
 
-![24](/Users/nathan/Documents/notes/july-2023-technical-task/24.png)
+![24](24.png)
 
 Click next to continue.
 
 On the final screen, name the role **EC2FullAccessRole**, optionally provide a description, then click the **Create role** button.
 
-![27](/Users/nathan/Documents/notes/july-2023-technical-task/27.png)
+![27](27.png)
 
 
 
@@ -1244,11 +1244,11 @@ On the final screen, name the role **EC2FullAccessRole**, optionally provide a d
 
 In the EC2 Console, select the VM that you deployed MongoDB to. Click on the **Actions** button and navigate to **Security > Modify IAM role**:
 
-![28](/Users/nathan/Documents/notes/july-2023-technical-task/28.png)
+![28](28.png)
 
 In the **IAM role** dropdown, find and select the **EC2FullAccessRole** role that was created above. Click **Update IAM role** to save your changes.
 
-![29](/Users/nathan/Documents/notes/july-2023-technical-task/29.png)
+![29](29.png)
 
 
 
@@ -1472,7 +1472,7 @@ upload: backups/mongodb-202307240734.tar.gz to s3://your-bucket-name/mongodb-202
 EOF
 ```
 
-![30](/Users/nathan/Documents/notes/july-2023-technical-task/30.png)
+![30](30.png)
 
 #### Automate the Backup with Cron
 
