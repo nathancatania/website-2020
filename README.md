@@ -1,10 +1,14 @@
 # Personal Website (2020 - 2023)
-![](demo/images/banner.png)
+
 This repository is archived. It contacts the theme and stack (Hugo) that I used for my website 2020 - 2023.
 
-I have included the undeployed modifications I made to get it to work with Hugo v0.122 (the live version on Netlify Hugo v0.108) in a folder called v0.122 in case it ever needs to be built again.
+![](demo/images/banner.png)
 
+## Video
 [![video](https://img.youtube.com/vi/wwpGQ3SVj4U/0.jpg)](https://youtu.be/wwpGQ3SVj4U)
+
+## Hugo Version
+I have included the undeployed modifications I made to get it to work with Hugo v0.122 (the live version on Netlify Hugo v0.108) in a folder called v0.122 in case it ever needs to be built again.
 
 ---
 
@@ -24,7 +28,6 @@ git clone https://github.com/nathancatania/website.git
 
 3. Install the hello-friend-ng base theme:
 ```
-cd themes
 git submodule add https://github.com/rhazdon/hugo-theme-hello-friend-ng.git themes/hello-friend-ng
 ```
 
