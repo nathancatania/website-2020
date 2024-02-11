@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="map[author:map[bio:Engineer // Melbourne // Australia name:Nathan Catania photo:map[url:avatar.png]] contenttypename:posts dateform:Jan 2, 2006 dateformnum:2006-01-02 dateformnumtime:2006-01-02 15:04 &#43;1000 dateformshort:Jan 2 description:The official website of Nathan Catania &amp;#10003; disablereadotherposts:false enablethemetoggle:true giturl:https://github.com/nathancatania/website/commit/ homesubtitle:Engineer // Melbourne // Australia images:[] keywords:blog, website, official logo:map[logohomelink:/ logotext:$ cd /home/nathan] readotherposts:Read other posts social:[map[name:linkedin url:https://www.linkedin.com/in/nathancatania]] subtitle:Engineer // Melbourne // Australia]">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="This post will cover how to deploy and get up and running quickly with the Netskope cloud security platform." />
+<meta name="keywords" content="blog, website, official, netskope, sase, guide" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/netskope-quick-start/" />
+
+
+    <title>
+        
+            Netskope Quick Start Guide :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b851fae37ea32930b5c4996a9ac8737a9d1ab1b40af28b3cd3b0060df9e2f5a3.css" integrity="sha256-uFH6436jKTC1xJlqmshzep0asbQK8os807AGDfni9aM=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Netskope Quick Start Guide">
+<meta itemprop="description" content="This post will cover how to deploy and get up and running quickly with the Netskope cloud security platform."><meta itemprop="datePublished" content="2022-10-12T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-10-12T00:00:00+00:00" />
+<meta itemprop="wordCount" content="6929"><meta itemprop="image" content="https://nathancatania.com" />
+<meta itemprop="keywords" content="netskope,sase,guide," />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nathancatania.com" /><meta name="twitter:title" content="Netskope Quick Start Guide"/>
+<meta name="twitter:description" content="This post will cover how to deploy and get up and running quickly with the Netskope cloud security platform."/>
+
+
+
+    <meta property="og:title" content="Netskope Quick Start Guide" />
+<meta property="og:description" content="This post will cover how to deploy and get up and running quickly with the Netskope cloud security platform." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/netskope-quick-start/" /><meta property="og:image" content="https://nathancatania.com" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-12T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-10-12 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                $ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>33 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/netskope-quick-start/">Netskope Quick Start Guide</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-quick-quick-start">The Quick Quick Start</a>
+      <ul>
+        <li><a href="#1-add-users-to-the-platform">1. Add users to the platform.</a></li>
+        <li><a href="#2-deploy-the-netskope-client-to-devices">2. Deploy the Netskope Client to devices</a></li>
+        <li><a href="#using-this-guide">Using this Guide</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-1---access-the-admin-console">Step 1 - Access the Admin Console</a></li>
+    <li><a href="#step-2---create-administrators">Step 2 - Create Administrators</a></li>
+    <li><a href="#step-3---integrate-an-identity-provider-idp">Step 3 - Integrate an Identity Provider (IdP)</a>
+      <ul>
+        <li><a href="#scim-user-provisioning">SCIM User Provisioning</a></li>
+        <li><a href="#directory-importer">Directory Importer</a></li>
+        <li><a href="#manual-import">Manual Import</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-4---check-firewall-policy">Step 4 - Check Firewall Policy</a></li>
+    <li><a href="#step-5---bypass-netskope-from-your-vpn">Step 5 - Bypass Netskope from your VPN</a></li>
+    <li><a href="#step-6---configure-a-steering-profile">Step 6 - Configure a Steering Profile</a>
+      <ul>
+        <li><a href="#create-or-edit-a-steering-profile">Create or Edit a Steering Profile</a>
+          <ul>
+            <li><a href="#using-the-existing-default-configuration">Using the Existing Default Configuration</a></li>
+            <li><a href="#creating-a-new-steering-configuration">Creating a New Steering Configuration</a></li>
+          </ul>
+        </li>
+        <li><a href="#configure-the-steering-profile">Configure the Steering Profile</a>
+          <ul>
+            <li><a href="#select-the-type-of-traffic-to-be-sent-to-netskope">Select the type of traffic to be sent to Netskope</a></li>
+            <li><a href="#cloud-apps-only-set-the-applications-to-be-sent-to-netskope">(Cloud Apps Only) Set the applications to be sent to Netskope</a></li>
+            <li><a href="#bypassing-traffic">Bypassing Traffic</a></li>
+          </ul>
+        </li>
+        <li><a href="#enable-the-steering-profile">Enable the Steering Profile</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-7---add-bypasses-in-netskope">Step 7 - Add Bypasses in Netskope</a>
+      <ul>
+        <li><a href="#ssl-bypasses">SSL Bypasses</a></li>
+        <li><a href="#steering-bypasses">Steering Bypasses</a></li>
+        <li><a href="#recommended-bypasses">Recommended Bypasses</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-8---configure-settings-for-the-netskope-client">Step 8 - Configure Settings for the Netskope Client</a>
+      <ul>
+        <li><a href="#create-or-edit-a-client-configuration-profile">Create or Edit a Client Configuration Profile</a></li>
+        <li><a href="#set-software-update-preferences">Set Software Update Preferences</a></li>
+        <li><a href="#set-tamperproof-preferences">Set Tamperproof Preferences</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-9---deploy-the-netskope-client">Step 9 - Deploy the Netskope Client</a>
+      <ul>
+        <li><a href="#email-invite">Email Invite</a></li>
+        <li><a href="#packaging-the-application">Packaging the Application</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-10---whitelist-the-netskope-client-process">Step 10 - Whitelist the Netskope Client Process</a></li>
+    <li><a href="#step-11---validate-traffic-steering">Step 11 - Validate Traffic Steering</a>
+      <ul>
+        <li><a href="#check-that-the-client-is-installed-and-enabled">Check that the client is installed and enabled</a>
+          <ul>
+            <li><a href="#desktop-operating-systems">Desktop Operating Systems</a></li>
+            <li><a href="#mobile-operating-systems">Mobile Operating Systems</a></li>
+          </ul>
+        </li>
+        <li><a href="#validate-that-the-netskope-client-is-forwarding-traffic">Validate that the Netskope Client is forwarding traffic</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-12---add--validate-a-security-policy">Step 12 - Add &amp; Validate a Security Policy</a>
+      <ul>
+        <li><a href="#create-a-test-policy">Create a test policy</a></li>
+        <li><a href="#test-your-policy">Test your policy</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+      </ul>
+    </li>
+    <li><a href="#partying_face-finish"> Finish</a></li>
+    <li><a href="#recommended-next-steps">Recommended Next Steps</a>
+      <ul>
+        <li><a href="#review-the-default-real-time-protection-policies-in-your-netskope-admin-console">Review the default Real-Time Protection policies in your Netskope Admin Console.</a></li>
+        <li><a href="#create-and-customize-your-user-notification-templates">Create and customize your User Notification templates</a></li>
+        <li><a href="#establish-global-guardrails-and-build-out-policies">Establish global guardrails and build out policies</a></li>
+        <li><a href="#sanction-your-business-applications">Sanction your business applications</a></li>
+        <li><a href="#deploy-to-a-broader-subset-of-users">Deploy to a broader subset of users</a></li>
+        <li><a href="#deploy-netskope-publishers-npa-customers-only">Deploy Netskope Publishers (NPA Customers Only)</a></li>
+        <li><a href="#establish-ipsecgre-tunnels-to-netskope-to-secure-clientless-devices-guest-wi-fi-and-servers">Establish IPsec/GRE tunnels to Netskope to secure clientless devices, Guest Wi-Fi, and servers</a></li>
+        <li><a href="#deploy-netskope-cloud-exchange">Deploy Netskope Cloud Exchange</a></li>
+        <li><a href="#configure-administrator-single-sign-on">Configure Administrator Single Sign-On</a></li>
+      </ul>
+    </li>
+    <li><a href="#feedback">Feedback</a></li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+                <img src="banner.png" class="post-cover" />
+            
+
+            <div class="post-content">
+                <blockquote>
+<p><strong>Disclaimer:</strong> Any thoughts or opinions in this article are my own and do not reflect those of Netskope. I am a Netskope SE who worte this guide in his own time to assist Netskope customers. Please lodge a PR on GitHub to correct any mistakes or inaccuracies.</p>
+</blockquote>
+<h1 id="the-quick-quick-start">The Quick Quick Start</h1>
+<p>There are 2 fundamental steps required to deploy Netskope in your environment:</p>
+<h2 id="1-add-users-to-the-platform">1. Add users to the platform.</h2>
+<p>This is typically done by integrating with your Identity Service (ie: Azure AD, Okta) using SCIM (API), or synchronizing your on-premise Active Directory using the Directory Importer Tool.</p>
+<p>Having users and identity attributes in the Netskope platform is critical for 2 reasons:</p>
+<ol>
+<li>Traffic is tied back to user identity; allowing you to have visibility on <em>who</em> is accessing <em>what</em> within your organization.</li>
+<li>Policies are primarily centred around user identity attributes; eg: Block WeTransfer EXCEPT for those in the Marketing team.</li>
+</ol>
+<h2 id="2-deploy-the-netskope-client-to-devices">2. Deploy the Netskope Client to devices</h2>
+<p>There are numerous methods to steer traffic to the Netskope cloud for enforcement, but the primary one among them is the Netskope Client. This is a piece of software deployed to a user&rsquo;s device that will:</p>
+<ol>
+<li>Automatically connect to the closest Netskope POP and forward all internet-bound traffic for inspection and enforcement.</li>
+<li>Attribute traffic entering and leaving the device with the identity of the user (<a href="mailto:user@company.com">user@company.com</a>).</li>
+</ol>
+<p>The Netskope client is incredibly lightweight as all inspection happens within the Netskope cloud: There is no traffic processing that occurs on the user machine.</p>
+<p>The default configuration of the Netskope client is to steer web traffic to Netskope for inspection, so there is no baseline configuration needed to get the client to function out of the box.</p>
+<h2 id="using-this-guide">Using this Guide</h2>
+<p>The full guide below covers everything that a typical enterprise will need to do to get Netskope up and running effectively in their environment; including accessing the Admin Console, ensuring that your firewalls allow the Netskope client to connect, ensuring that you have the traffic steering bypasses you need in place, and customizing the configuration of the client.</p>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-1---access-the-admin-console">Step 1 - Access the Admin Console</h1>
+<p>The Netskope Administrator Console provides a central interface for configuring the settings of every aspect and feature the Netskope Cloud Security Platform has to offer; including creating policies, reviewing reports, and managing incidents.</p>
+<figure><img src="1.png"
+         alt="The Netskope Administrator Console - Dashboard"/><figcaption>
+            <p>The Netskope Administrator Console - Dashboard</p>
+        </figcaption>
+</figure>
+
+<p>The login URL to the admin console is unique for your company and different for every Netskope tenant. It will be of the form:</p>
+<ul>
+<li>https://<strong>&lt;tenant-name&gt;</strong>.goskope.com</li>
+<li>https://<strong>&lt;tenant-name&gt;</strong>.au.goskope.com</li>
+<li>https://<strong>&lt;tenant-name&gt;</strong>.eu.goskope.com</li>
+</ul>
+<p>For example:</p>
+<ul>
+<li><a href="https://lightwave.goskope.com">https://lightwave.goskope.com</a></li>
+<li><a href="https://lightwave.goskope.com">https://lightwaveindustries.au.goskope.com</a></li>
+</ul>
+<p>You will receive your login URL along with administrator credentials from your Netskope account representative upon creation of your account. If you have not received these, please contact support or your Netskope account team.</p>
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/admin-console.html">About the Netskope Admin Console</a></li>
+</ul>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-2---create-administrators">Step 2 - Create Administrators</h1>
+<p>Within the Admin Console, navigate to <strong>Settings</strong> (bottom-left) <strong>&gt; Administration &gt; Admins</strong>, and click the <strong>New Admin</strong> button.</p>
+<figure><img src="2.png"
+         alt="The Administrator management page"/><figcaption>
+            <p>The Administrator management page</p>
+        </figcaption>
+</figure>
+
+<p>Enter the email address of the administrator you would like to add, and select an appropriate role. For full <em>read-write</em> access, select the <strong>Tenant Admin</strong> role. For <em>read-only</em> access, select the <strong>Restricted Admin</strong> role.</p>
+<figure><img src="3.png"
+         alt="Adding a new administrator"/><figcaption>
+            <p>Adding a new administrator</p>
+        </figcaption>
+</figure>
+
+<p>For more information on administrator roles, including custom roles, see the links below.</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/managing-administrators.html">Managing Administrators</a></li>
+<li><a href="https://docs.netskope.com/en/create-roles-for-restricted-administrators.html">Create Roles for Restricted Administrators</a></li>
+</ul>
+<p>Longer-term, it is recommended that you integrate admin authentication with your company&rsquo;s SSO provider (eg: Azure AD, Okta, etc). This can be managed via <strong>Settings &gt; Administration &gt; SSO</strong>.</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/configure-single-sign-on-for-the-netskope-ui.html">Configure Single Sign On for the Netskope UI</a></li>
+</ul>
+<p>IP Whitelisting can also be applied to the Netskope Admin Portal to restrict the permitted source IP addresses that are allowed to connect to your Admin Console. This can be managed via <strong>Settings &gt; Administration &gt; IP Allowlist</strong>.</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/ip-allowlisting.html">IP Allowlisting</a></li>
+</ul>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-3---integrate-an-identity-provider-idp">Step 3 - Integrate an Identity Provider (IdP)</h1>
+<p>Integrating with an IdP (eg: Azure AD, Okta) is a crucial part in configuring your Netskope tenant for use. Users and Groups that are within your IdP&rsquo;s directory will be synchronized to Netskope for use in security policies and access controls.</p>
+<blockquote>
+<p><strong>For example:</strong> Block SSH as a protocol for every user except those in the IT, CloudOps, and SecOps teams.</p>
+</blockquote>
+<p>This allows your IdP to become the single-source-of-truth from a security perspective once you have all of your policies defined within the Netskope portal.</p>
+<blockquote>
+<p><strong>For example:</strong> When you on-board a new employee, you will add them to the company directory and appropriate AD/Security Groups. This information is immediately synchronized to Netskope where your security policies (based on identity attributes) are instantly enforced for that user.</p>
+</blockquote>
+<p>There are two methods available for synchronizing your users and groups:</p>
+<ol>
+<li>
+<p><strong>SCIM Provisioning (recommended)</strong><br>
+This API link between your IdP and Netskope that automatically synchronises user and group information.</p>
+</li>
+<li>
+<p><strong>Directory Importer Tool</strong><br>
+Directory Importer is a tool, run locally, that synchronises your directory information from your on-premise Active Directory Domain Controller to Netskope. This is only recommended if you don&rsquo;t have a cloud-based identity service like Azure AD or Okta.</p>
+</li>
+</ol>
+<p>If you don&rsquo;t have a user directory or identity provider, users and groups can also be manually created within the Netskope Admin Portal.</p>
+<h2 id="scim-user-provisioning">SCIM User Provisioning</h2>
+<div class="bd-callout bd-callout-success">
+    <strong class="text-success">
+        <i class="bi bi-check-circle-fill"></i>&nbsp; 
+        
+        Best Practice Tip!<br>
+    </strong>
+It is Netskope best practice to use the <a href="https://docs.netskope.com/en/scim-based-user-provisioning.html">SCIM</a> protocol (an API link between the IdP and Netskope) to synchronize users to your Netskope tenant.
+</div>
+
+<blockquote>
+<p><strong>System for Cross-domain Identity Management (SCIM)</strong> is a standard for automating the exchange of user identity information between identity domains, or IT systems. - <a href="https://en.wikipedia.org/wiki/System_for_Cross-domain_Identity_Management">Wikipedia</a></p>
+</blockquote>
+<p>SCIM is supported by all major cloud IdPs, including Azure Active Directory (Azure AD), and Okta. Click the link below corresponding to your IdP for a guide on how to integrate it with Netskope:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/configure-azure-scim-integration-to-onboard-users-to-netskope.html">Azure Active Directory (Azure AD)</a></li>
+<li><a href="https://docs.netskope.com/en/configure-okta-scim-integration-to-onboard-users-to-netskope.html">Okta</a></li>
+<li><a href="https://docs.netskope.com/en/user-and-user-group-provisioning-with-onelogin.html">OneLogin</a></li>
+</ul>
+<p>Once completed, you can verify if your users are being synchronized to Netskope correctly by navigating to <strong>Settings &gt; Security Cloud Platform</strong>, and clicking <strong>Users</strong> under the <em>Netskope Client</em> section.</p>
+<figure><img src="4.png"
+         alt="Confirm that the users have been successfully synchronized and imported into Netskope."/><figcaption>
+            <p>Confirm that the users have been successfully synchronized and imported into Netskope.</p>
+        </figcaption>
+</figure>
+
+<p>You can validate that group membership has also successfully synchronized by clicking on the username of a user to see which groups they belong to.</p>
+<figure><img src="5.png"
+         alt="Validate that the group membership has also been correctly synchronized for a user by clicking on their username."/><figcaption>
+            <p>Validate that the group membership has also been correctly synchronized for a user by clicking on their username.</p>
+        </figcaption>
+</figure>
+
+<h2 id="directory-importer">Directory Importer</h2>
+<div class="bd-callout bd-callout-danger">
+    <strong class="text-danger">
+        <i class="bi bi-x-octagon-fill"></i>&nbsp; 
+        
+        This method should only be used if you do not have an IdP that supports SCIM.<br>
+    </strong>
+
+</div>
+
+<p>If your organization does not use a cloud IdP, you can use Netskope&rsquo;s <strong>Directory Importer</strong> tool to synchronize users from your on-premise Active Directory servers, or JumpCloud.</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/configure-directory-importer.html">Configure Directory Importer</a></li>
+<li><a href="https://docs.netskope.com/en/user-provisioning-with-secure-ldap-and-jumpcloud.html">User Provisioning with Secure LDAP and JumpCloud</a></li>
+</ul>
+<h2 id="manual-import">Manual Import</h2>
+<div class="bd-callout bd-callout-danger">
+    <strong class="text-danger">
+        <i class="bi bi-x-octagon-fill"></i>&nbsp; 
+        
+        This method should only be used if you do not have an IdP that supports SCIM.<br>
+    </strong>
+
+</div>
+
+<p>If you operate a smaller organization that does not have a cloud IdP or operate Active Directory server, Netskope also supports manual user creation via the Admin Console UI or CSV Import.</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/provisioning-users-for-netskope-client.html#UUID-ee11bd95-61e2-fc5a-243c-033038b5de42_section-5dd6b402e7cf6-idm45284539592336">Adding Users via Manual Entry or Bulk Upload</a></li>
+</ul>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-4---check-firewall-policy">Step 4 - Check Firewall Policy</h1>
+<p>We will shortly be installing the Netskope Client (which is used to automatically forward traffic to the Netskope cloud) to user devices, and you must ensure that it is able to communicate to the Netskope Cloud.</p>
+<p>Ensure that the following are permitted through both any installed Endpoint firewall software (eg: Windows Firewall, Crowdstrike, etc) and any on-premise network firewall (Palo Alto, Fortinet, etc):</p>
+<ul>
+<li>TCP 443 towards the Netskope IP range: <code>163.116.128.0/17</code></li>
+<li>TCP 53 &amp; UDP 53 (DNS) towards <code>dns.google</code> (<code>8.8.8.8</code> and <code>8.8.4.4</code>).</li>
+</ul>
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+Google DNS is used for geo-location purposes to determine the closest Netskope datacenter to connect the user to.
+</div>
+
+<div class="bd-callout bd-callout-danger">
+    <strong class="text-danger">
+        <i class="bi bi-x-octagon-fill"></i>&nbsp; 
+        
+        Warning!<br>
+    </strong>
+<p>You should ensure that the Netskope IP range is <strong>bypassed</strong> from any SSL decryption/inspection mechanisms you are running on perimeter security appliances or internal proxy servers.</p>
+<p>All connections between the Netskope Client and Netskope cloud are Certificate Pinned to prevent Man-in-the-Middle attacks; hence attempting to inspect this connection will cause it to fail.</p>
+
+</div>
+
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-5---bypass-netskope-from-your-vpn">Step 5 - Bypass Netskope from your VPN</h1>
+<blockquote>
+<p><strong>You only need to follow this step if you operate a VPN in Full Tunnel mode</strong></p>
+<p>i.e: All traffic (internal and internet-bound) is captured by the VPN and sent back to the corporate network.</p>
+</blockquote>
+<div class="bd-callout bd-callout-success">
+    <strong class="text-success">
+        <i class="bi bi-check-circle-fill"></i>&nbsp; 
+        
+        Best Practice Tip!<br>
+    </strong>
+<p>Netskope <strong>strongly recommends</strong> changing your VPN configuration to run in <strong>split tunnel mode</strong> when operating alongside the Netskope Client.</p>
+<p>In split tunnel mode, the VPN is only used for internal traffic (i.e. RFC1918 ranges) and explicit routes, while all internet-bound traffic bypasses the VPN and is captured by Netskope.</p>
+
+</div>
+
+<p>You must include a bypass/exclude the Netskope IP range <code>163.116.128.0/17</code> from the VPN tunnel so that the Netskope Client can connect to the Netskope Cloud and the closest Netskope datacenter directly.</p>
+<div class="bd-callout bd-callout-warning">
+    <strong class="text-warning">
+        <i class="bi bi-exclamation-diamond-fill"></i>&nbsp; 
+        
+        Caution!<br>
+    </strong>
+<p>Failure to bypass the Netskope IP range means that the Netskope Client will establish connectivity to the Netskope Cloud via the VPN tunnel and your corporate internet egress point.</p>
+<p>This will introduce additional hops and latency to the transaction, and will prevent users from connecting to any Netskope data center <em>except</em> for the one closest to your internet egress point.</p>
+
+</div>
+
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-6---configure-a-steering-profile">Step 6 - Configure a Steering Profile</h1>
+<p>A Steering Profile tells the Netskope Client <em>what</em> traffic it needs to capture and send towards Netskope, and what traffic it needs to bypass and let through directly.</p>
+<p>Steering Profiles can be global (applied for all users) or targeted to specific user groups. The latter can be useful for testing, or for use with specific groups of users that may require more granular configuration (eg: developers).</p>
+<p>Every Netskope tenant has a <em>default steering configuration</em> that is used as a fallback should no other Steering Profiles be present or matched on. You can simply continue to use the default steering profile if you wish (with a few small tweaks), or create your own from scratch.</p>
+<p>To start, navigate to <strong>Settings &gt; Security Cloud Platform &gt; Steering Configuration</strong>.</p>
+<div class="bd-callout bd-callout-success">
+    <strong class="text-success">
+        <i class="bi bi-check-circle-fill"></i>&nbsp; 
+        
+        Best Practice Tip!<br>
+    </strong>
+On the Steering Configuration page, change the <strong>Bypassed Traffic</strong> setting to <strong>Log</strong>. This ensures that you retain visibility on traffic that is not send to Netskope for inspection.
+</div>
+
+<figure><img src="6.png"
+         alt="The Steering Configuration page is where you manage what traffic should be sent to Netskope for inspection."/><figcaption>
+            <p>The Steering Configuration page is where you manage what traffic should be sent to Netskope for inspection.</p>
+        </figcaption>
+</figure>
+
+<h2 id="create-or-edit-a-steering-profile">Create or Edit a Steering Profile</h2>
+<h3 id="using-the-existing-default-configuration">Using the Existing Default Configuration</h3>
+<p>If you simply wish to leverage the existing default steering profile, click the <strong>Default tenant config</strong> profile to edit it&rsquo;s configuration, and select the <strong>Edit</strong> button at the top-right.</p>
+<figure><img src="7.png"
+         alt="To edit the settings of the default steering configuration, select the profile and click Edit at the top-right."/><figcaption>
+            <p>To edit the settings of the default steering configuration, select the profile and click Edit at the top-right.</p>
+        </figcaption>
+</figure>
+
+<h3 id="creating-a-new-steering-configuration">Creating a New Steering Configuration</h3>
+<p>You may want to create a separate profile and target your IT team (or the team will be managing the Netskope platform) as a way of testing traffic steering changes in isolation before pushing them to the rest of your organization.</p>
+<p>To create a new profile, click <strong>New Configuration</strong>, and if prompted, select <strong>User Group</strong>. Configure the new steering profile by giving it a name (eg: Testing), and assigning a user group.</p>
+<p>The User Group field is a list of Active Directory/Security Groups that have been synchronized from the identity provider.</p>
+<h2 id="configure-the-steering-profile">Configure the Steering Profile</h2>
+<figure><img src="8.png"
+         alt="The configuration window for the steering configuration."/><figcaption>
+            <p>The configuration window for the steering configuration.</p>
+        </figcaption>
+</figure>
+
+<h3 id="select-the-type-of-traffic-to-be-sent-to-netskope">Select the type of traffic to be sent to Netskope</h3>
+<p>In the configuration window, select the option for the type of traffic that you would like the Netskope Client to capture and and send to the Netskope Cloud.</p>
+<p>Depending on your subscription, some options may not be visible to you:</p>
+<ul>
+<li>
+<p><strong>Cloud Apps Only</strong> - Steer only selected applications to Netskope for deep analysis. You can make exceptions and allow special accommodations for custom applications. If you are a Cloud Inline or CASB-only customer, you should select this option.</p>
+</li>
+<li>
+<p><strong>Web Traffic</strong> - Steer all <em>web</em> traffic (HTTP and HTTPS) to Netskope for deep analysis. You can make exceptions for traffic that have personal or private content. Most organizations should select this option.</p>
+</li>
+<li>
+<p><strong>All Traffic</strong> - Steer <em>all</em> traffic (web and non-web) to Netskope for deep analysis. You can make exceptions for traffic that have personal or private content. If you are subscribed to Cloud Firewall, you should select this option.</p>
+</li>
+</ul>
+<p>If you are subscribed to Netskope Private Access (NPA), ensure that the <strong>Steer Private Apps</strong> checkbox is also selected.</p>
+<p>Click <strong>Save</strong> when you are done.</p>
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+You can click the <strong>Non-Standard Ports</strong> tab to specify ports other than 80 and 443 to be forwarded to the Netskope proxy
+</div>
+
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+The <strong>Dynamic Steering</strong> setting can be used to change the way traffic is forwarded by the Netskope Client based on whether the user is working from within the company network, or remotely.
+</div>
+
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/dynamic-steering.html">Dynamic Steering</a></li>
+</ul>
+<h3 id="cloud-apps-only-set-the-applications-to-be-sent-to-netskope">(Cloud Apps Only) Set the applications to be sent to Netskope</h3>
+<p>If you selected the <strong>Cloud-Apps Only</strong> option above, then you now need to specify which cloud applications (eg: Dropbox, Teams, Sharepoint, etc) that the Netskope Client should intercept and send to Netskope.</p>
+<p>Click <strong>Add Steered Item</strong>, and specify the applications required.</p>
+<h3 id="bypassing-traffic">Bypassing Traffic</h3>
+<p>Traffic can also be explicitly bypassed from being sent to Netskope entirely. This is managed under the <strong>Exceptions</strong> tab of the steering profile.</p>
+<p>RFC1918 traffic (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) is always bypassed from Netskope by default, and Netskope also maintains a list of applications that typically need to be bypassed (due to certificate pinning), eg: Crowdstrike.</p>
+<p>Adding bypasses is covered in more detail in the next section.</p>
+<h2 id="enable-the-steering-profile">Enable the Steering Profile</h2>
+<p>If you created a new steering profile, you will need to enable it before it can be used. On the <strong>Steering Configuration</strong> page (<strong>Settings &gt; Security Cloud Platform &gt; Steering Configuration</strong>), click the &ldquo;<strong>&hellip;</strong>&rdquo; menu next to the steering profile you wish to enable, and select <strong>Enable</strong>.</p>
+<p><strong>Note:</strong> The default steering config profile is always enabled.</p>
+<figure><img src="9.png"
+         alt="You must enable a new steering profile before it will be actively used by the Netskope Client."/><figcaption>
+            <p>You must <em>enable</em> a new steering profile before it will be actively used by the Netskope Client.</p>
+        </figcaption>
+</figure>
+
+<div class="bd-callout bd-callout-danger">
+    <strong class="text-danger">
+        <i class="bi bi-x-octagon-fill"></i>&nbsp; 
+        
+        Warning!<br>
+    </strong>
+When a steering profile is enabled, it will be made available to all targeted users in production. You should always ensure that you have tested your steering profile with a smaller set of users before enabling it more broadly across the organization.
+</div>
+
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+<p>The Netskope Client calls home every ~15 minutes to check for updated configuration, so it may take some time before your users see any updated steering profiles or settings.</p>
+<p>You can force the Netskope client to check immediately by selecting the Netskope icon in the system tray (or Menu Bar) and clicking &ldquo;<em>Configuration</em>&rdquo;.</p>
+
+</div>
+
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/steering-configuration.html">Steering Configuration</a></li>
+</ul>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-7---add-bypasses-in-netskope">Step 7 - Add Bypasses in Netskope</h1>
+<p>There are two types of bypasses when it comes to Netskope: Steering Bypasses and SSL Bypasses.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Steering Bypass</td>
+<td>Traffic is bypassed entirely from Netskope at the device level and is sent direct to the destination. It will never reach the Netskope Cloud.</td>
+</tr>
+<tr>
+<td>SSL Decryption Bypass</td>
+<td>Applicable to Web &amp; SSL/TLS encrypted traffic only. The traffic is sent to the Netskope Cloud, but bypassed from SSL Inspection. This can be useful when an application is certificate pinned (and breaks when inspected), but you still want Netskope to attempt to filter and scan the traffic.</td>
+</tr>
+</tbody>
+</table>
+<p>It is recommended to use SSL Bypasses over Steering Bypasses where possible.</p>
+<div class="bd-callout bd-callout-warning">
+    <strong class="text-warning">
+        <i class="bi bi-exclamation-diamond-fill"></i>&nbsp; 
+        
+        Caution!<br>
+    </strong>
+Excessive steering bypasses can expose your organization to higher risk.
+</div>
+
+<div class="bd-callout bd-callout-success">
+    <strong class="text-success">
+        <i class="bi bi-check-circle-fill"></i>&nbsp; 
+        
+        Best Practice Tip!<br>
+    </strong>
+<p>Netskope automatically maintains a bypass list of applications that employ SSL Certificate Pinning so that you don&rsquo;t have to add them yourself (eg: Crowdstrike, Dropbox, iCloud, etc).</p>
+<p>This list can be reviewed under <strong>Settings &gt; Security Cloud Platform &gt; Steering Configuration</strong>. Select a steering profile and navigate to the &ldquo;Exceptions&rdquo; tab to review the bypassed application list.</p>
+
+</div>
+
+<h2 id="ssl-bypasses">SSL Bypasses</h2>
+<p>To add an SSL Bypass, in the Netskope Admin Portal navigate to <strong>Policies &gt; SSL Decryption</strong>, and click <strong>Add Policy</strong>.</p>
+<p><img src=".gitbook/assets/quickstart-sslbypass.png" alt="Adding a new SSL Bypass Policy. Multiple different criteria can be used."></p>
+<p>On the <strong>New SSL Decryption Policy</strong> page, click the <strong>Add Criteria</strong> button. The following criteria can be used for an SSL Bypass:</p>
+<ul>
+<li>Source Network Location (eg: <code>10.0.10.5/32</code>, <code>10.0.65.0/24</code>)</li>
+<li>Destination Network Location (eg: <code>1.2.3.4/32</code>)</li>
+<li>Category (eg: <code>Finance</code>)</li>
+<li>User (eg: <code>user@company.com</code>)</li>
+<li>User Group (eg: <code>SSLBypassGroup</code>)</li>
+<li>Organization Unit (eg: <code>Marketing</code>)</li>
+<li>App Suite (eg: <code>Amazon</code>)</li>
+<li>Application (eg: <code>Microsoft Teams</code>)</li>
+</ul>
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+To define named Source and Destination Network Locations, navigate to <strong>Policy &gt; Network Location</strong>, and create a new named Network Location with your desired IP ranges.
+</div>
+
+<p>Ensure you select the action <strong>Do Not Decrypt</strong> in order to bypass the above criteria from SSL Inspection.</p>
+<p>Provide the policy a name, ensure it is set to <strong>Enabled</strong>, and click <strong>Save</strong> at the top-right.</p>
+<div class="bd-callout bd-callout-warning">
+    <strong class="text-warning">
+        <i class="bi bi-exclamation-diamond-fill"></i>&nbsp; 
+        
+        Caution!<br>
+    </strong>
+Don&rsquo;t forget to click <strong>Apply Changes</strong> under <strong>Policy &gt; SSL Decryption</strong> once you have added a bypass. This is required for your changes to take effect.
+</div>
+
+<figure><img src="10.png"
+         alt="Make sure you click Apply Changes else your policy change will not be pushed live."/><figcaption>
+            <p>Make sure you click Apply Changes else your policy change will not be pushed live.</p>
+        </figcaption>
+</figure>
+
+<h2 id="steering-bypasses">Steering Bypasses</h2>
+<p>To add a Steering Bypass, navigate to <strong>Settings &gt; Cloud Security Platform &gt; Steering Configuration</strong>, and click to edit the <strong>default tenant steering configuration</strong> (or any other steering configuration present).</p>
+<figure><img src="10.png"
+         alt="Steering Bypasses are added by modifying the steering configuration profiles assigned to the Netskope Client."/><figcaption>
+            <p>Steering Bypasses are added by modifying the steering configuration profiles assigned to the Netskope Client.</p>
+        </figcaption>
+</figure>
+
+<p>Click the <strong>Exceptions</strong> tab, then the <strong>New Exception</strong> button.</p>
+<figure><img src="11.png"
+         alt="To add a steering exception, go to the Exceptions tab and click New Exception."/><figcaption>
+            <p>To add a steering exception, go to the <em>Exceptions</em> tab and click <em>New Exception</em>.</p>
+        </figcaption>
+</figure>
+
+<p>The following criteria can be used when adding a Steering Bypass:</p>
+<ul>
+<li>Application (eg: <code>Microsoft Teams</code>)</li>
+<li>Category (eg: <code>Finance</code>)</li>
+<li>Certificate Pinned Applications (list of known apps that are certificate pinned)</li>
+<li>Domains (eg: <code>app.company.com</code>)</li>
+<li>Source Locations (eg: <code>10.0.0.5/32</code>, <code>10.0.65.0/24</code>)</li>
+<li>Destination Locations (eg: <code>1.1.1.1/32</code>)</li>
+<li>Source Countries (eg: <code>China</code>, <code>Russia</code>)</li>
+</ul>
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+To define named Source and Destination Locations, in the main Netskope Admin Console, navigate to <strong>Policy &gt; Network Location</strong>, and create a new named Network Location with your desired IP ranges.
+</div>
+
+<p>Steering Bypasses are added to policy immediately and applied automatically to the Netskope Client on next check-in (every 15 minutes).</p>
+<h2 id="recommended-bypasses">Recommended Bypasses</h2>
+<p>Netskope recommends that you put the following bypasses in place at a minimum:</p>
+<table>
+<thead>
+<tr>
+<th>Bypass</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authentication Bypass / SSO Login Page</td>
+<td>Steering Bypass</td>
+<td>It is best practice to bypass the URL of your SSO provider&rsquo;s login page to prevent authentication issues. This is typically a <strong>domain</strong> based bypass, eg: <code>login.microsoftonline.com</code> for AzureAD, or <code>*.okta.com</code> + <code>*.oktacdn.com</code> for Okta. If you use Conditional Access policies, you MUST include this bypass or the traffic will appear to come from a Netskope IP address; potentially causing the Conditional Access policy to fail/deny access.</td>
+</tr>
+<tr>
+<td>VPN Gateways</td>
+<td>Steering Bypass</td>
+<td>It is important that all of your VPN hostnames and destination IPs are bypassed from Netskope. If Netskope intercepts and inspects these connections, connectivity to the VPN is likely to fail. These bypasses may be both <strong>domain</strong> based (eg: <code>vpn.corp.company.com</code>) and/or <strong>Destination Network</strong> (eg: <code>203.0.113.7/32</code>) based.</td>
+</tr>
+<tr>
+<td>Security Vendor Agent / Client</td>
+<td>SSL Bypass</td>
+<td>Security vendors typically certificate pin the connections their software clients/agents make back to their cloud to prevent tampering. You should ensure that these are bypassed from SSL inspection. These bypasses will typically be Domain based, eg: <code>*.cloudsink.net</code>. Consult your vendor&rsquo;s documentation for more information.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-8---configure-settings-for-the-netskope-client">Step 8 - Configure Settings for the Netskope Client</h1>
+<p>The Netskope Client has a range of settings that are controlled centrally by administrators; ie: Tamperproofing settings, Software Update settings, and on-premise detection.</p>
+<p>Settings profiles can be applied globally or targeted towards specific groups of users. Just like the Steering Profile Configuration, there is a default settings configuration present that is used as a fallback or in the absence of any other profiles.</p>
+<p>Navigate to <strong>Settings &gt; Security Cloud Platform &gt; Devices</strong>, and click the <strong>Client Configurations</strong> button at the top-right.</p>
+<figure><img src="13.png"
+         alt="The Devices page show a list of all devices that have been deployed with the Netskope Client."/><figcaption>
+            <p>The Devices page show a list of all devices that have been deployed with the Netskope Client.</p>
+        </figcaption>
+</figure>
+
+<h2 id="create-or-edit-a-client-configuration-profile">Create or Edit a Client Configuration Profile</h2>
+<p>Click <strong>Default tenant config</strong> to edit the default configuration profile, or <strong>New Client Configuration</strong> to create a new one.</p>
+<div class="bd-callout bd-callout-success">
+    <strong class="text-success">
+        <i class="bi bi-check-circle-fill"></i>&nbsp; 
+        
+        Best Practice Tip!<br>
+    </strong>
+If you plan to enable tamperproofing (ie: disabling the ability for users to turn off the Netskope Client), you may wish to create a second configuration profile that targets your your IT team (or the team that manages your Netskope deployment) that allows the client to be turned off for troubleshooting purposes.
+</div>
+
+<p>It is recommended that you leave most of the settings under the <strong>Traffic Steering</strong> tab as the default unless you have a specific need or reason to change them.</p>
+<p>For full details on each option available under the Client Configuration settings, see here:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/netskope-client-configuration.html">Configuring the Netskope Client</a></li>
+</ul>
+<h2 id="set-software-update-preferences">Set Software Update Preferences</h2>
+<p>The <strong>Install &amp; Troubleshoot</strong> tab allows control over how and when the Netskope Client is automatically updated as releases are made available.</p>
+<figure><img src="14.png"
+         alt="The Netskope Client should be set to automatically update to the latest Golden Release as best practice."/><figcaption>
+            <p>The Netskope Client should be set to automatically update to the latest Golden Release as best practice.</p>
+        </figcaption>
+</figure>
+
+<div class="bd-callout bd-callout-success">
+    <strong class="text-success">
+        <i class="bi bi-check-circle-fill"></i>&nbsp; 
+        
+        Best Practice Tip!<br>
+    </strong>
+<p>Netskope strongly recommends that you set the client to upgrade automatically to the <strong>Latest Golden Release</strong>. </p>
+<p>Golden Releases run a few versions behind the latest release, but are more thoroughly tested and supported for longer.</p>
+
+</div>
+
+<div class="bd-callout bd-callout-danger">
+    <strong class="text-danger">
+        <i class="bi bi-x-octagon-fill"></i>&nbsp; 
+        
+        Warning!<br>
+    </strong>
+Changing the <strong>Log Level</strong> (under <em>Advanced</em>) to <strong>Debug</strong> will negatively impact performance and throughput of the Netskope Client. This setting should only be used at the direction of Netskope Support for troubleshooting purposes.
+</div>
+
+<h2 id="set-tamperproof-preferences">Set Tamperproof Preferences</h2>
+<p>The <strong>Tamperproof</strong> tab allows control over whether end-users can freely enable/disable/stop the Netskope Client.</p>
+<figure><img src="15.png"
+         alt="Tamperproof settings can be used to prevent users from disabling the Netskope Client."/><figcaption>
+            <p>Tamperproof settings can be used to prevent users from disabling the Netskope Client.</p>
+        </figcaption>
+</figure>
+
+<p>For general end-users, it is recommended to prevent the disabling of the Netskope Client (<strong>uncheck</strong> the <strong>Allow disabling of Clients</strong> option).</p>
+<p>You should also enable password protection for client uninstallation and service stop (this can be helpful in environments where users still have local administrator rights on their machines).</p>
+<div class="bd-callout bd-callout-warning">
+    <strong class="text-warning">
+        <i class="bi bi-exclamation-diamond-fill"></i>&nbsp; 
+        
+        Caution!<br>
+    </strong>
+<p>No software tamperproofing is 100% effective if the end-user has local administrator privileges on their machine (as this provides them with ultimate control over the device).</p>
+<p>Netskope recommends that you disable administrator privileges on corporate managed machines where possible.</p>
+
+</div>
+
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/netskope-client-configuration.html">Netskope Client Configuration</a></li>
+</ul>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-9---deploy-the-netskope-client">Step 9 - Deploy the Netskope Client</h1>
+<p>The Netskope Client is the primary method of steering traffic to the Netskope cloud for real-time inspection, and can be deployed using multiple methods:</p>
+<ul>
+<li>Email Invite</li>
+<li>Packaging the Application (eg: SCCM, Intune, JAMF) (recommended)</li>
+</ul>
+<h2 id="email-invite">Email Invite</h2>
+<ul>
+<li>The user receives an email from your Netskope tenant containing a unique link (with embedded enrollment token) to download the client.</li>
+<li>On installation, the client is automatically enrolled and authenticated.</li>
+<li>Use this method for PoCs, initial testing, one-off users, or for certain small M&amp;A scenarios.</li>
+</ul>
+<p>&#x1f44d; <strong>Pros:</strong></p>
+<ul>
+<li>This method is quick and easy.</li>
+<li>No MDM or Software Push is required.</li>
+</ul>
+<p>&#x1f44e; <strong>Cons:</strong></p>
+<ul>
+<li>The user needs to initiate installation of the client themselves.</li>
+<li>The user needs local admin privileges to be able to install the client.</li>
+<li>By default, users added via this method are not part of any group.</li>
+</ul>
+<p><strong>To send an email invite:</strong></p>
+<ol>
+<li>Navigate to <strong>Settings &gt; Security Cloud Platform &gt; Users</strong></li>
+<li>Select the user you wish to send the invite to</li>
+<li>Click the &ldquo;<strong>&hellip;</strong>&rdquo; next to their name, and select &ldquo;<strong>Send Invitation</strong>&rdquo;.</li>
+</ol>
+<figure><img src="16.png"
+         alt="Sending an email invite to a user can be completed in just a few clicks."/><figcaption>
+            <p>Sending an email invite to a user can be completed in just a few clicks.</p>
+        </figcaption>
+</figure>
+
+<p>The email the user receives can be customized by going to <strong>Settings &gt; Tools &gt; Templates</strong>, and editing the <strong>Email Invitation</strong> template.</p>
+<figure><img src="17.png"
+         alt="Example of an email invite that a user will receive"/><figcaption>
+            <p>Example of an email invite that a user will receive</p>
+        </figcaption>
+</figure>
+
+<h2 id="packaging-the-application">Packaging the Application</h2>
+<ul>
+<li>This is the best method for production deployment and full-scale rollout.</li>
+<li>Requires SCIM integration with a cloud identity provider (eg: Azure AD, Okta)</li>
+<li>Relies on the UPN of the logged in user to authenticate. This must match the identity provider.</li>
+</ul>
+<p>&#x1f44d; <strong>Pros:</strong></p>
+<ul>
+<li>Installation is silent: Users do not know that an agent is pushed and no interaction from the user is required.</li>
+<li>No requirement for a user to have local admin priviliges</li>
+<li>Use of the client can be enforced through MDM, Group, or Company policy.</li>
+<li>The client can be installed within multi-user environments (eg: Citrix) and is fully supported.</li>
+</ul>
+<p>&#x1f44e; <strong>Cons:</strong></p>
+<ul>
+<li>Company change control process typically needs to be followed before the client can be pushed (and this can take time).</li>
+<li>Some smaller companies may not have the software to push the client or manage devices.</li>
+</ul>
+<p>If the UPN of the logged in user <strong>does not</strong> match what was synchronized from the directory, the client can instead be rolled out to authenticate the user via SAML / SSO. <a href="https://docs.netskope.com/en/deploy-netskope-client-via-idp.html">See here for more information</a>.</p>
+<p>To package the client, follow one of the links below:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/microsoft-endpoint-configuration-manager.html">Microsoft Endpoint Configuration Manager / SCCM</a></li>
+<li><a href="https://docs.netskope.com/en/microsoft-intune.html">Microsoft Intune</a></li>
+<li><a href="https://docs.netskope.com/en/microsoft-group-policy-object--gpo-.html">Microsoft Group Policy Object (GPO)</a></li>
+<li><a href="https://docs.netskope.com/en/vmware-workspace-one.html">VMware Workspace One (AirWatch)</a></li>
+<li><a href="https://docs.netskope.com/en/jamf.html">JAMF</a></li>
+<li><a href="https://docs.netskope.com/en/kandji.html">Kandiji</a></li>
+<li><a href="https://docs.netskope.com/en/xenmobile.html">XenMobile</a></li>
+<li>MobileIron <a href="https://docs.netskope.com/en/mobileiron-core.html">Core</a> / <a href="https://docs.netskope.com/en/mobileiron-cloud.html">Cloud</a></li>
+</ul>
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+You <strong>do not</strong> need to use the Directory Importer tool if you have synchronized your users using SCIM in Step 3 of this guide (despite what the linked documentation might say otherwise).
+</div>
+
+<p><strong>Sample CLI to install the MSI:</strong></p>
+<pre tabindex="0"><code>msiexec /I C:\Netskope\InstallerPkg\nsclient-&lt;ver&gt;.msi token=&lt;orgid&gt; host=addon-&lt;tenant-name&gt;.goskope.com mode=peruserconfig /l*v %PUBLIC%\nscinstall.log
+</code></pre><ul>
+<li>
+<p> <code>&lt;ver&gt;</code> is the version of the Netskope client package downloaded.</p>
+</li>
+<li>
+<p><code>&lt;orgid&gt;</code> is your Organization ID. This is located at <strong>Settings &gt; Security Cloud Platform &gt; MDM Distribution</strong>. Under &ldquo;<strong>Create VPN Configuration</strong>&rdquo;, copy the <strong>Organization ID</strong> string.</p>
+</li>
+<li>
+<p><code>&lt;tenant-name&gt;</code> is the name of your tenant from Step 1. This is the subdomains proceeding the <code>goskope.com</code> in the URL used to access the Admin Control. For example, if you access the Admin Console at <code>https://lightwave.goskope.com</code>, then your tenant name would be <code>lightwave</code>. If you access the Admin Console at <code>https://lightwave.au.goskope.com</code>, then your tenant name would be <code>lightwave.au</code></p>
+</li>
+<li>
+<p>For a full list of command line parameters, see Table 15 <a href="https://docs.netskope.com/en/microsoft-endpoint-configuration-manager.html#idm46406087492976">here</a>.</p>
+</li>
+</ul>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-10---whitelist-the-netskope-client-process">Step 10 - Whitelist the Netskope Client Process</h1>
+<p>Some endpoint security software may mark the Netskope Client as malicious because it attempts to intercept all internet-bound traffic (for the purposes of forwarding it to the Netskope Cloud), and can block it from running as a result.</p>
+<p>Therefore it is important to whitelist/permit the Netskope Client&rsquo;s <code>stAgentAvc.exe</code> process in any AV and/or other security agents running on the endpoint to prevent this from happening.</p>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-11---validate-traffic-steering">Step 11 - Validate Traffic Steering</h1>
+<p>Now that the Netskope Client has been deployed, it is time to check that it is enabled, working, and correctly forwarding traffic to the Netskope Cloud.</p>
+<h2 id="check-that-the-client-is-installed-and-enabled">Check that the client is installed and enabled</h2>
+<h3 id="desktop-operating-systems">Desktop Operating Systems</h3>
+<p>For Windows, macOS, ChromeOS, and Linux, if the Netskope client is running, you will see it located in the device&rsquo;s system tray or Menu Bar (look for the Netskope logo).</p>
+<ul>
+<li>If the client is <strong>enabled</strong> and <strong>connected,</strong> the client icon will be colored <img src="nsclient-enabled.png" alt="nsclient-enabled.png"></li>
+<li>If the client is <strong>disabled</strong> and <strong>disconnected</strong>, the client icon will be greyed out <img src="nsclient-disabled.png" alt="nsclient-disabled.png"></li>
+</ul>
+<p>There are variations of the icon that may be displayed to indicate an error or fail close scenario.</p>
+<p>If the icon is missing, check the Start Menu or Application list on your device and check to see if the Netskope client is installed.</p>
+<p>If the client is disabled, you can right-click on the icon and click <strong>Enable Netskope Client</strong> to have it connect and start forwarding traffic. Likewise, when connected, you can right-click and select <strong>Disable Netskope Client</strong> to turn the client off (depending on the Netskope Client settings you configured, this option (along with others) may not be present).</p>
+<figure><img src="nsclient-menu.png"
+         alt="The right-click menu of the Netskope Client. Certain options may not be present based on your settings."/><figcaption>
+            <p>The right-click menu of the Netskope Client. Certain options may not be present based on your settings.</p>
+        </figcaption>
+</figure>
+
+<p>To check information about the Netskope connection and device profile, right-click on the Netskope client icon and select <strong>Configuration</strong>. Here you will be able to see:</p>
+<ul>
+<li>
+<p>The authenticated user (traffic will be tracked as coming from this username)</p>
+</li>
+<li>
+<p>The Netskope gateway IP address and Netskope POP the user is connected to.</p>
+</li>
+<li>
+<p>Whether the device is currently marked as <em>managed</em> or <em>unmanaged</em>.</p>
+</li>
+<li>
+<p>The Steering Configuration and Client Configuration profiles currently in use on the device.</p>
+</li>
+<li>
+<p>The protocol used to tunnel traffic to the Netskope Cloud (ie: TLS, DTLS).</p>
+</li>
+<li>
+<p>The last time the configuration of the Netskope client was updated. The Netskope client will periodically phone home to check for updated configuration (this includes the notification messaged displayed to the user when a destination or activity is blocked).</p>
+</li>
+</ul>
+<figure><img src="nsclient-config.png"
+         alt="The Configuration panel of the Netskope client shows relevant settings and connection information."/><figcaption>
+            <p>The <em>Configuration</em> panel of the Netskope client shows relevant settings and connection information.</p>
+        </figcaption>
+</figure>
+
+<h3 id="mobile-operating-systems">Mobile Operating Systems</h3>
+<p>For iOS and Android devices, check that a Netskope VPN profile has been installed and is enabled on the device.</p>
+<p>If you wish to enforce the use of the profile and prevent users from disabling it, you will need to ensure you deploy the Netskope client using a Mobile Device Manager (MDM) like Intune.</p>
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+<p>If you installed Netskope on the mobile device using an Email Invite, the Netskope certificate (required for SSL inspection) will be present on the device, but untrusted. You will need to tell your device to trust the certificate before browsing the web.</p>
+<p>Failure to do will result in your browser throwing &ldquo;<em>Insecure Connection</em>&rdquo; or &ldquo;<em>This Connection is not Private</em>&rdquo; errors. On iOS, navigate to <strong>Settings &gt; General &gt; About &gt; Certificate Trust Settings</strong>, and enable the certificate. </p>
+<p><strong>You DO NOT need to do this if you installed Netskope via MDM.</strong></p>
+
+</div>
+
+<h2 id="validate-that-the-netskope-client-is-forwarding-traffic">Validate that the Netskope Client is forwarding traffic</h2>
+<p>Open a new browser window and navigate to <a href="http://notskope.com">http://notskope.com</a> or <a href="https://notskope.com">https://notskope.com</a> (accessible over both HTTP and HTTPS). This website will tell you whether you are passing through the Netskope Cloud or not, and if so, which POP you are connected to.</p>
+<figure><img src="notskope.png"
+         alt="notskope.com will tell you whether or not your traffic is reaching the Netskope Cloud, and the POP you are connected to."/><figcaption>
+            <p>notskope.com will tell you whether or not your traffic is reaching the Netskope Cloud, and the POP you are connected to.</p>
+        </figcaption>
+</figure>
+
+<p>If your connection does not load, try opening the page in a Private Browser or Incognito window to bypass the browser cache and try again.</p>
+<p>To check whether content is being SSL inspected correctly, examine the certificate of <a href="https://notskope.com">https://notskope.com</a> (or any other HTTPS site that isn&rsquo;t bypassed, eg: <a href="https://www.wikipedia.org/">https://www.wikipedia.org</a>). If the connection is being correctly SSL inspected, you will see an intermediate certificate with the name <code>ca.&lt;tenant-name&gt;.goskope.com</code></p>
+<figure><img src="notskopecert.png"
+         alt="You can validate that a connection was SSL inspected by reviewing the certificate. If you see ca.&amp;lt;tenant-name&amp;gt;.goskope.com, then your connection was SSL inspected."/><figcaption>
+            <p>You can validate that a connection was SSL inspected by reviewing the certificate. If you see <code>ca.&lt;tenant-name&gt;.goskope.com</code>, then your connection was SSL inspected.</p>
+        </figcaption>
+</figure>
+
+<p>If this isn&rsquo;t present, then the connection is not being SSL inspected, and you should check that there is not a steering bypass or SSL decryption bypass in place preventing this.</p>
+<p>Installation and management of the Netskope root certificate required for SSL inspection into the system certificate trust store and Firefox trust store is automated by the Netskope Client.</p>
+<div class="bd-callout bd-callout-warning">
+    <strong class="text-warning">
+        <i class="bi bi-exclamation-diamond-fill"></i>&nbsp; 
+        
+        Caution!<br>
+    </strong>
+<p>Some thick/native applications (namely apps and tools used for development) use their own certificate trust stores to check certificate validity (eg: Git CLI, Azure Storage Manager, etc).</p>
+<p>Internet connections over HTTPS using these apps will fail due to an untrusted SSL error; even through the Netskope root certificate is installed in the system trust.</p>
+<p>In these scenarios, you will need to manually install the Netskope root into the trust store used by the application. There is a community script available to assist with installation for the most common tools <a href="https://gist.github.com/nathancatania/2c25ad1d663d25b5677d51bba3d1681c">available here</a>.</p>
+<p>The Netskope certificate can be downloaded for distribution from the Admin Console under <strong>Settings &gt; Manage &gt; Certificates</strong>. Click the <strong>Signing CA</strong> tab and download the <strong>Netskope Root Certificate</strong> (first option listed).</p>
+
+</div>
+
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="step-12---add--validate-a-security-policy">Step 12 - Add &amp; Validate a Security Policy</h1>
+<p>You have almost finished your Netskope deployment and are now ready to test the enforcement of a basic policy.</p>
+<p>All policies within Netskope, regardless of the feature (CASB, SWG, Firewall, ZTNA, etc) all follow the same structure:</p>
+<ul>
+<li>Source Attributes (User, AD Group, OS, Device Posture, Country, etc)</li>
+<li>Destination Attributes (Category, App, Instance, etc)</li>
+<li>Destination Contraints
+<ul>
+<li>Activities/Actions (Browse, Download, Upload, Share, Like, Delete, Edit, etc)</li>
+<li>Application Tag (Sanctioned, Unsanctioned, Test, etc)</li>
+<li>App Instance Tag (Production, QA, 3rd Party, etc)</li>
+<li>Destination Country</li>
+<li>App Risk / Cloud Confidence Level (CCL) (Low, High, Medium, etc)</li>
+</ul>
+</li>
+<li>Action (Block, Allow, Coach, Isolate, Alert, etc)</li>
+<li>Profile (DLP, Threat Scan)</li>
+</ul>
+<p>Netskope policies operate on the principe of first match, top-to-bottom.</p>
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/inline-policies.html">Netskope Real-time Protection Policies</a></li>
+</ul>
+<div class="bd-callout bd-callout-success">
+    <strong class="text-success">
+        <i class="bi bi-check-circle-fill"></i>&nbsp; 
+        
+        Best Practice Tip!<br>
+    </strong>
+<p>When configuring policies, you should start with your very broad / organisation-wide rules <strong>before</strong> creating deeper and more specific rules.</p>
+<p>The more constraints/attributes that a rule has, the tricker it can be to validate. It is important that your organisation has a number of baseline rules in place that will affect every user regardless of attributes (globally block adult sites and P2P for example).</p>
+
+</div>
+
+<h2 id="create-a-test-policy">Create a test policy</h2>
+<p>From the main Netskope Admin Console, navigate to <strong>Policies &gt; Real-time Protection:</strong> Your Netskope tenant will already have some policies in place by default (such as malware scanning).</p>
+<p>Click <strong>New Policy</strong>, and then either <strong>Web Access</strong>, or <strong>Cloud App Access</strong> (depending on what is available to you based on your subscription).</p>
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+Selecting Web Access, Cloud App Access, Firewall, Private App, or any other option, only presets the destination field in the policy creation workflow and you can change this as you see fit. In reality, it does not matter what you select from this dropdown menu as long as the destination type selected on the policy creation workflow is accurate.
+</div>
+
+<figure><img src="18.png"
+         alt="Create a new policy under Policies &amp;gt; Real-time Protection"/><figcaption>
+            <p>Create a new policy under Policies &gt; Real-time Protection</p>
+        </figcaption>
+</figure>
+
+<p>Create a basic policy to test as you see fit. The example below covers the creation of a rule that coaches the user on access to gambling-related websites, and alerts them that such content is non-business related and may be against acceptable use.</p>
+<ul>
+<li>For the <strong>Source</strong> field, set the user to be yourself.
+<ul>
+<li>Note that you can also add other Source criteria that must be validated during policy evaluation, such as the source country the user is connecting from, the operating system of their device, or whether the device is classified as <em>managed</em> or <em>unmanaged</em>.</li>
+</ul>
+</li>
+<li>For the <strong>Destination</strong> field, either set it to <strong>Category</strong> or <strong>Cloud App</strong> (depending on your subscription).
+<ul>
+<li>If <strong>Category</strong>, set the targeted category as <strong>Gambling.</strong></li>
+<li>If <strong>Cloud App</strong>, set the targeted application as <strong>WeTransfer.</strong></li>
+</ul>
+</li>
+<li>For the Activities field, select <strong>Browse.</strong></li>
+<li>For <strong>Profile &amp; Action</strong>, set the action to <strong>User Alert.</strong>
+<ul>
+<li>The template you are prompted to select what the notification that is displayed to the user will say. You can customize these as you see fit under <strong>Policies &gt; User Notifications</strong>.</li>
+<li>The <strong>User Alert</strong> action is a &ldquo;coaching&rdquo; prompt. The user is allowed to proceed through the warning that is displayed, and (depending on the template used) may be forced to enter a justification reason as to why they need to proceed.</li>
+</ul>
+</li>
+<li>Give the policy the name <code>[Access Control] Test Policy Coaching on Gambling Sites</code> (or similar)</li>
+<li>Ensure the <strong>Status</strong> is set to <strong>Enabled</strong> and click <strong>Save</strong> at the top-right.</li>
+<li>When prompted, save the policy at the top.</li>
+</ul>
+<div class="bd-callout bd-callout-success">
+    <strong class="text-success">
+        <i class="bi bi-check-circle-fill"></i>&nbsp; 
+        
+        Best Practice Tip!<br>
+    </strong>
+<p>It is a good idea to prefix a label/tag to your policies that describes the type of policy it is or feature that is used.</p>
+<p>For example: <strong>[DLP] Prevent Download of Sharepoint Data</strong>, or <strong>[Access Control] Block access to non-business sites</strong>.</p>
+
+</div>
+
+<figure><img src="21.png"
+         alt="Example of a policy that provides a coaching/warning prompt to a specific user when they browse to a Gambling site."/><figcaption>
+            <p>Example of a policy that provides a coaching/warning prompt to a specific user when they browse to a Gambling site.</p>
+        </figcaption>
+</figure>
+
+<p>Back on the Real-time Protection page, you should now see your new policy at the top of the list. Click <strong>Apply Changes</strong> at the top right to commit and push the policy to production. Changes will only take a few seconds to apply globally to all users.</p>
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+Policies do not take effect until your changes are applied. This is to prevent adverse impacts to your production environment as you create and edit policies.
+</div>
+
+<figure><img src="19.png"
+         alt="Your policy changes will not take effect until you click Apply Changes."/><figcaption>
+            <p>Your policy changes will not take effect until you click Apply Changes.</p>
+        </figcaption>
+</figure>
+
+<h2 id="test-your-policy">Test your policy</h2>
+<p>Navigate to either <a href="https://www.gambling.com">https://www.gambling.com</a> or <a href="https://wetransfer.com">https://wetransfer.com</a> (depending on what you selected in your policy).</p>
+<p>You should receive a Netskope notification page that allows you to proceed (as the action selected in the policy was <em>User Alert</em> (coach) and not <em>Block</em>). The contents of the notification page will depend on the template you selected in the policy.</p>
+<figure><img src="20.png"
+         alt="An example of a customized User Alert notification with justification required to proceed."/><figcaption>
+            <p>An example of a customized <em>User Alert</em> notification with justification required to proceed.</p>
+        </figcaption>
+</figure>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>If you don&rsquo;t receive a user notification when navigating to the above sites, try again using an Incognito or Private Browser Window. If this fixes the issue, then the problem was related to the Browser Cache.</p>
+<p>If the notification fails to display even inside a private window, check that the traffic is being SSL inspected correctly by examining the certificate of the site. You will see an intermediate certificate with the name <code>ca.&lt;tenant-name&gt;.goskope.com</code> if inspection is working correctly. If this certificate is missing, then it is likely that the site is bypassed from steering or SSL Inspection - in this case, you should review your bypasses (<a href="#step-7---add-bypasses-in-netskope">see Step 7</a>).</p>
+<p>You should also confirm that you applied the configuration changes you made under <strong>Policies &gt; Real-time Protection</strong>. If any of your rules have a yellow exclamation warning icon (&#x26a0;&#xfe0f;) next to them, or if the <strong>Apply Changes</strong> button at the top-right is <strong>not</strong> greyed out, then you have not committed your changes and your policy won&rsquo;t have applied.</p>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="partying_face-finish">&#x1f973; Finish</h1>
+<p>Congratulations! You&rsquo;ve just finished your deployment of Netskope!</p>
+<p>Stand up, have a stretch, pat yourself on the back, and go and take a break: you&rsquo;ve earned it!</p>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="recommended-next-steps">Recommended Next Steps</h1>
+<h2 id="review-the-default-real-time-protection-policies-in-your-netskope-admin-console">Review the default Real-Time Protection policies in your Netskope Admin Console.</h2>
+<p>The default policies in your Netskope configuration will cover the following:</p>
+<ul>
+<li>Block undesirable sites (such as adult content and P2P) globally for all users.</li>
+<li>Warn and require justification for access to unknown/miscellaneous content and newly registered domains.</li>
+<li>Block known and suspected malicious domains and phishing</li>
+<li>Ensure all uploads/downloads are checked for malware.</li>
+</ul>
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/real-time-protection.html">About Real-time Protection Policies</a></li>
+<li><a href="https://docs.netskope.com/en/inline-policies.html">Configure Real-time Protection Policies</a></li>
+<li><a href="https://docs.netskope.com/en/creating-a-threat-protection-policy-for-real-time-protection.html">Threat Protection Policy for Real-time Protection</a></li>
+<li><a href="https://docs.netskope.com/en/inline-monitoring-for-cloud-apps.html">Policy Examples for Cloud Apps</a></li>
+</ul>
+<h2 id="create-and-customize-your-user-notification-templates">Create and customize your User Notification templates</h2>
+<p>The messages that appear to users when a block/coaching rule is hit can be customized under <strong>Policies &gt; User Notification</strong>. Each policy can have a different template; allowing you to coach users on appropriate behaviors across a wide variety of scenarios.</p>
+<figure><img src="22.png"
+         alt="An example of a coach/user alert notification that directs the user to the correct sanctioned application to use."/><figcaption>
+            <p>An example of a coach/user alert notification that directs the user to the correct sanctioned application to use.</p>
+        </figcaption>
+</figure>
+
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/policy-notification-templates.html">Policy Notification Templates</a></li>
+</ul>
+<h2 id="establish-global-guardrails-and-build-out-policies">Establish global guardrails and build out policies</h2>
+<p>Netskope recommends that you expand on the global block (included as a default policy) and add additional sites/categories that you may also want to block globally, eg: Online Ads.</p>
+<p>You should also consider implementing a coaching policy with action &ldquo;User Alert&rdquo; that covers the applications and categories that you consider &ldquo;non-business&rdquo; related, but safe for employees to consume; eg: Streaming Media, and/or Gambling.</p>
+<p>Access Control rules should take creation priority and you should start with the most simple rules first. Once you have baseline rules in place, slowly add rules of additional complexity; incorporating risk scores, instance awareness, and/or DLP rules.</p>
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/create-a-real-time-protection-policy-for-web-categories.html">Create a Real-time Protection policy for web categories</a></li>
+<li><a href="https://docs.netskope.com/en/profiles.html">Policy Profiles</a></li>
+<li><a href="https://docs.netskope.com/en/create-custom-categories.html">Custom URL Categories</a></li>
+</ul>
+<h2 id="sanction-your-business-applications">Sanction your business applications</h2>
+<p>The Netskope Cloud Confidence Index™ (CCI) is a database of more than 54,000 cloud apps that Netskope has evaluated based on 48+ objective criteria adapted from Cloud Security Alliance Guidance. These criteria measure apps enterprise-readiness, taking into consideration an apps security, audit-ability, and business continuity.</p>
+<p>Each app is assigned a score of 0-100, and based on that score, is placed into one of five Cloud Confidence Levels (CCL): Poor, Low, Medium, High, or Excellent. You can use the CCI score to make an app selection decision, as well as set policies based on level. For example, you can decide whether to let users share content in cloud storage or file converter apps rated Medium or below.</p>
+<p>Access the CCI from the main panel of the Netskope Admin Console, lookup your key business applications (eg: Sharepoint, Teams, Slack, etc) and mark them as &ldquo;sanctioned&rdquo; (all apps are &ldquo;unsanctioned&rdquo; by default) - eg: Sharepoint, Teams, Dropbox, Zoom, Slack, etc. You can then leverage the <code>sanctioned</code> and <code>unsanctioned</code> tags in policy: For example, block upload to all high risk, unsanctioned, cloud storage applications.</p>
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/cloud-confidence-index.html">Using Cloud Confidence Index</a></li>
+<li><a href="https://docs.netskope.com/en/tag-apps.html">Tagging Applications</a></li>
+<li><a href="https://docs.netskope.com/en/inline-protection-of-cloud-apps.html">Using CCI in Real-time Protection Policies</a></li>
+</ul>
+<h2 id="deploy-to-a-broader-subset-of-users">Deploy to a broader subset of users</h2>
+<p>Once your baseline policies are in place, you are ready to expand your rollout to additional users.</p>
+<h2 id="deploy-netskope-publishers-npa-customers-only">Deploy Netskope Publishers (NPA Customers Only)</h2>
+<p>If you are a Netskope Private Access (NPA) / ZTNA customer, you will need to deploy Netskope Publishers throughout your environment to facilitate access to your internal apps.</p>
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/deploy-a-publisher.html">Deploy a Publisher</a></li>
+</ul>
+<h2 id="establish-ipsecgre-tunnels-to-netskope-to-secure-clientless-devices-guest-wi-fi-and-servers">Establish IPsec/GRE tunnels to Netskope to secure clientless devices, Guest Wi-Fi, and servers</h2>
+<p>The Netskope Client is only one of many methods to steer traffic to the Netskope Cloud.</p>
+<p>Another common method used in conjunction with the Netskope Client is the establishment of IPsec or GRE tunnels from your internet egress points (including public cloud). This allows your security policies to be extended and applied to users and devices that can&rsquo;t run the Netskope Client: Guest Wi-Fi, Servers, and IoT/smart devices for example.</p>
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/ipsec-129296.html">IPsec</a></li>
+<li><a href="https://docs.netskope.com/en/gre-127075.html">GRE</a></li>
+</ul>
+<h2 id="deploy-netskope-cloud-exchange">Deploy Netskope Cloud Exchange</h2>
+<p>Cloud Exchange (CE) is a platform (free for all Netskope customers) that facilitates the exchange of information between your various security and operations platforms; including threat intel, risk data, and logs.</p>
+<p>See more:</p>
+<ul>
+<li><a href="https://community.netskope.com/t5/Blogs/A-Guide-to-Deploy-Netskope-Cloud-Exchange/ba-p/1143">A guide to deploy Cloud Exchange</a></li>
+<li><a href="https://docs.netskope.com/en/netskope-cloud-exchange.html">About Cloud Exchange</a></li>
+</ul>
+<h2 id="configure-administrator-single-sign-on">Configure Administrator Single Sign-On</h2>
+<p>Currently, your Netskope Admin Console is authenticated using separately managed username and passwords. It is strongly recommended that you configure Single Sign-On for the Admin Console so that authentication is centrally controlled via your company&rsquo;s identity service.</p>
+<p>See more:</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/configure-single-sign-on-for-the-netskope-ui.html">Configure Single Sign-On (Netskope Admin Console)</a></li>
+</ul>
+<hr>
+<h1 id="feedback">Feedback</h1>
+<p>If you notice any mistakes or inaccuracies in this guide, please <a href="https://www.linkedin.com/in/nathancatania/">get in touch with me</a>, or <a href="https://github.com/nathancatania/website/issues/new/choose">raise an issue on GitHub</a>.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/netskope">netskope</a></span><span class="tag"><a href="https://nathancatania.com/tags/sase">sase</a></span><span class="tag"><a href="https://nathancatania.com/tags/guide">guide</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>6929 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2022-10-12</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/deploy-netskope-cloud-exchange/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Deploy Netskope Cloud Exchange</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/deploy-guacamole-ssl-saml/">
+                                <span class="button__text">Deploy Apache Guacamole with SSL &amp; SAML (Azure AD &amp; Okta) integration</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.858712b4b19060b33e6a3b52df9749f413894a75772f4d0b4683380c0ce08c6f93623d63068ef5ae4719980bcaa15ad536694c42897b88c4826c6ece21918827.js" integrity="sha512-hYcStLGQYLM&#43;ajtS35dJ9BOJSnV3L00LRoM4DAzgjG&#43;TYj1jBo71rkcZmAvKoVrVNmlMQol7iMSCbG7OIZGIJw=="></script>
+
+
+
+
+    </body>
+</html>

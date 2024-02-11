@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="map[author:map[bio:Engineer // Melbourne // Australia name:Nathan Catania photo:map[url:avatar.png]] contenttypename:posts dateform:Jan 2, 2006 dateformnum:2006-01-02 dateformnumtime:2006-01-02 15:04 &#43;1000 dateformshort:Jan 2 description:The official website of Nathan Catania &amp;#10003; disablereadotherposts:false enablethemetoggle:true giturl:https://github.com/nathancatania/website/commit/ homesubtitle:Engineer // Melbourne // Australia images:[] keywords:blog, website, official logo:map[logohomelink:/ logotext:$ cd /home/nathan] readotherposts:Read other posts social:[map[name:linkedin url:https://www.linkedin.com/in/nathancatania]] subtitle:Engineer // Melbourne // Australia]">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="Set Azure Active Directory (AAD) as the Identity Provider (IdP) for the Zscaler Private Access (ZPA) service. Configure SAML Single Sign-On (SSO) and SCIM Provisioning." />
+<meta name="keywords" content="blog, website, official, azure, zscaler, lab, notes" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/" />
+
+
+    <title>
+        
+            Integrate Zscaler ZPA with Azure AD :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b851fae37ea32930b5c4996a9ac8737a9d1ab1b40af28b3cd3b0060df9e2f5a3.css" integrity="sha256-uFH6436jKTC1xJlqmshzep0asbQK8os807AGDfni9aM=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Integrate Zscaler ZPA with Azure AD">
+<meta itemprop="description" content="Set Azure Active Directory (AAD) as the Identity Provider (IdP) for the Zscaler Private Access (ZPA) service. Configure SAML Single Sign-On (SSO) and SCIM Provisioning."><meta itemprop="datePublished" content="2020-01-02T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-01-02T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2318"><meta itemprop="image" content="https://nathancatania.com" />
+<meta itemprop="keywords" content="azure,zscaler,lab,notes," />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nathancatania.com" /><meta name="twitter:title" content="Integrate Zscaler ZPA with Azure AD"/>
+<meta name="twitter:description" content="Set Azure Active Directory (AAD) as the Identity Provider (IdP) for the Zscaler Private Access (ZPA) service. Configure SAML Single Sign-On (SSO) and SCIM Provisioning."/>
+
+
+
+    <meta property="og:title" content="Integrate Zscaler ZPA with Azure AD" />
+<meta property="og:description" content="Set Azure Active Directory (AAD) as the Identity Provider (IdP) for the Zscaler Private Access (ZPA) service. Configure SAML Single Sign-On (SSO) and SCIM Provisioning." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/" /><meta property="og:image" content="https://nathancatania.com" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-01-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-01-02T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2020-01-02 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                $ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>11 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/">Integrate Zscaler ZPA with Azure AD</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#add-a-new-identity-provider-in-zpa">Add a New Identity Provider in ZPA</a></li>
+    <li><a href="#add-zpa-as-an-enterprise-application-in-azure-ad">Add ZPA as an Enterprise Application in Azure AD</a></li>
+    <li><a href="#configure-the-zpa-enterprise-application">Configure the ZPA Enterprise Application</a>
+      <ul>
+        <li><a href="#1---configure-saml-based-single-sign-on">1 - Configure SAML-based Single Sign-on</a></li>
+        <li><a href="#2---import-the-zscaler-sp-metadata-file">2 - Import the Zscaler SP Metadata File</a></li>
+        <li><a href="#3---create-a-saml-signing-certificate">3 - Create a SAML Signing Certificate</a></li>
+      </ul>
+    </li>
+    <li><a href="#assign-users--groups-to-the-enterprise-application">Assign Users &amp; Groups to the Enterprise Application</a></li>
+    <li><a href="#finish-configuring-the-idp-in-zpa">Finish Configuring the IdP in ZPA</a></li>
+    <li><a href="#configure-scim-provisioning-in-azure-ad">Configure SCIM Provisioning in Azure AD</a>
+      <ul>
+        <li><a href="#1---configure-scim-provisionig-in-azure-ad">1 - Configure SCIM Provisionig in Azure AD</a></li>
+        <li><a href="#3---synchronize">3 - Synchronize</a></li>
+        <li><a href="#4---verify">4 - Verify</a></li>
+      </ul>
+    </li>
+    <li><a href="#import-saml-attributes">Import SAML Attributes</a></li>
+    <li><a href="#configure-service-entitlement">Configure Service Entitlement</a></li>
+    <li><a href="#test-the-azure-ad-configuration">Test the Azure AD configuration</a>
+      <ul>
+        <li><a href="#testing-sso-in-a-browser">Testing SSO in a Browser</a></li>
+        <li><a href="#troubleshooting-sign-in">Troubleshooting Sign-in</a></li>
+      </ul>
+    </li>
+    <li><a href="#finish">Finish</a></li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+                <img src="banner.png" class="post-cover" />
+            
+
+            <div class="post-content">
+                <p>This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZPA. Our users defined in Azure AD will be able to authenticate with Z-App/ZPA using Microsoft Single Sign-on (SSO), and we&rsquo;ll also be able to create access policies for our private applications based on user identity and attributes.</p>
+<p>If you followed my previous post covering ZIA integration with Azure AD, then the first few steps will be (mostly) the same.</p>
+<h1 id="add-a-new-identity-provider-in-zpa">Add a New Identity Provider in ZPA</h1>
+<p>Log into the <a href="https://admin.private.zscaler.com">ZPA admin portal</a> and go to <strong>Administration</strong> &gt; <strong>IdP Configuration</strong>.</p>
+<p><img src="1.png" alt="1"></p>
+<p>Click <strong>Add IdP Configuration</strong> at the top-right of the screen.</p>
+<p><img src="2.png" alt="2"></p>
+<p>Under the <strong>IdP Information</strong> section:</p>
+<ol>
+<li>Enter a name for the IdP configuration.
+ZPA supports multipe IdPs, hence a name is required to differentiate them.</li>
+<li>Ensure <strong>User</strong> is selected for <strong>Single Sign-On</strong>.</li>
+<li>Select the domain(s) you wish to associate with the IdP configuration.
+Zscaler support must add any additional domains to your admin portal first before you can use them.</li>
+</ol>
+<p><img src="3.png" alt="3"></p>
+<p>Click <strong>Next</strong> to continue.</p>
+<p>The next tab shows info you&rsquo;ll for the configuration on the Azure AD side. <strong>Download the Service Provider Metadata file</strong> (this will download as a file called <strong>sp_metadata.xml</strong>) as we&rsquo;ll use this in the next section.</p>
+<p><img src="4.png" alt="4"></p>
+<p>Click <strong>Pause</strong> (this will suspend the IdP config temporarily) and continue to the next section.</p>
+<h1 id="add-zpa-as-an-enterprise-application-in-azure-ad">Add ZPA as an Enterprise Application in Azure AD</h1>
+<p>From the <a href="https://portal.azure.com">Azure Portal</a>, open the side hamburger menu and click <strong>Azure Active Directory</strong>. You can also search for it using the search bar at the top.</p>
+<p><img src="6.png" alt="6"></p>
+<p>Under <strong>Manage</strong> in the side menu, click <strong>Enterprise applications</strong>.</p>
+<p><img src="7.png" alt="7"></p>
+<p>Next, under the <strong>All Applications</strong> menu, click <strong>New Application</strong>.</p>
+<p><img src="8.png" alt="8"></p>
+<p>In the search box to add a new application, type &ldquo;<strong>Zscaler</strong>&rdquo;.</p>
+<p><img src="9.png" alt="9"></p>
+<p>Select the <strong>Zscaler Private Access (ZPA)</strong> application and click <strong>Create</strong> (or <strong>Add</strong> depending on whether you are using the old or new enterprise app gallery).</p>
+<h1 id="configure-the-zpa-enterprise-application">Configure the ZPA Enterprise Application</h1>
+<p>You will now be on the administration page for the ZPA enterprise application you added above (if not, you can get to this page via: Azure Active Directory &gt; Enterprise Applications &gt; All Applications, then click on the ZPA app you added above).</p>
+<h2 id="1---configure-saml-based-single-sign-on">1 - Configure SAML-based Single Sign-on</h2>
+<p>Under <strong>Manage</strong> in the side menu, click <strong>Single sign-on</strong>, and select <strong>SAML</strong> when prompted. This will place you on the SAML configuration page.</p>
+<p><img src="10.png" alt="10"></p>
+<p><img src="11.png" alt="11"></p>
+<h2 id="2---import-the-zscaler-sp-metadata-file">2 - Import the Zscaler SP Metadata File</h2>
+<p>Click <strong>Upload metadata file</strong> at the top, and select the <strong>sp_metadata.xml</strong> file you downloaded from the ZPA admin portal earlier. This will open a panel and pre-populate some of the required info.</p>
+<p><img src="12.png" alt="12"></p>
+<p>The Sign on URL field will be empty and is required. Copy the example URL, replacing the <code>EXAMPLE</code> at the end with your domain that is being associated with this Azure AD config.</p>
+<p>For example, for my domain of <code>oblivion.industries</code>, my Sign on URL would look like:</p>
+<pre tabindex="0"><code>https://samlsp.private.zscaler.com/auth/login?domain=oblivion.industries
+</code></pre><p><img src="13.png" alt="13"></p>
+<p>The Relay State and Logout Url fields should be left blank.</p>
+<p>Click <strong>Save</strong> at the top when you are done, and X to close the panel.</p>
+<h2 id="3---create-a-saml-signing-certificate">3 - Create a SAML Signing Certificate</h2>
+<p>Next to the 3rd step, <strong>SAML Signing Certificate</strong> in the SAML configuration page, click the edit/pencil icon.</p>
+<p><img src="14.png" alt="14"></p>
+<p>In the panel that appears, make sure the <strong>Signing Algorithm</strong> is <strong>SHA-256</strong> and <strong>Signing Option</strong> is set to <strong>Sign SAML assertion</strong>.</p>
+<p>Click <strong>New Certificate</strong> then <strong>Save</strong>. Open the menu by clicking the three dots to the right of the certificate, and download the BOTH the <strong>Base64</strong> certificate and the <strong>Federated Certificate XML</strong>. You should only need the latter, but it can sometimes be helpful to have both.</p>
+<p><img src="15.png" alt="15"></p>
+<p>Close the panel by clicking X once you&rsquo;ve downloaded the certificate and metadata files.</p>
+<h1 id="assign-users--groups-to-the-enterprise-application">Assign Users &amp; Groups to the Enterprise Application</h1>
+<p>We now need to assign what users are authorized to use the ZPA Enterprise Application. Only the users or groups specified will be able to sign into ZPA via Microsoft SSO. If you skip this section, your user&rsquo;s won&rsquo;t be able to sign in, and you won&rsquo;t see user data populated in ZIA for you to configure policy around.</p>
+<p>Select <strong>Users and groups</strong> from the side menu of the enterprise application, then click <strong>Add user</strong>.</p>
+<p><img src="16.png" alt="16"></p>
+<p>Select the Users and Groups to be both synced with and provisoned access to ZPA. If you select a group, all members of that group will receive ZPA access.</p>
+<p><img src="17.png" alt="17"></p>
+<p>When you are finished, click <strong>Assign</strong>.</p>
+<h1 id="finish-configuring-the-idp-in-zpa">Finish Configuring the IdP in ZPA</h1>
+<p>Return to the ZPA admin portal and click the <strong>resume</strong> button next to the paused IdP configuration (Administration &gt; IdP Configuration).</p>
+<p><img src="18.png" alt="18"></p>
+<p>For the <strong>IdP Metadata File</strong>, click to <strong>upload the Federated Certificate XML</strong> you download from Azure AD above. <em><strong>This will automatically populate all settings for you; including the certificate.</strong></em></p>
+<p>If for some reason the certificate does not populate, you can upload the Base64 certificate you downloaded.</p>
+<p><img src="19.png" alt="19"></p>
+<p>Scroll to the bottom of the window and change <strong>SCIM Sync</strong> to <strong>Enabled</strong>.</p>
+<p>Note down the <strong>SCIM Service Provider Endpoint</strong> URL, and generate a new <strong>Bearer Token</strong>. Note down the Bearer Token as well. You will need both of these in the next step.</p>
+<p><img src="20.png" alt="20"></p>
+<p>Click <strong>Save</strong> to finish the configuration on the ZPA side. Unlike ZIA, you do not need to activate your changes for them to take effect.</p>
+<h1 id="configure-scim-provisioning-in-azure-ad">Configure SCIM Provisioning in Azure AD</h1>
+<p>So far we&rsquo;ve configured a way to authenticate our users, but we still need to configure a method to provision &amp; de-provision them in the ZPA database.</p>
+<p>You can learn more about SCIM Provisioning <a href="https://help.zscaler.com/zpa/about-scim">here</a>, but in short, it involves the IdP regularly syncing user information with Zscaler via an API. With Azure AD, this sync happens every 40 minutes. Using SCIM is best practice.</p>
+<h2 id="1---configure-scim-provisionig-in-azure-ad">1 - Configure SCIM Provisionig in Azure AD</h2>
+<p>Return to the ZPA Enterprise Application in Azure AD. This time select <strong>Provisioning</strong> from the side menu and select <strong>Get Started</strong> if prompted.</p>
+<p><img src="21.png" alt="21"></p>
+<p>Change the <strong>Provisioning Mode</strong> to <strong>Automatic</strong>, and fill in the following fields:</p>
+<ul>
+<li>For <strong>Tenant URL</strong>, copy and paste the <strong>Base URL</strong> from above.</li>
+<li>For <strong>Secret Token</strong>, copy and paste the <strong>Bearer Token</strong> from above.</li>
+</ul>
+<p>Click <strong>Test Connection</strong> to verify. If you recieve an error about &ldquo;invalid credentials&rdquo;, make sure you saved and activated your change in the step above.</p>
+<p><img src="22.png" alt="22"></p>
+<p>Click <strong>Save</strong> to continue.</p>
+<p>Once your changes have been saved, change <strong>Provisioning Status</strong> to <strong>On</strong>.</p>
+<p>Save your changes again and the Scope field should appear.</p>
+<p>If you recieve an error, or the scope field is not appearing:</p>
+<ul>
+<li>Back out of the Provisioning menu and go into it again. This should fix the error and cause the scope menu to appear.</li>
+<li>Ensure you have assigned users and/or groups (containing users) to the enterprise application first.</li>
+</ul>
+<p>For the <strong>Scope</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sync only assigned users and groups</strong></td>
+<td>Only users and groups explicitly assigned access to this enterprise application (under Users and groups in the side menu) will be provisioned via SCIM to ZPA.</td>
+</tr>
+<tr>
+<td><strong>Sync all users and groups</strong></td>
+<td>All users and groups defined in Azure AD are synced with ZPA; irrespective of what was defined under Users and Groups in the side menu.</td>
+</tr>
+</tbody>
+</table>
+<p>Set your scope accordingly and click <strong>Save</strong> again. Don&rsquo;t forget to do this or your user information will not sync with ZPA!</p>
+<h2 id="3---synchronize">3 - Synchronize</h2>
+<p>Your users will sync to ZPA on the next API cycle (every 40 minutes). As this is the first time, you can manually force a sync by clicking the option <strong>Clear current state and restart synchronization</strong> (and then <strong>Save</strong>).</p>
+<h2 id="4---verify">4 - Verify</h2>
+<p>Once your users and groups have synchronised with ZPA, they&rsquo;ll be visible in the ZPA admin portal under <strong>Administration &gt; SCIM Users</strong> and <strong>Administration &gt; SCIM Groups</strong>.</p>
+<p><img src="23.png" alt="23"></p>
+<h1 id="import-saml-attributes">Import SAML Attributes</h1>
+<p>In order to create policies in ZPA, we need to import the fields we can use (called SAML attributes) from the IdP. This also allows us to test whether user authentication is working correctly.</p>
+<blockquote>
+<p><strong>IMPORTANT:</strong> I strongly recommend do the next step in an Incognito or Private tab. Failing that, completely sign out of both Azure AD and any Microsoft accounts you are currently signed in as in your current browser session.</p>
+<p>The next step will redirect you to Microsoft SSO to sign in with one of our test users, but if an active session to another Microsoft account is detected, it will use that instead. Importing the SAML attributes will then fail, as this account is likely not associated with our Azure AD tenant.</p>
+</blockquote>
+<p>In the ZPA admin portal, go to <strong>Administration</strong> &gt; <strong>IdP Configuration</strong> and expand the IdP configuration you want to import the attributes from. Under <strong>Import SAML Attributes</strong>, select the domain associated with the IdP you want to import the attributes from and click <strong>Import</strong>.</p>
+<p><img src="24.png" alt="24"></p>
+<p>Sign in using the credentials of a user that is authorized to use ZPA (ie: a user associated with the ZPA enterprise application). This will test your SSO config so far:</p>
+<ul>
+<li>If you encounter a Microsoft error (and you&rsquo;re trying this in an incognito or private tab), this indicates an issue with the Microsoft side of the config. Check to see whether the user you are attempting to sign in as has been added to the enterprise application as an authorized user. Additionally, check that your SAML config is correct.</li>
+<li>If you encounter a Zscaler branded error, this indicates an issue with the config on the Zscaler side. Note down the error code in the bottom left and check it against a <a href="https://help.zscaler.com/zia/troubleshooting-saml">list of error codes here</a>.</li>
+</ul>
+<p>If you have a successful login, the SAML JSON response will be captured and used to discover available SAML attributes to import:</p>
+<p><img src="25.png" alt="25"></p>
+<p>Anything in the left column, <strong>Name</strong>, you should overwrite with a descriptive name. <strong>What you type here will appear when creating an access policy</strong>, so <code>Full Name</code> is a lot easier to understand than <code>...claims_displayname_Azure AD</code> is.</p>
+<p>NB: If you have multiple IdPs configured, the name given to the attribute must be unique amongst all of them or it will not import.</p>
+<p>Some important mappings you might want to be aware of:</p>
+<table>
+<thead>
+<tr>
+<th>SAML Attribute Name</th>
+<th>What you should call it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>displayname</td>
+<td>Full Name</td>
+</tr>
+<tr>
+<td>groups</td>
+<td>Group or memberOf</td>
+</tr>
+<tr>
+<td>givenname</td>
+<td>First Name</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Username (eg: <a href="mailto:user@example.com">user@example.com</a>)</td>
+</tr>
+<tr>
+<td>surname</td>
+<td>Surname</td>
+</tr>
+<tr>
+<td>emailaddress</td>
+<td>Email Address</td>
+</tr>
+</tbody>
+</table>
+<p>You can also use the JSON displayed at the bottom of the page to work out what things should be called based on the captured data.</p>
+<p>Note: Only SAML attributes that have not been imported are displayed in the table. If the table is blank or some fields are missing, check you haven&rsquo;t already imported the attribute you&rsquo;re after.</p>
+<p>When you are done, click <strong>Save</strong> to finish the import.</p>
+<p>You will now be able to create an Access Policy using any of the imported SAML attributes:</p>
+<p><img src="26.png" alt="26"></p>
+<h1 id="configure-service-entitlement">Configure Service Entitlement</h1>
+<p>You now need to explicitly turn on ZPA in the Zscaler App, otherwise ZIA will be the only product to appear when a user signs in. This is called Selective Entitlement and is a way companies can specifically enable ZPA for some employees (eg: remote workers), but not all of them.</p>
+<p>In the ZPA admin portal, click the link in the menu to go to the <strong>Zscaler App Portal</strong>.</p>
+<p><img src="27.png" alt="27"></p>
+<p>Once in the Zscaler App Portal go to <strong>Administration &gt; Zscaler Service Entitlement</strong>.</p>
+<p><img src="28.png" alt="28"></p>
+<p>IMPORTANT: If you have a brand new ZPA portal, you will not see the option for <strong>Zscaler Service Entitlement</strong> in the Zscaler App Portal. You need to <a href="https://help.zscaler.com/submit-ticket">raise a ticket with support</a> to have this enabled, and can use the following script:</p>
+<blockquote>
+<p>Hi team. IdP is now configured in ZPA. Please enable ZPA in the Zscaler App Portal at your earliest convenience. Thank you.</p>
+</blockquote>
+<p><img src="29.png" alt="29"></p>
+<p>You can choose to enable ZPA in the Zscaler App globally for all users, or only allow access to specific groups.</p>
+<p>IMPORTANT: Group membership is synced from ZIA. If you&rsquo;ve changed group membership or created a new group in Azure AD, you must wait for it to sync to ZIA with SCIM AND wait for it to sync from ZIA to the Zscaler App portal (you can also initate a manual pull from ZIA under Administration &gt; Zscaler App Support &gt; Advanced Configuration)</p>
+<p>Select whether to enable ZPA for all users (check the <strong>ZPA Enabled by Default</strong> option), or select users by specifying a group.</p>
+<p>Click <strong>Save</strong> when you are finished and return to the ZPA admin portal.</p>
+<h1 id="test-the-azure-ad-configuration">Test the Azure AD configuration</h1>
+<p>We&rsquo;re going to test everything that we&rsquo;ve done so far. Open Z-App (sign-out if you&rsquo;re already signed in with another user) and sign in with the credentials of one of your Azure AD users that you assigned to the ZPA Enterprise Application.</p>
+<p>When you enter the username, Z-App should now redirect you to sign-in with Microsoft. Enter valid user credentials and test the sign-in.</p>
+<p><img src="30.png" alt="1"></p>
+<p>If everything is working well, and you&rsquo;ve enabled ZPA in the Zscaler App (Zscaler Service Entitlement), the user will be signed in to both ZIA and ZPA (provided Azure AD has been used for the IdP for both). Z-App will minimize itself to your system tray or menu-bar. If you open it, you&rsquo;ll see your user is authenticated.</p>
+<p><img src="24.png" alt="24"></p>
+<h2 id="testing-sso-in-a-browser">Testing SSO in a Browser</h2>
+<p>You can test the IdP configuration outside of the ZPA admin portal using the following URL. Replace <code>EXAMPLE.COM</code> with your company’s domain name as per Azure AD.</p>
+<p>IMPORTANT: Test the URL in a Private/Incognito window.</p>
+<pre tabindex="0"><code>https://samlsp.private.zscaler.com/auth/v2/login?ssotype=test&amp;domain=EXAMPLE.COM
+</code></pre><h2 id="troubleshooting-sign-in">Troubleshooting Sign-in</h2>
+<p>If the Microsoft SSO fails, check the config on the Azure AD side. This could be due to:</p>
+<ul>
+<li>The URLs in the SAML config are not correct.</li>
+<li>Your user has not been assigned to the enterprise application.</li>
+</ul>
+<p>If sign in passes Microsoft SSO, but you get a Zscaler error (as per the image below), check the error code in the bottom right corner against the <a href="https://help.zscaler.com/zia/troubleshooting-saml">list of error codes here</a>. This indicates an issue with the config on the Zscaler side (typically something to do with the certificate you imported from Azure AD).</p>
+<p><img src="25.png" alt="25"></p>
+<h1 id="finish">Finish</h1>
+<p>If all went well, you should now have your ZPA tenant integrated with Azure AD with SAML-based SSO and SCIM user provisioning.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/azure">azure</a></span><span class="tag"><a href="https://nathancatania.com/tags/zscaler">zscaler</a></span><span class="tag"><a href="https://nathancatania.com/tags/lab">lab</a></span><span class="tag"><a href="https://nathancatania.com/tags/notes">notes</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>2318 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-01-02</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/deploying-zpa-zen-connectors/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Deploying ZPA ZEN Connectors</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/">
+                                <span class="button__text">Integrate Zscaler ZIA with Azure AD</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.858712b4b19060b33e6a3b52df9749f413894a75772f4d0b4683380c0ce08c6f93623d63068ef5ae4719980bcaa15ad536694c42897b88c4826c6ece21918827.js" integrity="sha512-hYcStLGQYLM&#43;ajtS35dJ9BOJSnV3L00LRoM4DAzgjG&#43;TYj1jBo71rkcZmAvKoVrVNmlMQol7iMSCbG7OIZGIJw=="></script>
+
+
+
+
+    </body>
+</html>

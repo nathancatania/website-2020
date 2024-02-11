@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>okta on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/okta/</link>
+    <description>Recent content in okta on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 06 Mar 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/okta/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How-to Configure SSO for Netskope Cloud Exchange</title>
+      <link>https://nathancatania.com/posts/sso-cloud-exchange/</link>
+      <pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/sso-cloud-exchange/</guid>
+      <description>The thoughts and opinions in this post are my own and do not reflect those of Netskope. Please follow this guide at your own risk.&#xA;This post will cover how to configure Single-Sign-On (SSO) for the Netskope Cloud Exchange (CE) platform; specifically for Azure AD and Okta. This will allow you to manage administrator access to CE from within your existing Identity Provider (IdP), rather than configuring administrators within the platform manually.</description>
+    </item>
+  </channel>
+</rss>

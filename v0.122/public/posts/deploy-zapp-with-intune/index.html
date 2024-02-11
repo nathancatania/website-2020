@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="map[author:map[bio:Engineer // Melbourne // Australia name:Nathan Catania photo:map[url:avatar.png]] contenttypename:posts dateform:Jan 2, 2006 dateformnum:2006-01-02 dateformnumtime:2006-01-02 15:04 &#43;1000 dateformshort:Jan 2 description:The official website of Nathan Catania &amp;#10003; disablereadotherposts:false enablethemetoggle:true giturl:https://github.com/nathancatania/website/commit/ homesubtitle:Engineer // Melbourne // Australia images:[] keywords:blog, website, official logo:map[logohomelink:/ logotext:$ cd /home/nathan] readotherposts:Read other posts social:[map[name:linkedin url:https://www.linkedin.com/in/nathancatania]] subtitle:Engineer // Melbourne // Australia]">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="This post will cover how to deploy the Zscaler Agent (Zscaler Client Connector [ZCC]) on Windows &amp; macOS using Microsoft Intune." />
+<meta name="keywords" content="blog, website, official, intune, zscaler, lab, notes" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/deploy-zapp-with-intune/" />
+
+
+    <title>
+        
+            Deploy Zscaler Client Connector with Intune (Windows &amp; macOS) :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b851fae37ea32930b5c4996a9ac8737a9d1ab1b40af28b3cd3b0060df9e2f5a3.css" integrity="sha256-uFH6436jKTC1xJlqmshzep0asbQK8os807AGDfni9aM=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Deploy Zscaler Client Connector with Intune (Windows &amp; macOS)">
+<meta itemprop="description" content="This post will cover how to deploy the Zscaler Agent (Zscaler Client Connector [ZCC]) on Windows &amp; macOS using Microsoft Intune."><meta itemprop="datePublished" content="2020-10-05T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-10-05T00:00:00+00:00" />
+<meta itemprop="wordCount" content="3644"><meta itemprop="image" content="https://nathancatania.com" />
+<meta itemprop="keywords" content="intune,zscaler,lab,notes," />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nathancatania.com" /><meta name="twitter:title" content="Deploy Zscaler Client Connector with Intune (Windows &amp; macOS)"/>
+<meta name="twitter:description" content="This post will cover how to deploy the Zscaler Agent (Zscaler Client Connector [ZCC]) on Windows &amp; macOS using Microsoft Intune."/>
+
+
+
+    <meta property="og:title" content="Deploy Zscaler Client Connector with Intune (Windows &amp; macOS)" />
+<meta property="og:description" content="This post will cover how to deploy the Zscaler Agent (Zscaler Client Connector [ZCC]) on Windows &amp; macOS using Microsoft Intune." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/deploy-zapp-with-intune/" /><meta property="og:image" content="https://nathancatania.com" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-05T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-10-05T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2020-10-05 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                $ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>18 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/deploy-zapp-with-intune/">Deploy Zscaler Client Connector with Intune (Windows &amp; macOS)</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-intune">What is Intune?</a></li>
+    <li><a href="#video-demonstration">Video Demonstration</a></li>
+    <li><a href="#before-you-begin">Before You Begin</a></li>
+    <li><a href="#microsoft-endpoint-manager">Microsoft Endpoint Manager</a>
+      <ul>
+        <li><a href="#optional-setting-the-mdm-authority">(Optional) Setting the MDM Authority</a></li>
+      </ul>
+    </li>
+    <li><a href="#windows">Windows</a>
+      <ul>
+        <li><a href="#1-download-the-zscaler-client-connector-msi">1. Download the Zscaler Client Connector MSI</a></li>
+        <li><a href="#2-add-a-new-line-of-business-app">2. Add a new Line-of-Business App</a>
+          <ul>
+            <li><a href="#add-a-new-line-of-business-lob-app">Add a new Line of Business (LoB) App</a></li>
+            <li><a href="#customize-the-app-details">Customize the App Details</a></li>
+            <li><a href="#assign-users-to-the-app">Assign Users to the App</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#macos">macOS</a>
+      <ul>
+        <li><a href="#do-i-need-an-apple-developer-account">Do I need an Apple Developer Account?</a>
+          <ul>
+            <li><a href="#obtaining-developer-id-certificates">Obtaining Developer ID Certificates</a></li>
+          </ul>
+        </li>
+        <li><a href="#1-download-the-zscaler-client-connector-app">1. Download the Zscaler Client Connector .app</a></li>
+        <li><a href="#2-create-the-post-installation-script">2. Create the post-installation script</a></li>
+        <li><a href="#3-create-the-pkg-file">3. Create the PKG file</a></li>
+        <li><a href="#4-notorize-the-pkg">4. Notorize the PKG</a>
+          <ul>
+            <li><a href="#create-an-app-specific-password">Create an App Specific Password</a></li>
+            <li><a href="#request-notorization">Request Notorization</a></li>
+            <li><a href="#staple-the-notorization-ticket">Staple the Notorization Ticket</a></li>
+          </ul>
+        </li>
+        <li><a href="#5-test-the-pkg">5. Test the PKG</a></li>
+        <li><a href="#6-create-an-intunemac-file">6. Create an .intunemac file</a></li>
+        <li><a href="#7-add-a-new-line-of-business-app-in-mem">7. Add a new Line-of-Business app in MEM</a>
+          <ul>
+            <li><a href="#add-a-new-line-of-business-lob-app-1">Add a new Line of Business (LoB) App</a></li>
+            <li><a href="#customize-the-app-details-1">Customize the App Details</a></li>
+            <li><a href="#assign-users-to-the-app-1">Assign Users to the App</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+                <img src="banner.png" class="post-cover" />
+            
+
+            <div class="post-content">
+                <blockquote>
+<p>The thoughts and opinions in this post are my own and do not necessarily reflect those of Zscaler.</p>
+</blockquote>
+<p>In this guide, we&rsquo;ll walkthrough how to configure Microsoft Intune from scratch and use it to deploy the Zscaler Client Connector agent (ZCC) - formerly known as Zscaler Client Connector (ZCC).</p>
+<p>Due to length, I&rsquo;ve split this into two posts (the orginal was over 8000 words):</p>
+<ul>
+<li>This post covers deployment on Windows and macOS.</li>
+<li>The other post, <a href="/posts/deploy-zapp-mobile-with-intune">available here</a>, covers iOS and Android.</li>
+</ul>
+<p>I suggest you use the Table of Contents to jump to the section that you need.</p>
+<h1 id="what-is-intune">What is Intune?</h1>
+<p><a href="https://docs.microsoft.com/en-us/mem/intune/fundamentals/what-is-intune">According</a> to Microsoft:</p>
+<blockquote>
+<p>Microsoft Intune is a cloud-based service that focuses on mobile device management (MDM) and mobile application management (MAM).</p>
+<p>With Intune, you can:</p>
+<ul>
+<li>Set rules and configure settings on personal and organization-owned devices to access data and networks.</li>
+<li>Deploy and authenticate apps on devices &ndash; on-premises and mobile.</li>
+<li>Be sure devices and apps are compliant with your security requirements.</li>
+</ul>
+</blockquote>
+<p>In order to access Intune, you need to have either a Microsoft 365 or <a href="https://www.microsoft.com/en-au/microsoft-365/enterprise-mobility-security/compare-plans-and-pricing">Enterprise &amp; Mobility E3/E5</a> subscription. If you&rsquo;re using a free Azure account, you&rsquo;ll need to sign up to a trial, or pay per user (which can get costly).</p>
+<h1 id="video-demonstration">Video Demonstration</h1>
+<p>Scott Bullock of Zscaler (@scottyb) has <a href="https://community.zscaler.com/t/z-app-deployment-with-microsoft-intune/4606">posted a great 10 minute video</a> in their community forum that runs through the user experience of enrolling a fresh Windows 10 device into Intune. ZCC is automatically pushed out and transparently authenticated for both ZIA and ZPA.</p>
+<h1 id="before-you-begin">Before You Begin</h1>
+<p>When adding an app to Intune, you&rsquo;ll be prompted to allocate the groups of users (or devices) that the app will be rolled out to. Hence before beginning, ensure you have the users of Zscaler inside of an AD or Azure AD group that you can assign the Zscaler Client Connector app to.</p>
+<p>Depending on whether you want the ZCC app to be mandatory or optional for certain groups of users, you may want to divide your users into two groups:</p>
+<ol>
+<li>The users to which the app is MANDATORY. Any user in this group will have the app automatically pushed out to them.</li>
+<li>The users to which the app is OPTIONAL. The app will not be automatically pushed for users in this group, allowing them to go to the Company Portal and download it themselves if they choose.</li>
+</ol>
+<p>In my examples below, I have 3 groups:</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZIA_Entitlement</td>
+<td>This is the group of all users that are entitled to use Zscaler Internet Access (ZIA)</td>
+</tr>
+<tr>
+<td>ZPA_Entitlement</td>
+<td>This is the group of all users that are entitled to use Zscaler Private Access (ZPA). In my case, this is a subset of users from the ZIA_Entitlement group as I might not want to roll ZPA out to every user in the organization.</td>
+</tr>
+<tr>
+<td>Zscaler - Mandatory</td>
+<td>This group contains every user in the organization to which the ZCC app will be automatically rolled out to. Ie: The majority of users from the above two groups. If this is your organization, you might include the whole org in this group, except select users (eg: some from IT) for which the app will be optional.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="microsoft-endpoint-manager">Microsoft Endpoint Manager</h1>
+<p>We&rsquo;ll be using the <strong>Microsoft Endpoint Manager console</strong> (MEM) to orchestrate Intune. You can log in using the same Azure Portal credentials here: <a href="https://endpoint.microsoft.com">https://endpoint.microsoft.com</a></p>
+<p><img src="1.png" alt="1"></p>
+<h2 id="optional-setting-the-mdm-authority">(Optional) Setting the MDM Authority</h2>
+<p>If you&rsquo;re using an existing Office 365 account <strong>and</strong> have been using the Office 365 MDM, you&rsquo;ll need to change the MDM authority from Office 365 to Intune. <a href="https://docs.microsoft.com/en-us/mem/intune/fundamentals/mdm-authority-set">This</a> Microsoft help article will guide you through it.</p>
+<hr>
+<h1 id="windows">Windows</h1>
+<p>This section will cover deploying ZCC onto Windows using Intune.</p>
+<h2 id="1-download-the-zscaler-client-connector-msi">1. Download the Zscaler Client Connector MSI</h2>
+<p>To start you&rsquo;ll need the .MSI installer for ZCC from the Zscaler Client Connector Portal. Log into the portal (either through ZIA or ZPA) and navigate to <strong>Administration &gt; Zscaler Client Connector Store</strong>.</p>
+<p><img src="2.png" alt="2"></p>
+<p>In the <strong>Windows</strong> panel, download the <strong>MSI</strong> for the latest <strong>2.X.X</strong> version. Do not use the older 1.X.X releases.</p>
+<h2 id="2-add-a-new-line-of-business-app">2. Add a new Line-of-Business App</h2>
+<h3 id="add-a-new-line-of-business-lob-app">Add a new Line of Business (LoB) App</h3>
+<p>Back in the <strong>Apps</strong> menu of the MEM portal, navigate to <strong>Apps &gt; All Apps &gt; Add</strong>. In the panel that appears, scroll to the bottom and under the <strong>Other</strong> heading, select <strong>Line-of-business app</strong>.</p>
+<p><img src="3.png" alt="3"></p>
+<p>When prompted to select an app package file, <strong>upload the MSI of the Zscaler Client Connector</strong> you downloaded above and click OK.</p>
+<h3 id="customize-the-app-details">Customize the App Details</h3>
+<p>Fill in the required details about the app:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Name</strong></td>
+<td>Enter <strong>Zscaler Client Connector 2.X.X.X</strong> (where 2.X.X.X is the version number of the app - this will help you distinguish what version is being distributed by Intune)</td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>Enter <strong>Zscaler Client Connector</strong></td>
+</tr>
+<tr>
+<td><strong>Publisher</strong></td>
+<td>Enter <strong>Zscaler, Inc</strong></td>
+</tr>
+<tr>
+<td><strong>Ignore app version</strong></td>
+<td>Set to <strong>Yes</strong>. ZCC will automatically update itself once deployed, so Intune can safely ignore the version the user has installed after deployment.</td>
+</tr>
+<tr>
+<td><strong>Category</strong></td>
+<td>(Optional) Select an app category to allocate the Zscaler Client Connector to.</td>
+</tr>
+<tr>
+<td><strong>Command-line arguments</strong></td>
+<td>See below.</td>
+</tr>
+</tbody>
+</table>
+<p><img src="4.png" alt="4"></p>
+<p>For the <strong>Command-line arguments</strong> section, enter the following (substituting in your own cloud and domain info):</p>
+<pre tabindex="0"><code>CLOUDNAME=&lt;cloudname&gt; USERDOMAIN=&lt;your-custom-domain&gt;
+</code></pre><p><strong>Important!</strong></p>
+<ol>
+<li>When entering the cloud name, DO NOT enter the <strong>.net</strong> at the end. Eg: zscalertwo.net should be entered as <code>zscalertwo</code></li>
+<li>All command-line arguments should be on a single line with a space separating them. Do not linebreak each argument or they will fail.</li>
+</ol>
+<p>Command-line arguments can be used for each platform to customize the install. For example, <code>STRICTENFORCEMENT</code> can be used to block access to the internet until your users enroll in the Zscaler Client Connector.</p>
+<p>For a list and description of all the MSI customization options, scroll down to point #5 in <a href="https://help.zscaler.com/z-app/customizing-zscaler-app-install-options-msi">this help article</a>.</p>
+<p>Click <strong>Next</strong> when ready to move onto the <strong>Assignments</strong> tab.</p>
+<h3 id="assign-users-to-the-app">Assign Users to the App</h3>
+<p>There are two different sections you can allocate users or groups to depending on how you want the app rolled out to users:</p>
+<ul>
+<li><strong>Required</strong> = The app is MANDATORY for these users/groups. Any user or group in this section will have the App automatically pushed out to them.</li>
+<li><strong>Available for enrolled devices</strong> = The app is OPTIONAL for these users/groups. The app will not be automatically pushed and the users can go to download the app themselves from within the Company Portal.</li>
+</ul>
+<p>Assign your users or groups to the ZCC app accordingly.</p>
+<p><img src="5.png" alt="5"></p>
+<p>Click <strong>Next</strong> to continue and then <strong>Create</strong> on the following screen. Your Line-of-Business application will be created and the MSI will upload - be sure to wait until it&rsquo;s complete.</p>
+<p>Done!</p>
+<hr>
+<h1 id="macos">macOS</h1>
+<p>This section will cover deploying ZCC onto macOS using Intune.</p>
+<p>macOS requires a little bit more effort to get going than Windows does. We will need to do the following on a local macOS machine:</p>
+<ol>
+<li>Download the Zscaler Client Connector installer for macOS (this is a <code>.app</code> file)</li>
+<li>Create a post-installation script (to customize the install of ZCC with our chosen arguments)</li>
+<li>Convert the .app file and script to .pkg (Intune can only work with pkg files on macOS)</li>
+<li>Wrap the .pkg file using the <a href="https://github.com/msintuneappsdk/intune-app-wrapping-tool-mac">Intune App Wrapping Tool</a> (creates an <code>.intunemac</code> file)</li>
+</ol>
+<blockquote>
+<p><strong>If you&rsquo;re using MacOS Catalina 10.15 or higher, you MUST use ZCC v2.1.X or above.</strong> Catalina introduced the requirement that apps are notarized by their developers. Only ZCC releases v2.1 and above are notarized by Zscaler.</p>
+</blockquote>
+<h2 id="do-i-need-an-apple-developer-account">Do I need an Apple Developer Account?</h2>
+<p><strong>An Apple Developer Account is recommended.</strong></p>
+<p>You can proceed and deploy the agent <em>without</em> an Apple Developer account, however you will not be able to sign and notarize the <code>.pkg</code> file created below without a valid Developer ID. This will result in your users receiving an error about an the software coming from an &lsquo;Unidentified Developer&rsquo;, and depending on security settings, the device may block the install altogether.</p>
+<p><img src="6.jpg" alt="6"></p>
+<p>If you enroll in the <a href="https://developer.apple.com/enroll/">Apple Developer program</a> (US$99), you can sign and notarize your package which will make this error go away. If you&rsquo;re an organization running a macOS deployment, you will most likely have a developer account for the company already.</p>
+<blockquote>
+<p>But shouldn&rsquo;t Zscaler have already signed the app I&rsquo;m deploying?</p>
+</blockquote>
+<p>Yes, Zscaler HAS both signed and notarized the .app package that will be installed. The problem with Intune is that it can only deploy <code>.pkg</code> files to macOS; NOT <code>.app</code> files. <strong>We need to wrap our .app file inside a .pkg file for it to work with Intune, and it is <em>this</em> pkg file that needs to be signed and notarized as well.</strong></p>
+<h3 id="obtaining-developer-id-certificates">Obtaining Developer ID Certificates</h3>
+<p>To sign an notarize the <code>.pkg</code>, you will need both the <strong>Developer ID Installer</strong> and <strong>Developer ID Application</strong> certificates. You can create these under the <a href="https://developer.apple.com/account/resources/"><strong>Certificates, Identifiers &amp; Profiles</strong></a> section of your developer account, but will need a Certificate Signing Request (CSR) to do so: Apple have a brief guide on how to generate one using Keychain, <a href="https://help.apple.com/developer-account/#/devbfa00fef7">here</a>.</p>
+<p><img src="8.png" alt="8"></p>
+<p>Download the certificates when you have them and click to open the <code>.cer</code> files in Keychain. Add them as a <strong>login</strong> certificate.</p>
+<p>You can check the certificates have been installed correctly by running the following command:</p>
+<pre tabindex="0"><code>security find-identity -p basic -v
+
+  1) XXXXX[REDACTED] &#34;Developer ID Installer: Nathan Catania (XXXXXXXXXX)&#34;
+  2) XXXXX[REDACTED] &#34;Developer ID Application: Nathan Catania (XXXXXXXXXX)&#34;
+  3) [REDACTED] &#34;[REDACTED]&#34;
+     3 valid identities found
+</code></pre><p>If you have the <strong>Developer ID Installer</strong> and <strong>Developer ID Application</strong> certificates, you&rsquo;re good to proceed.</p>
+<h2 id="1-download-the-zscaler-client-connector-app">1. Download the Zscaler Client Connector .app</h2>
+<p>To start, you&rsquo;ll need the <code>.app</code> installer for ZCC from the Zscaler Client Connector Portal.</p>
+<p>Log into the portal (either through ZIA or ZPA) and navigate to <strong>Administration &gt; Zscaler Client Connector Store</strong>.</p>
+<p><img src="2.png" alt="2"></p>
+<p>In the <strong>macOS</strong> panel, click the download link for the latest <strong>2.X.X</strong> version. Do not use the older 1.X.X releases.</p>
+<p>Unzip the file downloaded to obtain the .app installer.</p>
+<h2 id="2-create-the-post-installation-script">2. Create the post-installation script</h2>
+<p>Intune will push out and install the <code>.pkg</code> file - which is just our <code>.app</code> file wrapped up as a <code>.pkg</code> for the purposes of Intune deployment.</p>
+<p>The problem is however, that when Intune deploys the <code>.pkg</code>, it just saves the wrapped <code>.app</code> to the user&rsquo;s device without doing anything else. We need a way to <em>run and install</em> the <code>.app</code> <em>after</em> Intune has deployed the <code>.pkg</code>, PLUS a way to include arguments to customize the install. A post-installation script will do all of this for us.</p>
+<p>To start, on a macOS device <strong>open Terminal</strong>:</p>
+<p>Create a folder called <code>scripts</code>. Inside this folder, create a file called <code>postinstall</code></p>
+<pre tabindex="0"><code>mkdir scripts &amp;&amp; cd scripts &amp;&amp; touch postinstall &amp;&amp; pwd
+...
+&gt; /Users/nathan/package/scripts
+</code></pre><p>Note down the full path to the <code>scripts</code> directory - we&rsquo;ll need this later.</p>
+<p>Open the postinstall file for editing:</p>
+<pre tabindex="0"><code>nano postinstall
+</code></pre><p>Copy and paste the following into the Terminal window (modify the arguments as required):</p>
+<pre tabindex="0"><code>#!/bin/sh
+open /tmp/&lt;NAME-OF-ZSCALER-APP-INSTALLER&gt;.app --args --unattendedmodeui none --userDomain &lt;your-custom-domain&gt; --cloudName &lt;cloud-name&gt; --hideAppUIOnLaunch 1 --mode unattended
+</code></pre><p>To exit Nano, press <code>Control + X</code> and then <code>Y</code> to save.</p>
+<p>This will do a silent installation of the Zscaler Client Connector (unattended mode) and automatically redirect the user to your company SSO page to sign in.</p>
+<p><strong>Important!</strong> When entering the cloud name (<code>--cloudName</code>), DO NOT enter the <strong>.net</strong> at the end. Eg: zscalertwo.net should be entered as <code>zscalertwo</code></p>
+<p>Command-line arguments can be used for each platform to customize the install. For example, <code>--strictEnforcement 1</code> can be used to block access to the internet until your users enroll in the Zscaler Client Connector.</p>
+<p>For a list and description of all the .app customization options, scroll down to point #4 in <a href="https://help.zscaler.com/z-app/customizing-zscaler-app-install-options-macos">this help article</a>.</p>
+<p>As an example, the script for my installation looks like the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/sh
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>open /tmp/Zscaler-osx-2.1.2.38-installer.app --args --unattendedmodeui none --userDomain oblivion.industries --cloudName zscaler --hideAppUIOnLaunch <span style="color:#ae81ff">1</span> --mode unattended
+</span></span></code></pre></div><p>Lastly, we need to make the script executable. Run the following in Terminal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>chmod a+x postinstall
+</span></span></code></pre></div><h2 id="3-create-the-pkg-file">3. Create the PKG file</h2>
+<p>Intune only supports <code>pkg</code> files for macOS. A <code>.pkg</code> file is analogous to an MSI for Windows. All we are essentially doing is wrapping the .app file inside a .pkg file so that it can be deployed by Intune.</p>
+<p>We&rsquo;ll be using the built-in <code>pkgbuild</code> tool to do this. Open Terminal and run the following command (change the file paths before running):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pkgbuild --install-location /tmp <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--scripts /Path/to/scripts/directory <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--component <span style="color:#e6db74">&#34;/Path/to/Zscaler-Installer.app&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--sign <span style="color:#e6db74">&#34;Developer ID Installer: MY-DEV-NAME (UXXXXXXXXX)&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--identifier <span style="color:#e6db74">&#34;com.zscaler.zscalerclientconnector&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--version <span style="color:#e6db74">&#34;1.0&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span><span style="color:#e6db74">&#34;/Path/to/save/pkg-file.pkg&#34;</span>
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--install-location</code></td>
+<td>This should point to the <code>tmp</code> folder, or somewhere writeable on the user machine. The <code>.pkg</code> will unpack itself here, then run the <code>.app</code> installer; which will install ZCC to the  <code>/Applications</code> directory as required. If you change this from <code>/tmp</code>, you&rsquo;ll need to update the <code>postinstall</code> script as well.</td>
+</tr>
+<tr>
+<td><code>--scripts</code></td>
+<td>This should be the path to the scripts folder you created in the step above.</td>
+</tr>
+<tr>
+<td><code>--component</code></td>
+<td>This file path should point to the Zscaler Client Connector <code>.app</code> file you downloaded in Step #1.</td>
+</tr>
+<tr>
+<td><code>--identifier</code></td>
+<td>Specify a unique identifier for this package. It is advisable to set a meaningful, consistent              identifier, eg: <strong>com. zscaler. zscalerclientconnector</strong></td>
+</tr>
+<tr>
+<td><code>--version</code></td>
+<td>This has no relationship to the actual Zscaler Client Connector version. This is only used by Intune. If you ever deploy another pkg via Intune for a different version of ZCC, you&rsquo;ll need to increment this (eg: Version 1.1) so that Intune can tell the pkg files apart. Note that ZCC has its own update mechanism, so you don&rsquo;t need to worry about using Intune to push out updates to the Zscaler Client Connector software.</td>
+</tr>
+<tr>
+<td><code>--sign</code></td>
+<td>If you don&rsquo;t want your users to recieve an error that your package is from an &lsquo;Unidentified Developer&rsquo; (which will prevent installation entirely), you will need to sign the package using a valid Apple Developer ID. To do this, you will need to enroll in the Apple Developer program (US$99). If you are an organization, you probably have already done this. Make sure you correctly substitute <code>MY-DEV-NAME</code> with your correct Developer name / org name. <strong>If you don&rsquo;t care about the &lsquo;Unidentified Developer&rsquo; error, you can remove the</strong> <code>--sign</code> <strong>argument.</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The last file path listed points to the location where you want to save the output pkg file.</p>
+<p>If you&rsquo;re signing the package and are not sure about your team / developer / org certificate name, you can check this under the <strong>Certificates, Identifiers &amp; Profiles</strong> section of your Apple Developer account, <a href="https://developer.apple.com/account/resources/">here</a>.</p>
+<p>As an example, my completed <code>pkgbuild</code> command is below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pkgbuild --install-location /tmp <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--scripts /Users/nathan/package/scripts <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--component <span style="color:#e6db74">&#34;/Users/nathan/package/Zscaler-osx-2.1.2.38-installer.app&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--sign <span style="color:#e6db74">&#34;Developer ID Installer: Nathan Catania (UXXXXXXXXX)&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--identifier <span style="color:#e6db74">&#34;com.zscaler.zscalerclientconnector&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--version <span style="color:#e6db74">&#34;1.0&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span><span style="color:#e6db74">&#34;/Users/nathan/package/zccinstaller.pkg&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pkgbuild: Adding component at /Users/nathan/package/Zscaler-osx-2.1.2.38-installer.app
+</span></span><span style="display:flex;"><span>pkgbuild: Adding top-level postinstall script
+</span></span><span style="display:flex;"><span>pkgbuild: Using timestamp authority <span style="color:#66d9ef">for</span> signature
+</span></span><span style="display:flex;"><span>pkgbuild: Signing package with identity <span style="color:#e6db74">&#34;Developer ID Installer: Nathan Catania (UXXXXXXXXX)&#34;</span> from keychain
+</span></span><span style="display:flex;"><span>pkgbuild: Adding certificate <span style="color:#e6db74">&#34;Developer ID Certification Authority&#34;</span>
+</span></span><span style="display:flex;"><span>pkgbuild: Adding certificate <span style="color:#e6db74">&#34;Apple Root CA&#34;</span>
+</span></span><span style="display:flex;"><span>pkgbuild: Wrote package to /Users/nathan/package/zccinstaller.pkg
+</span></span></code></pre></div><p>If you signed your package, you can validate the signatures using <code>pkgutil</code>:</p>
+<pre tabindex="0"><code>pkgutil --check-signature /path/to/pkg.pkg
+</code></pre><p>For example:</p>
+<pre tabindex="0"><code>pkgutil --check-signature /Users/nathan/package/zccinstaller.pkg 
+Package &#34;zccinstaller.pkg&#34;:
+   Status: signed by a certificate trusted by macOS X
+   Certificate Chain:
+    1. Developer ID Installer: Nathan Catania (UXXXXXXXXX)
+       SHA1 fingerprint: E3 CB 24 EA 50 74 B6 82 EF DA 5C 43 17 8D BA D2 40 CC ED F5
+       -----------------------------------------------------------------------------
+    2. Developer ID Certification Authority
+       SHA1 fingerprint: 3B 16 6C 3B 7D C4 B7 51 C9 FE 2A FA B9 13 56 41 E3 88 E1 86
+       -----------------------------------------------------------------------------
+    3. Apple Root CA
+       SHA1 fingerprint: 61 1E 5B 66 2C 59 3A 08 FF 58 D1 4A E2 24 52 D1 98 DF 6C 60
+</code></pre><h2 id="4-notorize-the-pkg">4. Notorize the PKG</h2>
+<p><strong>You only need to do this step if you signed the <code>.pkg</code> file in the previous step.</strong> Otherwise you can skip to the next step.</p>
+<p>What is notarization? According to Apple:</p>
+<blockquote>
+<p>Notarization gives users more confidence that the Developer ID-signed software you distribute has been checked by Apple for malicious components. If there are no issues, the notary service generates a ticket for you to staple to your software; the notary service also publishes that ticket online where Gatekeeper can find it.</p>
+<p>Beginning in macOS 10.14.5, software signed with a new Developer ID certificate and all new or updated kernel extensions must be notarized to run. Beginning in macOS 10.15 [Catalina], all software built after June 1, 2019, and distributed with Developer ID must be notarized.</p>
+</blockquote>
+<h3 id="create-an-app-specific-password">Create an App Specific Password</h3>
+<p>We&rsquo;re going to notarize the <code>.pkg</code> file via the command-line. To do this, you&rsquo;ll need to <a href="https://support.apple.com/en-us/HT204397">generate an <strong>App Specific Password</strong></a> for your the Apple ID of your Developer Account:</p>
+<blockquote>
+<p><strong>How to generate an app-specific password</strong></p>
+<ol>
+<li>Sign in to your <a href="https://appleid.apple.com/account/home">Apple ID account page</a>.</li>
+<li>In the Security section, click Generate Password below App-Specific Passwords.</li>
+<li>Follow the steps on your screen.</li>
+</ol>
+</blockquote>
+<p>Next, open <strong>Keychain</strong> and click the &ldquo;+&rdquo; icon to add a new Keychain Item.</p>
+<ul>
+<li>For <strong>Keychain Item Name</strong>, enter <code>notarization-tool</code></li>
+<li>For <strong>Account Name</strong>, enter the email associated with your Developer Account / Apple ID.</li>
+<li>For <strong>Password</strong>, copy and paste the app-specific password from your Apple ID account.</li>
+</ul>
+<p><img src="9.png" alt="9"></p>
+<h3 id="request-notorization">Request Notorization</h3>
+<p>To request notarization from Apple, run the following command (replacing the values with your own):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>xcrun altool --notarize-app <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--username <span style="color:#e6db74">&#34;appleid@example.com&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--password <span style="color:#e6db74">&#34;@keychain:notarization-tool&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--asc-provider <span style="color:#e6db74">&#34;UXXXXXXXXX&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--primary-bundle-id <span style="color:#e6db74">&#34;com.zscaler.zscalerclientconnector&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--file <span style="color:#e6db74">&#34;/Path/to/pkg.pkg&#34;</span>
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>username</code></td>
+<td>The Apple ID username associated with your Apple Developer Account</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td>Enter <code>@keychain:</code> followed by the name of the Keychain Item which you saved your app-specific password to. This will fetch the password from the keychain.</td>
+</tr>
+<tr>
+<td><code>asc-provider</code></td>
+<td>This is the Team ID from your Developer Account. You can find this by logging into your Developer Account and reviewing your profile</td>
+</tr>
+<tr>
+<td><code>primary-bundle-id</code></td>
+<td>This should match the identifier you specified when you created the pkg.</td>
+</tr>
+<tr>
+<td><code>file</code></td>
+<td>The path to the .pkg file</td>
+</tr>
+</tbody>
+</table>
+<p>For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>xcrun altool --notarize-app <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--username <span style="color:#e6db74">&#34;[redacted]@gmail.com&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--password <span style="color:#e6db74">&#34;@keychain:notarization-tool&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--asc-provider <span style="color:#e6db74">&#34;UXXXXXXXXX&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--primary-bundle-id <span style="color:#e6db74">&#34;com.zscaler.zscalerclientconnector&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--file <span style="color:#e6db74">&#34;/Users/nathan/package/zccinstaller.pkg&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>RequestUUID <span style="color:#f92672">=</span> 53acc70a-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+</span></span></code></pre></div><p>If you receive an error that the tool is not on your machine, ensure you have <a href="https://developer.apple.com/xcode/resources/">Xcode</a> and <a href="https://developer.apple.com/download/more/?=command%20line%20tools">Xcode Command-line Tools</a> installed.</p>
+<p>The command will take a while to run as it is uploading your <code>.pkg</code> file to Apple. Once done, it will return a UUID which you can use to check the status of your notarization request:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>xcrun altool --notarization-info <span style="color:#e6db74">&#34;53acc70a-XXXX-XXXX-XXXX-XXXXXXXXXXXX&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--username <span style="color:#e6db74">&#34;[redacted]@gmail.com&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--password <span style="color:#e6db74">&#34;@keychain:notarization-tool&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>Date: 2020-07-06 10:37:20 +0000
+</span></span><span style="display:flex;"><span>Hash: <span style="color:#f92672">[</span>redacted<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>LogFileURL: https://osxapps-ssl.itunes.apple.com/itunes-assets/Enigma114/<span style="color:#f92672">[</span>redacted<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>RequestUUID: 53acc70a-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+</span></span><span style="display:flex;"><span>Status: success
+</span></span><span style="display:flex;"><span>Status Code: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>Status Message: Package Approved
+</span></span></code></pre></div><p>Once the process is complete (mine took under 10 minutes), you&rsquo;ll recieve a confirmation email as to whether your request was successful or not.</p>
+<h3 id="staple-the-notorization-ticket">Staple the Notorization Ticket</h3>
+<p>The last step is to staple the notarization ticket to the <code>.pkg</code> file. This ensures that a Mac device that is offline can still validate that the <code>.pkg</code> file is notarized:</p>
+<pre tabindex="0"><code>xcrun stapler staple /path/to/pkg.pkg
+</code></pre><p>Note: If your command fails, wait a few minutes and try again. If your command continuously fails, and your traffic is going through ZIA or another proxy, you may need to bypass <code>api.apple-cloudkit.com</code> from SSL inspection due to certificate pinning.</p>
+<p>Validate the staple action was successful:</p>
+<pre tabindex="0"><code>xcrun stapler validate /path/to/pkg.pkg
+</code></pre><h2 id="5-test-the-pkg">5. Test the PKG</h2>
+<p>Before going further, test your PKG file by running it and seeing if it successfully installs the Zscaler Client Connector silently. Make sure you don&rsquo;t already have ZCC installed when doing this however!</p>
+<p>If you have an existing installation of ZCC, you can remove it under <code>Applications/Zscaler/Uninstall-Zscaler-App</code></p>
+<h2 id="6-create-an-intunemac-file">6. Create an .intunemac file</h2>
+<p>Once you&rsquo;ve verified your PKG file functions correctly, we need to wrap it for use with Intune.</p>
+<p>Download the <a href="https://github.com/msintuneappsdk/intune-app-wrapping-tool-mac/releases/">Intune App Wrapping Tool for Mac</a> (this is a Microsoft-owned repository).</p>
+<p>Next:</p>
+<ol>
+<li>Unzip the source code folder</li>
+<li>Open Terminal</li>
+<li>Change directory to where the <code>IntuneAppUtil</code> file is located</li>
+<li>Make the <code>IntuneAppUtil</code> file executable:</li>
+</ol>
+<pre tabindex="0"><code>chmod +x IntuneAppUtil
+</code></pre><p>Locate the PKG file you created above and use the <code>IntuneAppUtil</code> tool to wrap the <code>.pkg</code> file to a <code>.intunemac</code> file:</p>
+<pre tabindex="0"><code>./IntuneAppUtil -v -c /path/to/zscaler-installer.pkg -o /output/directory/path
+</code></pre><p>For example:</p>
+<pre tabindex="0"><code>./IntuneAppUtil -c /Users/nathan/package/zappinstaller.pkg -o /Users/nathan/package
+
+...
+Creating intunemac file for /Users/nathan/Downloads/Zscaler-osx-2.1.2.38-installer.pkg
+Composing the intunemac file output
+Output written to /Users/nathan/Downloads/ZscalerInstaller.pkg.intunemac.
+
+IntuneAppUtil successfully processed &#34;ZscalerInstaller.pkg&#34;,
+to deploy refer to the product documentation.
+</code></pre><p>If everything went well, you should see the <code>.intunemac</code> file in your specified output directory.</p>
+<h2 id="7-add-a-new-line-of-business-app-in-mem">7. Add a new Line-of-Business app in MEM</h2>
+<h3 id="add-a-new-line-of-business-lob-app-1">Add a new Line of Business (LoB) App</h3>
+<p>In the <strong>Apps</strong> menu of the <a href="https://endpoint.microsoft.com/">MEM portal</a>, navigate to <strong>Apps &gt; All Apps &gt; Add</strong>. In the panel that appears, scroll to the bottom and under the <strong>Other</strong> heading, select <strong>Line-of-business app</strong>.</p>
+<p><img src="3.png" alt="3"></p>
+<p>When prompted to select an app package file, <strong>upload the</strong> <code>.intunemac</code> <strong>file you created above</strong> and click OK.</p>
+<h3 id="customize-the-app-details-1">Customize the App Details</h3>
+<p>Fill in the required details about the app:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Name</strong></td>
+<td>Enter <strong>Zscaler Client Connector 2.X.X.X - macOS 2.X.X.X</strong> (where 2.X.X.X is the version number of the app - this will help you distinguish what version is being distributed by Intune)</td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>Enter <strong>Zscaler Client Connector for macOS</strong></td>
+</tr>
+<tr>
+<td><strong>Publisher</strong></td>
+<td>Enter <strong>Zscaler, Inc</strong></td>
+</tr>
+<tr>
+<td><strong>Minimum operating system</strong></td>
+<td>Select <strong>OS X Yosemite 10.10</strong> (ZCC supports macOS 10.10+)</td>
+</tr>
+<tr>
+<td><strong>Ignore app version</strong></td>
+<td>Set to <strong>Yes</strong>. ZCC will automatically update itself once deployed, so Intune can safely ignore the version the user has installed after deployment.</td>
+</tr>
+<tr>
+<td><strong>Category</strong></td>
+<td>(Optional) Select an app category to allocate the Zscaler Client Connector to.</td>
+</tr>
+</tbody>
+</table>
+<p><img src="7.png" alt="7"></p>
+<p>Click <strong>Next</strong> to move to the <strong>Assignments</strong> tab.</p>
+<h3 id="assign-users-to-the-app-1">Assign Users to the App</h3>
+<p>There are two different sections you can allocate users or groups to depending on how you want the app rolled out to users:</p>
+<ul>
+<li><strong>Required</strong> = The app is MANDATORY for these users/groups. Any user or group in this section will have the App automatically pushed out to them.</li>
+<li><strong>Available for enrolled devices</strong> = The app is OPTIONAL for these users/groups. The app will not be automatically pushed and the users can go to download the app themselves from within the Company Portal.</li>
+</ul>
+<p>Assign your users or groups to the ZCC app for macOS accordingly.</p>
+<p><img src="5.png" alt="5"></p>
+<p>Click <strong>Next</strong> to continue and then <strong>Create</strong> on the following screen. Your macOS Line-of-Business application will be created and the <code>.intunemac</code> file will upload - be sure to wait until it&rsquo;s complete.</p>
+<p>Done!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/intune">intune</a></span><span class="tag"><a href="https://nathancatania.com/tags/zscaler">zscaler</a></span><span class="tag"><a href="https://nathancatania.com/tags/lab">lab</a></span><span class="tag"><a href="https://nathancatania.com/tags/notes">notes</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>3644 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-10-05</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/deploy-zapp-mobile-with-intune/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Deploy Zscaler Client Connector with Intune (iOS &amp; Android)</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/">
+                                <span class="button__text">Integrate Zscaler with Azure Sentinel</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.858712b4b19060b33e6a3b52df9749f413894a75772f4d0b4683380c0ce08c6f93623d63068ef5ae4719980bcaa15ad536694c42897b88c4826c6ece21918827.js" integrity="sha512-hYcStLGQYLM&#43;ajtS35dJ9BOJSnV3L00LRoM4DAzgjG&#43;TYj1jBo71rkcZmAvKoVrVNmlMQol7iMSCbG7OIZGIJw=="></script>
+
+
+
+
+    </body>
+</html>

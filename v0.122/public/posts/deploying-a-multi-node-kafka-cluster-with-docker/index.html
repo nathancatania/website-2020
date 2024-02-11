@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="map[author:map[bio:Engineer // Melbourne // Australia name:Nathan Catania photo:map[url:avatar.png]] contenttypename:posts dateform:Jan 2, 2006 dateformnum:2006-01-02 dateformnumtime:2006-01-02 15:04 &#43;1000 dateformshort:Jan 2 description:The official website of Nathan Catania &amp;#10003; disablereadotherposts:false enablethemetoggle:true giturl:https://github.com/nathancatania/website/commit/ homesubtitle:Engineer // Melbourne // Australia images:[] keywords:blog, website, official logo:map[logohomelink:/ logotext:$ cd /home/nathan] readotherposts:Read other posts social:[map[name:linkedin url:https://www.linkedin.com/in/nathancatania]] subtitle:Engineer // Melbourne // Australia]">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="A Docker deployment of Kafka avoids the need to manually configure each broker and provides a very simple and scalable installation methodology; particularly over multiple servers." />
+<meta name="keywords" content="blog, website, official, guides, docker, kafka, networking" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/" />
+
+
+    <title>
+        
+            Deploy a multi-node, multi-server Kafka Cluster with Docker :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b851fae37ea32930b5c4996a9ac8737a9d1ab1b40af28b3cd3b0060df9e2f5a3.css" integrity="sha256-uFH6436jKTC1xJlqmshzep0asbQK8os807AGDfni9aM=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Deploy a multi-node, multi-server Kafka Cluster with Docker">
+<meta itemprop="description" content="A Docker deployment of Kafka avoids the need to manually configure each broker and provides a very simple and scalable installation methodology; particularly over multiple servers."><meta itemprop="datePublished" content="2017-12-15T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2017-12-15T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1299"><meta itemprop="image" content="https://nathancatania.com" />
+<meta itemprop="keywords" content="guides,docker,kafka,networking," />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nathancatania.com" /><meta name="twitter:title" content="Deploy a multi-node, multi-server Kafka Cluster with Docker"/>
+<meta name="twitter:description" content="A Docker deployment of Kafka avoids the need to manually configure each broker and provides a very simple and scalable installation methodology; particularly over multiple servers."/>
+
+
+
+    <meta property="og:title" content="Deploy a multi-node, multi-server Kafka Cluster with Docker" />
+<meta property="og:description" content="A Docker deployment of Kafka avoids the need to manually configure each broker and provides a very simple and scalable installation methodology; particularly over multiple servers." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/" /><meta property="og:image" content="https://nathancatania.com" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-12-15T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-12-15T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2017-12-15 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                $ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>7 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/">Deploy a multi-node, multi-server Kafka Cluster with Docker</a>
+            </h1>
+
+            
+
+            <div class="post-content">
+                <h2 id="what-is-kafka">What is Kafka?</h2>
+<p><a href="https://kafka.apache.org/intro.html">Essentially:</a></p>
+<blockquote>
+<p>Kafka is an open-source, very scalable, distributed messaging platform by Apache. It is designed to handle large volumes of data in real-time efficiently.</p>
+</blockquote>
+<p>Kafka works on the concept of a &ldquo;publish-subscribe&rdquo; methodology:</p>
+<ul>
+<li>&ldquo;Producers&rdquo; will push content to the Kafka cluster, to a destination &ldquo;topic&rdquo;.</li>
+<li>A Kafka cluster is managed by Zookeeper, and can contain one or more &ldquo;Brokers&rdquo;.</li>
+<li>Brokers manage topics and the associated ingress and egress messages.</li>
+<li>&ldquo;Consumers&rdquo; subscribe to specific topics and will receive a continuous stream of data from the cluster for as long as there is a Producer pushing content to that topic.</li>
+</ul>
+<p>Topics have two key properties: <em>partitions</em> and <em>replication factors</em>.</p>
+<ul>
+<li><em>Partitions</em> logically separate the messages within a topic into small &ldquo;groups&rdquo; which are distributed between all available brokers. For example, if there are 3 brokers in a cluster, and a topic has 6 partitions, Broker #1 might be assigned Partition #3 &amp; #6, Broker #2 - Partition #1 &amp; #5, and Broker #3 - Partition #2 &amp; #4.</li>
+<li>A <em>replication factor</em> helps add redundancy to a topic and its partitions across the available Brokers. Using the example above, if the same topic has a replication factor of 3, then each broker would have a copy of the partitions managed by other brokers in addition to its own. Hence, if a broker goes down, the messages stored in the partitions held by it are not lost.</li>
+</ul>
+<p>The cool thing about Kafka consumers is that, when they are grouped together and used in conjunction with partitions, they can automatically load balance incoming messages between them!</p>
+<p>This is really handy for avoiding Consumer bottlenecks if you are dealing with real-time data in high volumes. If a Consumer cannot process the incoming messages fast enough, it will fall behind and you will begin to notice an increasing delay between the current time and the incoming message. If a second Consumer is added to the same group as the first, and both are subscribed to a topic with 6 partitions, then Consumer #1 might be assigned messages from Partition #1, #2, #5, and Consumer #2 might be assigned messages from Partition #3, #4, #6. This is instead of Consumer #1 bottlenecking by having to process Partitions #1-6 by itself.</p>
+<h2 id="why-docker">Why Docker?</h2>
+<p>Deploying Kafka in Docker greatly simplifies deployment as we do not need to manually configure each broker individually!</p>
+<p>We can use single Docker Compose file to deploy Kafka to multiple server instances using Docker Swarm in a single command. Additionally, Docker allows us to easily scale up our cluster to additional nodes in the future if we require.</p>
+<h2 id="requirements">Requirements</h2>
+<p>When deployed via Docker, Kafka tends to use approximately 1.3 GB - 1.5 GB of RAM per broker - so make sure your server instances have enough memory allocated and available.</p>
+<h2 id="process">Process</h2>
+<p>Before proceeding, make sure you have Docker installed on ALL of the servers you wish to deploy Kafka to.</p>
+<h3 id="part-1---create-a-docker-swarm">Part 1 - Create a Docker Swarm</h3>
+<p>To begin, we need to initialize a Docker Swarm. A Swarm will consist of at least one Master Node, and one or more Worker Nodes (or, if you just have a single server instance, a single Master Node).</p>
+<h4 id="1-initialize-the-swarm--master-node">1. Initialize the Swarm &amp; Master Node</h4>
+<p>On the server instance you have designated to be the Master, initialize the Swarm. This will set the current instance as the Master node:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker swarm init --advertise-addr <span style="color:#f92672">[</span>MANAGER-IP<span style="color:#f92672">]</span>:2377
+</span></span></code></pre></div><p>Where <code>[MANAGER-IP]</code> is the static IP address of the server instance.
+You can find this using <code>ifconfig</code>.</p>
+<p>This will generate a unique command which you will run on all other nodes in the next section in order to designate them as Worker nodes.</p>
+<p>Save this command in a safe place.</p>
+<p>Example (<strong>your command and token will be different!</strong>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker swarm join --token SWMT<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>ewrp <span style="color:#f92672">[</span>MANAGER-IP<span style="color:#f92672">]</span>:2377
+</span></span></code></pre></div><h4 id="2-check-your-firewall">2. Check your firewall</h4>
+<p>Swarm nodes use port 2377 to communicate with the Master node which must not be blocked by any firewall.</p>
+<p>Additionally, Swarm daemons use ports 7946 (tcp/udp) and 4789 (udp) to communicate.</p>
+<p>Make sure your all of your instances are able to communicate:</p>
+<ul>
+<li>TCP/UDP traffic on ports 2377 and 7946.</li>
+<li>UDP traffic on port 4789.</li>
+</ul>
+<h4 id="3-configure-the-worker-nodes">3. Configure the Worker Nodes</h4>
+<p>On all other server instances you wish to deploy Kafka on, run the command generated in the step #1 above. This will add these instances to the Docker Swarm as Worker Nodes.</p>
+<p>If you are having issues:</p>
+<ul>
+<li>As per Step #2 above, make sure all your instances can communicate on the specified ports.</li>
+<li>Make sure all of your instances have static IP addresses assigned to them.</li>
+</ul>
+<h4 id="4-verify-the-swarm">4. Verify the Swarm</h4>
+<p>On the <strong>Master Node</strong> only, run the following command to check the status of all nodes in the swarm:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker node ls
+</span></span></code></pre></div><h3 id="part-2---deploying-kafka">Part 2 - Deploying Kafka</h3>
+<h4 id="1-create-docker-composeyml">1. Create docker-compose.yml</h4>
+<p>Copy the following into a file named <code>docker-compose.yml</code> on the Master Node:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.2&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">zookeeper</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">wurstmeister/zookeeper</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>         - <span style="color:#e6db74">&#34;2181:2181&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">kafka</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">wurstmeister/kafka:latest</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">deploy</span>:
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">mode</span>: <span style="color:#ae81ff">global</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>         - <span style="color:#f92672">target</span>: <span style="color:#ae81ff">9094</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#f92672">published</span>: <span style="color:#ae81ff">9094</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">tcp</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#f92672">mode</span>: <span style="color:#ae81ff">host</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">HOSTNAME_COMMAND</span>: <span style="color:#e6db74">&#34;docker info | grep ^Name: | cut -d&#39; &#39; -f 2&#34;</span> <span style="color:#75715e"># Normal instances</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e"># HOSTNAME_COMMAND: &#34;curl http://169.254.169.254/latest/meta-data/public-hostname&#34; # AWS Only</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">KAFKA_ZOOKEEPER_CONNECT</span>: <span style="color:#ae81ff">zookeeper:2181</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">KAFKA_LISTENER_SECURITY_PROTOCOL_MAP</span>: <span style="color:#ae81ff">INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">KAFKA_ADVERTISED_PROTOCOL_NAME</span>: <span style="color:#ae81ff">OUTSIDE</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">KAFKA_ADVERTISED_PORT</span>: <span style="color:#ae81ff">9094</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">KAFKA_PROTOCOL_NAME</span>: <span style="color:#ae81ff">INSIDE</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">KAFKA_PORT</span>: <span style="color:#ae81ff">9092</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">KAFKA_CREATE_TOPICS</span>: <span style="color:#ae81ff">myTopic:3:3,anotherTopic:2:2</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>         - <span style="color:#ae81ff">/var/run/docker.sock:/var/run/docker.sock</span>
+</span></span></code></pre></div><ul>
+<li>The Zookeeper container is responsible for managing the Kafka cluster.</li>
+<li>Using the above configuration, you will be able to connect to your Kafka brokers using port 9094 at their designated IP/hostname.</li>
+<li>Alter <code>CREATE_KAFKA_TOPICS</code> in to pre-allocate your topic names. Separate multiple topics with commas.
+<ul>
+<li>In the file above, two topics will be created: One with 3 partitions and 3 replications, and another with 2 partitions and 2 replications.</li>
+</ul>
+</li>
+<li>You can specify an <code>environment</code> entry for most (if not all) Kafka configuration options. For more information, see <a href="https://github.com/wurstmeister/kafka-docker#pre-requisites">here</a>.</li>
+</ul>
+<p><!-- raw HTML omitted --><strong>If you are deploying to AWS!</strong><!-- raw HTML omitted -->
+Comment out the <strong>first</strong> <code>HOSTNAME_COMMAND</code> line under <code>environment</code> and uncomment the <strong>second</strong> <code>HOSTNAME_COMMAND</code>.</p>
+<p>There is a different method to resolving the instance hostname for AWS instances, which is critical to Kafka. <strong>Failing to do this will mean that while your broker(s) will be deployed, nothing will be able to find or connect to them.</strong></p>
+<h4 id="2-check-your-firewall-again">2. Check your firewall (again)</h4>
+<ul>
+<li>Kafka communicates with Zookeeper on port 2181.</li>
+<li>Kafka will listen for connections on 9094 and communicate internally on port 9092.</li>
+<li>Make sure these ports are open for TCP/UDP traffic or you may have communication issues.</li>
+</ul>
+<h4 id="3-deploy-the-kafka-stack">3. Deploy the Kafka stack</h4>
+<p>On the Master Node, run the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker stack deploy --compose-file docker-compose.yml kafka
+</span></span></code></pre></div><ul>
+<li>This will deploy a Kafka broker to each node in the Swarm, and bring online ONE Zookeeper management container.</li>
+<li>Additionally, any Kafka topics specified in the <code>docker-compose.yml</code> file will be initialized.</li>
+<li>The deployed service will have the name <code>kafka</code>.</li>
+</ul>
+<h4 id="4-verify-status">4. Verify status</h4>
+<p>You can use the following command to verify the status of the Kafka stack:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker stack services kafka
+</span></span></code></pre></div><p>The status for all containers should be shown. A successful launch on 3 servers (for example) should show 3/3 replicas for Kafka and 1/1 replicas for Zookeeper.</p>
+<h3 id="part-3---stopping-the-cluster">Part 3 - Stopping the cluster</h3>
+<p>Simply run the following command on the Master node:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker stack rm kafka
+</span></span></code></pre></div><h3 id="part-4---sending--receiving-data-using-your-kafka-cluster">Part 4 - Sending &amp; Receiving data using your Kafka cluster</h3>
+<p>The Kafka stack deployed above will initialize a single Kafka container on each node within the Swarm. Hence the IP address of each node is the IP address of a Kafka broker within the Kafka cluster.</p>
+<p>The Kafka brokers will listen for Consumer applications and Producers on port 9094.</p>
+<p>It does not matter which broker IP/hostname you use for the producer/consumer connection.
+In many applications or APIs (eg: Telegraf, kafka-python etc) in which you can specify a list of brokers, only the first broker is used. The others are used as fallback (in the specified order) in case the preceding broker is unavailable or down.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/guides">guides</a></span><span class="tag"><a href="https://nathancatania.com/tags/docker">docker</a></span><span class="tag"><a href="https://nathancatania.com/tags/kafka">kafka</a></span><span class="tag"><a href="https://nathancatania.com/tags/networking">networking</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>1299 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2017-12-15</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Unlock or change the super password for Junos Space 17.2, 18.X</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/installing-docker-on-red-hat-with-no-internet-access/">
+                                <span class="button__text">Installing Docker CE on an Air Gapped RHEL system</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.858712b4b19060b33e6a3b52df9749f413894a75772f4d0b4683380c0ce08c6f93623d63068ef5ae4719980bcaa15ad536694c42897b88c4826c6ece21918827.js" integrity="sha512-hYcStLGQYLM&#43;ajtS35dJ9BOJSnV3L00LRoM4DAzgjG&#43;TYj1jBo71rkcZmAvKoVrVNmlMQol7iMSCbG7OIZGIJw=="></script>
+
+
+
+
+    </body>
+</html>

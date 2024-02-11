@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="map[author:map[bio:Engineer // Melbourne // Australia name:Nathan Catania photo:map[url:avatar.png]] contenttypename:posts dateform:Jan 2, 2006 dateformnum:2006-01-02 dateformnumtime:2006-01-02 15:04 &#43;1000 dateformshort:Jan 2 description:The official website of Nathan Catania &amp;#10003; disablereadotherposts:false enablethemetoggle:true giturl:https://github.com/nathancatania/website/commit/ homesubtitle:Engineer // Melbourne // Australia images:[] keywords:blog, website, official logo:map[logohomelink:/ logotext:$ cd /home/nathan] readotherposts:Read other posts social:[map[name:linkedin url:https://www.linkedin.com/in/nathancatania]] subtitle:Engineer // Melbourne // Australia]">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="This post will cover how to deploy and get started with Netskope Cloud Exchange: A platform that facilitates the sharing of information (such as IOCs, risk scores, and logs) between different security vendors." />
+<meta name="keywords" content="blog, website, official, netskope, docker, guides" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/deploy-netskope-cloud-exchange/" />
+
+
+    <title>
+        
+            Deploy Netskope Cloud Exchange :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b851fae37ea32930b5c4996a9ac8737a9d1ab1b40af28b3cd3b0060df9e2f5a3.css" integrity="sha256-uFH6436jKTC1xJlqmshzep0asbQK8os807AGDfni9aM=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Deploy Netskope Cloud Exchange">
+<meta itemprop="description" content="This post will cover how to deploy and get started with Netskope Cloud Exchange: A platform that facilitates the sharing of information (such as IOCs, risk scores, and logs) between different security vendors."><meta itemprop="datePublished" content="2022-12-09T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-12-09T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2926"><meta itemprop="image" content="https://nathancatania.com" />
+<meta itemprop="keywords" content="netskope,docker,guides," />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nathancatania.com" /><meta name="twitter:title" content="Deploy Netskope Cloud Exchange"/>
+<meta name="twitter:description" content="This post will cover how to deploy and get started with Netskope Cloud Exchange: A platform that facilitates the sharing of information (such as IOCs, risk scores, and logs) between different security vendors."/>
+
+
+
+    <meta property="og:title" content="Deploy Netskope Cloud Exchange" />
+<meta property="og:description" content="This post will cover how to deploy and get started with Netskope Cloud Exchange: A platform that facilitates the sharing of information (such as IOCs, risk scores, and logs) between different security vendors." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/deploy-netskope-cloud-exchange/" /><meta property="og:image" content="https://nathancatania.com" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-12-09T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-12-09 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                $ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>14 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/deploy-netskope-cloud-exchange/">Deploy Netskope Cloud Exchange</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-cloud-exchange">What is Cloud Exchange?</a></li>
+    <li><a href="#what-can-cloud-exchange-do">What can Cloud Exchange do?</a>
+      <ul>
+        <li><a href="#1-threat-exchange">1. Threat Exchange</a></li>
+        <li><a href="#2-ticket-orchestrator">2. Ticket Orchestrator</a></li>
+        <li><a href="#3-risk-exchange">3. Risk Exchange</a>
+          <ul>
+            <li><a href="#user-risk-exchange">User Risk Exchange</a></li>
+            <li><a href="#application-risk-exchange">Application Risk Exchange</a></li>
+          </ul>
+        </li>
+        <li><a href="#4-log-shipper">4. Log Shipper</a></li>
+      </ul>
+    </li>
+    <li><a href="#deploying-cloud-exchange">Deploying Cloud Exchange</a>
+      <ul>
+        <li><a href="#requirements">Requirements</a>
+          <ul>
+            <li><a href="#operating-system">Operating System</a></li>
+            <li><a href="#system-specification">System Specification</a></li>
+            <li><a href="#networking">Networking</a></li>
+          </ul>
+        </li>
+        <li><a href="#install-docker--docker-compose">Install Docker &amp; Docker Compose</a></li>
+        <li><a href="#clone-the-netskope-cloud-exchange-repository">Clone the Netskope Cloud Exchange Repository</a></li>
+        <li><a href="#installing-cloud-exchange">Installing Cloud Exchange</a></li>
+        <li><a href="#launching-cloud-exchange">Launching Cloud Exchange</a></li>
+        <li><a href="#optional-changing-the-ssl-certificate">(Optional) Changing the SSL Certificate</a>
+          <ul>
+            <li><a href="#troubleshooting">Troubleshooting</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#configure-cloud-exchange">Configure Cloud Exchange</a>
+      <ul>
+        <li><a href="#logging-into-cloud-exchange">Logging into Cloud Exchange</a></li>
+        <li><a href="#enabling-cloud-exchange-modules--updates">Enabling Cloud Exchange Modules &amp; Updates</a></li>
+        <li><a href="#optional-setting-a-proxy">(Optional) Setting a Proxy</a></li>
+        <li><a href="#adding-users--configuring-sso">Adding Users &amp; Configuring SSO</a></li>
+        <li><a href="#add-your-netskope-tenants">Add Your Netskope Tenant(s)</a>
+          <ul>
+            <li><a href="#get-an-api-key">Get an API Key</a></li>
+            <li><a href="#add-your-netskope-tenants-in-cloud-exchange">Add your Netskope Tenant(s) in Cloud Exchange</a></li>
+            <li><a href="#verify-the-netskope-tenant-configuration">Verify the Netskope Tenant Configuration</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#configure-plugins">Configure Plugins</a></li>
+    <li><a href="#finish">Finish</a></li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+                <img src="banner.png" class="post-cover" />
+            
+
+            <div class="post-content">
+                <blockquote>
+<p>The thoughts, and opinions in this post are my own and do not reflect those of Netskope. All content in this post is my own and is not endorsed by Netskope. Please follow this guide at your own risk.</p>
+</blockquote>
+<p>Changelog:</p>
+<ul>
+<li>1st Mar, 2022: Initial post</li>
+<li>7th Dec, 2022: Updated guide for Cloud Exchange 4.0.</li>
+</ul>
+<h1 id="what-is-cloud-exchange">What is Cloud Exchange?</h1>
+<p>Cloud Exchange (CE) is a platform (free for all Netskope customers) that facilitates the exchange of information between your various security and operations platforms.</p>
+<p><img src="1.png" alt="1"></p>
+<h1 id="what-can-cloud-exchange-do">What can Cloud Exchange do?</h1>
+<p>4 modules make up the Cloud Exchange platform; each with a particular area of focus. You don&rsquo;t need to use every module: only the ones that make sense based on the vendors in your current environment.</p>
+<h2 id="1-threat-exchange">1. Threat Exchange</h2>
+<p>The Cloud Threat Exchange (CTE) module is designed to streamline and automate the sharing of threat indicators and intelligence between security platforms in use in your environment; reducing the likelihood of a successful attack.</p>
+<h2 id="2-ticket-orchestrator">2. Ticket Orchestrator</h2>
+<p>For incidents and alerts generated in the Netskope platform, the Cloud Ticket Orchestrator (CTO) module will automatically create tickets and/or notifications in 3rd-party ITSM and collaboration systems (like ServiceNow, JIRA, Slack, etc) to streamline incident response.</p>
+<h2 id="3-risk-exchange">3. Risk Exchange</h2>
+<p>The Cloud Risk Exchange (CRE) module facilitates the sharing and normalization of both <strong>user</strong> and <strong>SaaS application</strong> risk scores between security vendors. CRE is divided into two distinct sub-modules: User Risk Exchange (URE) and Application Risk Exchange (ARE).</p>
+<h3 id="user-risk-exchange">User Risk Exchange</h3>
+<p>The User &amp; Entity Behavior Analytics (UEBA) feature in the Netskope platform tracks anomolous user behaviour and provides a dynamic risk score for each user in the organization. This score is known as the User Confidence Index (UCI) and it can be leveraged in policy to trigger restrictions or access controls based on hightened user risk.</p>
+<p>Other platforms, like Crowdstrike and Mimecast, also offer user risk scoring features of their own. The URE sub-module takes the user risk scores generated by Netskope and your other security vendors, and normalizes and weights them into a single score that can be used to trigger actions across vendors (eg: place the user into a &ldquo;high risk&rdquo; Active Directory group).</p>
+<h3 id="application-risk-exchange">Application Risk Exchange</h3>
+<p>The ARE sub-module collects the risk information for all SaaS apps accessed by users in the organization, and facilitates the sharing of this data with other security vendors.</p>
+<h2 id="4-log-shipper">4. Log Shipper</h2>
+<p>The Cloud Log Shipper (CLS) module extracts the raw event, alert, and log data from your Netskope tenant, and pushes it to one or more receivers, such as a Data Lake or SIEM solution like Splunk, Azure Sentinel, Exabeam, and so on.</p>
+<hr>
+<h1 id="deploying-cloud-exchange">Deploying Cloud Exchange</h1>
+<p>Cloud Exchange is deployed as a series of Docker containers within your environment - hence as long as your system can run Docker (or Podman), it can also run Cloud Exchange!</p>
+<p>This guide will focus on using Ubuntu 20.04 LTS as the host OS, but you may also wish to use Red Hat Enterprise Linux (RHEL).</p>
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+RHEL leverages Podman instead of Docker for container management. Netskope has specific instructions for RHEL/Podman <a href="https://docs.netskope.com/en/system-requirements.html#idm45784491605296_body">here</a>.
+</div>
+
+<h2 id="requirements">Requirements</h2>
+<p>You will need the following to install Cloud Exchange:</p>
+<h3 id="operating-system">Operating System</h3>
+<ul>
+<li>A Linux system capable of supporting the docker.io release of Docker (v19.0.0 or higher), and Docker Compose (v1.29.0 or higher).
+<ul>
+<li>Ubuntu 20.04 LTS and RHEL 7.9 &amp; 8.0 are supported by Netskope.</li>
+<li>This guide uses Ubuntu 20.04 LTS</li>
+</ul>
+</li>
+</ul>
+<h3 id="system-specification">System Specification</h3>
+<p>The VM that Cloud Exchange is deployed to should meet the following minimum requirements:</p>
+<ul>
+<li>4 vCPUs</li>
+<li>4 GB of memory</li>
+<li>40 GB of storage</li>
+<li>For example: Azure = <code>Standard B2ms</code>, AWS = <code>a1.xlarge</code>, GCP = <code>e2-highcpu-4</code>.</li>
+</ul>
+<p>For large enterprise environments with a high rate of Events Per Minute (EPM), the system requirements are higher. Netskope provides scaling numbers <a href="https://docs.netskope.com/en/system-requirements.html#UUID-92edc283-a3a0-2a63-1312-513929a52ed0_N1666326801974">here</a>.</p>
+<h3 id="networking">Networking</h3>
+<ul>
+<li>Cloud Exchange requires <strong>outbound</strong> connectivity to GitHub, Docker Hub, your Netskope tenant, and any other vendor platform you plan to integrate it with (eg: Crowdstrike, Splunk, Mimecast, etc).
+<ul>
+<li><a href="https://docs.netskope.com/en/system-requirements.html#idm45784491624608">See here</a> for a list of URLs that Cloud Exchange requires access to.</li>
+</ul>
+</li>
+<li>Deploying CE behind a HTTP(S) proxy is supported (if required).</li>
+<li>Cloud Exchange requires inbound connectivity on 22 for installation/server management, and 443 for access to the admin UI (via HTTPS).
+<ul>
+<li>It is NOT recommended that you expose Cloud Exchange publicly on the internet.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="install-docker--docker-compose">Install Docker &amp; Docker Compose</h2>
+<p>If you&rsquo;re using a fresh VM, you&rsquo;ll need to install Docker and Docker Compose. The below will install Docker CE (Community Edition), which is free but does not come with support. For a production environment, Docker Enterprise is recommended.</p>
+<div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+The commands below cover the installation of Docker on an Ubuntu host. <strong>For RHEL 8+, you will need to use Podman instead of Docker. Please see <a href="https://docs.netskope.com/en/install-netskope-cloud-exchange-on-a-red-hat-enterprise-8-x-linux-host.html">here</a> for instructions on how to deploy CE on RHEL.</strong>
+</div>
+
+<ol>
+<li>Update the existing packages on the system:</li>
+</ol>
+<pre tabindex="0"><code>sudo apt update -y &amp;&amp; sudo apt upgrade -y
+</code></pre><ol start="2">
+<li>Install the pre-requisite packages. These allow <code>apt</code> to use a repository over HTTPS:</li>
+</ol>
+<pre tabindex="0"><code>sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release -y
+</code></pre><ol start="3">
+<li>Add the GPG key for the official Docker software repository:</li>
+</ol>
+<pre tabindex="0"><code>sudo mkdir -p /etc/apt/keyrings &amp;&amp; curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+</code></pre><ol start="4">
+<li>Add the Docker software repository:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu </span><span style="color:#66d9ef">$(</span>lsb_release -cs<span style="color:#66d9ef">)</span><span style="color:#e6db74"> stable&#34;</span> | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+</span></span></code></pre></div><ol start="5">
+<li>Update the package index:</li>
+</ol>
+<pre tabindex="0"><code>sudo apt update -y
+</code></pre><div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+If you receive a GPG error, your default <a href="https://en.wikipedia.org/wiki/Umask">umask</a> may be incorrectly configured. Grant read permissions to the Docker public key (<code>sudo chmod a+r /etc/apt/keyrings/docker.gpg</code>) and try again.
+</div>
+
+<ol start="6">
+<li>Install Docker:</li>
+</ol>
+<pre tabindex="0"><code>sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+</code></pre><ol start="7">
+<li>Verify the installation:</li>
+</ol>
+<pre tabindex="0"><code>sudo docker run hello-world
+</code></pre><p>If successful, this will pull a Docker container, print a confirmation message, and exit.</p>
+<ol start="8">
+<li>Install Docker Compose:</li>
+</ol>
+<p>Cloud Exchange currently uses the older <code>docker-compose</code> syntax instead of <code>docker compose</code> (note the missing <code>-</code>), so we need to install the standalone version of Docker Compose which uses the older syntax:</p>
+<pre tabindex="0"><code>sudo curl -SL https://github.com/docker/compose/releases/download/v2.14.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+</code></pre><ol start="9">
+<li>Make the Docker Compose binary executable:</li>
+</ol>
+<pre tabindex="0"><code>sudo chmod +x /usr/local/bin/docker-compose
+</code></pre><ol start="10">
+<li>Validate that Docker Compose is installed correctly:</li>
+</ol>
+<pre tabindex="0"><code>docker-compose --version
+...
+&gt;&gt; Docker Compose version v2.14.0
+</code></pre><ol start="11">
+<li>Set the Docker process to start at boot:</li>
+</ol>
+<pre tabindex="0"><code>sudo systemctl enable docker &amp;&amp; sudo systemctl start docker
+</code></pre><ol start="12">
+<li>Check that the Docker service is running:</li>
+</ol>
+<pre tabindex="0"><code>sudo systemctl status docker
+
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2022-12-07 05:49:10 UTC; 1min 14s ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 838 (dockerd)
+      Tasks: 8
+     Memory: 91.6M
+     CGroup: /system.slice/docker.service
+             └─838 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+</code></pre><p>After the install, if you attempt to run the <code>docker</code> command without <code>sudo</code>, you will get the following error:</p>
+<pre tabindex="0"><code>ERROR: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock:
+</code></pre><p>If you don&rsquo;t mind this, you can jump ahead. Otherwise, you can add your username to the <code>docker</code> group that was created on install. This will allow you to use the <code>docker</code> command without <code>sudo</code>.</p>
+<pre tabindex="0"><code>sudo usermod -aG docker ${USER}
+</code></pre><p>You will then need to log out of the system, then log back in again for the updated membership to take effect.</p>
+<hr>
+<h2 id="clone-the-netskope-cloud-exchange-repository">Clone the Netskope Cloud Exchange Repository</h2>
+<p>Clone the Cloud Exchange repository from <a href="https://github.com/netskopeoss/ta_cloud_exchange">Netskope on GitHub</a>.</p>
+<pre tabindex="0"><code>mkdir netskope &amp;&amp; cd netskope
+git clone https://github.com/netskopeoss/ta_cloud_exchange
+cd ta_cloud_exchange
+</code></pre><p>The scripts in this repository will pull the containers from the Netskope repository on <a href="https://hub.docker.com/u/netskopetechnicalalliances">Docker Hub</a>, bring them up using Docker Compose, and perform the initial setup of Cloud Exchange. Before executing the setup command however, thought needs to be given as to how Cloud Exchange will be secured… read on!</p>
+<hr>
+<h2 id="installing-cloud-exchange">Installing Cloud Exchange</h2>
+<p>Install Cloud Exchange:</p>
+<pre tabindex="0"><code>python3 ./setup
+</code></pre><div class="bd-callout bd-callout-danger">
+    <strong class="text-danger">
+        <i class="bi bi-x-octagon-fill"></i>&nbsp; 
+        
+        Warning!<br>
+    </strong>
+Special characters (including, but not limited to <code>#</code>, <code>$</code>, <code>/</code>, etc) <strong>are not supported</strong> when setting the maintenance password for CE. Using these characters may cause some internal processes to fail.
+</div>
+
+<p>When prompted:</p>
+<ul>
+<li>
+<p>Type <code>1</code> to install the latest version.</p>
+</li>
+<li>
+<p>Specify whether you are using a HTTP(S) proxy for outbound traffic. If you are not sure, type <code>N</code></p>
+</li>
+<li>
+<p>Enter the <strong>Tenant ID</strong> of your Netskope tenant. <strong>Do not enter the <code>.goskope.com</code> part</strong>. For example:</p>
+<ul>
+<li>If your tenant URL is: <code>https://mycompany.goskope.com</code>, enter <code>mycompany</code></li>
+<li>If your tenant URL is: <code>https://mycompany.au.goskope.com</code> (or similar), enter <code>mycompany.au</code></li>
+</ul>
+</li>
+<li>
+<p>Type <code>HTTPS</code> to access Cloud Exchange securely (don&rsquo;t use HTTP… just don&rsquo;t.)</p>
+</li>
+<li>
+<p>Enter <code>443</code> when prompted for a port.</p>
+<ul>
+<li>This is the port that the admin interface is accessible on. Make sure you have an appropriate firewall rule in place to allow access.</li>
+</ul>
+</li>
+<li>
+<p>Enter a secret password that will be used to sign any generated authentication tokens. You don&rsquo;t need to remember this - just make it long and complex.</p>
+</li>
+<li>
+<p>Enter a maintenance password for the RabbitMQ and MongoDB services.</p>
+<ul>
+<li><strong>WARNING: This password can only be set once! Make sure you make it complex and note it down.</strong></li>
+<li><strong>Remember: Don&rsquo;t use special characters like <code>#</code>, <code>$</code>, and <code>/</code>.</strong></li>
+</ul>
+</li>
+<li>
+<p>Press ENTER or type <code>No</code> when prompted to enable TLS 1.2. TLS 1.3 is used by default.</p>
+</li>
+</ul>
+<p>To see example usage of the setup script, see the GitHub Gist <a href="https://gist.github.com/nathancatania/a08639b42b081dcd30c8af1693358320">here</a>.</p>
+<hr>
+<h2 id="launching-cloud-exchange">Launching Cloud Exchange</h2>
+<p>To start Cloud Exchange:</p>
+<pre tabindex="0"><code>./start
+</code></pre><p>To stop Cloud Exchange:</p>
+<pre tabindex="0"><code>./stop
+</code></pre><p>On first run, the Cloud Exchange containers will be pulled from Docker Hub so it may take some time to come up.</p>
+<pre tabindex="0"><code>nathan1@ce:~/netskope/ta_cloud_exchange$ ./start
+Docker Compose version v2.14.0
+[+] Running 5/5
+ ⠿ watchtower Pulled
+ ⠿ rabbitmq-stats Pulled
+ ⠿ core Pulled
+ ⠿ mongodb-primary Pulled
+ ⠿ ui Pulled
+[+] Running 5/5
+ ⠿ Network ta_cloud_exchange_default              Created
+ ⠿ Container ta_cloud_exchange_rabbitmq-stats_1   Started
+ ⠿ Container ta_cloud_exchange_mongodb-primary_1  Started
+ ⠿ Container ta_cloud_exchange_watchtower_1       Started
+ ⠿ Container ta_cloud_exchange_core_1             Started
+ ⠿ Container ta_cloud_exchange_ui_1               Started
+</code></pre><p>When complete, you will be able to access the Cloud Exchange UI in your browser:</p>
+<pre tabindex="0"><code>https://&lt;host ip address&gt;
+</code></pre><div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+<p>At this point, you should receive an untrusted SSL warning in your browser. <strong>This is normal</strong>: The CE setup script automatically generated a self-signed SSL certificate to secure connectivity to the admin UI. Your connection is secure.</p>
+<p>You can whitelist the CE URL in your browser to remove this error OR you can replace the self-signed SSL certificate with one that is trusted/signed by a trusted CA. The latter is covered in the next section.</p>
+
+</div>
+
+<p><img src="2.png" alt="2"></p>
+<p>If you can&rsquo;t access the UI, make sure that any host firewall (eg: <code>ufw</code>), network firewall, and/or Network Security Group (NSG) permits port 443 inbound towards the host IP address.</p>
+<div class="bd-callout bd-callout-warning">
+    <strong class="text-warning">
+        <i class="bi bi-exclamation-diamond-fill"></i>&nbsp; 
+        
+        Caution!<br>
+    </strong>
+Inbound exposure should be local only: We do not recommend exposing Cloud Exchange to the internet. Ideally, you should site CE behind a ZTNA solution like Netskope Private Access (NPA).
+</div>
+
+<p>If you want to be able to access Cloud Exchange from a nice domain name (eg: cloudexchange.company.com), you can create an A record in your DNS (or hosting provider) pointing towards the IP address of your Cloud Exchange host.</p>
+<hr>
+<h2 id="optional-changing-the-ssl-certificate">(Optional) Changing the SSL Certificate</h2>
+<p>When you opted to use HTTPS to access the Cloud Exchange UI, the setup script automatically generated a self-signed SSL certificate to secure access to the admin UI. However, this results in untrusted SSL certificate warnings in your browser.</p>
+<p>The self-signed certificate can be optionally swapped out for one that is signed by a trusted CA to prevent the SSL warning.</p>
+<p>To do so, follow these steps:</p>
+<ol>
+<li>Stop the Cloud Exchange service:</li>
+</ol>
+<pre tabindex="0"><code>cd ~/netskope/ta_cloud_exchange
+./stop
+</code></pre><ol start="2">
+<li>Remove the existing certificate and private key in the <code>ta_cloud_exchange/data/ssl_certs/</code> directory:</li>
+</ol>
+<pre tabindex="0"><code>cd ~/netskope/ta_cloud_exchange/data/ssl_certs/
+rm -rf cte_cert.crt
+rm -rf cte_cert_key.key
+</code></pre><ol start="3">
+<li>Rename your certificate and private key to <code>cte_cert.crt</code> and <code>cte_cert_key.key</code> and copy them to <code>ta_cloud_exchange/data/ssl_certs/</code>:</li>
+</ol>
+<pre tabindex="0"><code>cp your_certificate.crt ~/netskope/ta_cloud_exchange/data/ssl_certs/cte_cert.crt
+...
+cp your_private_key.key ~/netskope/ta_cloud_exchange/data/ssl_certs/cte_cert_key.key
+</code></pre><ol start="4">
+<li>Restart Cloud Exchange:</li>
+</ol>
+<pre tabindex="0"><code>cd ~/netskope/ta_cloud_exchange
+./start
+</code></pre><div class="bd-callout bd-callout-warning">
+    <strong class="text-warning">
+        <i class="bi bi-exclamation-diamond-fill"></i>&nbsp; 
+        
+        Caution!<br>
+    </strong>
+Ensure that you rename your public and private key to <code>cte_cert.crt</code> and  <code>cte_cert_key.key</code> respectively, or your certificate will not be used!
+</div>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+<p>After changing the certificate, if the UI is no longer accessible, check the logs for the UI container (this will typically be called <code>ta_cloud_exchange_ui_1</code>):</p>
+<pre tabindex="0"><code>docker logs ta_cloud_exchange_ui_1
+</code></pre><p>The issue is likely due to the format of the certificate or private key. Cloud Exchange uses NGINX underneath, so that is what you are aiming for in terms of compatibility. There should be no need to use a CA Bundle: just the certificate on it&rsquo;s own will suffice.</p>
+<pre tabindex="0"><code>nathan1@ce:~/$ docker logs ta_cloud_exchange_ui_1
+[...]
+2022/12/09 00:52:41 [emerg] 11#11: SSL_CTX_use_PrivateKey(&#34;/etc/nginx/nginx-privatekey.key&#34;) failed (SSL: error:0B080074:x509 certificate routines:X509_check_private_key:key values mismatch)
+nginx: [emerg] SSL_CTX_use_PrivateKey(&#34;/etc/nginx/nginx-privatekey.key&#34;) failed (SSL: error:0B080074:x509 certificate routines:X509_check_private_key:key values mismatch)
+</code></pre><hr>
+<h1 id="configure-cloud-exchange">Configure Cloud Exchange</h1>
+<p>Now that you have deployed Cloud Exchange, we need to perform some initial configuration steps.</p>
+<h2 id="logging-into-cloud-exchange">Logging into Cloud Exchange</h2>
+<p>The default username/password for the Super Administrator for Cloud Exchange is <code>admin</code>/<code>admin</code>.</p>
+<p>Once you accept the EULA, you will be prompted to change the default password. There can only be one Super Administrator and the username cannot be changed.</p>
+<h2 id="enabling-cloud-exchange-modules--updates">Enabling Cloud Exchange Modules &amp; Updates</h2>
+<p>Once you are logged in, Cloud Exchange will place you into the <strong>Settings &gt; General</strong> menu.</p>
+<p><img src="3.png" alt="3"></p>
+<p>You should enable all 5 of the Cloud Exchange modules under the <strong>General</strong> tab. Only the Super Administrator (the <code>admin</code> user) can turn these modules on/off: Regular admins are not able to see the settings to enable/disable these modules.</p>
+<p>Under <strong>System Updates</strong>, toggle ON <em><code>Periodically check for updates</code></em>.</p>
+<h2 id="optional-setting-a-proxy">(Optional) Setting a Proxy</h2>
+<p>If you require the Cloud Exchange modules themselves to communicate through a proxy, you can configure this under the <em>Proxy</em> tab under <strong>Settings &gt; General</strong>.</p>
+<h2 id="adding-users--configuring-sso">Adding Users &amp; Configuring SSO</h2>
+<p>By default, Cloud Exchange uses a local login mechanism where users sign into CE directly.</p>
+<p>User Management is located under <strong>Settings &gt; Users</strong></p>
+<p>To create a user, click the plus button on the top right-hand side of the Users table.</p>
+<p><img src="4.png" alt="4"></p>
+<p>There are two roles available for assignment: <strong>Admin</strong> and <strong>Read-Only</strong>. Currently, it is not possible to create additional roles in Cloud Exchange.</p>
+<p>The Super Administrator role is only assigned to the default <code>admin</code> user. Only the default <code>admin</code> user can add/remove users, add/remove CE modules, and change CE module-specific config.</p>
+<p>While local login may be acceptable for some smaller organizations, most will want to configure Single-Sign On (SSO) so that the login can utilize federated identity.</p>
+<p>To configure SSO, click the <em>SSO</em> tab under <strong>Settings &gt; Users</strong>, and enable the SSO checkbox.</p>
+<p>I will post a separate guide linked below on how to configure SSO for Cloud Exchange with both Okta and Azure Active Directory (AAD).</p>
+<ul>
+<li>[Guide] <a href="/posts/sso-cloud-exchange">How-to setup SSO for Netskope Cloud Exchange (Okta &amp; Azure AD)</a></li>
+</ul>
+<h2 id="add-your-netskope-tenants">Add Your Netskope Tenant(s)</h2>
+<p>The last configuration step is to pair your Netskope tenant with your Cloud Exchange deployment in order for data to be synchronized. Multiple tenants are supported.</p>
+<h3 id="get-an-api-key">Get an API Key</h3>
+<p>You will need to get an API key from within your Netskope tenant. For this guide, we will use API v1. API v2 will not be used (for now).</p>
+<p>Log into your Netskope tenant, and navigate to <strong>Settings (bottom-left corner) &gt; Tools &gt; REST API v1</strong>.</p>
+<p><img src="5.png" alt="5"></p>
+<p><img src="6.png" alt="6"></p>
+<p>Copy the API token displayed. If this is your first time using the API, you may need to generate a new one.</p>
+<h3 id="add-your-netskope-tenants-in-cloud-exchange">Add your Netskope Tenant(s) in Cloud Exchange</h3>
+<p>Navigate to <strong>Settings &gt; Netskope Tenants</strong> and click the <strong>Add Tenant</strong> button.</p>
+<p><img src="7.png" alt="7"></p>
+<p>Fill in the fields according to the table below:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Enter an easy to remember name for the tenant. Can be whatever you like.</td>
+</tr>
+<tr>
+<td>Tenant Name</td>
+<td>Enter the subdomain of your Netskope tenant - this is everything <strong>before</strong> the <code>.goskope.com</code> in the URL of your Netskope tenant. Eg: For <code>lightwave.goskope.com</code>, enter <code>lightwave</code>. For <code>lightwave.eu.goskope.com</code>, enter <code>lightwave.eu</code>.</td>
+</tr>
+<tr>
+<td>V1 API Token</td>
+<td>Enter the API token copied from your tenant in the step above.</td>
+</tr>
+<tr>
+<td>V2 API Token</td>
+<td>Optional. Leave this blank for now.</td>
+</tr>
+<tr>
+<td>Initial Range</td>
+<td>Number of days of historical data to sync with CE initially. Enter any value between 1-60. 7-14 is a good default number if you are unsure.</td>
+</tr>
+<tr>
+<td>Use System Proxy</td>
+<td>Check this if you would like the connection between CE and Netskope to use the configured system proxy.</td>
+</tr>
+</tbody>
+</table>
+<p>Click <strong>Save</strong> to complete your configuration.</p>
+<p><img src="8.png" alt="8"></p>
+<h3 id="verify-the-netskope-tenant-configuration">Verify the Netskope Tenant Configuration</h3>
+<p>Navigate to <strong>Logging</strong> in the bottom-left corner of the UI.</p>
+<p>If your Netskope tenant was successfully added, you will start to see events synchronized (provided your tenant has alerts to sync).</p>
+<p><img src="9.png" alt="9"></p>
+<h1 id="configure-plugins">Configure Plugins</h1>
+<p>Cloud Exchange uses the concept of &ldquo;plugins&rdquo; to determine where to send and receive data from.</p>
+<p>You can have multiple inputs and multiple outputs: Naturally, you will want to sync data to and from your Netskope tenant(s) in addition to your other vendors.</p>
+<p>Navigate to <strong>Settings &gt; Plugins</strong></p>
+<p><img src="10.png" alt="10"></p>
+<p>Here you will see a list of supported plugins; tagged according to the CE module the plugin aligns to data-wise:</p>
+<table>
+<thead>
+<tr>
+<th>CE Tag</th>
+<th>Associated CE Module</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CTO</td>
+<td>Cloud Threat Exchange. Synchronize threat intel, including IOCs, between vendors.</td>
+</tr>
+<tr>
+<td>CRE</td>
+<td>Cloud Risk Exchange (User Risk Scoring): Normalize and aggregate user risk scoring between vendors.</td>
+</tr>
+<tr>
+<td>CTO</td>
+<td>Cloud Ticket Orchestrator. Automatically raise tickets and alerts in apps like Jira, ServiceNow, and Slack.</td>
+</tr>
+<tr>
+<td>CLS</td>
+<td>Cloud Log Shipper. Automatically pull and push logs to SIEM and data lake applications like Splunk and Sentinel.</td>
+</tr>
+<tr>
+<td>ARE</td>
+<td>Application Risk Exchange. Send Netskope SaaS app risk information to other security vendors.</td>
+</tr>
+</tbody>
+</table>
+<p>To start, you will want to configure the Netskope plugins for the associated modules you wish to use. For example, if you wish to share IOCs between Netskope and Crowdstrike, ensure you configure the Netskope CTE plugin in addition to the Crowdstrike CTE plugin.</p>
+<p>Vendors could potentially have multiple plugins depending on the CE modules supported. For example, Crowdstrike has both CTE and CRE plugins for sharing both threat and risk intel.</p>
+<hr>
+<h1 id="finish">Finish</h1>
+<p>Congratulations! You&rsquo;ve just deployed Cloud Exchange! Where to from here? It&rsquo;s time to start exploring the different plugins across each of the Cloud Exchange modules.</p>
+<ul>
+<li><a href="https://docs.netskope.com/en/netskope-cloud-exchange.html">Cloud Exchange Netskope documentation</a></li>
+<li><a href="https://docs.netskope.com/en/supported-3rd-party-plugins.html">List of 3rd party plugins</a> (see the Cloud Exchange UI for the most up-to-date list)</li>
+</ul>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/netskope">netskope</a></span><span class="tag"><a href="https://nathancatania.com/tags/docker">docker</a></span><span class="tag"><a href="https://nathancatania.com/tags/guides">guides</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>2926 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2022-12-09</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/insecure-kubernetes-for-evaluation-purposes/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Insecure Kubernetes for Evaluation Purposes</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/netskope-quick-start/">
+                                <span class="button__text">Netskope Quick Start Guide</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.858712b4b19060b33e6a3b52df9749f413894a75772f4d0b4683380c0ce08c6f93623d63068ef5ae4719980bcaa15ad536694c42897b88c4826c6ece21918827.js" integrity="sha512-hYcStLGQYLM&#43;ajtS35dJ9BOJSnV3L00LRoM4DAzgjG&#43;TYj1jBo71rkcZmAvKoVrVNmlMQol7iMSCbG7OIZGIJw=="></script>
+
+
+
+
+    </body>
+</html>

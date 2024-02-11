@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sentinel on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/sentinel/</link>
+    <description>Recent content in sentinel on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/sentinel/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Integrate Zscaler with Azure Sentinel</title>
+      <link>https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/</guid>
+      <description>Azure Sentinel is a cloud-based SIEM solution by Microsoft. Zscaler Internet Access (ZIA) integrates with a wide variety of SIEM solutions, and Sentinel is no different. In this guide, we&amp;rsquo;ll walk through how to configure ZIA to send logs in real-time to Sentinel.&#xA;Caution! Be very careful if you&amp;rsquo;re deploying this as part of a demo or lab environment as the costs we will incur can ramp up quickly! You will incur charges for one new VM as part of this guide (in addition to an existing NSS VM if you also deployed it in Azure), PLUS data ingestion charges for an Azure Sentinel workspace.</description>
+    </item>
+  </channel>
+</rss>

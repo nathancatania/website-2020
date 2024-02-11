@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sso on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/sso/</link>
+    <description>Recent content in sso on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 31 Jul 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/sso/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy Apache Guacamole with SSL &amp; SAML (Azure AD &amp; Okta) integration</title>
+      <link>https://nathancatania.com/posts/deploy-guacamole-ssl-saml/</link>
+      <pubDate>Sun, 31 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploy-guacamole-ssl-saml/</guid>
+      <description>Introduction This post will cover how to configure Single-Sign-On (SSO) using SAML for Apache Guacamole while also ensuring that your deployment is secured behind auto-renewing SSL.&#xA;This is a BIG guide as I cover off an automated installation method (using cloud-init), a manual install method, and instructions for both Azure AD and Okta - so you might want to leverage the table of contents above to jump to the sections most approproate to you.</description>
+    </item>
+    <item>
+      <title>How-to Configure SSO for Netskope Cloud Exchange</title>
+      <link>https://nathancatania.com/posts/sso-cloud-exchange/</link>
+      <pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/sso-cloud-exchange/</guid>
+      <description>The thoughts and opinions in this post are my own and do not reflect those of Netskope. Please follow this guide at your own risk.&#xA;This post will cover how to configure Single-Sign-On (SSO) for the Netskope Cloud Exchange (CE) platform; specifically for Azure AD and Okta. This will allow you to manage administrator access to CE from within your existing Identity Provider (IdP), rather than configuring administrators within the platform manually.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/</link>
+    <description>Recent content in Tags on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Jul 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>aws</title>
+      <link>https://nathancatania.com/tags/aws/</link>
+      <pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/aws/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>k8s</title>
+      <link>https://nathancatania.com/tags/k8s/</link>
+      <pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/k8s/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>kubernetes</title>
+      <link>https://nathancatania.com/tags/kubernetes/</link>
+      <pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>notes</title>
+      <link>https://nathancatania.com/tags/notes/</link>
+      <pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/notes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>security</title>
+      <link>https://nathancatania.com/tags/security/</link>
+      <pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>docker</title>
+      <link>https://nathancatania.com/tags/docker/</link>
+      <pubDate>Fri, 09 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>guides</title>
+      <link>https://nathancatania.com/tags/guides/</link>
+      <pubDate>Fri, 09 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/guides/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>netskope</title>
+      <link>https://nathancatania.com/tags/netskope/</link>
+      <pubDate>Fri, 09 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/netskope/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>guide</title>
+      <link>https://nathancatania.com/tags/guide/</link>
+      <pubDate>Wed, 12 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/guide/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>sase</title>
+      <link>https://nathancatania.com/tags/sase/</link>
+      <pubDate>Wed, 12 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/sase/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>guacamole</title>
+      <link>https://nathancatania.com/tags/guacamole/</link>
+      <pubDate>Sun, 31 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/guacamole/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>remote access</title>
+      <link>https://nathancatania.com/tags/remote-access/</link>
+      <pubDate>Sun, 31 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/remote-access/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ssl</title>
+      <link>https://nathancatania.com/tags/ssl/</link>
+      <pubDate>Sun, 31 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/ssl/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>sso</title>
+      <link>https://nathancatania.com/tags/sso/</link>
+      <pubDate>Sun, 31 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/sso/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>azure</title>
+      <link>https://nathancatania.com/tags/azure/</link>
+      <pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/azure/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>lab</title>
+      <link>https://nathancatania.com/tags/lab/</link>
+      <pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/lab/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>okta</title>
+      <link>https://nathancatania.com/tags/okta/</link>
+      <pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/okta/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>intune</title>
+      <link>https://nathancatania.com/tags/intune/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/intune/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>zscaler</title>
+      <link>https://nathancatania.com/tags/zscaler/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/zscaler/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>sentinel</title>
+      <link>https://nathancatania.com/tags/sentinel/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/sentinel/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>zia</title>
+      <link>https://nathancatania.com/tags/zia/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/zia/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>mcas</title>
+      <link>https://nathancatania.com/tags/mcas/</link>
+      <pubDate>Thu, 02 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/mcas/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>cloudflare</title>
+      <link>https://nathancatania.com/tags/cloudflare/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/cloudflare/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>dns</title>
+      <link>https://nathancatania.com/tags/dns/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/dns/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>homelab</title>
+      <link>https://nathancatania.com/tags/homelab/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/homelab/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>raspberry pi</title>
+      <link>https://nathancatania.com/tags/raspberry-pi/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/raspberry-pi/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>windows</title>
+      <link>https://nathancatania.com/tags/windows/</link>
+      <pubDate>Mon, 30 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/windows/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>gaming</title>
+      <link>https://nathancatania.com/tags/gaming/</link>
+      <pubDate>Fri, 16 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/gaming/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>juniper</title>
+      <link>https://nathancatania.com/tags/juniper/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/juniper/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>aerohive</title>
+      <link>https://nathancatania.com/tags/aerohive/</link>
+      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/aerohive/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>kafka</title>
+      <link>https://nathancatania.com/tags/kafka/</link>
+      <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/kafka/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>networking</title>
+      <link>https://nathancatania.com/tags/networking/</link>
+      <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/tags/networking/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>zscaler on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/zscaler/</link>
+    <description>Recent content in zscaler on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/zscaler/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy Zscaler Client Connector with Intune (iOS &amp; Android)</title>
+      <link>https://nathancatania.com/posts/deploy-zapp-mobile-with-intune/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploy-zapp-mobile-with-intune/</guid>
+      <description>The thoughts and opinions in this post are my own and do not necessarily reflect those of Zscaler.&#xA;In this guide, we&amp;rsquo;ll walkthrough how to configure Microsoft Intune from scratch and use it to deploy the Zscaler Client Connector agent (ZCC) - formerly known as Zscaler Client Connector (ZCC).&#xA;Due to length, I&amp;rsquo;ve split this into two posts (the orginal was over 8000 words):&#xA;This post covers deployment on iOS/iPadOS and Android.</description>
+    </item>
+    <item>
+      <title>Deploy Zscaler Client Connector with Intune (Windows &amp; macOS)</title>
+      <link>https://nathancatania.com/posts/deploy-zapp-with-intune/</link>
+      <pubDate>Mon, 05 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploy-zapp-with-intune/</guid>
+      <description>The thoughts and opinions in this post are my own and do not necessarily reflect those of Zscaler.&#xA;In this guide, we&amp;rsquo;ll walkthrough how to configure Microsoft Intune from scratch and use it to deploy the Zscaler Client Connector agent (ZCC) - formerly known as Zscaler Client Connector (ZCC).&#xA;Due to length, I&amp;rsquo;ve split this into two posts (the orginal was over 8000 words):&#xA;This post covers deployment on Windows and macOS.</description>
+    </item>
+    <item>
+      <title>Integrate Zscaler with Azure Sentinel</title>
+      <link>https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/</guid>
+      <description>Azure Sentinel is a cloud-based SIEM solution by Microsoft. Zscaler Internet Access (ZIA) integrates with a wide variety of SIEM solutions, and Sentinel is no different. In this guide, we&amp;rsquo;ll walk through how to configure ZIA to send logs in real-time to Sentinel.&#xA;Caution! Be very careful if you&amp;rsquo;re deploying this as part of a demo or lab environment as the costs we will incur can ramp up quickly! You will incur charges for one new VM as part of this guide (in addition to an existing NSS VM if you also deployed it in Azure), PLUS data ingestion charges for an Azure Sentinel workspace.</description>
+    </item>
+    <item>
+      <title>Integrate Zscaler with Microsoft Cloud App Security (MCAS)</title>
+      <link>https://nathancatania.com/posts/integrate-zia-and-mcas/</link>
+      <pubDate>Thu, 02 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/integrate-zia-and-mcas/</guid>
+      <description>Microsoft Cloud App Security (MCAS) is Microsoft&amp;rsquo;s CASB product. We can integrate this with Zscaler Internet Access (ZIA) - and vice-versa.&#xA;ZIA will be able to pull data from MCAS under the Cloud Applications dashboard, and MCAS will be able to push custom URL categories to your ZIA tenant for your specified sanctioned/unsanctioned applications - which you can then configure allow/coach/block rules for Zscaler to enforce as required.&#xA;You must have a subscription for both MCAS and Zscaler&amp;rsquo;s Nanolog Streaming Service (NSS) to be able to integrate the two products.</description>
+    </item>
+    <item>
+      <title>Deploy Zscaler NSS in Azure</title>
+      <link>https://nathancatania.com/posts/deploy-zscaler-nss-in-azure/</link>
+      <pubDate>Mon, 29 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploy-zscaler-nss-in-azure/</guid>
+      <description>This guide will cover deployment of a Nanolog Streaming Service (NSS) VM within Azure. NSS can also be deployed on-premise using an OVA file, or in AWS.&#xA;If you&amp;rsquo;re planning to integrate with Microsoft Cloud App Security (MCAS) or Azure Sentinel, you&amp;rsquo;ll require a healthy NSS deployment, and it is highly recommended that you use Azure.&#xA;Why do I need to deploy a VM to stream logs to a SIEM? Can&amp;rsquo;t Zscaler just send logs to my SIEM directly?</description>
+    </item>
+    <item>
+      <title>Deploying ZPA ZEN Connectors</title>
+      <link>https://nathancatania.com/posts/deploying-zpa-zen-connectors/</link>
+      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploying-zpa-zen-connectors/</guid>
+      <description>Disclaimer: I am an employee of Zscaler. These are my own notes from a ZPA homelab deployment and may be incorrect or against best practice. You should consult the Zscaler help portal for official documentation.&#xA;Connector Provisioning First, we are going to define the connector in the ZPA admin portal and generate the required provisioning key. The provisioning key authenticates the connector when it calls home to the ZPA cloud (via it&amp;rsquo;s established control channel), and associates it to your ZPA instance.</description>
+    </item>
+    <item>
+      <title>Integrate Zscaler ZPA with Azure AD</title>
+      <link>https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/</link>
+      <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/</guid>
+      <description>This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZPA. Our users defined in Azure AD will be able to authenticate with Z-App/ZPA using Microsoft Single Sign-on (SSO), and we&amp;rsquo;ll also be able to create access policies for our private applications based on user identity and attributes.&#xA;If you followed my previous post covering ZIA integration with Azure AD, then the first few steps will be (mostly) the same.</description>
+    </item>
+    <item>
+      <title>Integrate Zscaler ZIA with Azure AD</title>
+      <link>https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/</link>
+      <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/</guid>
+      <description>This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZIA. Our users defined in Azure AD will be able to authenticate with Z-App/ZIA using Microsoft Single Sign-on (SSO), and we&amp;rsquo;ll also be able to start creating policies in ZIA centered around the same users, groups, and departments we&amp;rsquo;ve defined.&#xA;By integrating with an IdP like Azure AD, we no longer need to manually manage users and their credentials ourselves in the ZIA portal.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>guide on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/guide/</link>
+    <description>Recent content in guide on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 12 Oct 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/guide/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Netskope Quick Start Guide</title>
+      <link>https://nathancatania.com/posts/netskope-quick-start/</link>
+      <pubDate>Wed, 12 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/netskope-quick-start/</guid>
+      <description>Disclaimer: Any thoughts or opinions in this article are my own and do not reflect those of Netskope. I am a Netskope SE who worte this guide in his own time to assist Netskope customers. Please lodge a PR on GitHub to correct any mistakes or inaccuracies.&#xA;The Quick Quick Start There are 2 fundamental steps required to deploy Netskope in your environment:&#xA;1. Add users to the platform. This is typically done by integrating with your Identity Service (ie: Azure AD, Okta) using SCIM (API), or synchronizing your on-premise Active Directory using the Directory Importer Tool.</description>
+    </item>
+  </channel>
+</rss>

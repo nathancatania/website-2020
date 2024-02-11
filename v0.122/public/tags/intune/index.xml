@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>intune on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/intune/</link>
+    <description>Recent content in intune on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/intune/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy Zscaler Client Connector with Intune (iOS &amp; Android)</title>
+      <link>https://nathancatania.com/posts/deploy-zapp-mobile-with-intune/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploy-zapp-mobile-with-intune/</guid>
+      <description>The thoughts and opinions in this post are my own and do not necessarily reflect those of Zscaler.&#xA;In this guide, we&amp;rsquo;ll walkthrough how to configure Microsoft Intune from scratch and use it to deploy the Zscaler Client Connector agent (ZCC) - formerly known as Zscaler Client Connector (ZCC).&#xA;Due to length, I&amp;rsquo;ve split this into two posts (the orginal was over 8000 words):&#xA;This post covers deployment on iOS/iPadOS and Android.</description>
+    </item>
+    <item>
+      <title>Deploy Zscaler Client Connector with Intune (Windows &amp; macOS)</title>
+      <link>https://nathancatania.com/posts/deploy-zapp-with-intune/</link>
+      <pubDate>Mon, 05 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploy-zapp-with-intune/</guid>
+      <description>The thoughts and opinions in this post are my own and do not necessarily reflect those of Zscaler.&#xA;In this guide, we&amp;rsquo;ll walkthrough how to configure Microsoft Intune from scratch and use it to deploy the Zscaler Client Connector agent (ZCC) - formerly known as Zscaler Client Connector (ZCC).&#xA;Due to length, I&amp;rsquo;ve split this into two posts (the orginal was over 8000 words):&#xA;This post covers deployment on Windows and macOS.</description>
+    </item>
+  </channel>
+</rss>

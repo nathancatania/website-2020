@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="map[author:map[bio:Engineer // Melbourne // Australia name:Nathan Catania photo:map[url:avatar.png]] contenttypename:posts dateform:Jan 2, 2006 dateformnum:2006-01-02 dateformnumtime:2006-01-02 15:04 &#43;1000 dateformshort:Jan 2 description:The official website of Nathan Catania &amp;#10003; disablereadotherposts:false enablethemetoggle:true giturl:https://github.com/nathancatania/website/commit/ homesubtitle:Engineer // Melbourne // Australia images:[] keywords:blog, website, official logo:map[logohomelink:/ logotext:$ cd /home/nathan] readotherposts:Read other posts social:[map[name:linkedin url:https://www.linkedin.com/in/nathancatania]] subtitle:Engineer // Melbourne // Australia]">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="This post will cover how to deploy the Zscaler Agent (Zscaler Client Connector [ZCC]) on iOS &amp; Android using Microsoft Intune." />
+<meta name="keywords" content="blog, website, official, intune, zscaler, lab, notes" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/deploy-zapp-mobile-with-intune/" />
+
+
+    <title>
+        
+            Deploy Zscaler Client Connector with Intune (iOS &amp; Android) :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b851fae37ea32930b5c4996a9ac8737a9d1ab1b40af28b3cd3b0060df9e2f5a3.css" integrity="sha256-uFH6436jKTC1xJlqmshzep0asbQK8os807AGDfni9aM=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Deploy Zscaler Client Connector with Intune (iOS &amp; Android)">
+<meta itemprop="description" content="This post will cover how to deploy the Zscaler Agent (Zscaler Client Connector [ZCC]) on iOS &amp; Android using Microsoft Intune."><meta itemprop="datePublished" content="2020-10-06T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-10-06T00:00:00+00:00" />
+<meta itemprop="wordCount" content="4677"><meta itemprop="image" content="https://nathancatania.com" />
+<meta itemprop="keywords" content="intune,zscaler,lab,notes," />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nathancatania.com" /><meta name="twitter:title" content="Deploy Zscaler Client Connector with Intune (iOS &amp; Android)"/>
+<meta name="twitter:description" content="This post will cover how to deploy the Zscaler Agent (Zscaler Client Connector [ZCC]) on iOS &amp; Android using Microsoft Intune."/>
+
+
+
+    <meta property="og:title" content="Deploy Zscaler Client Connector with Intune (iOS &amp; Android)" />
+<meta property="og:description" content="This post will cover how to deploy the Zscaler Agent (Zscaler Client Connector [ZCC]) on iOS &amp; Android using Microsoft Intune." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/deploy-zapp-mobile-with-intune/" /><meta property="og:image" content="https://nathancatania.com" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-10-06T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2020-10-06 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                $ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>22 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/deploy-zapp-mobile-with-intune/">Deploy Zscaler Client Connector with Intune (iOS &amp; Android)</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-is-intune">What is Intune?</a></li>
+    <li><a href="#before-you-begin">Before You Begin</a></li>
+    <li><a href="#a-warning-on-ssl-inspection-for-ios--android">A Warning on SSL Inspection for iOS &amp; Android</a></li>
+    <li><a href="#microsoft-endpoint-manager">Microsoft Endpoint Manager</a>
+      <ul>
+        <li><a href="#optional-setting-the-mdm-authority">(Optional) Setting the MDM Authority</a></li>
+      </ul>
+    </li>
+    <li><a href="#ios-and-ipados">iOS and iPadOS</a>
+      <ul>
+        <li><a href="#1-create-a-device-configuration-profile-for-vpn">1. Create a Device Configuration Profile for VPN</a>
+          <ul>
+            <li><a href="#creating-the-vpn-profile">Creating the VPN Profile</a></li>
+            <li><a href="#configuring-the-base-vpn-profile">Configuring the Base VPN Profile</a></li>
+            <li><a href="#optional-additional-customization">(Optional) Additional Customization</a></li>
+            <li><a href="#optional-configure-the-automatic-vpn-settings">(Optional) Configure the Automatic VPN settings</a></li>
+            <li><a href="#assign-groups-to-the-vpn-profile">Assign Groups to the VPN Profile</a></li>
+          </ul>
+        </li>
+        <li><a href="#2-push-the-zscaler-certificate-for-ssl-inspection">2. Push the Zscaler Certificate for SSL Inspection</a>
+          <ul>
+            <li><a href="#download-the-zscaler-intermediate-root-ca--enable-ios-ssl-inspection">Download the Zscaler Intermediate Root CA &amp; Enable iOS SSL Inspection</a></li>
+            <li><a href="#create-a-device-configuration-profile-for-a-trusted-certificate">Create a Device Configuration Profile for a Trusted Certificate</a></li>
+          </ul>
+        </li>
+        <li><a href="#3-add-a-new-ios-app-in-mem">3. Add a new iOS App in MEM</a>
+          <ul>
+            <li><a href="#add-a-new-ios-store-app">Add a new iOS Store App</a></li>
+            <li><a href="#assign-users-to-the-app">Assign Users to the App</a></li>
+          </ul>
+        </li>
+        <li><a href="#4-optional-configure-intune-for-apple-devices">4. (Optional) Configure Intune for Apple Devices</a></li>
+        <li><a href="#5-testing-zcc-deployment-on-ios">5. Testing ZCC Deployment on iOS</a></li>
+        <li><a href="#6-demo-video">6. Demo Video</a></li>
+        <li><a href="#7-authentication-friction-on-ios">7. Authentication Friction on iOS</a>
+          <ul>
+            <li><a href="#removing-the-need-for-users-to-enter-sso-credentials">Removing the need for users to enter SSO credentials</a></li>
+            <li><a href="#the-issue-with-silent--automatic-authentication">The issue with Silent &amp; Automatic Authentication</a></li>
+            <li><a href="#creating-a-compelling-event">Creating a &ldquo;Compelling Event&rdquo;</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#android">Android</a>
+      <ul>
+        <li><a href="#1-add-a-new-android-app-in-mem">1. Add a new Android App in MEM</a>
+          <ul>
+            <li><a href="#add-a-new-managed-google-play-app">Add a new Managed Google Play App</a></li>
+            <li><a href="#link-intune-to-android-enterprise">Link Intune to Android Enterprise</a></li>
+            <li><a href="#approve-the-zscaler-client-connector-app">Approve the Zscaler Client Connector App</a></li>
+            <li><a href="#assign-users-to-the-app-1">Assign Users to the App</a></li>
+          </ul>
+        </li>
+        <li><a href="#2-push-the-zscaler-certificate-for-ssl-inspection-1">2. Push the Zscaler Certificate for SSL Inspection</a>
+          <ul>
+            <li><a href="#download-the-zscaler-intermediate-root-ca--enable-android-ssl-inspection">Download the Zscaler Intermediate Root CA &amp; Enable Android SSL Inspection</a></li>
+            <li><a href="#create-a-device-configuration-profile-for-a-trusted-certificate-1">Create a Device Configuration Profile for a Trusted Certificate</a></li>
+          </ul>
+        </li>
+        <li><a href="#3-create-an-app-configuration-policy">3. Create an App Configuration Policy</a>
+          <ul>
+            <li><a href="#creating-the-app-configuration-policy">Creating the App Configuration Policy</a></li>
+            <li><a href="#a-note-on-byod--employee-owned-devices">A note on BYOD &amp; Employee-owned devices</a></li>
+            <li><a href="#customizing-the-app-configuration-policy">Customizing the App Configuration Policy</a></li>
+            <li><a href="#assign-users--devices-to-the-app-configuration-policy">Assign Users &amp; Devices to the App Configuration Policy</a></li>
+          </ul>
+        </li>
+        <li><a href="#4-testing-zcc-deployment-on-android">4. Testing ZCC Deployment on Android</a></li>
+        <li><a href="#5-demo-video">5. Demo Video</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+                <img src="banner.png" class="post-cover" />
+            
+
+            <div class="post-content">
+                <blockquote>
+<p>The thoughts and opinions in this post are my own and do not necessarily reflect those of Zscaler.</p>
+</blockquote>
+<p>In this guide, we&rsquo;ll walkthrough how to configure Microsoft Intune from scratch and use it to deploy the Zscaler Client Connector agent (ZCC) - formerly known as Zscaler Client Connector (ZCC).</p>
+<p>Due to length, I&rsquo;ve split this into two posts (the orginal was over 8000 words):</p>
+<ul>
+<li>This post covers deployment on iOS/iPadOS and Android.</li>
+<li>The other post, <a href="/posts/deploy-zapp-with-intune">available here</a>, covers Windows and macOS.</li>
+</ul>
+<p>I suggest you use the Table of Contents to jump to the section that you need.</p>
+<h1 id="what-is-intune">What is Intune?</h1>
+<p><a href="https://docs.microsoft.com/en-us/mem/intune/fundamentals/what-is-intune">According</a> to Microsoft:</p>
+<blockquote>
+<p>Microsoft Intune is a cloud-based service that focuses on mobile device management (MDM) and mobile application management (MAM).</p>
+<p>With Intune, you can:</p>
+<ul>
+<li>Set rules and configure settings on personal and organization-owned devices to access data and networks.</li>
+<li>Deploy and authenticate apps on devices &ndash; on-premises and mobile.</li>
+<li>Be sure devices and apps are compliant with your security requirements.</li>
+</ul>
+</blockquote>
+<p>In order to access Intune, you need to have either a Microsoft 365 or <a href="https://www.microsoft.com/en-au/microsoft-365/enterprise-mobility-security/compare-plans-and-pricing">Enterprise &amp; Mobility E3/E5</a> subscription. If you&rsquo;re using a free Azure account, you&rsquo;ll need to sign up to a trial, or pay per user (which can get costly).</p>
+<h1 id="before-you-begin">Before You Begin</h1>
+<p>When adding an app to Intune, you&rsquo;ll be prompted to allocate the groups of users (or devices) that the app will be rolled out to. Hence before beginning, ensure you have the users of Zscaler inside of an AD or Azure AD group that you can assign the Zscaler Client Connector app to.</p>
+<p>Depending on whether you want the ZCC app to be mandatory or optional for certain groups of users, you may want to divide your users into two groups:</p>
+<ol>
+<li>The users to which the app is MANDATORY. Any user in this group will have the app automatically pushed out to them.</li>
+<li>The users to which the app is OPTIONAL. The app will not be automatically pushed for users in this group, allowing them to go to the Company Portal and download it themselves if they choose.</li>
+</ol>
+<p>In my examples below, I have 3 groups:</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZIA_Entitlement</td>
+<td>This is the group of all users that are entitled to use Zscaler Internet Access (ZIA)</td>
+</tr>
+<tr>
+<td>ZPA_Entitlement</td>
+<td>This is the group of all users that are entitled to use Zscaler Private Access (ZPA). In my case, this is a subset of users from the ZIA_Entitlement group as I might not want to roll ZPA out to every user in the organization.</td>
+</tr>
+<tr>
+<td>Zscaler - Mandatory</td>
+<td>This group contains every user in the organization to which the ZCC app will be automatically rolled out to. Ie: The majority of users from the above two groups. If this is your organization, you might include the whole org in this group, except select users (eg: some from IT) for which the app will be optional.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="a-warning-on-ssl-inspection-for-ios--android">A Warning on SSL Inspection for iOS &amp; Android</h1>
+<p>You should be <strong>very</strong> careful before enabling SSL inspection for iOS and Android devices. Mobile devices and applications are notorious for &ldquo;Certificate Pinning&rdquo; or &ldquo;Public Key Pinning&rdquo; which breaks the connectivity of the app when subjected to SSL inspection.</p>
+<p>In this instance, the app only trusts a hardcoded set of certificates, typically from it&rsquo;s developer. If the certificate the app sees is not in this hardcoded list, then the app will terminate the connection and not send any traffic; even if the certificate is trusted by the device. This is to protect against malicious Man-in-the-Middle (MitM) attacks, however it also prevents legitimate MitM functions, like SSL inspection, from working.</p>
+<p>The only way around certificate pinning today is to bypass the application from SSL inspection; a solution that many enterprises are not happy doing as it prevents visibility of that application&rsquo;s traffic.</p>
+<p>Turning on SSL inspection off the bat for iOS and Android will likely lead to a number of very angry users. I would typically recommend you leave it OFF in the first instance, gather data on the applications used by your users, and then switch it ON at a later date armed with a list of apps you might need to bypass.</p>
+<p>For iOS and iPadOS, if you are enabling SSL inspection, iMessage, iCloud, and the iTunes and App Stores all implement Certificate Pinning. You will need to bypass the following domains under <strong>Policy &gt; SSL Inspection</strong> in the Zscaler Admin Portal:</p>
+<pre tabindex="0"><code>p24-keyvalueservice.icloud.com
+*.apps.apple.com
+.itunes.apple.com
+.mzstatic.com
+gs-loc.apple.com
+gsa.apple.com
+securemetrics.apple.com
+swscan.apple.com
+xp.apple.com
+.icloud.com
+ppq.apple.com
+akadns.net
+</code></pre><p>For Android, if you are enabling SSL inspection, Google Play implements Certificate Pinning, so you will need to bypass the following domains under <strong>Policy &gt; SSL Inspection</strong> in the Zscaler Admin Portal:</p>
+<pre tabindex="0"><code>.gvt1.com
+.gvt2.com 
+.vzw.com
+.ggpht.com
+play.googleapis.com
+android.clients.google.com
+.googleapis.com
+.googleusercontent.com
+.ggpht.com
+.android.clients.google.com
+.play.googlezip.net
+connectivitycheck.gstatic.com
+</code></pre><p>Zscaler maintains a list of commonly required SSL bypasses across platforms <a href="https://help.zscaler.com/zia/certificate-pinning-and-ssl-inspection">here</a>.</p>
+<h1 id="microsoft-endpoint-manager">Microsoft Endpoint Manager</h1>
+<p>We&rsquo;ll be using the <strong>Microsoft Endpoint Manager console</strong> (MEM) to orchestrate Intune. You can log in using the same Azure Portal credentials here: <a href="https://endpoint.microsoft.com">https://endpoint.microsoft.com</a></p>
+<p><img src="1.png" alt="1"></p>
+<h2 id="optional-setting-the-mdm-authority">(Optional) Setting the MDM Authority</h2>
+<p>If you&rsquo;re using an existing Office 365 account <strong>and</strong> have been using the Office 365 MDM, you&rsquo;ll need to change the MDM authority from Office 365 to Intune. <a href="https://docs.microsoft.com/en-us/mem/intune/fundamentals/mdm-authority-set">This</a> Microsoft help article will guide you through it.</p>
+<hr>
+<h1 id="ios-and-ipados">iOS and iPadOS</h1>
+<p>This section will cover deploying ZCC onto iOS (and iPadOS) using Intune.</p>
+<h2 id="1-create-a-device-configuration-profile-for-vpn">1. Create a Device Configuration Profile for VPN</h2>
+<p>ZCC requires the use of a VPN profile on the device which Intune will deploy for us. We need to create it first however.</p>
+<p>Note that ZCC does not use a VPN to forward traffic to Zscaler. On iOS the VPN profile is only used to direct device traffic into the ZCC application which then forwards it on to the closest Zscaler DC itself.</p>
+<h3 id="creating-the-vpn-profile">Creating the VPN Profile</h3>
+<p>In the <strong>Devices</strong> menu of the <a href="https://endpoint.microsoft.com/">MEM portal</a>, go to <strong>Configuration profiles</strong> (this is under the &ldquo;Policy&rdquo; menu heading). Select <strong>Create profile</strong>.</p>
+<p>Under <strong>Platform</strong> select <strong>iOS/iPadOS</strong> from the dropdown. Likewise, under <strong>Profile</strong>, select <strong>VPN</strong>. When you&rsquo;re done, click <strong>Create</strong> to continue.</p>
+<p><img src="13.png" alt="13"></p>
+<p>On the next screen, give the VPN a name (eg: <code>ZscalerForwarding</code>) then click <strong>Next</strong> to got to the <strong>Configuration Settings</strong> tab.</p>
+<p><img src="14.png" alt="14"></p>
+<h3 id="configuring-the-base-vpn-profile">Configuring the Base VPN Profile</h3>
+<p>For the <strong>Connection type</strong>, select <strong>Zscaler</strong> from the dropdown.</p>
+<p><img src="15.png" alt="15"></p>
+<p>Expand the <strong>Base VPN</strong> section and fill in the following:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Connection name</strong></td>
+<td>The name of the VPN connection. This is what will show up on the user&rsquo;s device. Eg: <code>ZscalerForwarding</code></td>
+</tr>
+<tr>
+<td><strong>Custom domain name</strong></td>
+<td>Enter the primary domain name associated with your company&rsquo;s identity service / SSO provider. This is used to pre-populate the login field in ZCC. In my case, this is <code>oblivion.industries</code> as I authenticate with <a href="mailto:nathan@oblivion.industries">nathan@oblivion.industries</a> as my username.</td>
+</tr>
+<tr>
+<td><strong>Enable strict enforcement</strong></td>
+<td>If enabled, Strict Enforcement blocks internet access on the device until the user signs into ZCC. Strict Enforcement requires a device be in Supervised Mode, which in turn, is only possible with corporate owned devices (those configured with Apple Configurator or DEP/Apple Business Manager) - BYOD or employee-owned devices can&rsquo;t be put into Supervised Mode and hence, won&rsquo;t work with Strict Enforcement (even if it&rsquo;s enabled).</td>
+</tr>
+<tr>
+<td><strong>Organization&rsquo;s cloud name</strong></td>
+<td>The name of the Zscaler cloud on which your organization is provisioned. When entering the cloud name, DO NOT enter the <strong>.net</strong> at the end. Eg: zscalertwo.net should be entered as <code>zscalertwo</code>, zscaler.net should be entered as <code>zscaler</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><img src="16.png" alt="16"></p>
+<p>The <strong>Excluded URLs</strong> section allows you to specify URLs that are bypassed from Zscaler (typically this should be done within the Zscaler admin portal itself so you&rsquo;re not fragmenting the configuration).</p>
+<p>If you&rsquo;re enabling strict enforcement, at a minimum you&rsquo;ll want to include the URL for your SSO/identity provider and the URL for Zscaler&rsquo;s authentication service. For example, for Azure AD:</p>
+<pre tabindex="0"><code>login.microsoftonline.com
+authsp.prod.zpath.net
+</code></pre><p>You won&rsquo;t be able to proceed without adding some sort of entry to the <strong>Key</strong> and <strong>Value</strong> sections (more info is provided below, but this won&rsquo;t apply to most orgs). <strong>You can enter any random key and value pair to proceed.</strong></p>
+<h3 id="optional-additional-customization">(Optional) Additional Customization</h3>
+<p>The <strong>Key</strong> and <strong>Value</strong> pairs you can enter allow you to further customize the install if:</p>
+<ul>
+<li>You need to use a token to log in a device (eg: a non-user, kiosk device)</li>
+<li>You need to enable FIPS compliant libraries.</li>
+</ul>
+<p>Most deployments won&rsquo;t need to to this and can safely skip this section.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>deviceToken</code></td>
+<td>The appropriate device token from the Zscaler Client Connector Portal, if you want to use the <a href="https://help.zscaler.com/z-app/using-zscaler-app-portal-identity-provider-idp">Zscaler Client Connector Portal as an IdP</a>.</td>
+</tr>
+<tr>
+<td><code>username</code></td>
+<td>The username for the user. For example, if the username is <a href="mailto:nathan@oblivion.industries">nathan@oblivion.industries</a>, you would enter <code>nathan</code>. Only required if you&rsquo;re using <code>deviceToken</code> above.</td>
+</tr>
+<tr>
+<td><code>enableFips</code></td>
+<td>Enabling this option indicates that ZCC uses FIPS compliant libraries for communication with Zscaler infrastructure. Enter 1 to enable or 0 to disable this option (enable only if you require FIPS level security within your org).</td>
+</tr>
+<tr>
+<td><code>userDomain</code></td>
+<td>Not needed. Duplicate of the above &ldquo;Custom domain name&rdquo; field from the VPN profile configuration.</td>
+</tr>
+<tr>
+<td><code>cloudname</code></td>
+<td>Not needed. Duplicate of the above &ldquo;Organization cloud name&rdquo; field from the VPN profile configuration.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-configure-the-automatic-vpn-settings">(Optional) Configure the Automatic VPN settings</h3>
+<p>Scroll down and expand the <strong>Automatic VPN</strong> section. By default, you can leave this set to <strong>Not configured</strong>. In this instance, the device will direct all internet bound traffic from every app into the ZCC app to be forwarded to Zscaler. You can then control, from within the Zscaler Client Connector portal, what traffic should be sent to Zscaler and what traffic should be bypassed. This gives you a single point of control over how traffic is bypassed or directed towards Zscaler.</p>
+<p><img src="18.png" alt="18"></p>
+<p>Optionally, you can configure an <strong>On-demand</strong> or <strong>Per-App</strong> VPN in order dictate at a device level through Intune what traffic should be directed towards Zscaler. An <strong>On-demand</strong> VPN allows you to set rules as to when the traffic should be directed to ZCC (eg: when the user is or isn&rsquo;t connected to specific specific SSIDs), while a <strong>Per-App</strong> VPN allows you to selectively steer traffic into the ZCC app based on specific apps on the device or URLs.</p>
+<p>This guide won&rsquo;t cover configuring an <strong>On-demand</strong> or <strong>Per-app</strong> VPN here as it&rsquo;s quite straightforward. See <a href="https://docs.microsoft.com/en-gb/mem/intune/configuration/vpn-settings-ios#connection-type">here</a> for more information.</p>
+<p>When you&rsquo;re satisifed, click <strong>Next</strong> to continue.</p>
+<h3 id="assign-groups-to-the-vpn-profile">Assign Groups to the VPN Profile</h3>
+<p>In the next section, you need to select the Users, Groups, or Devices that will make use of this VPN Configuration Profile. As this profile is <strong>required</strong> for all users that will use the ZCC app on iOS/iPad OS, you should assign the AD groups that contain all of the users that are entitled to use Zscaler.</p>
+<p>In my case, this was the groups <code>ZIA_Entitlement</code> (a group containing all users org wide that can use Zscaler Internet Access (ZIA)), and <code>ZPA_Entitlement</code> (a group containing all users org wide that can use Zscaler Private Access (ZPA)).</p>
+<p><img src="19.png" alt="19"></p>
+<p>Select <strong>Next</strong> to proceed to review your profile configuration. When you&rsquo;re done, click <strong>Review + Create</strong> to create the profile.</p>
+<h2 id="2-push-the-zscaler-certificate-for-ssl-inspection">2. Push the Zscaler Certificate for SSL Inspection</h2>
+<p><em>NB: If you&rsquo;re <strong>not</strong> a ZIA customer (ie: ZPA only), then you can skip this section.</em></p>
+<p>For Windows and macOS, ZCC will automatically install the intermediate root certificate (required for SSL inspection) onto the device for you.</p>
+<p>With iOS, this is not possible as Apple requires application-installed certificates to be untrusted by default. This means that if ZCC <em>were</em> to try and install the certificate, the user would get an SSL error for every site they visited as Zscaler is inspecting all traffic and the device doesn&rsquo;t trust the certificate installed.</p>
+<p>Instead, we need to have the certificate pushed out via Intune.</p>
+<h3 id="download-the-zscaler-intermediate-root-ca--enable-ios-ssl-inspection">Download the Zscaler Intermediate Root CA &amp; Enable iOS SSL Inspection</h3>
+<p>Log into your ZIA admin portal, and navigate to <strong>Policy &gt; SSL Inspection</strong>.</p>
+<p><img src="20.png" alt="20"></p>
+<p>Scroll to the bottom of the page and under the section, <strong>INTERMEDIATE ROOT CERTIFICATE AUTHORITY FOR SSL INSPECTION</strong>, click <strong>Download Zscaler Root Certificate</strong>.</p>
+<p>You can optionally enable SSL inspection for iOS on this screen, but be weary of Certificate Pinning when doing so.</p>
+<p><img src="21.png" alt="21"></p>
+<p><strong>Save</strong> and <strong>activate</strong> your changes.</p>
+<p>On your computer, unzip the <code>.zip</code> file containing the certificate to obtain the <code>ZscalerRootCertificate-2048-SHA256.crt</code> certificate file. You&rsquo;ll need this in the next step.</p>
+<h3 id="create-a-device-configuration-profile-for-a-trusted-certificate">Create a Device Configuration Profile for a Trusted Certificate</h3>
+<p>Just like we did for the VPN profile, we need to create <em>another</em> Device Configuration Profile; this time for a <strong>Trusted Certificate</strong>.</p>
+<p>In the <strong>Devices</strong> menu of the <a href="https://endpoint.microsoft.com/">MEM portal</a>, go to <strong>Configuration profiles</strong> (this is under the &ldquo;Policy&rdquo; menu heading). Select <strong>Create profile</strong>.</p>
+<p>Under <strong>Platform</strong> select <strong>iOS/iPadOS</strong> from the dropdown. Under <strong>Profile</strong>, select Trusted Certificate.</p>
+<p><img src="22.png" alt="22"></p>
+<p>On the next screen, give the Trusted Certificate a name (eg: <code>Zscaler Root CA</code>) then click <strong>Next</strong> to got to the <strong>Configuration Settings</strong> tab.</p>
+<p><img src="23.png" alt="23"></p>
+<p>On the next screen, navigate to and select the <code>ZscalerRootCertificate-2048-SHA256.crt</code> file you downloaded from the Zscaler admin portal. Click <strong>Next</strong> once the file has uploaded.</p>
+<p><img src="24.png" alt="24"></p>
+<p>On the <strong>Assignments</strong> tab, you can either assign this to <strong>All devices</strong> or explicitly select the groups containing your Zscaler users.</p>
+<p><img src="25.png" alt="25"></p>
+<p>Click <strong>Next</strong> when you are done to review and create the profile.</p>
+<h2 id="3-add-a-new-ios-app-in-mem">3. Add a new iOS App in MEM</h2>
+<h3 id="add-a-new-ios-store-app">Add a new iOS Store App</h3>
+<p>In the <strong>Apps</strong> menu of the <a href="https://endpoint.microsoft.com/">MEM portal</a>, navigate to <strong>Apps &gt; All Apps &gt; Add</strong>. In the panel that appears, under the <strong>Store Apps</strong> heading, select <strong>iOS store app</strong>.</p>
+<p><img src="10.png" alt="10"></p>
+<p>When prompted, search for &ldquo;<strong>Zscaler</strong>&rdquo; and select the Zscaler Client Connector.</p>
+<p><img src="11.png" alt="11"></p>
+<p>On the next page, most of the App information will be populated for you. Ensure <strong>iOS 9.0</strong> is selected as the minimum operating system, and click <strong>Next</strong> to move to the <strong>Assignments</strong> tab.</p>
+<p><img src="12.png" alt="12"></p>
+<h3 id="assign-users-to-the-app">Assign Users to the App</h3>
+<p>There are two different sections you can allocate users or groups to depending on how you want the app rolled out to users:</p>
+<ul>
+<li><strong>Required</strong> = The app is MANDATORY for these users/groups. Any user or group in this section will have the App automatically pushed out to them.</li>
+<li><strong>Available for enrolled devices</strong> = The app is OPTIONAL for these users/groups. The app will not be automatically pushed and the users can go to download the app themselves from within the Company Portal.</li>
+</ul>
+<p>Assign your users or groups to the ZCC app for iOS accordingly.</p>
+<p><img src="26.png" alt="26"></p>
+<p>Click <strong>Next</strong> to continue and then <strong>Create</strong> on the following screen. Your iOS application will be created and you&rsquo;ll be ready to go!</p>
+<h2 id="4-optional-configure-intune-for-apple-devices">4. (Optional) Configure Intune for Apple Devices</h2>
+<p>Apple requires an MDM Push Certificate to enable management of iOS, iPadOS and macOS devices. If you haven&rsquo;t used any iOS/iPad OS devices with Intune before, you&rsquo;ll need to <a href="https://docs.microsoft.com/en-us/mem/intune/enrollment/apple-mdm-push-certificate-get">follow the steps outlined by Microsoft here</a> before you can enroll and test any Apple devices.</p>
+<h2 id="5-testing-zcc-deployment-on-ios">5. Testing ZCC Deployment on iOS</h2>
+<p>If you haven&rsquo;t already:</p>
+<ol>
+<li>Download and install the <a href="https://play.google.com/store/apps/details?id=com.microsoft.windowsintune.companyportal">Intune Company Portal</a> app from Microsoft on the App Store.</li>
+<li>Open the app and sign-in with your company SSO credentials.</li>
+<li>Follow the prompts to complete the Intune device enrolment.</li>
+</ol>
+<p>Following the device enrolment, provided that you signed in with a user in which the ZCC was mandatory, the ZCC app should automatically install on the user&rsquo;s device. If you specified the <code>cloudName</code> and <code>userDomain</code> flags in the VPN Configuration Profile, the user should automatically be prompted to sign in via SSO when opening the app.</p>
+<h2 id="6-demo-video">6. Demo Video</h2>
+<p>Coming shortly&hellip;</p>
+<h2 id="7-authentication-friction-on-ios">7. Authentication Friction on iOS</h2>
+<h3 id="removing-the-need-for-users-to-enter-sso-credentials">Removing the need for users to enter SSO credentials</h3>
+<p>Presently, our method for deploying ZCC on iOS works, however users still need to open the app and manually authenticate via SSO by typing their credentials. This creates user friction.</p>
+<p>Authenticating the user without them having to enter their SSO credentials <em>is possible</em> on iOS using certificates, however given the length of this guide already, I might tackle this in a separate post&hellip; Check back later.</p>
+<h3 id="the-issue-with-silent--automatic-authentication">The issue with Silent &amp; Automatic Authentication</h3>
+<blockquote>
+<p>Can I automatically and silently sign the user into the Zscaler Client Connector app on iOS when the app is rolled out with Intune?</p>
+</blockquote>
+<p>This is a very common question I get from clients. <strong>The answer is no, and you&rsquo;ll probably never be able to do this.</strong></p>
+<p>Apple does not allow apps to automatically open and run themselves, and in order to silently authenticate the user during app rollout, the ZCC app would need to automatically open once installed to process the user authentication. From a security perspective, giving apps the ability to automatically open themselves would be a nightmare and something I can&rsquo;t see Apple allowing anytime soon.</p>
+<p>What you need to do is create a &ldquo;compelling event&rdquo; so that your users <em>have</em> to open the app to authenticate.</p>
+<h3 id="creating-a-compelling-event">Creating a &ldquo;Compelling Event&rdquo;</h3>
+<p>Users are never going to open an app and sign in, just to ensure that your organization is secure: there is nothing in it for them to do so. You need to give them a reason and there are a few ways to do that:</p>
+<ol>
+<li>Prevent certain apps, like Office 365, from working unless the user is signed into Zscaler.</li>
+<li>Block all internet access from the device until the user opens the ZCC app to authenticate.</li>
+<li>Prevent access to internal company applications unless the user is signed into Zscaler.</li>
+</ol>
+<p>Number 1 is the easiest and involves either using the <strong>Identity Proxy</strong> feature in ZIA (this prevents your users from signing into apps like Office or Salesforce unless their traffic is going through Zscaler), or only allowing access to the application from the Zscaler IP space (eg: 165.225.0.0/17).</p>
+<p>Number 2 is harder as it requires you to use Strict Enforcement, which requires the device be in Supervised Mode, which is only possible on corporate owned devices. BYOD and user-owned devices are out of the picture.</p>
+<p>Number 3 can work in conjunction with Number 1, but requires ZPA. Essentially, ZPA provides access to your internal resources and won&rsquo;t work unless the user is signed in&hellip; so they have to sign in.</p>
+<hr>
+<h1 id="android">Android</h1>
+<p>This section will cover deploying ZCC onto Android devices using Intune.</p>
+<h2 id="1-add-a-new-android-app-in-mem">1. Add a new Android App in MEM</h2>
+<h3 id="add-a-new-managed-google-play-app">Add a new Managed Google Play App</h3>
+<p>In the <strong>Apps</strong> menu of the <a href="https://endpoint.microsoft.com/">MEM portal</a>, navigate to <strong>Apps &gt; All Apps &gt; Add</strong>. In the panel that appears, under the <strong>Store Apps</strong> heading, select <strong>Managed Google Play app</strong>.</p>
+<p><img src="27.png" alt="27"></p>
+<h3 id="link-intune-to-android-enterprise">Link Intune to Android Enterprise</h3>
+<p><strong>If this is your first time adding an Android app to Intune</strong>, you&rsquo;ll be prompted to connect your Intune account to your Android Enterprise account before you can do anything else. After you&rsquo;ve completed this step, go back and add a new Managed Google Play app again.</p>
+<p><img src="28.png" alt="28"></p>
+<p><img src="29.png" alt="29"></p>
+<p>Note: If you are using a Samsung device, you have <a href="https://docs.microsoft.com/en-us/mem/intune/enrollment/android-samsung-knox-mobile-enroll">additional steps you will need to go through</a> before proceeding.</p>
+<h3 id="approve-the-zscaler-client-connector-app">Approve the Zscaler Client Connector App</h3>
+<p>When prompted, search for &ldquo;<strong>Zscaler</strong>&rdquo; and select <strong>Zscaler Client Connector</strong>.</p>
+<p><img src="30.png" alt="30"></p>
+<p>On the store page, click <strong>Approve</strong>. Follow the prompts to set your permission preferences for the app.</p>
+<p>When you&rsquo;re finished, click <strong>Select</strong> under the app description, and then <strong>Sync</strong> at the top left. This will place you back into the All Apps section of Intune while your Managed Google Play preferences sync with Intune.</p>
+<p><img src="31.png" alt="31"></p>
+<p>Wait 30-60 seconds, and refresh the app list. You should see the Zscaler Client Connector as a Managed Google Play store app appear in the list.</p>
+<p><img src="32.png" alt="32"></p>
+<h3 id="assign-users-to-the-app-1">Assign Users to the App</h3>
+<p>Click on the app and select <strong>Preferences</strong> from the menu pane. Under <strong>Assignments</strong> click <strong>Edit</strong>.</p>
+<p><img src="33.png" alt="33"></p>
+<p>There are two different sections you can allocate users or groups to depending on how you want the app rolled out to users:</p>
+<ul>
+<li><strong>Required</strong> = The app is MANDATORY for these users/groups. Any user or group in this section will have the App automatically pushed out to them.</li>
+<li><strong>Available for enrolled devices</strong> = The app is OPTIONAL for these users/groups. The app will not be automatically pushed and the users can go to download the app themselves from within the Company Portal.</li>
+</ul>
+<p>Assign your users or groups to the ZCC app for Android accordingly.</p>
+<p><img src="34.png" alt="34"></p>
+<p>When you&rsquo;re done, click <strong>Review and Save</strong> at the bottom to save your configuration.</p>
+<h2 id="2-push-the-zscaler-certificate-for-ssl-inspection-1">2. Push the Zscaler Certificate for SSL Inspection</h2>
+<p><em>NB: If you&rsquo;re <strong>not</strong> a ZIA customer (ie: ZPA only), then you can skip this section.</em></p>
+<p>For Windows and macOS, ZCC will automatically install the intermediate root certificate (required for SSL inspection) onto the device for you.</p>
+<p>With Android, this is not possible: Google (by default) prevents non-default certificate authorities installed by 3rd party apps from being trusted by the device. Instead, we need to have the certificate pushed out via Intune.</p>
+<h3 id="download-the-zscaler-intermediate-root-ca--enable-android-ssl-inspection">Download the Zscaler Intermediate Root CA &amp; Enable Android SSL Inspection</h3>
+<p>Log into your ZIA admin portal, and navigate to <strong>Policy &gt; SSL Inspection</strong>.</p>
+<p><img src="20.png" alt="20"></p>
+<p>Scroll to the bottom of the page and under the section, <strong>INTERMEDIATE ROOT CERTIFICATE AUTHORITY FOR SSL INSPECTION</strong>, click <strong>Download Zscaler Root Certificate</strong>.</p>
+<p>You can optionally enable SSL inspection for Android on this screen, but be weary of Certificate Pinning when doing so.</p>
+<p><img src="35.png" alt="35"></p>
+<p><strong>Save</strong> and <strong>activate</strong> your changes.</p>
+<p>On your computer, unzip the <code>.zip</code> file containing the certificate to obtain the <code>ZscalerRootCertificate-2048-SHA256.crt</code> certificate file. You&rsquo;ll need this in the next step.</p>
+<h3 id="create-a-device-configuration-profile-for-a-trusted-certificate-1">Create a Device Configuration Profile for a Trusted Certificate</h3>
+<p>In the <strong>Devices</strong> menu of the <a href="https://endpoint.microsoft.com/">MEM portal</a>, go to <strong>Configuration profiles</strong> (this is under the &ldquo;Policy&rdquo; menu heading). Select <strong>Create profile</strong>.</p>
+<p>Under <strong>Platform</strong> select <strong>Android Enterprise</strong> from the dropdown.</p>
+<p>For the <strong>Profile</strong>:</p>
+<ul>
+<li>If you are deploying to <strong>corporate-owned</strong> Android devices, select the <strong>Trusted Certificate</strong> option under the &ldquo;<strong>Fully Managed, Dedicated, and Corporate-Owned Work Profile</strong>&rdquo; heading.</li>
+<li>If you are deploying to <strong>BYOD</strong> or <strong>Employee-owned</strong> Android devices, select the <strong>Trusted Certificate</strong> option under the &ldquo;<strong>Work Profile</strong>&rdquo; heading.</li>
+<li>If you plan on having a mix of <strong>corporate-owned <em>AND</em> BYOD/Employee-owned devices</strong>, you will need to follow this section twice; creating a separate configuration profile for each option.</li>
+</ul>
+<p><img src="36.png" alt="36"></p>
+<p>On the next screen, give the Trusted Certificate a name (eg: <code>Zscaler Root CA</code>) then click <strong>Next</strong> to got to the <strong>Configuration Settings</strong> tab.</p>
+<p><img src="23.png" alt="23"></p>
+<p>On the next screen, navigate to and select the <code>ZscalerRootCertificate-2048-SHA256.crt</code> file you downloaded from the Zscaler admin portal. Click <strong>Next</strong> once the file has uploaded.</p>
+<p><img src="24.png" alt="24"></p>
+<p>On the <strong>Assignments</strong> tab, you can either assign this to <strong>All devices</strong> or explicitly select the groups containing your Zscaler users.</p>
+<p><img src="25.png" alt="25"></p>
+<p>Click <strong>Next</strong> when you are done to review and create the profile.</p>
+<h2 id="3-create-an-app-configuration-policy">3. Create an App Configuration Policy</h2>
+<p>An App Configuration Policy will allow us to customize the install of ZCC on Android.</p>
+<h3 id="creating-the-app-configuration-policy">Creating the App Configuration Policy</h3>
+<p>In the <strong>Apps</strong> menu of the <a href="https://endpoint.microsoft.com/">MEM portal</a>, go to <strong>App configuration policies</strong> (this is under the &ldquo;Policy&rdquo; menu heading). Select <strong>Add &gt; Managed devices</strong>.</p>
+<p><img src="37.png" alt="37"></p>
+<ol>
+<li>Provide a name for the App Configuration Policy, eg: <strong>Zscaler Client Connector</strong></li>
+<li>For the Platform, select <strong>Android Enterprise</strong>.</li>
+<li>For the Targeted App, click the link and select <strong>Zscaler Client Connector</strong> from the side panel that appears.</li>
+</ol>
+<p>For the <strong>Profile Type</strong>:</p>
+<ul>
+<li><strong>Fully Managed, Dedicated, and Corporate-Owned Work Profile Only</strong> applies this configuration to the ZCC app deployed on <strong>Corporate-owned</strong> devices.</li>
+<li><strong>Work Profile Only</strong> applies this configuration to the ZCC app deployed on <strong>BYOD / Employee-owned</strong> devices.</li>
+<li><strong>All Profile Types</strong> applies this configuration to all ZCC app deployments on Android, regardless of the device type. <strong>This option should suffice for most organizations.</strong></li>
+</ul>
+<p><img src="38.png" alt="38"></p>
+<p>Click <strong>Next</strong> to continue.</p>
+<h3 id="a-note-on-byod--employee-owned-devices">A note on BYOD &amp; Employee-owned devices</h3>
+<p>It is important to note that for BYOD / Employee-owned devices, Android for Work is used. <strong>This creates a separate, sandboxed partition on the user&rsquo;s device for corporate data and apps; ensuring that they are segmented from personal data.</strong> When you push apps using Intune, they are installed into the isolated Android for Work environment only and cannot interact with personal apps or data on the device.</p>
+<p>If the user opens Chrome on their device, even though the Zscaler app is running, this traffic will NOT go through Zscaler as the Chrome app is from the personal partition; not Android for Work. However any apps that the user uses that are rolled out by the business via Intune WILL go through Zscaler.</p>
+<p>For this reason, you might want to also add Chrome as a Managed Google Play app through Intune. This ensures that the user can use the work-instance of Chrome for access to corporate resources and applications, and the personal-instance of Chrome for all of their traffic.</p>
+<p>If you would like ALL traffic from an employee owned device to go through Zscaler, you will need to push out a non-managed version of the ZCC app (which cannot be customized), or educate the user about installing ZCC themselves. Utimately you can&rsquo;t force them to do this though as it is their device.</p>
+<h3 id="customizing-the-app-configuration-policy">Customizing the App Configuration Policy</h3>
+<p>On the Settings tab, for <strong>Configuration settings format</strong>, select <strong>Use configuration designer</strong> from the dropdown.</p>
+<p><img src="39.png" alt="39"></p>
+<p>Click the <strong>Add</strong> button to add in new attributes to customize the install. You can choose from the following:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>userDomain</code></td>
+<td>Your organization’s domain name associated with your identity/SSO service, e.g., <code>oblivion.industries</code>. This is used to pre-populate the login field in ZCC. If your instance has multiple domains associated with it, enter the primary domain for your instance.</td>
+</tr>
+<tr>
+<td><code>cloudName</code></td>
+<td>The name of the Zscaler cloud on which your organization is provisioned. When entering the cloud name, DO NOT enter the <strong>.net</strong> at the end. Eg: zscalertwo.net should be entered as <code>zscalertwo</code>, zscaler.net should be entered as <code>zscaler</code></td>
+</tr>
+<tr>
+<td><code>deviceToken</code></td>
+<td>The appropriate device token from the Zscaler Client Connector Portal, if you want to use the <a href="https://help.zscaler.com/z-app/using-zscaler-app-portal-identity-provider-idp">Zscaler Client Connector Portal as an IdP</a>. Useful if ZCC is to be deployed to a shared or kiosk mobile device.</td>
+</tr>
+<tr>
+<td><code>userName</code></td>
+<td>Only required if you&rsquo;re using <code>deviceToken</code> above. The username for the user. For example, if the username is <a href="mailto:nathan@oblivion.industries">nathan@oblivion.industries</a>, you would enter <code>nathan</code></td>
+</tr>
+<tr>
+<td><code>enableFips</code></td>
+<td>Enabling this option indicates that ZCC uses FIPS compliant libraries for communication with Zscaler infrastructure. Enter 1 to enable or 0 to disable this option (enable only if you require FIPS level security within your org).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>At a minimum, select the <code>userDomain</code> and <code>cloudName</code> fields as this is best practice.</strong> This should suffice for most deployments - the other options are more specialized should not be needed in most circumstances.</p>
+<blockquote>
+<p><strong>Bug alert!</strong> If you are using the <code>userDomain</code> and <code>cloudName</code> fields, you will also need to specify dummy values for <code>deviceToken</code> and <code>userName</code> as well, or the <code>userDomain</code> field won&rsquo;t actually function. This will be fixed in the next Android release (v.1.8)</p>
+</blockquote>
+<p>Once you have entered values for the selected fields, click <strong>Next</strong>.</p>
+<h3 id="assign-users--devices-to-the-app-configuration-policy">Assign Users &amp; Devices to the App Configuration Policy</h3>
+<p>In the next section, you need to select the Users, Groups, or Devices that will make use of this App Configuration Policy. Depending on whether this profile is for corporate-owned devices, personal/BYOD devices, or both, you should select groups accordingly.</p>
+<p>In my case, this profile is for both corporate and employee-owned devices so I selected &ldquo;<strong>All users and devices</strong>&rdquo;.</p>
+<p><img src="40.png" alt="40"></p>
+<p>Select <strong>Next</strong> to proceed to review your policy configuration. When you&rsquo;re done, click <strong>Create</strong> to create the profile.</p>
+<p>Your Android application should now be ready to rollout to users!</p>
+<h2 id="4-testing-zcc-deployment-on-android">4. Testing ZCC Deployment on Android</h2>
+<p>If you haven&rsquo;t already:</p>
+<ol>
+<li>Download and install the <a href="https://play.google.com/store/apps/details?id=com.microsoft.windowsintune.companyportal">Intune Company Portal</a> app from Microsoft on the Google Play store.</li>
+<li>Open the app and sign-in with your company SSO credentials.</li>
+<li>Follow the prompts to complete the Intune device enrolment.</li>
+</ol>
+<p>Following the device enrolment, provided that you signed in with a user in which the ZCC was mandatory, the ZCC app should automatically install on the user&rsquo;s device. If you specified the <code>cloudName</code> and <code>userDomain</code> flags in the App Configuration Policy, the user should automatically be prompted to sign in via SSO when opening the app.</p>
+<p>If ZCC is deployed, but the user is prompted to enter a username from a blue Zscaler screen, this will be attributed to either of the following:</p>
+<ul>
+<li>The App Configuration Policy is not being applied against this user and device. Check the <strong>Assignments</strong> section under <strong>Properties</strong> for the App Configuration Policy and ensure your selection encompasses both the user and their device: <strong>Apps &gt; All Apps &gt; App configuration policies &gt; [Select your app policy]</strong></li>
+<li>You haven&rsquo;t specified the <code>cloudName</code> and <code>userDomain</code> flags correctly.</li>
+<li>You are hitting a bug where you also need to specify the <code>deviceToken</code> and <code>userName</code> fields in the App Configuration Policy (with dummy data).</li>
+</ul>
+<h2 id="5-demo-video">5. Demo Video</h2>
+<p>Coming shortly&hellip;</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/intune">intune</a></span><span class="tag"><a href="https://nathancatania.com/tags/zscaler">zscaler</a></span><span class="tag"><a href="https://nathancatania.com/tags/lab">lab</a></span><span class="tag"><a href="https://nathancatania.com/tags/notes">notes</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>4677 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-10-06</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/sso-cloud-exchange/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">How-to Configure SSO for Netskope Cloud Exchange</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/deploy-zapp-with-intune/">
+                                <span class="button__text">Deploy Zscaler Client Connector with Intune (Windows &amp; macOS)</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.858712b4b19060b33e6a3b52df9749f413894a75772f4d0b4683380c0ce08c6f93623d63068ef5ae4719980bcaa15ad536694c42897b88c4826c6ece21918827.js" integrity="sha512-hYcStLGQYLM&#43;ajtS35dJ9BOJSnV3L00LRoM4DAzgjG&#43;TYj1jBo71rkcZmAvKoVrVNmlMQol7iMSCbG7OIZGIJw=="></script>
+
+
+
+
+    </body>
+</html>

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="map[author:map[bio:Engineer // Melbourne // Australia name:Nathan Catania photo:map[url:avatar.png]] contenttypename:posts dateform:Jan 2, 2006 dateformnum:2006-01-02 dateformnumtime:2006-01-02 15:04 &#43;1000 dateformshort:Jan 2 description:The official website of Nathan Catania &amp;#10003; disablereadotherposts:false enablethemetoggle:true giturl:https://github.com/nathancatania/website/commit/ homesubtitle:Engineer // Melbourne // Australia images:[] keywords:blog, website, official logo:map[logohomelink:/ logotext:$ cd /home/nathan] readotherposts:Read other posts social:[map[name:linkedin url:https://www.linkedin.com/in/nathancatania]] subtitle:Engineer // Melbourne // Australia]">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="Block ads, trackers, and malware from any local device without having to use an ad-blocker; while securing your DNS traffic at the same time - sounds good!" />
+<meta name="keywords" content="blog, website, official, raspberry pi, homelab, cloudflare, dns, notes" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/pihole-dns-doh/" />
+
+
+    <title>
+        
+            Configure Pi-Hole DNS &#43; Cloudflare DNS over HTTPS (DoH) on a Raspberry Pi :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b851fae37ea32930b5c4996a9ac8737a9d1ab1b40af28b3cd3b0060df9e2f5a3.css" integrity="sha256-uFH6436jKTC1xJlqmshzep0asbQK8os807AGDfni9aM=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Configure Pi-Hole DNS &#43; Cloudflare DNS over HTTPS (DoH) on a Raspberry Pi">
+<meta itemprop="description" content="Block ads, trackers, and malware from any local device without having to use an ad-blocker; while securing your DNS traffic at the same time - sounds good!"><meta itemprop="datePublished" content="2020-02-22T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-02-22T00:00:00+00:00" />
+<meta itemprop="wordCount" content="3535"><meta itemprop="image" content="https://nathancatania.com" />
+<meta itemprop="keywords" content="raspberry pi,homelab,cloudflare,dns,notes," />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nathancatania.com" /><meta name="twitter:title" content="Configure Pi-Hole DNS &#43; Cloudflare DNS over HTTPS (DoH) on a Raspberry Pi"/>
+<meta name="twitter:description" content="Block ads, trackers, and malware from any local device without having to use an ad-blocker; while securing your DNS traffic at the same time - sounds good!"/>
+
+
+
+    <meta property="og:title" content="Configure Pi-Hole DNS &#43; Cloudflare DNS over HTTPS (DoH) on a Raspberry Pi" />
+<meta property="og:description" content="Block ads, trackers, and malware from any local device without having to use an ad-blocker; while securing your DNS traffic at the same time - sounds good!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/pihole-dns-doh/" /><meta property="og:image" content="https://nathancatania.com" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-02-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-02-22T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2020-02-22 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                $ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>17 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/pihole-dns-doh/">Configure Pi-Hole DNS + Cloudflare DNS over HTTPS (DoH) on a Raspberry Pi</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#configure-cloudflare-dns-over-https-doh">Configure Cloudflare DNS over HTTPS (DoH)</a>
+      <ul>
+        <li><a href="#what-is-doh-and-why-should-i-bother">What is DoH and why should I bother?</a>
+          <ul>
+            <li><a href="#the-problem-with-dns-and-isps">The problem with DNS and ISPs</a></li>
+            <li><a href="#what-is-dns-over-https-doh">What is DNS over HTTPS (DoH)?</a></li>
+            <li><a href="#the-subjective-issue-with-doh">The (subjective) issue with DoH</a></li>
+            <li><a href="#what-should-i-do">What should I do?</a></li>
+          </ul>
+        </li>
+        <li><a href="#trying-out-cloudflare-doh">Trying out Cloudflare DoH</a></li>
+        <li><a href="#configuring-cloudflare-doh-on-a-raspberry-pi">Configuring Cloudflare DoH on a Raspberry Pi</a>
+          <ul>
+            <li><a href="#install-the-cloudflared-daemon">Install the cloudflared daemon</a></li>
+            <li><a href="#create-the-configuration-file">Create the Configuration File</a></li>
+            <li><a href="#run-at-startup">Run at Startup</a></li>
+          </ul>
+        </li>
+        <li><a href="#verify-the-dns-requests-are-proxied-correctly">Verify the DNS requests are proxied correctly</a></li>
+        <li><a href="#done">Done!</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+      </ul>
+    </li>
+    <li><a href="#configure-pi-hole">Configure Pi-Hole</a>
+      <ul>
+        <li><a href="#requirements">Requirements</a>
+          <ul>
+            <li><a href="#check-your-network-interfaces">Check your Network Interfaces</a></li>
+            <li><a href="#assign-a-static-ip-address">Assign a Static IP Address</a></li>
+          </ul>
+        </li>
+        <li><a href="#download-the-pi-hole-installer">Download the Pi-Hole installer</a></li>
+        <li><a href="#configure-the-installer">Configure the Installer</a></li>
+        <li><a href="#adding-firewall-rules">Adding Firewall Rules</a></li>
+        <li><a href="#access-the-admin-web-interface">Access the Admin Web Interface</a>
+          <ul>
+            <li><a href="#managing-blocks-adlists">Managing Blocks (Adlists)</a></li>
+          </ul>
+        </li>
+        <li><a href="#set-cloudflare-doh-as-the-upstream-dns-provider">Set Cloudflare DoH as the Upstream DNS provider</a></li>
+        <li><a href="#verify-dns-resolution-is-functioning-correctly">Verify DNS resolution is functioning correctly</a></li>
+        <li><a href="#troubleshooting-1">Troubleshooting</a></li>
+      </ul>
+    </li>
+    <li><a href="#finish">Finish</a></li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+                <img src="banner.png" class="post-cover" />
+            
+
+            <div class="post-content">
+                <p>Block ads, trackers, and malware from any local device without having to use an ad-blocker; while securing your DNS traffic at the same time - sounds good!</p>
+<p>First, what is Pi-Hole? According to <a href="https://www.raspberrypi.org/blog/pi-hole-raspberry-pi/">Jacob Salmela, the creator of Pi-Hole</a>:</p>
+<blockquote>
+<p>Pi-hole is a network-wide ad blocker. Instead of installing adblockers on every device and every browser, you can install Pi-hole once on your network, and it will protect all of your devices. Because it works differently than a browser-based ad-blocker, Pi-hole also blocks ads in non-traditional places, such as in games and on smart TVs.</p>
+</blockquote>
+<p>That sounds pretty great!</p>
+<p>This guide will cover the following deployment onto a Raspberry Pi (although any Linux-based device/OS can be used):</p>
+<ul>
+<li>Pi-Hole will be installed and used as DNS for all home devices to block ads, trackers, and malware domains.</li>
+<li>DNS over HTTPs (using Cloudflare) will be configured to secure our upstream DNS requests.</li>
+</ul>
+<p>Let&rsquo;s get started!</p>
+<hr>
+<h1 id="configure-cloudflare-dns-over-https-doh">Configure Cloudflare DNS over HTTPS (DoH)</h1>
+<p>While Pi-Hole will be used as our local DNS server, it will need to query an upstream DNS provider (like Google, or Cloudflare) itself to return a result (provided the query has not already been cached by Pi-Hole). Typically you would set the upstream DNS provider in Pi-Hole to 1.1.1.1 (Cloudflare) or 8.8.8.8 (Google), however these requests are not secured in transit.</p>
+<p>We&rsquo;re going to use DNS over HTTPS (DoH) to secure our DNS requests to Cloudflare across our ISP&rsquo;s network to provide us with more privacy.</p>
+<h2 id="what-is-doh-and-why-should-i-bother">What is DoH and why should I bother?</h2>
+<h3 id="the-problem-with-dns-and-isps">The problem with DNS and ISPs</h3>
+<p>DNS was not designed with security in mind. Queries are sent in plaintext across your ISP&rsquo;s network and are not encrypted or authenticated by default. This is true even if the site you are visiting uses HTTPS: the DNS query to resolve the domain is still sent unencrypted.</p>
+<p>Why is this an issue? The same reason why you shouldn&rsquo;t do sensitive things like banking or online shopping on an insecure website: your data can be intercepted, read, and logged at any point in transit. For example, when you visited this webpage on my domain, nathancatania.com, anyone capturing network traffic would see your DNS query to resolve my domain and know that you were attempting to visit it. You can try this yourself, if you are so inclined, with Wireshark.</p>
+<p>Many ISPs around the world will log your data, and in many cases are legally required to do so by local governments. Your DNS requests can paint a picture of your internet usage just like your browser history can, and having this logged at any point along can raise significant privacy concerns.</p>
+<p>Unsecured DNS also raises the concern of Man-In-The-Middle attacks, where your DNS request could be intercepted and changed without your knowledge or consent. Instead of your requested domain resolving to 1.2.3.4, it might be changed to resolve to 5.6.7.8 instead - which could be a malicious domain or a copy of the original domain designed for phishing.
+DNSSEC is a mechanism to help prevent this by authenticating that a DNS record has not been altered in transit. However, <a href="https://developers.cloudflare.com/1.1.1.1/dns-over-https/">according to Cloudflare</a>, only a single-digit percentage of domains use DNSSEC today. Additionally, DNSSEC does not provide confidentiality and will not prevent entities from snooping on your DNS requests.</p>
+<h3 id="what-is-dns-over-https-doh">What is DNS over HTTPS (DoH)?</h3>
+<p>DNS over HTTPS (DoH) is a method of securing your DNS requests, by sending the request to an HTTPS endpoint. This means that your DNS request appears as normal HTTPS (encrypted) web traffic instead of an actual DNS packet. All your ISP sees is secure HTTPS traffic coming from your network: no more DNS traffic that can be snooped on.</p>
+<h3 id="the-subjective-issue-with-doh">The (subjective) issue with DoH</h3>
+<p>It is worth noting that DoH itself presents some privacy issues as well: There are only a handful of DNS providers that support DoH (Cloudflare, Google, etc) and by using DoH, you would be trusting your DNS traffic to one of these larger centralized entities (although the same would be true if you just set 1.1.1.1 or 8.8.8.8 as your DNS provider anyway): How do you know that these companies are safely and responsibly handling your data? You don&rsquo;t.</p>
+<p>There is also the argument that using DoH centralizes DNS to a few larger providers, giving them too much power over the internet as a whole. DNS was designed to be highly distributed across the internet, and the concept of DoH goes against that principle.</p>
+<h3 id="what-should-i-do">What should I do?</h3>
+<p>This boils down to: Who do you trust more? Your ISP, a company like Cloudflare or Google, or no-one but yourself?</p>
+<ul>
+<li>If you answered &ldquo;My ISP&rdquo;, then DoH probably isn&rsquo;t for you and you can keep on doing what you&rsquo;ve been doing for DNS up until now. You might consider using DoH if your ISP&rsquo;s DNS service offers it.</li>
+<li>If you answered &ldquo;Cloudflare, Google, etc&rdquo;, then DoH is for you.</li>
+<li>If you answered &ldquo;No-one but myself&rdquo;, then a solution like <a href="https://nlnetlabs.nl/projects/unbound/about/">Unbound</a> (a recursive and caching DNS resolver) is probably a better solution for you. I don&rsquo;t cover Unbound in this post, but may in the future.</li>
+<li>If all you care about is the &ldquo;bad guys&rdquo; not being able to see your data, then DoH is also for you.</li>
+</ul>
+<p>In this post, we&rsquo;ll be using Cloudflare DoH.</p>
+<h2 id="trying-out-cloudflare-doh">Trying out Cloudflare DoH</h2>
+<p>DNS requests occur via an HTTPS endpoint. We can test this using cURL and JSON.</p>
+<p>IPv4 (A record) request for <code>example.com</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#39;accept: application/dns-json&#39;</span> <span style="color:#e6db74">&#39;https://cloudflare-dns.com/dns-query?name=example.com&amp;type=A&#39;</span>
+</span></span></code></pre></div><p>Response for <code>example.com</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Status&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;TC&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;RD&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;RA&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AD&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;CD&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Question&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;example.com.&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Answer&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;example.com.&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;TTL&#34;</span>: <span style="color:#ae81ff">1409</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;data&#34;</span>: <span style="color:#e6db74">&#34;93.184.216.34&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>IPv6 (AAAA record) request for <code>example.com</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#39;accept: application/dns-json&#39;</span> <span style="color:#e6db74">&#39;https://cloudflare-dns.com/dns-query?name=example.com&amp;type=AAAA&#39;</span>
+</span></span></code></pre></div><p>Response for <code>example.com</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Status&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;TC&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;RD&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;RA&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AD&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;CD&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Question&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;example.com.&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#ae81ff">28</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Answer&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;example.com.&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#ae81ff">28</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;TTL&#34;</span>: <span style="color:#ae81ff">10226</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;data&#34;</span>: <span style="color:#e6db74">&#34;2606:2800:220:1:248:1893:25c8:1946&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="configuring-cloudflare-doh-on-a-raspberry-pi">Configuring Cloudflare DoH on a Raspberry Pi</h2>
+<p>The source for much of this was the <a href="https://docs.pi-hole.net/guides/dns-over-https/">official Pi-Hole documentation on DoH</a>.</p>
+<p>The method detailed here should work for non-Raspberry Pi systems, but you may need to switch out the ARM binary.</p>
+<h3 id="install-the-cloudflared-daemon">Install the cloudflared daemon</h3>
+<p>We&rsquo;re going to use <code>cloudflared</code> (or an &lsquo;Argo Tunnel&rsquo; as Cloudflare call it) as our DoH proxy. This will listen for DNS queries on port 5353 (or any custom port you specify), and proxy the requests received to the Cloudflare DoH endpoint. The response received from Cloudflare is then returned via the proxy back to the host that sent the original DNS query.</p>
+<p>Why port 5353 and not 53? You can specify any port that isn&rsquo;t in use, apart from port 53. 53 is the standard port for DNS, and Pi-Hole will already be using this port to listen for DNS queries from our local hosts/devices.</p>
+<ol>
+<li>Create a new <em>service account</em> to run the <code>cloudflared</code> daemon:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo useradd -s /usr/sbin/nologin -r -M cloudflared
+</span></span></code></pre></div><ol start="2">
+<li>Download the binary tgz for <code>ARMv6</code> devices. The download link can be verified <a href="https://developers.cloudflare.com/argo-tunnel/downloads/">here</a>. If you&rsquo;re <em>not</em> using an RPi, then pick a non-ARM binary.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-linux-arm.tgz
+</span></span></code></pre></div><ol start="3">
+<li>Unpack the binary, and copy it to the <code>/usr/local/bin</code> directory, and make it executable:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -xzvf cloudflared-stable-linux-arm.tgz
+</span></span><span style="display:flex;"><span>sudo cp ./cloudflared /usr/local/bin
+</span></span><span style="display:flex;"><span>sudo chmod +x /usr/local/bin/cloudflared
+</span></span></code></pre></div><ol start="4">
+<li>Change permissions so the <code>cloudflared</code> service account can access it:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo chown cloudflared:cloudflared /usr/local/bin/cloudflared
+</span></span></code></pre></div><ol start="5">
+<li>Check the binary is working. This should show the version:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cloudflared -v
+</span></span><span style="display:flex;"><span>&gt; cloudflared version 2019.9.0 <span style="color:#f92672">(</span>built 2019-09-06-0334 UTC<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>If you get a segmentation fault, you may need to compile from <a href="https://github.com/cloudflare/cloudflared">source</a> as per the issue reported <a href="https://github.com/cloudflare/cloudflared/issues/38">here</a>.</p>
+<h3 id="create-the-configuration-file">Create the Configuration File</h3>
+<p>We need to create a configuration file for cloudflared  at <code>/etc/default/cloudflared</code> which specifies:</p>
+<ol>
+<li>The local port to listen on for DNS requests. These will be proxied upstream to Cloudflare using DoH. As per the Pi-Hole documentation, I used <code>5053</code> (although this could be any valid port).</li>
+<li>The upstream HTTPS endpoint(s). We&rsquo;ll use <code>https://1.1.1.1/dns-query</code> and <code>https://1.0.0.1/dns-query</code>.</li>
+</ol>
+<p>The options specified in this file will be passed to the <code>cloudflared</code> daemon.</p>
+<p>Create the configuration file (CTRL+X to save and quit):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nano /etc/default/cloudflared
+</span></span></code></pre></div><p>Add the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># Commandline args for cloudflared</span>
+</span></span><span style="display:flex;"><span>CLOUDFLARED_OPTS<span style="color:#f92672">=</span>--port <span style="color:#ae81ff">5053</span> --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query
+</span></span></code></pre></div><p>Change the port as required. This will listen for DNS requests on port 5053 (DNS is normally port 53) and will proxy it to either of the 1.1.1.1 or 1.0.0.1 HTTPS endpoints.</p>
+<p>Change the permissions for the configuration file so the <code>cloudflared</code> service account can access it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo chown cloudflared:cloudflared /etc/default/cloudflared
+</span></span></code></pre></div><h3 id="run-at-startup">Run at Startup</h3>
+<p>The above is all well and good, but it requires the <code>cloudflared</code> daemon to be started manually after each restart and/or error.</p>
+<p>Courtesy of Pi-Hole, we can use the below to create a <code>systemd</code> service that will automatically run on boot and restart on any error.</p>
+<p>Create the service file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo nano /lib/systemd/system/cloudflared.service
+</span></span></code></pre></div><p>Add the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>cloudflared DNS over HTTPS proxy
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>syslog.target network-online.target
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Type<span style="color:#f92672">=</span>simple
+</span></span><span style="display:flex;"><span>User<span style="color:#f92672">=</span>cloudflared
+</span></span><span style="display:flex;"><span>EnvironmentFile<span style="color:#f92672">=</span>/etc/default/cloudflared
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/usr/local/bin/cloudflared proxy-dns $CLOUDFLARED_OPTS
+</span></span><span style="display:flex;"><span>Restart<span style="color:#f92672">=</span>on-failure
+</span></span><span style="display:flex;"><span>RestartSec<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>KillMode<span style="color:#f92672">=</span>process
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>multi-user.target
+</span></span></code></pre></div><p>Load the service, set it to run at startup, and start the service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo systemctl daemon-reload
+</span></span><span style="display:flex;"><span>sudo systemctl enable cloudflared
+</span></span><span style="display:flex;"><span>sudo systemctl start cloudflared
+</span></span></code></pre></div><p>Check the status:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo systemctl status cloudflared
+</span></span></code></pre></div><p>It should be running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>● cloudflared.service - cloudflared DNS over HTTPS proxy
+</span></span><span style="display:flex;"><span>   Loaded: loaded <span style="color:#f92672">(</span>/lib/systemd/system/cloudflared.service; enabled; vendor preset: enabled<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Active: active <span style="color:#f92672">(</span>running<span style="color:#f92672">)</span> since Sun 2019-09-29 15:37:44 AEST; <span style="color:#ae81ff">3</span> weeks <span style="color:#ae81ff">1</span> days ago
+</span></span><span style="display:flex;"><span> Main PID: <span style="color:#ae81ff">652</span> <span style="color:#f92672">(</span>cloudflared<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    Tasks: <span style="color:#ae81ff">14</span> <span style="color:#f92672">(</span>limit: 2200<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Memory: 35.6M
+</span></span><span style="display:flex;"><span>   CGroup: /system.slice/cloudflared.service
+</span></span><span style="display:flex;"><span>           └─652 /usr/local/bin/cloudflared proxy-dns --port <span style="color:#ae81ff">5053</span> --upstream https://1.1.1.1/dns-query --upstream https://1.0.0.1/dns-query
+</span></span></code></pre></div><p>If you encounter an issue, you can view the log output of the service using the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo journalctl -u cloudflared
+</span></span></code></pre></div><h2 id="verify-the-dns-requests-are-proxied-correctly">Verify the DNS requests are proxied correctly</h2>
+<p>To verify, use <code>nslookup</code> specifying your custom port (5053 above) and <code>127.0.0.1</code> (localhost) as the DNS server.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nslookup -port<span style="color:#f92672">=</span><span style="color:#ae81ff">5053</span> example.com 127.0.0.1
+</span></span></code></pre></div><p>If everything is working correctly, you should see a response as per the below:</p>
+<pre tabindex="0"><code>Server:   127.0.0.1
+Address:  127.0.0.1#5053
+
+Non-authoritative answer:
+Name: example.com
+Address: 93.184.216.34
+Name: example.com
+Address: 2606:2800:220:1:248:1893:25c8:1946
+</code></pre><p>Note that the server is the localhost/Raspberry Pi and the port is 5053 which we defined above. We successfully get a response using these parameters which means DoH has been configured correctly and is working. Testing with <code>example.com</code> we should see an identical result to our earlier test.</p>
+<h2 id="done">Done!</h2>
+<p>You now have a DNS proxy running on your Raspberry Pi. If you were to tell clients to use your Raspberry Pi for DNS and to send requests on port 5053 (instead of port 53), they will get a response after the Raspberry Pi forwards the DNS request to Cloudflare over HTTPS.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>If <code>nslookup</code> doesn&rsquo;t return anything or looks like it hangs, then your request is not being proxied using DoH. This indicates either a config issue (check the port you specified and whether your HTTPS endpoints in your config file are correct), or you could have an issue with your networking (your specified port could already be in use or the request/response is being blocked by a firewall).</p>
+<hr>
+<h1 id="configure-pi-hole">Configure Pi-Hole</h1>
+<p>In the next step, we will install Pi-Hole and tell it to use 127.0.0.1 (localhost), Port 5053 as its upstream DNS. All DNS requests sent to this location will be proxied using DoH to Cloudflare.</p>
+<p>When you&rsquo;re done with this section, you&rsquo;ll be able to set the IP address of your Pi-Hole system (eg: 10.0.0.5) as your DNS provider on your devices, or in your router/modem, and all ads on the web will magically disappear!</p>
+<h2 id="requirements">Requirements</h2>
+<p>There are a couple of things you&rsquo;ll need to check and have in place before continuing.</p>
+<h3 id="check-your-network-interfaces">Check your Network Interfaces</h3>
+<p>Your Raspberry Pi (or similar instance) probably has multiple network interfaces. In the case of the RPi, you&rsquo;ll have at least 3: loopback/localhost (<code>lo0</code>), ethernet (<code>eth0</code>), and wireless (<code>wlan0</code>). You&rsquo;ll need to note down the interface that Pi-Hole will use and listen for incoming DNS requests on.</p>
+<p>I would strongly advise you to NOT use wireless or Wi-Fi for Pi-Hole, and instead use a wired connection (<code>eth0</code> or similar).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nathan@pi:~ $ ip -c address
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">65536</span> qdisc noqueue state UNKNOWN group default qlen <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+</span></span><span style="display:flex;"><span>    inet 127.0.0.1/8 scope host lo
+</span></span><span style="display:flex;"><span>       valid_lft forever preferred_lft forever
+</span></span><span style="display:flex;"><span>    inet6 ::1/128 scope host 
+</span></span><span style="display:flex;"><span>       valid_lft forever preferred_lft forever
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc pfifo_fast state UP group default qlen <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>    link/ether b8:27:eb:XX:XX:XX brd ff:ff:ff:ff:ff:ff
+</span></span><span style="display:flex;"><span>    inet 10.0.0.5/24 brd 10.0.0.255 scope global noprefixroute eth0
+</span></span><span style="display:flex;"><span>       valid_lft forever preferred_lft forever
+</span></span><span style="display:flex;"><span>    inet6 fe80::e0bc:::/64 scope link 
+</span></span><span style="display:flex;"><span>       valid_lft forever preferred_lft forever
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>3: wlan0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc pfifo_fast state DOWN group default qlen <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>    link/ether b8:27:eb:XX:XX:XX brd ff:ff:ff:ff:ff:ff
+</span></span></code></pre></div><h3 id="assign-a-static-ip-address">Assign a Static IP Address</h3>
+<p>The system that Pi-Hole is installed on <strong>must</strong> have a static IP address, or it&rsquo;s current IP address reserved in your DHCP server or modem/router. You&rsquo;ll be pointing all of your devices to use Pi-Hole as their DNS, so if Pi-Hole&rsquo;s IP address changes, all of your devices will break.</p>
+<p>To set a static IP on the Raspberry Pi, edit <code>/etc/dhcpcd.conf</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nathan@pi:~ $ sudo nano /etc/dhcpcd.conf
+</span></span></code></pre></div><p>Define a static IP, gateway, and DNS under &ldquo;<em>Example static IP configuration</em>&rdquo;, and (optionally) define the hostname:</p>
+<pre tabindex="0"><code>[..snip...]
+
+# Inform the DHCP server of our hostname for DDNS.
+pi.yourdomain.internal
+
+[..snip..]
+
+# Example static IP configuration:
+interface eth0
+static ip_address=10.0.0.5/24
+#static ip6_address=fd51:42f8::::/64
+static routers=10.0.0.1
+static domain_name_servers=1.1.1.1 1.0.0.1
+</code></pre><p>Use <code>CTRL+X</code> then <code>Y</code> to exit. Reboot when you have finished:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nathan@pi:~ $ sudo reboot
+</span></span></code></pre></div><h2 id="download-the-pi-hole-installer">Download the Pi-Hole installer</h2>
+<p>For reference, you may want to have a read of the <a href="https://github.com/pi-hole/pi-hole">Pi-Hole documentation</a>.</p>
+<p>Download and run the Pi-Hole installer:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>wget -O basic-install.sh https://install.pi-hole.net
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>sudo bash basic-install.sh
+</span></span></code></pre></div><h2 id="configure-the-installer">Configure the Installer</h2>
+<p>Upon running the installer, you&rsquo;ll be taken to a colored screen. Follow the prompts and the instructions below to install Pi-Hole.</p>
+<ol>
+<li>When prompted, select the network interface to use for Pi-Hole (recommended: <code>eth0</code> for an RPi):</li>
+</ol>
+<p><img src="1.png" alt="1"></p>
+<ol start="2">
+<li>For the <strong>Upstream DNS Provider</strong>, select anything for the time being (Google, Cloudflare, etc). We will change this later.</li>
+</ol>
+<p><img src="2.png" alt="2"></p>
+<ol start="3">
+<li>For the blocklists, leave the default selected and continue:</li>
+</ol>
+<p><img src="3.png" alt="3"></p>
+<ol start="4">
+<li>
+<p>Select whether to enable IPv4 and/or IPv6. If you&rsquo;re not sure, leave this option as the default (both options selected).</p>
+</li>
+<li>
+<p>The following step will ask you to confirm the Static IP address and Gateway. The IP and Gateway displayed on-screen <em>should</em> match the static IP you set earlier. If not, you can alter it here (most likely you selected the wrong interface at Step 1).</p>
+</li>
+</ol>
+<p>Most of the remaining configuration can be left as the default:</p>
+<ul>
+<li>Ensure the web interface is installed. In the following step, ensure you also install the webserver (Lighttpd).</li>
+<li>Ensure queries are logged. If you have tight or severe security concerns you might want to disable this.</li>
+<li>When prompted to select a <a href="https://docs.pi-hole.net/ftldns/privacylevels/">privacy mode</a>, the setting is up to you.
+<ul>
+<li>Everything is stored locally on the Pi-Hole device, so for some lovely analytics, you might want to select &ldquo;Show everything&rdquo;.</li>
+<li>Conversely, if you are concerned about the privacy of the logs, you might want to select settings 1, 2, or 3.</li>
+</ul>
+</li>
+</ul>
+<p><img src="4.png" alt="4"></p>
+<p>At this point, your configuration is done and Pi-Hole will finish installing. When the process is finished, you&rsquo;ll get one final screen with your default admin credentials.</p>
+<p><img src="5.png" alt="5"></p>
+<p>Ignore the default password: You should change it to something more secure. You can change (or reset) the password from the command-line:</p>
+<pre tabindex="0"><code>sudo pihole -a -p
+</code></pre><p>Setting a blank password will disable the password requirement for the Admin UI (not recommended).</p>
+<h2 id="adding-firewall-rules">Adding Firewall Rules</h2>
+<p>Depending on your device, you may need to permit inbound connections from TCP 80 and UDP 53. This will allow you to access the Web UI and for Pi-Hole to receive DNS queries from devices.</p>
+<p>If you&rsquo;re using a Raspberry Pi, you can do this using <code>ufw</code>:</p>
+<pre tabindex="0"><code>sudo ufw limit ssh
+sudo ufw allow dns
+sudo ufw allow 80/tcp
+</code></pre><p>The first line will allow through SSH connections for management. You may or may not want to do this. As Pi-Hole is not exposed inbound from the internet and is local to your home network, this should be OK from a security standpoint.</p>
+<p>Lastly, you need to enable <code>ufw</code> for the settings to take effect:</p>
+<pre tabindex="0"><code>sudo ufw enable
+</code></pre><p>You can check the status of <code>ufw</code> and it&rsquo;s associated rules using the below command:</p>
+<pre tabindex="0"><code>nathan@pi:~ $ sudo ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     LIMIT       Anywhere                  
+80/tcp                     ALLOW       Anywhere                  
+DNS                        ALLOW       Anywhere                  
+22/tcp (v6)                LIMIT       Anywhere (v6)             
+80/tcp (v6)                ALLOW       Anywhere (v6)             
+DNS (v6)                   ALLOW       Anywhere (v6)             
+</code></pre><h2 id="access-the-admin-web-interface">Access the Admin Web Interface</h2>
+<p>Open your web browser and navigate to:</p>
+<pre tabindex="0"><code>http://&lt;pi-hole-ip&gt;/admin
+</code></pre><p>Where <code>&lt;pi-hole-ip&gt;</code> is the static IP address you set for Pi-Hole. The admin UI should appear.</p>
+<ul>
+<li>If you get a blank screen with the Pi-Hole logo only, make sure you added the <code>/admin</code> at the end of the URL.</li>
+</ul>
+<p>If you&rsquo;re getting a <code>CONNECTION_REFUSED</code> error or similar, check to see that you have configured your firewall rules correctly to allow inbound connections on port 80.</p>
+<p>Alternatively, check the other IP addresses of any other network interfaces you have; <code>wlan0</code>, <code>lo0</code> etc. You may have selected the wrong interface when installing Pi-Hole. You can re-run the installer again to fix this.</p>
+<p>Click <strong>Login</strong> in the side panel to log into the Dashboard using the admin password you set earlier.</p>
+<p><img src="6.png" alt="6"></p>
+<p>Your Dashboard will start to populate data once your devices start using Pi-Hole for DNS.</p>
+<p>If you notice that some sites stop working once you start using Pi-Hole, you can bypass the block under <strong>Whitelist</strong>.</p>
+<h3 id="managing-blocks-adlists">Managing Blocks (Adlists)</h3>
+<p>To manage/add/remove Adlists (lists of domains that should be blocked), go to <strong>Group Management &gt; Adlists</strong>. The two default adlists should be listed. Here are some other common lists:</p>
+<pre tabindex="0"><code>http://sysctl.org/cameleon/hosts
+https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
+https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+https://hosts-file.net/ad_servers.txt
+</code></pre><p>Anything listed as an entry in any of your Adlists will be blocked.</p>
+<h2 id="set-cloudflare-doh-as-the-upstream-dns-provider">Set Cloudflare DoH as the Upstream DNS provider</h2>
+<p>We now need to tell Pi-Hole to use our DoH configuration for DNS queries.</p>
+<p>Under <strong>Settings</strong>, click the <strong>DNS</strong> tab. De-select everything under <strong>Upstream DNS Servers</strong> and then add the following as a custom server:</p>
+<pre tabindex="0"><code>127.0.0.1#5053
+</code></pre><p>Replace <code>5053</code> with whatever port you set the <code>cloudflared</code> daemon to listen on for requests.</p>
+<p>Under <strong>Interface listening behavior</strong> select the option to <strong>Listen only on interface eth0</strong> (or whatever interface you configured Pi-Hole on).</p>
+<p>Lastly under <strong>Advanced DNS settings</strong>, check the box to <strong>enable</strong> the first 3 options:</p>
+<ul>
+<li>Never forward non-FQDNs</li>
+<li>Never forward reverse lookups for private IP ranges</li>
+<li>Use DNSSEC</li>
+</ul>
+<p><img src="7.png" alt="7"></p>
+<h2 id="verify-dns-resolution-is-functioning-correctly">Verify DNS resolution is functioning correctly</h2>
+<p>On another device, manually set the DNS to point to the IP address of your Pi-Hole system, eg: 10.0.0.5. Alternatively, alter the <code>dhcpcd.conf</code> file on your RPi to point to its IP address.</p>
+<p>You should start to see DNS query traffic within the Pi-Hole Dashboard. Try querying <code>example.com</code>:</p>
+<pre tabindex="0"><code>nathan@pi:~ $ nslookup example.com
+Server:   10.0.0.5
+Address:  10.0.0.5#53
+
+Non-authoritative answer:
+Name: example.com
+Address: 93.184.216.34
+Name: example.com
+Address: 2606:2800:220:1:248:1893:25c8:1946
+</code></pre><p><img src="8.png" alt="8"></p>
+<p>You can also review the <strong>Query Log</strong> in the admin UI:</p>
+<p><img src="9.png" alt="9"></p>
+<h2 id="troubleshooting-1">Troubleshooting</h2>
+<p>If <code>nslookup</code> doesn&rsquo;t return anything or looks like it hangs, then your request is not being proxied through Cloudflare DoH. Check that <code>cloudflared</code> is running and that you can query it directly from the Pi-Hole host:</p>
+<pre tabindex="0"><code>nslookup -port=5053 example.com 127.0.0.1
+</code></pre><p>If this fails, there could be a <code>cloudflared</code> config issue. Check the port you specified and whether the DoH endpoints/URLs are correct in the config file.</p>
+<p>If the above command returns a result, then your issue is localized to Pi-Hole itself. Make sure any firewall in use (including <code>ufw</code>) is permitting DNS traffic inbound to the Pi-Hole host. DNS is port 53 (typically UDP, but TCP can be used as a fallback).</p>
+<pre tabindex="0"><code>nathan@pi:~ $ sudo ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----               
+DNS                        ALLOW       Anywhere                  
+...
+</code></pre><p>Check to see if TCP/UDP 53 is open on the Pi-Hole device (UDP entries will not have &ldquo;LISTEN&rdquo; next to them. This is OK: unlike TCP, UDP is connectionless):</p>
+<pre tabindex="0"><code>nathan@pi:~ $ netstat -ln | grep 53
+tcp        0      0 0.0.0.0:53              0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:5053          0.0.0.0:*               LISTEN     
+udp        0      0 0.0.0.0:53              0.0.0.0:*                          
+udp        0      0 0.0.0.0:5353            0.0.0.0:*                          
+udp        0      0 0.0.0.0:53149           0.0.0.0:*                          
+udp        0      0 127.0.0.1:5053          0.0.0.0:*                          
+</code></pre><p>You can also use the <code>pihole</code> command to manage Pi-Hole from the command-line.</p>
+<p>Check the status of Pi-Hole:</p>
+<pre tabindex="0"><code>nathan@pi:~ $ pihole status
+  [✓] DNS service is running
+  [✓] Pi-hole blocking is Enabled
+</code></pre><p>Debug Pi-Hole (this produces a LOT of information for you to parse):</p>
+<pre tabindex="0"><code>nathan@pi:~ $ pihole debug
+[..snip..]
+********************************************
+********************************************
+[✓] ** FINISHED DEBUGGING! **
+
+[?] Would you like to upload the log? [y/N] n
+    * Log will NOT be uploaded to tricorder.
+    * A local copy of the debug log can be found at: /var/log/pihole_debug.log
+    
+    
+nathan@pi:~ $ cat /var/log/pihole_debug.log
+...
+...
+</code></pre><p>You can also try restarting the DNS service and subsystems:</p>
+<pre tabindex="0"><code>nathan@pi:~ $ pihole restartdns
+</code></pre><hr>
+<h1 id="finish">Finish</h1>
+<p>You should now have a working Pi-Hole deployment that forwards requests upstream to Cloudflare using DoH.</p>
+<p>The last thing you need to do is get all of your devices to use your Pi-Hole DNS.</p>
+<p>You could do this manually by setting the DNS on each device, or you could go the easy route and set your DHCP server (eg: your ISP modem/router) to use the Pi-Hole IP instead. This way, when a device obtains it&rsquo;s network settings via DHCP, it will automatically get the Pi-Hole IP address for it&rsquo;s DNS settings without you having to reconfigure every device manually.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/raspberry-pi">raspberry pi</a></span><span class="tag"><a href="https://nathancatania.com/tags/homelab">homelab</a></span><span class="tag"><a href="https://nathancatania.com/tags/cloudflare">cloudflare</a></span><span class="tag"><a href="https://nathancatania.com/tags/dns">dns</a></span><span class="tag"><a href="https://nathancatania.com/tags/notes">notes</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>3535 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-02-22</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/deploy-zscaler-nss-in-azure/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Deploy Zscaler NSS in Azure</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/deploying-zpa-zen-connectors/">
+                                <span class="button__text">Deploying ZPA ZEN Connectors</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.858712b4b19060b33e6a3b52df9749f413894a75772f4d0b4683380c0ce08c6f93623d63068ef5ae4719980bcaa15ad536694c42897b88c4826c6ece21918827.js" integrity="sha512-hYcStLGQYLM&#43;ajtS35dJ9BOJSnV3L00LRoM4DAzgjG&#43;TYj1jBo71rkcZmAvKoVrVNmlMQol7iMSCbG7OIZGIJw=="></script>
+
+
+
+
+    </body>
+</html>

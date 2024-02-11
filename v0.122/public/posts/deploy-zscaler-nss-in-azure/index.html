@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="map[author:map[bio:Engineer // Melbourne // Australia name:Nathan Catania photo:map[url:avatar.png]] contenttypename:posts dateform:Jan 2, 2006 dateformnum:2006-01-02 dateformnumtime:2006-01-02 15:04 &#43;1000 dateformshort:Jan 2 description:The official website of Nathan Catania &amp;#10003; disablereadotherposts:false enablethemetoggle:true giturl:https://github.com/nathancatania/website/commit/ homesubtitle:Engineer // Melbourne // Australia images:[] keywords:blog, website, official logo:map[logohomelink:/ logotext:$ cd /home/nathan] readotherposts:Read other posts social:[map[name:linkedin url:https://www.linkedin.com/in/nathancatania]] subtitle:Engineer // Melbourne // Australia]">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="These notes will cover how to deploy the Zscaler NSS (Nanolog Streaming Service) VM in Azure." />
+<meta name="keywords" content="blog, website, official, azure, zscaler, lab, notes" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/deploy-zscaler-nss-in-azure/" />
+
+
+    <title>
+        
+            Deploy Zscaler NSS in Azure :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b851fae37ea32930b5c4996a9ac8737a9d1ab1b40af28b3cd3b0060df9e2f5a3.css" integrity="sha256-uFH6436jKTC1xJlqmshzep0asbQK8os807AGDfni9aM=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Deploy Zscaler NSS in Azure">
+<meta itemprop="description" content="These notes will cover how to deploy the Zscaler NSS (Nanolog Streaming Service) VM in Azure."><meta itemprop="datePublished" content="2020-06-29T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-06-29T00:00:00+00:00" />
+<meta itemprop="wordCount" content="4124"><meta itemprop="image" content="https://nathancatania.com" />
+<meta itemprop="keywords" content="azure,zscaler,lab,notes," />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nathancatania.com" /><meta name="twitter:title" content="Deploy Zscaler NSS in Azure"/>
+<meta name="twitter:description" content="These notes will cover how to deploy the Zscaler NSS (Nanolog Streaming Service) VM in Azure."/>
+
+
+
+    <meta property="og:title" content="Deploy Zscaler NSS in Azure" />
+<meta property="og:description" content="These notes will cover how to deploy the Zscaler NSS (Nanolog Streaming Service) VM in Azure." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/deploy-zscaler-nss-in-azure/" /><meta property="og:image" content="https://nathancatania.com" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-06-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-06-29T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2020-06-29 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                $ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>20 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/deploy-zscaler-nss-in-azure/">Deploy Zscaler NSS in Azure</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#before-you-begin">Before you begin</a>
+      <ul>
+        <li><a href="#be-aware-of-potential-charges">Be aware of potential charges</a></li>
+        <li><a href="#youll-need-a-subscription-to-the-nss-feature">You&rsquo;ll need a subscription to the NSS feature</a></li>
+      </ul>
+    </li>
+    <li><a href="#part-1---create-an-nss-virtual-appliance">Part 1 - Create an NSS Virtual Appliance</a>
+      <ul>
+        <li><a href="#nss-vm-system-requirements">NSS VM System Requirements</a>
+          <ul>
+            <li><a href="#cpu">CPU</a></li>
+            <li><a href="#memory">Memory</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#part-2---resource-creation">Part 2 - Resource Creation</a>
+      <ul>
+        <li><a href="#1-create-an-azure-subscription">1. Create an Azure Subscription</a></li>
+        <li><a href="#2-create-a-resource-group">2. Create a Resource Group</a></li>
+        <li><a href="#3-create-a-virtual-network">3. Create a Virtual Network</a></li>
+        <li><a href="#4-create-a-storage-account">4. Create a Storage Account</a></li>
+        <li><a href="#5-create-two-blob-containers">5. Create two Blob Containers</a></li>
+      </ul>
+    </li>
+    <li><a href="#part-3---copy-the-os-and-data-vhd-images">Part 3 - Copy the OS and Data VHD images</a>
+      <ul>
+        <li><a href="#1-download-azure-storage-explorer">1. Download Azure Storage Explorer</a></li>
+        <li><a href="#2-sign-in-to-your-azure-account">2. Sign in to your Azure Account</a></li>
+        <li><a href="#3-connect-to-the-zscaler-storage-account">3. Connect to the Zscaler Storage Account</a></li>
+        <li><a href="#4-error-unable-to-get-local-issuer-certificate">4. Error: Unable to get local issuer certificate</a></li>
+        <li><a href="#5-copy-the-vhd-files">5. Copy the VHD files</a></li>
+        <li><a href="#6-verify-the-transfer--copy-urls">6. Verify the Transfer &amp; Copy URLs</a></li>
+      </ul>
+    </li>
+    <li><a href="#part-4---deploy-the-nss-vm">Part 4 - Deploy the NSS VM</a>
+      <ul>
+        <li><a href="#1-install-powershell-on-mac-os">1. Install PowerShell on Mac OS</a></li>
+        <li><a href="#2-install--import-the-azure-modules">2. Install &amp; Import the Azure Modules</a></li>
+        <li><a href="#3-connect-to-your-azure-account">3. Connect to your Azure account</a></li>
+        <li><a href="#4-list-all-vm-sizes-for-your-azure-region">4. List all VM sizes for your Azure region</a></li>
+        <li><a href="#5-enable-compatibility-mode-for-azurerm">5. Enable Compatibility Mode for AzureRM</a></li>
+        <li><a href="#6-windows-enable-unsigned-scripts">6. (Windows) Enable Unsigned Scripts</a></li>
+        <li><a href="#7-create-the-deployment-config-file">7. Create the Deployment Config File</a></li>
+        <li><a href="#8-download-the-deployment-script">8. Download the Deployment Script</a></li>
+        <li><a href="#9-run-the-deployment-script">9. Run the Deployment Script</a></li>
+        <li><a href="#10-verify-the-vm-has-been-deployed">10. Verify the VM has been deployed</a></li>
+        <li><a href="#11-optional-update-security-groups">11. (Optional) Update Security Groups</a></li>
+      </ul>
+    </li>
+    <li><a href="#part-5---configure-the-nss-vm">Part 5 - Configure the NSS VM</a>
+      <ul>
+        <li><a href="#1-connect-to-the-vm">1. Connect to the VM</a></li>
+        <li><a href="#2-review-the-initial-nss-config">2. Review the initial NSS config</a></li>
+        <li><a href="#3-download-the-ssl-certificate-package">3. Download the SSL Certificate Package</a></li>
+        <li><a href="#4-update-the-nss-service">4. Update the NSS Service</a></li>
+        <li><a href="#5-start-the-nss-service">5. Start the NSS Service</a></li>
+        <li><a href="#6-verify-connectivity">6. Verify Connectivity</a></li>
+      </ul>
+    </li>
+    <li><a href="#part-6---add-nss-feeds-to-stream-data">Part 6 - Add NSS Feeds to Stream Data</a>
+      <ul>
+        <li><a href="#1-configure-an-nss-feed">1. Configure an NSS Feed</a></li>
+        <li><a href="#2-configuring-mcas">2. Configuring MCAS</a></li>
+      </ul>
+    </li>
+    <li><a href="#finish">Finish</a></li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+                <img src="banner.png" class="post-cover" />
+            
+
+            <div class="post-content">
+                <p>This guide will cover deployment of a Nanolog Streaming Service (NSS) VM within Azure. NSS can also be deployed on-premise using an OVA file, or in AWS.</p>
+<p>If you&rsquo;re planning to integrate with Microsoft Cloud App Security (MCAS) or Azure Sentinel, you&rsquo;ll require a healthy NSS deployment, and it is highly recommended that you use Azure.</p>
+<blockquote>
+<p>Why do I need to deploy a VM to stream logs to a SIEM? Can&rsquo;t Zscaler just send logs to my SIEM directly?</p>
+</blockquote>
+<p>Your logs are stored in Zscaler&rsquo;s Nanolog clusters in a highly compressed and encoded format. The NSS VM connects to both the Nanolog cluster and the Zscaler control plane, grabs the logs, decodes them, and forwards them to your SIEM over a TCP connection. Think of NSS as a log gateway!</p>
+<h1 id="before-you-begin">Before you begin</h1>
+<h2 id="be-aware-of-potential-charges">Be aware of potential charges</h2>
+<p>You can&rsquo;t follow this guide without an Azure subscription. If you&rsquo;re deploying in as part of demo or lab environment, be careful: This guide WILL rack up some charges for VM and storage resources in Azure.</p>
+<p>If you&rsquo;re using the Azure Free Account, you should have US$200 of credit to use as part of your free subscription and may be able to avoid charges.</p>
+<p>Proceed at your own risk.</p>
+<h2 id="youll-need-a-subscription-to-the-nss-feature">You&rsquo;ll need a subscription to the NSS feature</h2>
+<p>Not all Zscaler subscriptions allow you to use NSS. In the ZIA Portal, navigate the <strong>Administration</strong> tab. If you don&rsquo;t see <strong>Nanolog Streaming Service</strong> listed as an option, then you are most likely not subscribed to the NSS feature and will need to chat to your account team.</p>
+<hr>
+<h1 id="part-1---create-an-nss-virtual-appliance">Part 1 - Create an NSS Virtual Appliance</h1>
+<ol>
+<li>Log into the ZIA admin portal and navigate to <strong>Administration &gt; Nanolog Streaming Service</strong>.</li>
+<li>Select <strong>Add NSS Server</strong></li>
+<li>Give the server a name, select <strong>NSS for Web</strong> (or firewall, depending on your use case), set it to <strong>Enabled</strong>, then click <strong>Save</strong>. Activate your changes.</li>
+</ol>
+<h2 id="nss-vm-system-requirements">NSS VM System Requirements</h2>
+<h3 id="cpu">CPU</h3>
+<p>2 vCPUs (one for the control plane, one for the data plane)</p>
+<h3 id="memory">Memory</h3>
+<p>Depending upon whether this is a lab/demo or production deployment, memory requirements (and hence, the Azure instance type you deploy on) will be different. A production deployment depends on the number of users ZIA is/will be deployed to:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Memory Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lab/Demo</td>
+<td>4GB</td>
+</tr>
+<tr>
+<td>&lt;15,000 users</td>
+<td>8GB</td>
+</tr>
+<tr>
+<td>&lt;40,000 users</td>
+<td>16GB</td>
+</tr>
+<tr>
+<td>&lt;100,000 users</td>
+<td>32GB</td>
+</tr>
+</tbody>
+</table>
+<p>Note: If you are planning on integrating with <strong>Microsoft Cloud App Security (MCAS)</strong>, you MUST deploy with at least 8GB of memory. Using 4GB for a Lab/Demo environment will not work.</p>
+<hr>
+<h1 id="part-2---resource-creation">Part 2 - Resource Creation</h1>
+<p>You&rsquo;ll need the following information handy to deploy NSS in Azure:</p>
+<ul>
+<li>Azure subscription (this <strong>can</strong> be the free tier - you&rsquo;ll have access to US$200 credit with it which will help)</li>
+<li>Resource Group</li>
+<li>Virtual Network</li>
+<li>Storage Account with two containers/blobs</li>
+</ul>
+<p>If you have some or all of these already, you can skip forward as needed.</p>
+<h2 id="1-create-an-azure-subscription">1. Create an Azure Subscription</h2>
+<p>You need an Azure Subscription (even if it is part of the free tier) to continue. In the Azure Portal search bar (at the top of the page), search for &ldquo;<strong>Subscriptions</strong>&rdquo; and validate you have a valid subscription.</p>
+<p><img src="1.png" alt="1"></p>
+<p>Ensure you have an existing subscription present, you click <strong>Add</strong> to create one if you need to.</p>
+<p><strong>Warning!</strong> You have the potential to rack up large charges if you aren&rsquo;t careful! Proceed at your own risk!</p>
+<h2 id="2-create-a-resource-group">2. Create a Resource Group</h2>
+<p>A Resource Group houses related resources and services for something deployed in Azure.</p>
+<p>If you don&rsquo;t have a usable Resource Group already, you&rsquo;ll need to create one. In the Azure Portal search bar (at the top of the page), search for &ldquo;<strong>Resource Groups</strong>&rdquo;.</p>
+<p><img src="2.png" alt="2"></p>
+<p>Click <strong>Add</strong> to create a new one. Associate it with your subscription, give it a name, and select your closest Azure region.</p>
+<p>In the screenshot above, the Resource Group I&rsquo;ll be using is called <code>AzureLab</code>, which is linked to the <code>Pay-As-You-Go</code> subscription in the <code>Australia East</code> region.</p>
+<h2 id="3-create-a-virtual-network">3. Create a Virtual Network</h2>
+<p>You&rsquo;ll need (ideally) two Virtual Network (vNet) subnets to deploy NSS. In the Azure Portal search bar (at the top of the page), search for &ldquo;<strong>Virtual networks</strong>&rdquo;.</p>
+<p>Click <strong>Add</strong> to create a new vNet (or select an existing one). If you&rsquo;re creating a new one:</p>
+<ul>
+<li>Under the <strong>Basics</strong> tab, associate the new vNet with your subscription and resource group from above. Give it a name and ensure it&rsquo;s created in the same region.</li>
+<li>Under the <strong>IP Addresses</strong> tab, the default 10.X.X.X/16 IPv4 address space should be fine. This will give you 65536 usable addresses in the entire vNet which is more than enough!</li>
+<li>There should already be a <code>default</code> subnet - a /24 range which will be a subset of the /16 address space above. Leave this as it is and create a new /24 subnet. One of these will be for the management interface of the NSS VM, the other for the service interface.
+<ul>
+<li>When creating a new subnet, NAT Gateway, Security Group, Route table, and Services can all be left as None or their default values for now.</li>
+</ul>
+</li>
+<li>Under the <strong>Security</strong> tab, leave DDoS protection and Firewall <strong>Disabled</strong>.</li>
+<li>When you are finished, click <strong>Review + create</strong>.</li>
+</ul>
+<p>In the image below, I have an vNet called <code>vNetLab</code> which has a global 10.0.0.0/16 address space; with two subnets:</p>
+<ul>
+<li><code>default</code> = 10.0.0.0/24</li>
+<li><code>mgmt</code> = 10.0.1.0/24</li>
+</ul>
+<p><img src="3.png" alt="3"></p>
+<h2 id="4-create-a-storage-account">4. Create a Storage Account</h2>
+<p>The Storage Account will house the VHD files for our NSS VM. In the Azure Portal search bar (at the top of the page), search for &ldquo;<strong>Storage accounts</strong>&rdquo;.</p>
+<p>Click <strong>Add</strong> to create a new Storage Account.</p>
+<p>Associate the Storage Account with your existing subscription and Resource Group. Provide it with a <strong>globally unique name</strong>. Ensure the location is the same as the one associated with your Resource Group.</p>
+<p>For the cheapest option for a lab deployment, select the following:</p>
+<ul>
+<li>Performance = <strong>Standard</strong></li>
+<li>Account kind = <strong>StorageV2 (general purpose v2)</strong></li>
+<li>Replication = <strong>Locally-redundant storage (LRS)</strong></li>
+<li>Access tier = <strong>Hot</strong></li>
+</ul>
+<p><img src="4.png" alt="4"></p>
+<p>Under the <strong>Networking</strong> tab, for a lab/demo deployment select <strong>Public endpoint (all networks)</strong>: This will ensure you can immediately connect to the storage account. For a more secure deployment (ie: production), you might want to select either of the other two options.</p>
+<p>Under the <strong>Data Protection</strong> tab, for a lab deployment, everything should be set to <strong>Disabled</strong>.</p>
+<p>Under the <strong>Advanced</strong> tab, for a lab deployment, set everything as <strong>Disabled</strong>.</p>
+<p>Click <strong>Review + create</strong> when you are done.</p>
+<h2 id="5-create-two-blob-containers">5. Create two Blob Containers</h2>
+<p>Open the Storage Account you just created, and in the left-side-menu, select <strong>Containers</strong>. Create two containers here: one will be used to copy the VHD files from Zscaler&rsquo;s storage account, and the other will be used to deploy the NSS VM itself.</p>
+<p><img src="5.png" alt="5"></p>
+<hr>
+<h1 id="part-3---copy-the-os-and-data-vhd-images">Part 3 - Copy the OS and Data VHD images</h1>
+<p>These are 32GB and 500GB respectively. Zscaler makes these available on their Storage Account which you can use to copy them across to your own to avoid transfer charges (not to mention the time of downloading &amp; re-uploading that amount of data).</p>
+<p>In this section, we will copy the two VHD images to the Storage Account and blob containers we created earlier, and then use these to initialize the NSS VM.</p>
+<h2 id="1-download-azure-storage-explorer">1. Download Azure Storage Explorer</h2>
+<p>You can also do this <a href="https://help.zscaler.com/zia/nss-deployment-guide-microsoft-azure#step_4_PS">via PowerShell</a>, but that is outside the scope of this guide.</p>
+<p>Download link (all platforms): <a href="https://azure.microsoft.com/en-us/features/storage-explorer/">https://azure.microsoft.com/en-us/features/storage-explorer/</a></p>
+<h2 id="2-sign-in-to-your-azure-account">2. Sign in to your Azure Account</h2>
+<p>Open Azure Storage Explorer, click the &ldquo;plug&rdquo; icon in the sidebar, then select <strong>Add an Azure Account</strong>. Click <strong>Next</strong> and you will be redirected to sign in to Azure via Microsoft SSO. Sign in using your Azure admin credentials.</p>
+<p><img src="6.png" alt="6"></p>
+<p>Once you have logged in, you should see your Azure subscription in the side panel.</p>
+<h2 id="3-connect-to-the-zscaler-storage-account">3. Connect to the Zscaler Storage Account</h2>
+<p>Next, we need to connect to the Zscaler Storage Account to access the NSS VHDs.</p>
+<p>Click the plug icon again in the sidebar (as you did above), but this time select <strong>Use a shared access signature (SAS) URI</strong>.</p>
+<blockquote>
+<p><strong>Stop!</strong> You will need a SAS URI token from Zscaler to proceed!</p>
+</blockquote>
+<p>You need a SAS token to authenticate with the Zscaler Storage Account. To obtain one:</p>
+<ul>
+<li>If you are a Zscaler employee, <a href="https://community.zscaler.com/t/tokens-for-nss-on-azure-vhd/3255">click here</a> to visit the Community forum and obtain a token directly.</li>
+<li>Otherwise, you will need to raise a support ticket requesting a SAS token for NSS deployment in Azure.</li>
+</ul>
+<p>Once you have your SAS token, you can fill in the fields in Azure Storage Explorer as prompted:</p>
+<ul>
+<li>Display name = ZscalerNSS</li>
+<li>URI = This is region dependant (see the table below), and MUST contain the SAS token as a URL argument.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Region</th>
+<th>URI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USA</td>
+<td><a href="https://zsprod.blob.core.windows.net/?%5BSAStoken%5D">https://zsprod.blob.core.windows.net/?[SAStoken]</a></td>
+</tr>
+<tr>
+<td>Europe</td>
+<td><a href="https://zsprodeu.blob.core.windows.net/?%5BSAStoken%5D">https://zsprodeu.blob.core.windows.net/?[SAStoken]</a></td>
+</tr>
+<tr>
+<td>Australia</td>
+<td><a href="https://zsprodau.blob.core.windows.net/?%5BSAStoken%5D">https://zsprodau.blob.core.windows.net/?[SAStoken]</a></td>
+</tr>
+</tbody>
+</table>
+<p>For example, for deploying in Australia, my full URI would look like:</p>
+<pre tabindex="0"><code>https://zsprodau.blob.core.windows.net/?sv=2019-02-02&amp;ss=b&amp;srt=sco&amp;sp=rl&amp;se=2023-03-12T09:14:30Z&amp;st=2020-03-12T00:14:30Z&amp;spr=https&amp;sig=XXXXXXXXXXXXXXXXXXXXXXXXX
+</code></pre><p>Pay close attention to the format above as it is important. If you have an issue with Azure Storage Explorer not accepting the URI, check the formatting. <strong>Do not use any of the URLs provided to you ending in</strong> <code>.vhd</code>.</p>
+<p><img src="7.png" alt="7"></p>
+<p>Click <strong>Next</strong> when done, followed by <strong>Connect</strong>.</p>
+<h2 id="4-error-unable-to-get-local-issuer-certificate">4. Error: Unable to get local issuer certificate</h2>
+<p><img src="8.png" alt="8"></p>
+<p>If you receive this error, it is most likely because your connection is being SSL inspected, and Azure Storage Explorer does not like this. You will need to add an SSL inspection bypass for <code>.blob.core.windows.net</code> to resolve the issue.</p>
+<p>For ZIA, navigate to <strong>Policy &gt; SSL Inspection</strong> in the ZIA admin portal. Add <code>.blob.core.windows.net</code> to the list of URLs to bypass from SSL Inspection. Save and activate your changes.</p>
+<p>Wait a moment, then <strong>right-click on the storage account and click Refresh</strong>. If you just try and load the storage account again, you&rsquo;ll continuously get the same error as it is cached.</p>
+<p><img src="9.png" alt="9"></p>
+<p>The error should be resolved.</p>
+<h2 id="5-copy-the-vhd-files">5. Copy the VHD files</h2>
+<p>In the side panel of Azure Storage Explorer, expand the <strong>Zscaler NSS Storage (SAS)</strong> storage account, and select the <strong>nss</strong> blob container.</p>
+<p><img src="10.png" alt="10"></p>
+<p>Select both of the VHD images listed and click <strong>Copy</strong>.</p>
+<p>Next, under the Azure subscription you connected to earlier, expand the storage account you created earlier and select the blob container you created to store a copy of the VHD files. Click <strong>Paste</strong> and the files will begin to transfer. This is a 532GB file transfer so it may take a minute or two.</p>
+<p><img src="11.png" alt="11"></p>
+<p>Note: You&rsquo;re now consuming storage on Azure and there is a charge associated with this. Every region is different, but using the settings I selected above, my cost was estimated to be approx US$11 per month for a single blob container. This is just for storage. Using a 2nd blob container for the VM itself PLUS VM charges will get expensive quickly; particularly for a home lab deployment. You may wish to reconsider running this in a lab environment long-term.</p>
+<p><img src="12.png" alt="12"></p>
+<h2 id="6-verify-the-transfer--copy-urls">6. Verify the Transfer &amp; Copy URLs</h2>
+<p>In the Azure Portal, go to your storage account and look at the blob container you transferred the VHD files to. You&rsquo;ll see them listed there.</p>
+<p><img src="13.png" alt="13"></p>
+<p>Click on each file and copy the URL listed - we&rsquo;ll need these later to deploy the NSS VM.</p>
+<p><img src="14.png" alt="14"></p>
+<hr>
+<h1 id="part-4---deploy-the-nss-vm">Part 4 - Deploy the NSS VM</h1>
+<p>We need to use PowerShell to deploy the NSS VM via a script.</p>
+<ul>
+<li>If you&rsquo;re on a Windows device, you should have PowerShell already installed.</li>
+<li>If you are on Mac OS, you&rsquo;ll need to install PowerShell via Homebrew.</li>
+</ul>
+<h2 id="1-install-powershell-on-mac-os">1. Install PowerShell on Mac OS</h2>
+<ol>
+<li><a href="https://brew.sh/">Install Homebrew</a> if you haven&rsquo;t already. Open Terminal:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>/bin/bash -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><ol start="2">
+<li>Install PowerShell:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>brew cask install powershell
+</span></span></code></pre></div><ol start="3">
+<li>Invoke PowerShell:</li>
+</ol>
+<pre tabindex="0"><code>pwsh
+</code></pre><ol start="4">
+<li>You should now be on the PowerShell prompt:</li>
+</ol>
+<pre tabindex="0"><code>$ pwsh
+
+PowerShell 7.0.2
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+https://aka.ms/powershell
+Type &#39;help&#39; to get help.
+
+PS /Users/nathan&gt;
+</code></pre><h2 id="2-install--import-the-azure-modules">2. Install &amp; Import the Azure Modules</h2>
+<p>These modules let us perform tasks on Azure via PowerShell:</p>
+<pre tabindex="0"><code>PS /Users/nathan&gt; Install-Module Az
+PS /Users/nathan&gt; Import-Module Az 
+</code></pre><h2 id="3-connect-to-your-azure-account">3. Connect to your Azure account</h2>
+<p>You&rsquo;ll need to sign-in and authenticate using your Azure admin credentials:</p>
+<pre tabindex="0"><code>PS /Users/nathan&gt; Connect-AzAccount
+
+WARNING: To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code XXXXXXXXX to authenticate.
+</code></pre><p>Go to <a href="https://microsoft.com/devicelogin">https://microsoft.com/devicelogin</a> and enter the code provided.</p>
+<p>Return to PowerShell and press Enter/Return. After a few moments your subscriptions will appear.</p>
+<h2 id="4-list-all-vm-sizes-for-your-azure-region">4. List all VM sizes for your Azure region</h2>
+<p>We need to grab the name of the Azure instance type we&rsquo;ll be deploying the NSS VM on.</p>
+<p>You can use the <a href="https://azure.microsoft.com/en-us/pricing/calculator/?service=virtual-machines">Azure Pricing Calculator</a> to determine which instance type is best (and how much it will cost you). Be sure to select your region for accurate availability and pricing. Not every instance type is available in every region.</p>
+<p>You&rsquo;ll need an instance with 2 vCPUs and either:</p>
+<ul>
+<li>4GB memory (lab deployment)</li>
+<li>8GB memory (MCAS or typical production deployment)</li>
+<li>16GB memory (15K-40K users - large enterprise)</li>
+<li>32GB memory (40K-100K users - huge enterprise)</li>
+</ul>
+<p>If you&rsquo;re not sure, just find something with 8GB of memory + 2 vCPUs.</p>
+<p>Next, list all of the VM sizes for your selected region in PowerShell:</p>
+<pre tabindex="0"><code>PS /Users/nathan&gt; Get-AzVmSize -Location &#34;Australia East&#34;
+
+Name                   NumberOfCores MemoryInMB
+----                   ------------- ----------
+Standard_B1ls                      1        512
+Standard_B1ms                      1       2048
+Standard_B1s                       1       1024
+Standard_B2ms                      2       8192
+Standard_B2s                       2       4096
+Standard_B4ms                      4      16384
+Standard_B8ms                      8      32768
+Standard_B12ms                    12      49152
+Standard_B16ms                    16      65536
+Standard_B20ms                    20      81920
+Standard_D1_v2                     1       3584
+Standard_D2_v2                     2       7168
+Standard_D3_v2                     4      14336
+Standard_D4_v2                     8      28672 
+[..snip..]
+</code></pre><p>NB: The table above has been trimmed to fit.</p>
+<p>Locate your desired instance, and copy down the name as it&rsquo;s printed in the terminal window. We&rsquo;ll need this for our PowerShell script which will deploy the NSS VM.</p>
+<p>In my case, I&rsquo;ll be using <code>Standard_A4_v2</code> which has 2 vCPUs and 8GB memory.</p>
+<p><strong>Be very careful! VM instances become expensive over a whole month!</strong> If left on for 30 days, the <code>Standard_A4_v2</code> instance type would cost be  <strong>~US$153!</strong> Proceed at your own risk!</p>
+<h2 id="5-enable-compatibility-mode-for-azurerm">5. Enable Compatibility Mode for AzureRM</h2>
+<p>The current Zscaler deployment script uses the old AzureRM modules which have been depreciated. We need to enable compatibility for them:</p>
+<pre tabindex="0"><code>PS /Users/nathan&gt; Enable-AzureRmAlias -Scope CurrentUser
+</code></pre><p>If you get an error similar to:</p>
+<pre tabindex="0"><code>Enable-AzureRmAlias: Could not find a part of the path &#39;/Users/nathan/.config/powershell/profile.ps1&#39;
+</code></pre><p>You&rsquo;ll need to create the <code>powershell</code> directly under <code>/Users/&lt;YourUsername&gt;/.config/</code>:</p>
+<pre tabindex="0"><code>PS /Users/nathan&gt; cd ~/.config
+PS /Users/nathan/.config&gt; mkdir powershell
+</code></pre><h2 id="6-windows-enable-unsigned-scripts">6. (Windows) Enable Unsigned Scripts</h2>
+<p>Allow powershell to run unsigned scripts (not needed/supported on macOS):</p>
+<pre tabindex="0"><code>PS /Users/nathan&gt; Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+</code></pre><h2 id="7-create-the-deployment-config-file">7. Create the Deployment Config File</h2>
+<p>Copy the following into a file called <code>conf_file.txt</code> and replace with your data:</p>
+<pre tabindex="0"><code>name=AzureNSS
+location=australiaeast
+rgname=AzureLab
+createrg=n
+storename=zsnsslab
+createstorage=n
+vnetrg=AzureLab
+vnetname=vNetLab
+vnetprefix=10.0.0.0/16
+mgmtsubnetname=mgmt
+mgmtsubnetprefix=10.0.1.0/24
+svcsubnetname=default
+svcsubnetprefix=10.0.0.0/24
+niccount=2
+mgmtdyn=n
+vmsize=Standard_A4_v2
+dstStorageURI=https://zsnsslab.blob.core.windows.net
+dstContainer=zsnssproduction
+srcOsURI=https://zsnsslab.blob.core.windows.net/zsnssdeployment/znss_4_0_4_osdisk.vhd
+srcDataURI=https://zsnsslab.blob.core.windows.net/zsnssdeployment/znss_4_0_4_datadisk.vhd
+</code></pre><p>A description of each of these fields is below:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>The name to be assigned to the NSS VM when deployed</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td>The Azure region to deploy the VM to. This should be in lowercase with no spaces.</td>
+</tr>
+<tr>
+<td><code>rgname</code></td>
+<td>The name of the Resource Group to be used for VM deployment.</td>
+</tr>
+<tr>
+<td><code>createrg</code></td>
+<td><code>y</code> or <code>n</code> depending if you want the above RG to be created or not. Set it to <code>n</code> as it should exist already.</td>
+</tr>
+<tr>
+<td><code>storename</code></td>
+<td>The name of the Storage Account to use.</td>
+</tr>
+<tr>
+<td><code>createstorage</code></td>
+<td><code>y</code> or <code>n</code> depending if you want the above RG to be created or not. Set it to <code>n</code> as it should exist already.</td>
+</tr>
+<tr>
+<td><code>vnetrg</code></td>
+<td>The resource group that the vNet for the VM exists in. Will probably be the same as <code>rgname</code> above.</td>
+</tr>
+<tr>
+<td><code>vnetname</code></td>
+<td>The Azure vNet to which the VM should be attached.</td>
+</tr>
+<tr>
+<td><code>vnetprefix</code></td>
+<td>The IPv4 address space assigned to the vNet in CIDR form. This will probably be the 10.X.X.X/16 range.</td>
+</tr>
+<tr>
+<td><code>mgmtsubnetname</code></td>
+<td>The name of the subnet you created within the vNet for the NSS management interface.</td>
+</tr>
+<tr>
+<td><code>mgmtsubnetprefix</code></td>
+<td>The subnet address prefix (in CIDR) of the subnet you created within the vNet for the NSS management interface. Could be 10.X.Y.X/24.</td>
+</tr>
+<tr>
+<td><code>svcsubnetname</code></td>
+<td>The name of the subnet you created within the vNet for the NSS service interface.</td>
+</tr>
+<tr>
+<td><code>svcsubnetprefix</code></td>
+<td>The subnet address prefix (in CIDR) of the subnet you created within the vNet for the NSS service interface. Could be 10.X.Z.X/24.</td>
+</tr>
+<tr>
+<td><code>niccount</code></td>
+<td>The number of NICs to assign to the VM. This should be set to <code>2</code> for NSS.</td>
+</tr>
+<tr>
+<td><code>mgmtdyn</code></td>
+<td>Set this to <code>n</code></td>
+</tr>
+<tr>
+<td><code>vmsize</code></td>
+<td>The name of the Instance type/size to deploy the VM to (obtained above). Eg: Standard_A4_v2</td>
+</tr>
+<tr>
+<td><code>dstStorageURI</code></td>
+<td>The URI for your storage account. Remove the trailing <code>/</code>. This is typically in the format https://<!-- raw HTML omitted -->.blob.core.windows.net</td>
+</tr>
+<tr>
+<td><code>dstContainer</code></td>
+<td>Name of the destination blob container within your storage account to create the VM disks. You would have created this in Part 2, Step 4.</td>
+</tr>
+<tr>
+<td><code>srcOsURI</code></td>
+<td>The URI of the OS Disk .vhd file from your storage account that you copied in Part 3, Step 6.</td>
+</tr>
+<tr>
+<td><code>srcDataURI</code></td>
+<td>The URI of the Data Disk .vhd file from your storage account that you copied in Part 3, Step 6.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-download-the-deployment-script">8. Download the Deployment Script</h2>
+<p>Download the NSS deployment script here:</p>
+<p><a href="https://help.zscaler.com/downloads/zia/documentation-knowledgebase/analytics/nss/nss-deployment-guides/nss-deployment-guide-microsoft-azure/deployment_script%5B1%5D.ps1">https://help.zscaler.com/downloads/zia/documentation-knowledgebase/analytics/nss/nss-deployment-guides/nss-deployment-guide-microsoft-azure/deployment_script[1].ps1</a></p>
+<p>Save the file as <code>deployment_script.ps1</code> in the same folder as the <code>conf_file.txt</code> configuration file.</p>
+<h2 id="9-run-the-deployment-script">9. Run the Deployment Script</h2>
+<p>From the PowerShell prompt, run the deployment script. You may be prompted to sign in again:</p>
+<pre tabindex="0"><code>PS /Users/nathan&gt; .\deployment_script.ps1 conf_file.txt
+</code></pre><p>When prompted, select the subscription to use, and (optionally) whether or not to use Public IP addresses for the two NICs. If this is a lab environment and you want to immediately be able to SSH to the NSS VM after deployment, you might want to select <code>y</code> for this part.</p>
+<h2 id="10-verify-the-vm-has-been-deployed">10. Verify the VM has been deployed</h2>
+<p>Check whether the NSS VM has been deployed in the Azure Portal. In the search bar at the top of the portal, search for &ldquo;<strong>Virtual Machines</strong>&rdquo;. Validate that your new NSS VM is present and running.</p>
+<p><img src="15.png" alt="15"></p>
+<h2 id="11-optional-update-security-groups">11. (Optional) Update Security Groups</h2>
+<p>If you chose to assign public IP addresses to your NSS VM during deployment, you may wish to lock this down with some rules to prevent anyone from being able to hit your VM.</p>
+<p>As a start, you should only allow outbound connections to Zscaler&rsquo;s required IP ranges. You can find these at the following URLs (depending on your Zscaler cloud):</p>
+<ul>
+<li><a href="https://ips.zscaler.net/nss">https://ips.zscaler.net/nss</a></li>
+<li><a href="https://ips.zscalerone.net/nss">https://ips.zscalerone.net/nss</a></li>
+<li><a href="https://ips.zscalertwo.net/nss">https://ips.zscalertwo.net/nss</a></li>
+<li><a href="https://ips.zscalerthree.net/nss">https://ips.zscalerthree.net/nss</a></li>
+<li><a href="https://ips.zscloud.net/nss">https://ips.zscloud.net/nss</a></li>
+</ul>
+<p>You may also want to restrict inbound connectors to those on port 22 from your source IP only.</p>
+<p>Apart from SSH management, NSS only requires connections to both the Zscaler Cloud and your SIEM/destination in the outbound direction. Not inbound connectivity is mandatory.</p>
+<p>To create a security group, search for &ldquo;<strong>Network security groups</strong>&rdquo; in the Azure Portal. Click <strong>Add</strong> to create a new one.</p>
+<p>You&rsquo;ll need to then edit the security group, and apply it to the respective network interfaces created under the vNet in use by the VM.</p>
+<p>For more information, <a href="https://docs.microsoft.com/en-us/azure/virtual-network/manage-network-security-group">see the Microsoft documentation, here</a>.</p>
+<hr>
+<h1 id="part-5---configure-the-nss-vm">Part 5 - Configure the NSS VM</h1>
+<p>Now that the NSS VM has been deployed, we need to configure it and associate it with our ZIA instance.</p>
+<h2 id="1-connect-to-the-vm">1. Connect to the VM</h2>
+<p>First, locate the IP address in use for the management interface. Under <strong>Virtual Machines</strong> in the Azure Portal, select the NSS VM, and on the <strong>Overview</strong> page, note either the Public or Private IP address assigned (under the Networking heading).</p>
+<p><img src="16.png" alt="16"></p>
+<h2 id="2-review-the-initial-nss-config">2. Review the initial NSS config</h2>
+<p>Review the NSS initial config to check whether the service interface has been configured correctly:</p>
+<pre tabindex="0"><code>[zsroot@NSS ~]$ sudo nss dump-config
+
+Detected an Azure VM!!
+Configured Values:
+	CloudName:Failed to read SSL Certificate
+	nameserver:168.63.129.16	
+	smnet_dev:
+	Default gateway for Service IP:
+	Routes for Siem N/w:
+</code></pre><p>If the <code>smnet_dev</code> and <code>Default gateway for Service IP</code> fields are blank, check the Networking menu of the NSS VM you deployed in Azure:</p>
+<p><img src="17.png" alt="17"></p>
+<p>Note down the private IP of the 2nd network interface <code>&lt;VMname&gt;_nic_1</code>, then run the <code>nss configure</code> command to set the service interface IPs:</p>
+<pre tabindex="0"><code>[zsroot@NSS ~]$ sudo nss configure
+
+Detected an Azure VM!!
+nameserver:168.63.129.16 (Options &lt;c:change, d:delete, n:no change&gt;) [n]n
+Do you wish to add a new nameserver? &lt;n:no y:yes&gt; [n]: n
+smnet_dev (Service interface IP address with netmask) []: 10.0.0.4/24
+smnet_dflt_gw (Service interface default gateway IP address) []: 10.0.0.1
+Successfully Applied Changes
+</code></pre><p>When prompted, enter the IP address in CIDR format for the service interface (see above for formatting), and the IP address of the gateway for the service interface (if you use a /24 subnet, this will be the .1 IP address)</p>
+<h2 id="3-download-the-ssl-certificate-package">3. Download the SSL Certificate Package</h2>
+<p>Download the SSL Certificate package for your NSS VM from the ZIA portal under <strong>Administration &gt; Nanolog Streaming Service</strong>.</p>
+<p><img src="18.png" alt="18"></p>
+<p>WARNING: This package is different for each NSS VM you have listed. Sharing the same certificate between NSS deployments will cause connection flapping.</p>
+<p>Copy this package to the NSS VM:</p>
+<pre tabindex="0"><code>scp NssCertificate.zip zsroot@&lt;ip&gt;:
+</code></pre><p>Install the certificate package on the NSS VM:</p>
+<pre tabindex="0"><code>[zsroot@NSS ~]$ sudo nss install-cert NssCertificate.zip
+</code></pre><p>Check the configuration:</p>
+<pre tabindex="0"><code>[zsroot@NSS ~]$ sudo nss dump-config
+Detected an Azure VM!!
+Configured Values:
+	CloudName:zscaler.net
+	nameserver:168.63.129.16	
+	smnet_dev:10.0.0.4/24	
+	Default gateway for Service IP:10.0.0.1	
+	Routes for Siem N/w:
+</code></pre><p>If the SSL package was installed correctly, you will see your cloud name referenced in the configuration (eg: zscaler.net).</p>
+<h2 id="4-update-the-nss-service">4. Update the NSS Service</h2>
+<p>The NSS service on the fresh VM is probably out-of-date. To update it, run the <code>nss update-now</code> command:</p>
+<pre tabindex="0"><code>[zsroot@NSS ~]$ sudo nss update-now
+</code></pre><p>Updating may take some time&hellip;</p>
+<p>You can check the current version with <code>nss checkversion</code>:</p>
+<pre tabindex="0"><code>[zsroot@NSS ~]$ sudo nss checkversion
+</code></pre><h2 id="5-start-the-nss-service">5. Start the NSS Service</h2>
+<p>To start the NSS service, run <code>nss start</code>:</p>
+<pre tabindex="0"><code>[zsroot@NSS ~]$ sudo nss start
+</code></pre><p>This will NOT start NSS on boot by default. You should enable autostart:</p>
+<pre tabindex="0"><code>[zsroot@NSS ~]$ sudo nss enable-autostart
+</code></pre><h2 id="6-verify-connectivity">6. Verify Connectivity</h2>
+<p>To check active connections from NSS, run the following command:</p>
+<pre tabindex="0"><code>[zsroot@NSS ~]$ sudo nss troubleshoot netstat | grep tcp
+</code></pre><p>NSS only requires outbound connectivity to the Zscaler Cloud and your SIEM/destination. No inbound connectivity is necessary (unless you&rsquo;ve enabled SSH).</p>
+<p>A healthy NSS instance will have two TCP connections in the <code>ESTABLISHED</code> state:</p>
+<pre tabindex="0"><code>[zsroot@NSS ~]$ sudo nss troubleshoot netstat | grep tcp
+//+SHARED MEMORY KEY 17 (/sc/)
+tcp          0(  0%)       69(  0%) 10.0.0.4.2942          104.129.193.102.443   ESTABLISHED
+tcp          0(  0%)        0(  0%) 10.0.0.4.2110          104.129.193.102.443   TIME_WAIT
+</code></pre><p>If you only see one connection, wait a few minutes and check again. If neither connection is in the <code>ESTABLISHED</code> state, or you are still missing a connection, check your firewall and ensure you have reachability to the Zscaler infrastructure. You can check the network requirements for NSS using the links below (select the link corresponding to the Zscaler cloud you have been provisioned on):</p>
+<ul>
+<li><a href="https://ips.zscaler.net/nss">https://ips.zscaler.net/nss</a></li>
+<li><a href="https://ips.zscalerone.net/nss">https://ips.zscalerone.net/nss</a></li>
+<li><a href="https://ips.zscalertwo.net/nss">https://ips.zscalertwo.net/nss</a></li>
+<li><a href="https://ips.zscalerthree.net/nss">https://ips.zscalerthree.net/nss</a></li>
+<li><a href="https://ips.zscloud.net/nss">https://ips.zscloud.net/nss</a></li>
+</ul>
+<p>Return to the ZIA portal, and under <strong>Administration &gt; Nanolog Streaming Service</strong>, the NSS instance you just deployed <em>should</em> now read as <strong>Healthy</strong>:</p>
+<p><img src="19.png" alt="19"></p>
+<hr>
+<h1 id="part-6---add-nss-feeds-to-stream-data">Part 6 - Add NSS Feeds to Stream Data</h1>
+<p>NSS Feeds configured in the ZIA portal explicitly tell your NSS VM instance what data to stream, where to stream it, and in what format it is required.</p>
+<p>Each NSS VM can be configured with up to 8 data feeds.</p>
+<h2 id="1-configure-an-nss-feed">1. Configure an NSS Feed</h2>
+<p>To configure an NSS Feed, go to Administration &gt; Nanolog Streaming Service, then select the <strong>NSS Feeds</strong> tab. Click <strong>Add NSS Feed</strong>.</p>
+<p><img src="20.png" alt="20"></p>
+<p>Fill in the following data when prompted:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>The name of the NSS Feed</td>
+</tr>
+<tr>
+<td>NSS Server</td>
+<td>Which NSS VM is responsible for streaming this feed.</td>
+</tr>
+<tr>
+<td>SIEM Destination Type</td>
+<td>Select whether to use an IP or FQDN (domain) to specify the destination SIEM you would like to stream data to.</td>
+</tr>
+<tr>
+<td>SIEM TCP Port</td>
+<td>The destination TCP port the SIEM expects to receive data on.</td>
+</tr>
+<tr>
+<td>Log Type</td>
+<td>Typically you will want to select Web, but alerts can be streamed in RFC compliant Syslog as well.</td>
+</tr>
+<tr>
+<td>Feed Output Type</td>
+<td>The format (as shown in the window) that the logs will be streamed to the SIEM in (see the note below)</td>
+</tr>
+<tr>
+<td>Filters</td>
+<td>By default, the NSS feed will stream EVERYTHING. You can filter down the data stream to only specific data that you care about using the tabs at the bottom of the configuration window.</td>
+</tr>
+</tbody>
+</table>
+<p><img src="21.png" alt="21"></p>
+<p>Click <strong>Save</strong> when you are done and activate your changes.</p>
+<p>Note that Zscaler has formal <a href="https://www.zscaler.com/partners/technology/siem-analytics">partnerships</a> with several SIEM vendors, and in many cases has co-written deployment guides for them. If you don&rsquo;t see your SIEM listed in the Feed Output Type, check to see if they don&rsquo;t already have an article on Zscaler integration. Failing that, odds are they can probably ingest one of the existing formats; like QRadar LEEF, or Arcsight CEF.</p>
+<p>Zscaler documentation covers how to configure feeds for a variety of features:</p>
+<ul>
+<li><a href="https://help.zscaler.com/zia/adding-nss-feeds-alerts">Adding an NSS Feed for Alerts</a></li>
+<li><a href="https://help.zscaler.com/zia/adding-nss-feeds-dns-logs">Adding NSS Feeds for DNS Logs</a></li>
+<li><a href="https://help.zscaler.com/zia/adding-nss-feeds-firewall-logs">Adding NSS Feeds for Firewall Logs</a></li>
+<li><a href="https://help.zscaler.com/zia/adding-nss-feeds-tunnel-logs">Adding NSS Feeds for Tunnel Logs</a></li>
+<li><a href="https://help.zscaler.com/zia/adding-nss-feeds-web-logs">Adding NSS Feeds for Web Logs</a></li>
+</ul>
+<h2 id="2-configuring-mcas">2. Configuring MCAS</h2>
+<p>If you&rsquo;re looking to integrate with Microsoft Cloud App Security (MCAS), <a href="/posts/integrate-zia-and-mcas">I&rsquo;ve written a detailed guide here</a>.</p>
+<hr>
+<h1 id="finish">Finish</h1>
+<p>You should now have a healthy NSS deployment in Azure.</p>
+<p>If you deployed this for lab or demo purposes, <strong>make sure you don&rsquo;t forget about the running NSS VM!</strong> Ensure you stop and de-allocate resources after you&rsquo;re done so you don&rsquo;t continue to be charged.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/azure">azure</a></span><span class="tag"><a href="https://nathancatania.com/tags/zscaler">zscaler</a></span><span class="tag"><a href="https://nathancatania.com/tags/lab">lab</a></span><span class="tag"><a href="https://nathancatania.com/tags/notes">notes</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>4124 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-06-29</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/integrate-zia-and-mcas/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Integrate Zscaler with Microsoft Cloud App Security (MCAS)</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/pihole-dns-doh/">
+                                <span class="button__text">Configure Pi-Hole DNS &#43; Cloudflare DNS over HTTPS (DoH) on a Raspberry Pi</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.858712b4b19060b33e6a3b52df9749f413894a75772f4d0b4683380c0ce08c6f93623d63068ef5ae4719980bcaa15ad536694c42897b88c4826c6ece21918827.js" integrity="sha512-hYcStLGQYLM&#43;ajtS35dJ9BOJSnV3L00LRoM4DAzgjG&#43;TYj1jBo71rkcZmAvKoVrVNmlMQol7iMSCbG7OIZGIJw=="></script>
+
+
+
+
+    </body>
+</html>

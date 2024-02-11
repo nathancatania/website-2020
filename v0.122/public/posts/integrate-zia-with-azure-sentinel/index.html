@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="map[author:map[bio:Engineer // Melbourne // Australia name:Nathan Catania photo:map[url:avatar.png]] contenttypename:posts dateform:Jan 2, 2006 dateformnum:2006-01-02 dateformnumtime:2006-01-02 15:04 &#43;1000 dateformshort:Jan 2 description:The official website of Nathan Catania &amp;#10003; disablereadotherposts:false enablethemetoggle:true giturl:https://github.com/nathancatania/website/commit/ homesubtitle:Engineer // Melbourne // Australia images:[] keywords:blog, website, official logo:map[logohomelink:/ logotext:$ cd /home/nathan] readotherposts:Read other posts social:[map[name:linkedin url:https://www.linkedin.com/in/nathancatania]] subtitle:Engineer // Melbourne // Australia]">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="This guide will cover how to integrate Zscaler Internet Access (ZIA) with Microsoft&#39;s cloud-based SIEM, Azure Sentinel." />
+<meta name="keywords" content="blog, website, official, azure, sentinel, zscaler, zia, lab, notes" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/" />
+
+
+    <title>
+        
+            Integrate Zscaler with Azure Sentinel :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b851fae37ea32930b5c4996a9ac8737a9d1ab1b40af28b3cd3b0060df9e2f5a3.css" integrity="sha256-uFH6436jKTC1xJlqmshzep0asbQK8os807AGDfni9aM=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Integrate Zscaler with Azure Sentinel">
+<meta itemprop="description" content="This guide will cover how to integrate Zscaler Internet Access (ZIA) with Microsoft&#39;s cloud-based SIEM, Azure Sentinel."><meta itemprop="datePublished" content="2020-08-09T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-08-09T00:00:00+00:00" />
+<meta itemprop="wordCount" content="3184"><meta itemprop="image" content="https://nathancatania.com" />
+<meta itemprop="keywords" content="azure,sentinel,zscaler,zia,lab,notes," />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nathancatania.com" /><meta name="twitter:title" content="Integrate Zscaler with Azure Sentinel"/>
+<meta name="twitter:description" content="This guide will cover how to integrate Zscaler Internet Access (ZIA) with Microsoft&#39;s cloud-based SIEM, Azure Sentinel."/>
+
+
+
+    <meta property="og:title" content="Integrate Zscaler with Azure Sentinel" />
+<meta property="og:description" content="This guide will cover how to integrate Zscaler Internet Access (ZIA) with Microsoft&#39;s cloud-based SIEM, Azure Sentinel." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/" /><meta property="og:image" content="https://nathancatania.com" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-08-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-08-09T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2020-08-09 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                $ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>15 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/">Integrate Zscaler with Azure Sentinel</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#requirements">Requirements</a>
+      <ul>
+        <li><a href="#1-zscaler-nss">1. Zscaler NSS</a></li>
+        <li><a href="#2-azure-subscription--administrator-credentials">2. Azure Subscription + Administrator Credentials</a></li>
+      </ul>
+    </li>
+    <li><a href="#configure-sentinel">Configure Sentinel</a>
+      <ul>
+        <li><a href="#1-create-the-data-connector-vm">1. Create the Data Connector VM</a>
+          <ul>
+            <li><a href="#create-a-new-virtual-machine">Create a new Virtual Machine</a></li>
+            <li><a href="#connect-to-the-data-connector-vm">Connect to the Data Connector VM</a></li>
+            <li><a href="#troubleshooting-vm-connectivity">Troubleshooting VM Connectivity</a></li>
+          </ul>
+        </li>
+        <li><a href="#2-optional-create-a-sentinel-instance">2. (Optional) Create a Sentinel Instance</a></li>
+        <li><a href="#3-configure-the-zscaler-connector--data-connector-vm">3. Configure the Zscaler Connector &amp; Data Connector VM</a>
+          <ul>
+            <li><a href="#copy-the-configuration-command">Copy the Configuration Command</a></li>
+            <li><a href="#configure-the-data-connector-vm">Configure the Data Connector VM</a></li>
+            <li><a href="#verifying-connectivity">Verifying Connectivity</a></li>
+            <li><a href="#troubleshooting">Troubleshooting</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#configure-the-zscaler-log-feeds">Configure the Zscaler Log Feeds</a>
+      <ul>
+        <li><a href="#add-a-new-nss-feed">Add a New NSS Feed</a></li>
+        <li><a href="#optional-check-nss">(Optional) Check NSS</a></li>
+      </ul>
+    </li>
+    <li><a href="#examine-the-data">Examine the Data</a></li>
+    <li><a href="#finish">Finish</a></li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+                <img src="banner.png" class="post-cover" />
+            
+
+            <div class="post-content">
+                <p>Azure Sentinel is a cloud-based SIEM solution by Microsoft. Zscaler Internet Access (ZIA) integrates with a wide variety of SIEM solutions, and Sentinel is no different. In this guide, we&rsquo;ll walk through how to configure ZIA to send logs in real-time to Sentinel.</p>
+<blockquote>
+<p><strong>Caution!</strong> Be very careful if you&rsquo;re deploying this as part of a demo or lab environment as the costs we will incur can ramp up quickly! You will incur charges for one new VM as part of this guide (in addition to an existing NSS VM if you also deployed it in Azure), PLUS data ingestion charges for an Azure Sentinel workspace.</p>
+</blockquote>
+<h1 id="requirements">Requirements</h1>
+<h2 id="1-zscaler-nss">1. Zscaler NSS</h2>
+<p>To stream Zscaler logs to Sentinel, you will need to have deployed Zscaler&rsquo;s Nanolog Streaming Service (NSS) VM and configured it in the ZIA admin portal. This will allow you to stream logs from Zscaler&rsquo;s logging clusters (called Nanolog) towards a SIEM or product of your choice (in this case, Sentinel).</p>
+<p><strong>Nanolog Streaming Service</strong> is an option under the Administration panel in ZIA. If you don&rsquo;t see it there, check that your subscription contains the NSS feature.</p>
+<p>You can deploy the VM for NSS on-prem (available as an OVA image) or in AWS or Azure. <strong>For Sentinel integration, I  strongly recommend you deploy NSS in Azure</strong>: you can <a href="/posts/deploy-zscaler-nss-in-azure/">review my guide on how to do so here</a>. Zscaler documentation is available for <a href="https://help.zscaler.com/zia/nss-deployment-guide-vmware-vsphere">VMware</a> and <a href="https://help.zscaler.com/zia/nss-deployment-guide-amazon-web-services">AWS</a>.</p>
+<p>Your NSS VM must have a state of <strong>Healthy</strong> to be able to integrate with Sentinel.</p>
+<p><img src="0.png" alt="0"></p>
+<blockquote>
+<p>Why do I need to deploy a VM to stream logs to a SIEM? Can&rsquo;t Zscaler just send logs to my SIEM directly?</p>
+</blockquote>
+<p>Your logs are stored in Zscaler&rsquo;s Nanolog clusters in a highly compressed and encoded format. For security reasons, the logging cluster has no mechanism to decode these before they are sent. The NSS VM connects to both the Nanolog cluster and the Zscaler control plane, grabs the logs, decodes them, and forwards them to your SIEM over a TCP connection.</p>
+<h2 id="2-azure-subscription--administrator-credentials">2. Azure Subscription + Administrator Credentials</h2>
+<p>As part of this guide, we will be creating a small VM that will ingest our logs into Sentinel, and a Log Analytics Workspace to store our ingested data. Both of these will result in billable charges (VM running costs + storage for the logs), hence you will need an active Azure billing subscription and administrator access to your Azure Portal.</p>
+<h1 id="configure-sentinel">Configure Sentinel</h1>
+<p>In this section, we will cover the Azure-specific configuration required for Sentinel integration; including:</p>
+<ul>
+<li>Deploying a Data Connector VM</li>
+<li>Creating &amp; Configuring a Sentinel Instance</li>
+<li>Configuring the Zscaler Connector in Sentinel</li>
+</ul>
+<h2 id="1-create-the-data-connector-vm">1. Create the Data Connector VM</h2>
+<p>In order to ingest Zscaler logs into Sentinel, we need to deploy a &ldquo;Data Connector VM&rdquo;. This VM will run the Microsoft agent required to send log messages to Sentinel and will be the destination to which we will stream the Zscaler logs from NSS.</p>
+<blockquote>
+<p>Why do I need all these VMs? First I had to deploy NSS, and now I need this Data Connector VM! Why can&rsquo;t I just send logs straight from Zscaler to Azure Sentinel?</p>
+</blockquote>
+<p>I talked briefly about why NSS is required for log streaming above. Think of it as an intermediate log gateway.</p>
+<p>NSS forwards the uncompressed logs via a TCP connection towards one or more destinations (as defined by you in the ZIA portal). Sentinel doesn&rsquo;t have an open endpoint that you can stream to, hence we need to create one in the form of the Data Connector VM.</p>
+<h3 id="create-a-new-virtual-machine">Create a new Virtual Machine</h3>
+<p>To start, from the Azure Portal, search for or select <strong>Virtual Machines</strong>.</p>
+<p><img src="1.png" alt="1"></p>
+<p>Click <strong>Add</strong> to create a new <strong>Virtual Machine</strong>.</p>
+<p><img src="2.png" alt="2"></p>
+<p>On the next screen, populate the basic info for your new VM.</p>
+<ul>
+<li>For the Image / OS, select the latest Ubuntu Server LTS version (currently 18.04 LTS).</li>
+<li>For the VM size, you shouldn&rsquo;t need anything too big. I used <strong>Standard B2s</strong>, which provides 2 vCPUs and 4GB memory.
+<ul>
+<li>If you are expecting data from a large number of users, I would pick a size with 8GB memory (or 16GB if you have more than 45,000 users in your organization).</li>
+</ul>
+</li>
+<li>If you deployed your NSS instance in Azure (and I highly recommend that you do), you should try and use the same Resource Group and vNet as the NSS VM.</li>
+<li><strong>Note down the username for the VM</strong> as you will be unable to connect to the VM later on without this. You can change this to whatever you like.</li>
+</ul>
+<p>My basic settings are shown in the screenshot below:</p>
+<p><img src="3.png" alt="3"></p>
+<p>For disks:</p>
+<ul>
+<li>You won&rsquo;t need a great deal of disk space and shouldn&rsquo;t need any additional data disks beyond the OS disk.</li>
+<li>I would definitely recommend an SSD over HDD for the faster IO as the VM will be handling logs.</li>
+</ul>
+<p>For Networking:</p>
+<ul>
+<li>If you deployed your NSS VM in Azure, try and use the same vNet and Subnet for the Data Connector VM as the NSS Service Interface.</li>
+<li>The data connector <strong>must</strong> have <strong>TCP 514 open inbound</strong>. You will want to restrict this to only accept connections from the source IP of your NSS VM. If you deployed NSS in Azure, this will the private IP of the <strong>service interface of the NSS VM</strong>; most likely a 10.0.0.0/24 address.</li>
+<li>You may also want to enable inbound access on port 22 from your own source IP so you can SSH to and configure the VM.</li>
+</ul>
+<p>On the <strong>Networking</strong> tab, select <strong>Advanced</strong> for <strong>NIC network security group</strong>, and then click <strong>Create new</strong>, to create a new Network Security Group (NSG).</p>
+<p><img src="4.png" alt="4"></p>
+<p>If you&rsquo;re not familiar with NSGs, think of them as a firewall. We&rsquo;re going to define rules to allow/deny connectivity to and from our VM.</p>
+<p>In the screenshot below, I&rsquo;ve created 3 rules:</p>
+<ul>
+<li>Permit inbound SSH access from my own IP address to the Data Connector VM.
+<ul>
+<li>There should be a default SSH rule already, but you may want to modify it to restrict access from your own source IP address. Else, anyone will be able to hit your VM on port 22.</li>
+</ul>
+</li>
+<li>Permit inbound connectivity on TCP port 514 from the source IP of my NSS VM&rsquo;s service interface (10.0.0.4 in the example screenshot below).
+<ul>
+<li>This rule is absolutely <strong>critical</strong> if you want Sentinel integration to work.</li>
+</ul>
+</li>
+<li>Permit outbound connectivity to all destinations for internet access on the VM.
+<ul>
+<li>NSGs should have a default outbound rule already, but in the example below I explicitly created the rule for illustration purposes.</li>
+</ul>
+</li>
+</ul>
+<p><img src="5.png" alt="5"></p>
+<p>Once you&rsquo;ve configured your NSG, save and create your VM once you&rsquo;re satisfied with the rest of your settings. Once provisioned, you will see the Data Connector VM running alongside any existing VMs in your portal:</p>
+<p><img src="7.png" alt="7"></p>
+<h3 id="connect-to-the-data-connector-vm">Connect to the Data Connector VM</h3>
+<p>We will SSH to our new VM to verify connectivity and prepare it for the configuration package to be installed later.</p>
+<pre tabindex="0"><code>ssh &lt;username&gt;@&lt;DataConnectorVM-IP&gt;
+
+...
+Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 5.3.0-1032-azure x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+ 
+nathan@SentinelDataConnector:~$
+</code></pre><p>First, check you have connectivity to the internet:</p>
+<pre tabindex="0"><code>nathan@SentinelDataConnector:~$ ping 1.1.1.1
+...
+PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=56 time=1.26 ms
+
+--- 1.1.1.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 1.261/1.261/1.261/0.000 ms
+</code></pre><p>Next, check you have connectivity to the NSS VM (specifically the service interface). For me, this is 10.0.0.4 in the same vNet:</p>
+<pre tabindex="0"><code>nathan@SentinelDataConnector:~$ ping 10.0.0.4
+...
+PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=64 time=1.40 ms
+^C
+--- 10.0.0.4 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 1.408/1.408/1.408/0.000 ms
+</code></pre><p>Lastly, fetch the latest updates for the VM and install them. Reboot the VM when you&rsquo;re finished for good measure.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nathan@SentinelDataConnector:~$ sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get dist-upgrade
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>nathan@SentinelDataConnector:~$ sudo reboot
+</span></span></code></pre></div><h3 id="troubleshooting-vm-connectivity">Troubleshooting VM Connectivity</h3>
+<p>If you can&rsquo;t SSH to your VM, have no outbound/internet connectivity, or can&rsquo;t reach the NSS VM, then your first point of  call should be checking the Network Security Group you assigned to the VM.</p>
+<p>You can edit the NSG by searching for &ldquo;Network Security Groups&rdquo; in the Azure Portal. Select your NSG, and alter or add to the inbound and outbound rules as required.</p>
+<p><img src="6.png" alt="6"></p>
+<p>For SSH, you must enable destination port TCP 22 in the inbound direction. If you&rsquo;re restricting this to your source IP, you could temporarily open this up to any IP, but I would revert this once you gain connectivity as this exposes the VM to the broader internet. If you&rsquo;re still having issues connecting via SSH, check that the IP assigned to the VM is correct, wait a little bit longer for the VM to finish booting (although this should be quick), or restart the VM from the Azure Virtual Machines menu.</p>
+<p>For connectivity to the NSS VM: If you&rsquo;ve deployed the NSS VM in Azure, connectivity should be covered by the default<code>AllowVnetOutBound</code> outbound rule, although you may wish to explicitly define a rule restricting TCP 514 from the source IP of the NSS VM only.</p>
+<p>Allowing internet access should be one of the default outbound rules, <code>AllowInternetOutBound</code>, but you should verify this rule is set to <code>Allow</code> and is above the <code>DenyAllOutBound</code> rule.</p>
+<p>Rule order matters when working with NSGs. Rules are evaluated top-to-bottom and on a &ldquo;first match&rdquo; basis. Your own rules should all have low priority values so that they don&rsquo;t get overwritten by the default rules at the bottom of the list. Specifically, make sure the priority of your rules is <strong>less than</strong> 65000.</p>
+<h2 id="2-optional-create-a-sentinel-instance">2. (Optional) Create a Sentinel Instance</h2>
+<p>Once the Data Connector VM has been configured we can move on to creating a Sentinel Instance. If you already have an existing Sentinel Instance, you can skip this step.</p>
+<p>In your Azure Portal, search for &ldquo;<strong>Azure Sentinel</strong>&rdquo;.</p>
+<p><img src="8.png" alt="8"></p>
+<p>Click <strong>Add</strong> to connect a new workspace.</p>
+<p><img src="9.png" alt="9"></p>
+<p>Click <strong>Create a new workspace</strong>.</p>
+<p><img src="10.png" alt="10"></p>
+<p>On the next screen, select a Resource Group, region, and give your workspace a globally unique name. When you&rsquo;re ready, review your config and create the workspace.</p>
+<p><img src="11.png" alt="11"></p>
+<p>You should now see your new workspace listed under your Azure Sentinel workspaces (if you&rsquo;ve lost this screen, simply search for the &ldquo;Azure Sentinel&rdquo; app again at the top of the Azure Portal).</p>
+<h2 id="3-configure-the-zscaler-connector--data-connector-vm">3. Configure the Zscaler Connector &amp; Data Connector VM</h2>
+<p>In this section, we will enable the Zscaler Connector for Azure Sentinel and copy the config needed by the Data Connector VM.</p>
+<h3 id="copy-the-configuration-command">Copy the Configuration Command</h3>
+<p>Select your workspace from your list of Sentinel workspaces (if you&rsquo;ve lost this screen, simply search for the &ldquo;Azure Sentinel&rdquo; app again at the top of the Azure Portal).</p>
+<p><img src="12.png" alt="12"></p>
+<p>Under <strong>Configuration</strong> in the left-side menu of your Sentinel workspace, select <strong>Data connectors</strong>.</p>
+<p><img src="13.png" alt="13"></p>
+<p>In the search box, type &ldquo;<strong>Zscaler</strong>&rdquo; to filter down the list of available data connectors. Select the <strong>Zscaler</strong> connector and click <strong>Open connector page</strong> to add and configure it.</p>
+<p><img src="14.png" alt="14"></p>
+<p>Under the <strong>Configuration</strong> section, copy the command highlighted in the screenshot below (this is unique to your Sentinel instance).</p>
+<p><img src="15.png" alt="15"></p>
+<h3 id="configure-the-data-connector-vm">Configure the Data Connector VM</h3>
+<p>Connect back to the Data Connector VM you provisioned earlier:</p>
+<pre tabindex="0"><code>ssh &lt;username&gt;@&lt;DataConnectorVM-IP&gt;
+
+...
+nathan@SentinelDataConnector:~$
+</code></pre><p>Paste in and execute the command you copied above from the Zscaler Connector configuration page:</p>
+<pre tabindex="0"><code>nathan@SentinelDataConnector:~$ sudo wget https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/DataConnectors/CEF/cef_installer.py&amp;&amp;sudo python cef_installer.py [snip]
+...
+...
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.28.133
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.28.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+...
+...
+Restarting rsyslog daemon.
+sudo service rsyslog restart
+Rsyslog daemon restarted successfully
+Trying to restart omsagent
+Omsagent restarted successfully
+Installation completed
+nathan@SentinelDataConnector:~$ 
+</code></pre><p>Note: I&rsquo;ve included part of the command above as an example. Don&rsquo;t copy and paste this though as it won&rsquo;t work for you. Copy and paste it from the config page of the Zscaler Connector - the command contains a token that is unique to you.</p>
+<h3 id="verifying-connectivity">Verifying Connectivity</h3>
+<p>If everything was installed and is running correctly, the Data Connector VM should be listening on TCP 514:</p>
+<pre tabindex="0"><code>root@SentinelDataConnector:~# netstat -lnpt
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address      Foreign Address    State       PID/Program name    
+tcp        0      0 127.0.0.1:25226    0.0.0.0:*          LISTEN      107202/ruby         
+tcp        0      0 0.0.0.0:25324      0.0.0.0:*          LISTEN      107202/ruby         
+tcp        0      0 127.0.0.53:53      0.0.0.0:*          LISTEN      97325/systemd-resol 
+tcp        0      0 0.0.0.0:22         0.0.0.0:*          LISTEN      1617/sshd           
+tcp        0      0 0.0.0.0:514        0.0.0.0:*          LISTEN      107103/rsyslogd     
+</code></pre><p>You may need to run the above as the <code>root</code> user to see the program name.</p>
+<p>You should also see the Azure collector agent running (as two ruby scripts).</p>
+<h3 id="troubleshooting">Troubleshooting</h3>
+<p>Back on the Zscaler Connector page, there is a second command available to troubleshoot the data connector and Azure collection scripts. Scroll down and copy/paste the second command at the bottom of the page.</p>
+<p><img src="16.png" alt="16"></p>
+<p>This will check connectivity and restart the rsyslog and collection processes.</p>
+<h1 id="configure-the-zscaler-log-feeds">Configure the Zscaler Log Feeds</h1>
+<p>If you have reached this point without issue, well done! We&rsquo;re almost there! In this section, we&rsquo;ll configure the NSS log feed required to send data to Sentinel.</p>
+<p>An NSS log feed specifies the data you wish to stream from Nanolog: You can stream everything, or filter the data to only receive what you care about (security events, information relating to a specific user, etc).</p>
+<p>Note that there are two types of NSS VM deployments: One dedicated to Web Logs, and the other dedicated to Firewall Logs. You pick the type when you first deploy an NSS VM. While Sentinel can ingest both web and firewall logs, this guide will only focus on web logs. To stream firewall logs, you will need to deploy a second NSS VM and associate it with the <strong>Firewall</strong> log type. A single NSS instance can only stream one type of logs: either web or firewall; not both.</p>
+<p>Streaming both types of logs to Sentinel is recommended to give you the biggest dataset to work with. If you decide to go down this path, only a single instance of the Data Connector VM is needed, although you may also wish to deploy a second one to keep a logical separation between log streaming components (and to help with scale if you are a larger organization).</p>
+<h2 id="add-a-new-nss-feed">Add a New NSS Feed</h2>
+<p>In your ZIA portal, navigate to <strong>Administration &gt; Nanolog Streaming Service</strong>.</p>
+<p><img src="17.png" alt="17"></p>
+<p>Select the <strong>NSS Feeds</strong> tab, then select <strong>Add NSS Feed</strong>.</p>
+<p><img src="18.png" alt="18"></p>
+<p>Fill in the feed details as per the below table:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feed Name</td>
+<td>Unique name for the feed, eg: &ldquo;Azure Sentinel&rdquo;</td>
+</tr>
+<tr>
+<td>NSS Server</td>
+<td>The NSS VM that will be responsible for fetching and streaming the logs for this feed. Ideally, this should be deployed in Azure as a VM.</td>
+</tr>
+<tr>
+<td>SIEM IP Address</td>
+<td><strong>The IP address of the Data Connector VM.</strong> Mine was in the same vNet as my NSS VM and was set to 10.0.0.5.</td>
+</tr>
+<tr>
+<td>SIEM TCP Port</td>
+<td>The TCP port to stream the logs to. Set this to port <strong>514</strong>.</td>
+</tr>
+<tr>
+<td>Log Type</td>
+<td>This field will vary depending on the type of NSS VM you have associated (ie: Web or Firewall log streaming). Ensure <strong>Web Log</strong> is selected if you are using an NSS for Web VM.</td>
+</tr>
+<tr>
+<td>Feed Output Type</td>
+<td><strong>Custom</strong></td>
+</tr>
+</tbody>
+</table>
+<p><img src="19.png" alt="19"></p>
+<p>Ensure the Feed Output type is set to <strong>Custom</strong>. In the <strong>Feed Output Format</strong> text field, delete any pre-populated template, and paste in one of the following.</p>
+<p>For Web logs:</p>
+<pre tabindex="0"><code>%s{mon} %02d{dd} %02d{hh}:%02d{mm}:%02d{ss} zscaler-nss
+CEF:0|Zscaler|NSSWeblog|5.7|%s{action}|%s{reason}|3| act=%s{action}
+reason=%s{reason} app=%s{proto} dhost=%s{ehost} dst=%s{sip} src=%s{cintip}
+sourceTranslatedAddress=%s{cip} in=%d{respsize} out=%d{reqsize}
+request=%s{eurl} requestContext=%s{ereferer} outcome=%s{respcode}
+requestClientApplication=%s{ua} requestMethod=%s{reqmethod}
+suser=%s{login} spriv=%s{location} externalId=%d{recordid}
+fileType=%s{filetype} destinationServiceName=%s{appname} cat=%s{urlcat}
+deviceDirection=1 cn1=%d{riskscore} cn1Label=riskscore cs1=%s{dept}
+cs1Label=dept cs2=%s{urlcat} cs2Label=urlcat cs3=%s{malwareclass}
+cs3Label=malwareclass cs4=%s{malwarecat} cs4Label=malwarecat
+cs5=%s{threatname} cs5Label=threatname cs6=md5hash cs6Label=%s{bamd5}
+rulelabel=%s{rulelabel} ruletype=%s{ruletype} urlclass=%s{urlclass}
+devicemodel=%s{devicemodel}\n
+</code></pre><p>For Firewall logs:</p>
+<pre tabindex="0"><code>%s{mon} %02d{dd} %02d{hh}:%02d{mm}:%02d{ss} zscaler-nss-fw
+CEF:0|Zscaler|NSSFWlog|5.7|%s{action}|%s{rulelabel}|3| act=%s{action}
+suser=%s{login} src=%s{csip} spt=%d{csport} dst=%s{cdip} dpt=%d{cdport}
+deviceTranslatedAddress=%s{ssip} deviceTranslatedPort=%d{ssport}
+destinationTranslatedAddress=%s{sdip} destinationTranslatedPort=%d{sdport}
+sourceTranslatedAddress=%s{tsip} sourceTranslatedPort=%d{tsport}
+proto=%s{ipproto} tunnelType=%s{ttype} dnat=%s{dnat} stateful=%s{stateful}
+spriv=%s{location} reason=%s{rulelabel} in=%ld{inbytes} out=%ld{outbytes}
+deviceDirection=1 cs1=%s{dept} cs1Label=dept cs2=%s{nwsvc}
+cs2Label=nwService cs3=%s{nwapp} cs3Label=nwApp cs4=%s{aggregate}
+cs4Label=aggregated cs5=%s{threatcat} cs5Label=threatcat
+cs6=%s{threatname} cs6label=threatname cn1=%d{durationms}
+cn1Label=durationms cn2=%d{numsessions} cn2Label=numsessions
+cs5Label=ipCat cs5=%s{ipcat} destCountry=%s{destcountry}
+avgduration=%d{avgduration}\n
+</code></pre><p>Scroll to the bottom of the window to define filters for the data (if required). By default, everything will be streaming to Sentinel.</p>
+<p>When you have finished, click <strong>Save</strong> and <strong>Activate</strong> your changes.</p>
+<h2 id="optional-check-nss">(Optional) Check NSS</h2>
+<p>You may want to log into the NSS VM and check that it has picked up the new feed. NSS will usually take under 5-10 minutes to pick up the feed, but in some circumstances, this can take up to an hour.</p>
+<p>SSH or connect to your NSS VM, and run the following command to check the feed status:</p>
+<pre tabindex="0"><code>[zsroot@NSS ~]$ sudo nss troubleshoot feeds
+...
+NSS is live 
+Currently active feeds: 1
+Feed name: Azure Sentinel:
+  Connection Status:
+	[10.0.0.4:9471 -&gt; 10.0.0.5:514] : Stable
+  Other health checks:
+	Feed is stable. No suspicious events detected.
+</code></pre><p>Note that this command may take a few minutes to run.</p>
+<p>Here we can see that the feed called <code>Azure Sentinel</code> that I created above has been picked up by my NSS VM; and is in an active and stable state. The Service Interface of my NSS VM has an IP of 10.0.0.4. My Data Connector VM has an IP of 10.0.0.5, and we can see the NSS VM sending data to this IP on TCP 514; exactly as we configured the feed to.</p>
+<h1 id="examine-the-data">Examine the Data</h1>
+<p>There are 4 workbook templates available in Sentinel that can be used to explore and visualize the data obtained from Zscaler:</p>
+<table>
+<thead>
+<tr>
+<th>Workbook</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zscaler Firewall</td>
+<td>Explore all cloud firewall activity in your Zscaler instance including non-web related networking events, security events, firewall rules, and bandwidth consumption.</td>
+</tr>
+<tr>
+<td>Zscaler Office 365 Apps</td>
+<td>Explore the Microsoft apps running on your network and their bandwidth consumption. It also helps identify phishing attempts in which attackers disguised themselves as Microsoft services.</td>
+</tr>
+<tr>
+<td>Zscaler Threats</td>
+<td>Visualize your threat landscape including blocked malware, IPS/AV rules, and blocked cloud apps. Threats are displayed by threat categories, filetypes, inbound vs outbound threats, usernames, user location, and more.</td>
+</tr>
+<tr>
+<td>Zscaler Web Overview</td>
+<td>Visualize security and networking events related to web transactions, types of devices, and bandwidth consumption.</td>
+</tr>
+</tbody>
+</table>
+<p>In your Sentinel instance, select <strong>Workbooks</strong> from the left-side menu, and search for <strong>Zscaler</strong>.</p>
+<p><img src="20.png" alt="20"></p>
+<p>Select a workbook, and click <strong>View Template</strong> to explore your data. Click <strong>Save</strong> to create a copy of the workbook template.</p>
+<p><img src="21.png" alt="21"></p>
+<p>If you&rsquo;re not seeing any data populate into the workbook, check your NSS VM as per the above section. In rare circumstances, it can take up to an hour for the feed to be picked up by NSS once defined in the ZIA portal.</p>
+<p>You should also verify that your Network Services Group applied to the NSS and Data Connector VMs permits the two to talk. The Data Connector VM requires an <strong>inbound</strong> rule on port 514, otherwise the traffic will be blocked by default.</p>
+<blockquote>
+<p><strong>Caution!</strong> If you are running this in a lab environment, you will be racking up three sets of charges: The NSS VM (if you deployed it in Azure), the Data Connector VM, and charges to ingest the logs into Azure Sentinel. You may wish to toggle the VMs on and off as needed to avoid racking up large usage charges!</p>
+</blockquote>
+<h1 id="finish">Finish</h1>
+<p>Congratulations! You have now integrated Zscaler Internet Access with your Azure Sentinel SIEM instance!</p>
+<p>If you deployed this for lab or demo purposes, <strong>make sure you don&rsquo;t forget about the running NSS and Data Connector VMs!</strong> Ensure you stop and de-allocate resources after you&rsquo;re done so you don&rsquo;t continue to be charged.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/azure">azure</a></span><span class="tag"><a href="https://nathancatania.com/tags/sentinel">sentinel</a></span><span class="tag"><a href="https://nathancatania.com/tags/zscaler">zscaler</a></span><span class="tag"><a href="https://nathancatania.com/tags/zia">zia</a></span><span class="tag"><a href="https://nathancatania.com/tags/lab">lab</a></span><span class="tag"><a href="https://nathancatania.com/tags/notes">notes</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>3184 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-08-09</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/deploy-zapp-with-intune/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Deploy Zscaler Client Connector with Intune (Windows &amp; macOS)</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/integrate-zia-and-mcas/">
+                                <span class="button__text">Integrate Zscaler with Microsoft Cloud App Security (MCAS)</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.858712b4b19060b33e6a3b52df9749f413894a75772f4d0b4683380c0ce08c6f93623d63068ef5ae4719980bcaa15ad536694c42897b88c4826c6ece21918827.js" integrity="sha512-hYcStLGQYLM&#43;ajtS35dJ9BOJSnV3L00LRoM4DAzgjG&#43;TYj1jBo71rkcZmAvKoVrVNmlMQol7iMSCbG7OIZGIJw=="></script>
+
+
+
+
+    </body>
+</html>

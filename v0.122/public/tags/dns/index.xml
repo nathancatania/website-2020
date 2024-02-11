@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dns on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/dns/</link>
+    <description>Recent content in dns on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 22 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/dns/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Configure Pi-Hole DNS &#43; Cloudflare DNS over HTTPS (DoH) on a Raspberry Pi</title>
+      <link>https://nathancatania.com/posts/pihole-dns-doh/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/pihole-dns-doh/</guid>
+      <description>Block ads, trackers, and malware from any local device without having to use an ad-blocker; while securing your DNS traffic at the same time - sounds good!&#xA;First, what is Pi-Hole? According to Jacob Salmela, the creator of Pi-Hole:&#xA;Pi-hole is a network-wide ad blocker. Instead of installing adblockers on every device and every browser, you can install Pi-hole once on your network, and it will protect all of your devices.</description>
+    </item>
+  </channel>
+</rss>

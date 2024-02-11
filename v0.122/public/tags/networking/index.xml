@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>networking on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/networking/</link>
+    <description>Recent content in networking on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 15 Dec 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/networking/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy a multi-node, multi-server Kafka Cluster with Docker</title>
+      <link>https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/</link>
+      <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/</guid>
+      <description>What is Kafka? Essentially:&#xA;Kafka is an open-source, very scalable, distributed messaging platform by Apache. It is designed to handle large volumes of data in real-time efficiently.&#xA;Kafka works on the concept of a &amp;ldquo;publish-subscribe&amp;rdquo; methodology:&#xA;&amp;ldquo;Producers&amp;rdquo; will push content to the Kafka cluster, to a destination &amp;ldquo;topic&amp;rdquo;. A Kafka cluster is managed by Zookeeper, and can contain one or more &amp;ldquo;Brokers&amp;rdquo;. Brokers manage topics and the associated ingress and egress messages.</description>
+    </item>
+  </channel>
+</rss>

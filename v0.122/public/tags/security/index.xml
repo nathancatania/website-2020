@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>security on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/security/</link>
+    <description>Recent content in security on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Jul 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Insecure Kubernetes for Evaluation Purposes</title>
+      <link>https://nathancatania.com/posts/insecure-kubernetes-for-evaluation-purposes/</link>
+      <pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/insecure-kubernetes-for-evaluation-purposes/</guid>
+      <description>&amp;nbsp; Heads Up!&#xA;This document is a draft &amp;amp; is pending spelling and grammar corrections + citations. This is a quick document that covers my own notes and the steps to follow to deploy an app (Rocket.Chat) using managed Kubernetes in AWS (Amazon Elastic Kubernetes Service, EKS), delibrately in an insecure manner, for the purposes of evaluating the workload security offerings of cloud security vendors.&#xA;This document will cover the deployment of a containerised public facing web service leveraging Kubernetes; specicially Amazon&amp;rsquo;s managed Kubernetes service: EKS (Elastic Kubernetes Service).</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="map[author:map[bio:Engineer // Melbourne // Australia name:Nathan Catania photo:map[url:avatar.png]] contenttypename:posts dateform:Jan 2, 2006 dateformnum:2006-01-02 dateformnumtime:2006-01-02 15:04 &#43;1000 dateformshort:Jan 2 description:The official website of Nathan Catania &amp;#10003; disablereadotherposts:false enablethemetoggle:true giturl:https://github.com/nathancatania/website/commit/ homesubtitle:Engineer // Melbourne // Australia images:[] keywords:blog, website, official logo:map[logohomelink:/ logotext:$ cd /home/nathan] readotherposts:Read other posts social:[map[name:linkedin url:https://www.linkedin.com/in/nathancatania]] subtitle:Engineer // Melbourne // Australia]">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="This post covers my notes for deploying an app using Kubernetes insecurely for the purposes of evaluating cloud security services." />
+<meta name="keywords" content="blog, website, official, notes, aws, kubernetes, k8s, security" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/insecure-kubernetes-for-evaluation-purposes/" />
+
+
+    <title>
+        
+            Insecure Kubernetes for Evaluation Purposes :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b851fae37ea32930b5c4996a9ac8737a9d1ab1b40af28b3cd3b0060df9e2f5a3.css" integrity="sha256-uFH6436jKTC1xJlqmshzep0asbQK8os807AGDfni9aM=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Insecure Kubernetes for Evaluation Purposes">
+<meta itemprop="description" content="This post covers my notes for deploying an app using Kubernetes insecurely for the purposes of evaluating cloud security services."><meta itemprop="datePublished" content="2023-07-24T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-07-24T00:00:00+00:00" />
+<meta itemprop="wordCount" content="7314"><meta itemprop="image" content="https://nathancatania.com" />
+<meta itemprop="keywords" content="notes,aws,kubernetes,k8s,security," />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nathancatania.com" /><meta name="twitter:title" content="Insecure Kubernetes for Evaluation Purposes"/>
+<meta name="twitter:description" content="This post covers my notes for deploying an app using Kubernetes insecurely for the purposes of evaluating cloud security services."/>
+
+
+
+    <meta property="og:title" content="Insecure Kubernetes for Evaluation Purposes" />
+<meta property="og:description" content="This post covers my notes for deploying an app using Kubernetes insecurely for the purposes of evaluating cloud security services." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/insecure-kubernetes-for-evaluation-purposes/" /><meta property="og:image" content="https://nathancatania.com" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-07-24T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-07-24 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                $ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>35 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/insecure-kubernetes-for-evaluation-purposes/">Insecure Kubernetes for Evaluation Purposes</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#10---setup-infrastructure">1.0 - Setup Infrastructure</a>
+          <ul>
+            <li><a href="#11---aws-cli--kubectl">1.1 - AWS CLI &amp; <code>kubectl</code></a></li>
+            <li><a href="#12---deploy-ubuntu-server-1604">1.2 - Deploy Ubuntu Server (16.04)</a></li>
+            <li><a href="#13---deploy-mongodb-445">1.3 - Deploy MongoDB (4.4.5)</a></li>
+            <li><a href="#14---configure-an-amazon-eks-cluster">1.4 - Configure an Amazon EKS Cluster</a></li>
+            <li><a href="#14---create-a-public-amazon-s3-bucket">1.4 - Create a Public Amazon S3 Bucket</a></li>
+            <li><a href="#15---deploy-a-public-web-app-rocketchat">1.5 - Deploy a Public Web App (Rocket.Chat)</a></li>
+          </ul>
+        </li>
+        <li><a href="#20---weakening-security">2.0 - Weakening Security</a>
+          <ul>
+            <li><a href="#21---configure-containers-as-cluster-admin">2.1 - Configure containers as cluster-admin</a></li>
+            <li><a href="#22---set-the-mongodb-vm-to-have-elevated-privileges">2.2 - Set the MongoDB VM to have elevated privileges</a></li>
+            <li><a href="#23---store-a-set-of-credentials-insecurely">2.3 - Store a set of credentials insecurely</a></li>
+            <li><a href="#24---configure-mongodb-to-backup-to-the-public-s3-bucket">2.4 - Configure MongoDB to Backup to the Public S3 Bucket</a></li>
+          </ul>
+        </li>
+        <li><a href="#finish">Finish</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+
+            <div class="post-content">
+                <div class="bd-callout bd-callout-info">
+    <strong class="text-info">
+        <i class="bi bi-info-circle-fill text-primary"></i>&nbsp; 
+        
+        Heads Up!<br>
+    </strong>
+This document is a draft &amp; is pending spelling and grammar corrections + citations.
+</div>
+
+<p>This is a quick document that covers my own notes and the steps to follow to deploy an app (Rocket.Chat) using managed Kubernetes in AWS (Amazon Elastic Kubernetes Service, EKS), <strong>delibrately in an insecure manner</strong>, for the purposes of evaluating the workload security offerings of cloud security vendors.</p>
+<p>This document will cover the deployment of a containerised public facing web service leveraging Kubernetes; specicially Amazon&rsquo;s managed Kubernetes service: EKS (Elastic Kubernetes Service). As part of this exercise, MongoDB and AWS S3 will also be used and configured insecurely.</p>
+<p>In terms of methodology, this document will cover the setup of all services using the AWS Management Console (where possible) and NOT via CLI. Almost all of these steps can be replaced and done more succinctly using a combination of the AWS CLI and <code>eksctl</code>.</p>
+<div class="bd-callout bd-callout-danger">
+    <strong class="text-danger">
+        <i class="bi bi-x-octagon-fill"></i>&nbsp; 
+        
+        Warning!<br>
+    </strong>
+<strong>This exercise delibrately deploys these services in an insecure manner in order to showcase and test the security capabilities of cloud security service providers</strong>. Do not follow this guide for a production deployment or in a non-isolated environment.
+</div>
+
+<hr>
+<h2 id="10---setup-infrastructure">1.0 - Setup Infrastructure</h2>
+<p>In this section we will deploy the infrastructure and services required for the project. This includes:</p>
+<ul>
+<li>A VM running an outdated version of Ubuntu Server (Ubuntu Server 16.04).</li>
+<li>An outdated version of MongoDB running on the aforementioned VM (MongoDB Community Edition 4.4.5).</li>
+<li>An Amazon EKS Cluster in the same VPC as the above VM.</li>
+<li>An Amazon S3 storage bucket configured for Public Read access.</li>
+<li>A containized web application that leverages MongoDB as a database (Rocket.Chat)</li>
+</ul>
+<h3 id="11---aws-cli--kubectl">1.1 - AWS CLI &amp; <code>kubectl</code></h3>
+<p>To begin, we need to ensure that we have two CLI tools on our machine to allow us to interact with our Kubernetes cluster once we have set it up:</p>
+<ol>
+<li>AWS CLI: This is an open-source tool that enables you to interact with AWS services using the CLI.</li>
+<li><code>kubectl</code>: This is a tool that enables you to communicate with the Kubernetes API and interact with the cluster.</li>
+</ol>
+<h4 id="install-homebrew">Install Homebrew</h4>
+<p>Homebrew is a package manager for macOS and we will use it to install the above tools:</p>
+<pre tabindex="0"><code>/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)&#34;
+</code></pre><p>Verify that Homebrew was installed correctly:</p>
+<pre tabindex="0"><code>brew --version
+...
+Homebrew 4.0.28
+</code></pre><h4 id="install--configure-aws-cli">Install &amp; Configure AWS CLI</h4>
+<p>Install AWS CLI using Homebrew:</p>
+<pre tabindex="0"><code>brew install awscli
+</code></pre><p>Verify that the CLI was installed correctly:</p>
+<pre tabindex="0"><code>aws --version
+...
+aws-cli/2.13.1 Python/3.11.4 Darwin/22.3.0 exe/x86_64 prompt/off
+</code></pre><p>Next, we need to configure AWS CLI and authenticate it with our AWS account:</p>
+<ol>
+<li>
+<p>Navigate to the security center of your AWS account: <a href="https://console.aws.amazon.com/iamv2/home#/security_credentials">console.aws.amazon.com/iamv2/home#/security_credentials</a></p>
+</li>
+<li>
+<p>Scroll down to the <em>Access keys</em> section and select <strong>Create access key</strong>.</p>
+</li>
+</ol>
+<p><img src="13.png" alt="13"></p>
+<ol start="3">
+<li>Note down both the <strong>Access key</strong> and <strong>Secret access key</strong> (the Secret access key will not be shown again after you leave this page). Click <strong>Done</strong>.</li>
+</ol>
+<p><img src="14.png" alt="14"></p>
+<ol start="4">
+<li>
+<p>Run the following command to authenticate the AWS CLI using your Access key and Secret access key:</p>
+<pre tabindex="0"><code>aws configure
+
+AWS Access Key ID [None]: &lt;your-access-key-value&gt;
+AWS Secret Access Key [None]: &lt;your-secret-access-key-value&gt;
+Default region name [None]: &lt;your region, eg: ap-southeast-2&gt;
+Default output format [None]: json
+</code></pre></li>
+<li>
+<p>Check that your credentials were saved correctly:</p>
+<pre tabindex="0"><code>aws configure list
+...
+      Name                    Value             Type    Location
+      ----                    -----             ----    --------
+   profile                &lt;not set&gt;             None    None
+access_key     ****************ZYXW shared-credentials-file
+secret_key     ****************abcD shared-credentials-file
+    region           ap-southeast-2      config-file    ~/.aws/config
+</code></pre></li>
+</ol>
+<h4 id="install-kubectl">Install <code>kubectl</code></h4>
+<p>Install the latest version of <code>kubectl</code> using Homebrew:</p>
+<pre tabindex="0"><code>brew install kubectl
+</code></pre><p>Note that the version of <code>kubectl</code> must be within one minor version difference of the cluster. That is, if the cluster is configured to use v1.27, then we must use <code>kubectl</code> v1.26, v1.27, or v1.28.</p>
+<p>To install a specific version of <code>kubectl</code>, see <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/">here</a>.</p>
+<p>Verify that <code>kubectl</code> was installed correctly:</p>
+<pre tabindex="0"><code>kubectl version --short --client
+...
+Client Version: v1.25.4
+Kustomize Version: v4.5.7
+</code></pre><h3 id="12---deploy-ubuntu-server-1604">1.2 - Deploy Ubuntu Server (16.04)</h3>
+<h4 id="create-a-new-key-pair-to-access-the-vm">Create a new Key Pair to access the VM</h4>
+<p>To start, we need to provide AWS with the public SSH key that we plan to use to securely log into the VM we will deploy. If you already have a key pair available in AWS, you can skip this step.</p>
+<p>If you have an existing keypair on your local system, you can use that, otherwise follow the instructions <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">here</a> to generate a new keypair. The following steps will guide you through uploading the public key from your system into AWS so that we can assign it to our VM.</p>
+<ol>
+<li>
+<p>Open the <a href="https://console.aws.amazon.com/kms">Key Management System (KMS) Console</a> of AWS.</p>
+</li>
+<li>
+<p>Click the <strong>Actions</strong> button and select <strong>Import key pair</strong>.</p>
+</li>
+<li>
+<p>Provide the key pair with a name (eg: <code>My AWS Key</code>). This is the name of the key that will be visible when selecting a key to assign to a new VM.</p>
+</li>
+<li>
+<p>Next, select the <code>id_rsa.pub</code> file associated with your public key to upload, OR paste in the public key contents.</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>Assuming your keypair is saved in the default location (<code>~/.ssh/id_rsa.pub</code>), open Terminal and execute the following command to get the contents of the public key:</p>
+<pre tabindex="0"><code>cat ~/.ssh/id_rsa.pub
+</code></pre></li>
+<li>
+<p>The output should be similar to as follows (paste your own output into AWS):</p>
+<pre tabindex="0"><code>ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQB/nAmOjTmezNUDKYvEeIRf2YnwM9/uUG1d0BYsc8/tRtx+RGi7N2lUbp728MXGwdnL9od4cItzky/zVdLZE2cycOa18xBK9cOWmcKS0A8FYBxEQWJ/q9YVUgZbFKfYGaGQxsER+A0w/fX8ALuk78ktP31K69LcQgxIsl7rNzxsoOQKJ/CIxOGMMxczYTiEoLvQhapFQMs3FL96didKr/QbrfB1WT6s3838SEaXfgZvLef1YB2xmfhbT9OXFE3FXvh2UPBfN+ffE7iiayQf/2XR+8j4N4bW30DiPtOQLGUrH1y5X/rpNZNlWW2+jGIxqZtgWg7lTy3mXy5x836Sj/6L
+
+(this is not a real public key)
+</code></pre></li>
+</ul>
+<p><img src="5.png" alt="5"></p>
+<h4 id="deploy-the-vm">Deploy the VM</h4>
+<ol>
+<li>From the <a href="https://console.aws.amazon.com/ec2">AWS EC2 Console</a>, click <strong>Instances</strong> in the left side-bar, then and click <strong>Launch instances</strong>.</li>
+<li>Set the name of the VM to <code>MongoDB</code></li>
+<li>When prompted to select an OS / AMI image, select <strong>Browse more AMIs</strong>.</li>
+</ol>
+<p><img src="3.png" alt="3"></p>
+<ol start="3">
+<li>
+<p>Click the <strong>Community AMIs</strong> tab, then search for <code>ami-0e554a91eb4e7b6d7</code> (the AMI ID of the Ubuntu Server 16.04 LTS image we need).</p>
+<ul>
+<li>
+<p>Select the AMI <code>ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-20210721</code></p>
+</li>
+<li>
+<p>Alternatively, search for <code>ubuntu 16.04 amd64</code> and select an available AMI. Be mindful of the publish dates: the more out-of-date, the better.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="1.png" alt="1"></p>
+<ol start="4">
+<li>Back on the main <strong>Launch an instance</strong> screen, under** <strong>Instance type</strong>, select the cheapest instance with 1 vCPU and 1GB memory. At the time of posting this is <code>t2.micro</code> which is also eligible for the AWS Free Tier.</li>
+</ol>
+<p><img src="2.png" alt="2"></p>
+<ol start="5">
+<li>
+<p>Under the <strong>Key pair</strong> section, select either an existing public key, or the name of the public key you uploaded earlier.</p>
+</li>
+<li>
+<p>Under <strong>Network Settings</strong>, click the <strong>Edit</strong> button.</p>
+<ul>
+<li>
+<p>Ensure that <strong>Auto-assign public IP</strong> is set to enable (for now).</p>
+</li>
+<li>
+<p>Create a new security group called <code>Mgmt Access</code> and put in two rules:</p>
+<ol>
+<li>Type: SSH
+Source type: My IP</li>
+<li>Type: All ICMP - IPv4
+Source type: My IP</li>
+</ol>
+</li>
+<li>
+<p>These rules allow you to connect to your MongoDB VM (and test connectivity to it using <code>ping</code>) across the internet. To secure this access (somewhat), we are limiting connections to only those from your own IP address.</p>
+<p>WARNING: In practice, this is not recommended for internal services and your should close off ALL public exposure to the VM to ensure it is secured. VMs should be managed via an inside-out ZTNA service like Cloudflare, Zscaler, or Tailscale to ensure that <em>nothing</em> is exposed directly to the internet.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="6.png" alt="6"></p>
+<ol start="7">
+<li>Under <strong>Configure storage</strong>, set the root volume to 15GB of <code>gp2</code> storage.</li>
+<li>Finished! When you are ready to deploy the VM, click <strong>Launch instance</strong>.</li>
+</ol>
+<p><img src="7.png" alt="7"></p>
+<h4 id="connect-to-the-vm">Connect to the VM</h4>
+<ol>
+<li>
+<p>Return to the EC2 console where you should now see your <code>MongoDB</code> VM with an instance state of either <code>Pending</code> or <code>Running</code>. If it is <code>Pending</code>, wait a few moments before attempting the below.</p>
+</li>
+<li>
+<p>Select the MongoDB VM from the instance list, and in the table that appears at the bottom of the screen, under the <strong>Details</strong> tab, take note of the <strong>Public IPv4 address</strong>.</p>
+</li>
+<li>
+<p>Open a new terminal window and SSH to the public IP address of the VM. The default username will be <code>ubuntu</code>:</p>
+<pre tabindex="0"><code>ssh ubuntu@&lt;your-vm-public-ip&gt;
+</code></pre><p>You can also manually specify the path of the private key to use if you have multiple key pairs on your machine:</p>
+<pre tabindex="0"><code>ssh -i ~/.ssh/your_private_key ubuntu@&lt;your-vm-public-ip&gt;
+</code></pre></li>
+</ol>
+<h3 id="13---deploy-mongodb-445">1.3 - Deploy MongoDB (4.4.5)</h3>
+<p>In this section, we will deploy an older version of MongoDB (<a href="https://www.mongodb.com/docs/upcoming/release-notes/4.4/#4.4.5---apr-8--2021">version 4.4.5</a>, released Apr 8, 2021) to the VM we deployed in the above section and configure the database so that it is ready to store data from our web app (Rocket.Chat).</p>
+<p>The official documentation for MongoDB v4.4 is <a href="https://www.mongodb.com/docs/v4.4/tutorial/install-mongodb-on-ubuntu/">available here</a>.</p>
+<h4 id="install-mongodb">Install MongoDB</h4>
+<p>First, update the package list on the VM:</p>
+<pre tabindex="0"><code>sudo apt-get update
+</code></pre><p>Install <code>gnupg</code> and <code>curl</code>:</p>
+<pre tabindex="0"><code>sudo apt-get install gnupg curl
+</code></pre><p>Import the MongoDB public GPG key. This is required so we can access the software repository for v4.4:</p>
+<pre tabindex="0"><code>curl -fsSL https://pgp.mongodb.com/server-4.4.asc | \
+   sudo gpg -o /usr/share/keyrings/mongodb-server-4.4.gpg \
+   --dearmor
+</code></pre><p>Create the list file for Ubuntu 16.04:</p>
+<pre tabindex="0"><code>echo &#34;deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-4.4.gpg ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.4 multiverse&#34; | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+</code></pre><p>Update the package database again. This time you will see it fetch data from <code>repo.mongodb.org</code>:</p>
+<pre tabindex="0"><code>sudo apt-get update
+</code></pre><p>Install MongoDB 4.4.5:</p>
+<pre tabindex="0"><code>sudo apt-get install -y mongodb-org=4.4.5 mongodb-org-server=4.4.5 mongodb-org-shell=4.4.5 mongodb-org-mongos=4.4.5 mongodb-org-tools=4.4.5
+</code></pre><p>Start the MongoDB service and set it to start at boot:</p>
+<pre tabindex="0"><code>sudo systemctl daemon-reload
+</code></pre><pre tabindex="0"><code>sudo systemctl start mongod &amp;&amp; sudo systemctl enable mongod
+</code></pre><p>Check that the MongoDB service is now running:</p>
+<pre tabindex="0"><code>sudo systemctl status mongod
+...
+● mongod.service - MongoDB Database Server
+   Loaded: loaded (/lib/systemd/system/mongod.service; disabled; vendor preset: enabled)
+   Active: active (running) since Sun 2023-07-16 06:30:13 UTC; 9s ago
+     Docs: https://docs.mongodb.org/manual
+ Main PID: 13891 (mongod)
+    Tasks: 33
+   Memory: 60.0M
+      CPU: 791ms
+   CGroup: /system.slice/mongod.service
+           └─13891 /usr/bin/mongod --config /etc/mongod.conf
+</code></pre><p>MongoDB listens on port TCP 27017 for incoming requests. To check that the port is correctly bound:</p>
+<pre tabindex="0"><code>netstat -ln
+...
+    Active Internet connections (only servers)
+    Proto Recv-Q Send-Q Local Address           Foreign Address         State
+    tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
+&gt;&gt;  tcp        0      0 127.0.0.1:27017         0.0.0.0:*               LISTEN
+    tcp6       0      0 :::22                   :::*                    LISTEN
+    udp        0      0 0.0.0.0:68              0.0.0.0:*
+</code></pre><p>From the above we can see that MongoDB is only listening on localhost, meaning that it won&rsquo;t be able to accept connections from other machines. To fix this, we need to configure MongoDB to accept connections from all network interfaces, not just localhost. Open the MongoDB configuration file in a text editor:</p>
+<pre tabindex="0"><code>sudo nano /etc/mongod.conf
+</code></pre><p>Look for the <code>net</code> section in the config file. Change the <code>bindIP</code> from <code>127.0.0.1</code> to <code>0.0.0.0</code> so that it reflects the below:</p>
+<pre tabindex="0"><code>net:
+  port: 27017
+  bindIp: 0.0.0.0
+</code></pre><p>Save your changes (CTRL+X, then <code>Y</code>), then restart the MongoDB service:</p>
+<pre tabindex="0"><code>sudo systemctl restart mongod
+</code></pre><p>Verify that MongoDB is now listening on <code>0.0.0.0:27017</code> instead of <code>127.0.0.1:27017</code>:</p>
+<pre tabindex="0"><code>netstat -ln
+...
+    Active Internet connections (only servers)
+    Proto Recv-Q Send-Q Local Address           Foreign Address         State
+    tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
+&gt;&gt;  tcp        0      0 0.0.0.0:27017           0.0.0.0:*               LISTEN
+    tcp6       0      0 :::22                   :::*                    LISTEN
+    udp        0      0 0.0.0.0:68              0.0.0.0:*
+</code></pre><p>Start a MongoDB shell to check that everything is working:</p>
+<pre tabindex="0"><code>mongo
+...
+MongoDB shell version v4.4.5
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&amp;gssapiServiceName=mongodb
+Implicit session: session { &#34;id&#34; : UUID(&#34;62b53e34-9d3b-4ed1-83c6-0f10c5a1dc2d&#34;) }
+MongoDB server version: 4.4.5
+Welcome to the MongoDB shell.
+For interactive help, type &#34;help&#34;.
+For more comprehensive documentation, see
+	https://docs.mongodb.com/
+Questions? Try the MongoDB Developer Community Forums
+	https://community.mongodb.com
+&gt;
+</code></pre><p>You can press CTRL+C to quit the shell.</p>
+<h4 id="create-a-user-and-database-for-the-web-app-to-use">Create a user and database for the web app to use</h4>
+<p>Next, we need to create a user and database in MongoDB that our web app can use. Access to MongoDB shell:</p>
+<pre tabindex="0"><code>mongo
+</code></pre><p>Create and switch to the database for the web app (<code>rocketchat</code>):</p>
+<pre tabindex="0"><code>use rocketchat
+</code></pre><p>Paste in the below making sure to substitute the password and database name as needed:</p>
+<pre tabindex="0"><code>db.createUser({user: &#34;rocketchat&#34;, pwd: &#34;youwillneverguess&#34;, roles: [{role: &#34;readWrite&#34;, db: &#34;rocketchat&#34;}]})
+</code></pre><p>This command will create a user named  <code>rocketchat</code> with the insecure password <code>youwillneverguess</code> and grant it <code>readWrite</code> permissions on the <code>rocketchat</code> database. You will need the username/password combo later on when we deploy the webapp.</p>
+<p>Check that the user was created sucessfully:</p>
+<pre tabindex="0"><code>db.getUser(&#34;rocketchat&#34;)
+</code></pre><p>The output should be similar to the below. If you see <code>null</code>, ensure you are using the right database (ie: <code>use rocketchat</code>):</p>
+<pre tabindex="0"><code>&gt; use rocketchat
+switched to db rocketchat
+&gt; db.getUser(&#34;rocketchat&#34;)
+{
+	&#34;_id&#34; : &#34;rocketchat.rocketchat&#34;,
+	&#34;userId&#34; : UUID(&#34;0e6e3c22-60de-4507-af9c-782821507b30&#34;),
+	&#34;user&#34; : &#34;rocketchat&#34;,
+	&#34;db&#34; : &#34;rocketchat&#34;,
+	&#34;roles&#34; : [
+		{
+			&#34;role&#34; : &#34;readWrite&#34;,
+			&#34;db&#34; : &#34;rocketchat&#34;
+		}
+	],
+	&#34;mechanisms&#34; : [
+		&#34;SCRAM-SHA-1&#34;,
+		&#34;SCRAM-SHA-256&#34;
+	]
+}
+</code></pre><h3 id="14---configure-an-amazon-eks-cluster">1.4 - Configure an Amazon EKS Cluster</h3>
+<p>Kubernetes is an open-source platform designed to automate deploying, scaling, and operating application containers. Kubernetes orchestration allows you to build application services that span multiple containers, schedule those containers across a cluster, scale those containers, and manage the health of those containers over time.</p>
+<p>Amazon EKS (Elastic Kubernetes Service) is a managed service used to run Kubernetes on AWS.</p>
+<p>In this project, we&rsquo;ll be using using EKS to manage the deployment and scaling of our containerized web application and the underlying EC2 host VMs (AKA &ldquo;Workers&rdquo;) that the containers will run on.</p>
+<h4 id="create-an-iam-role-for-the-eks-cluster">Create an IAM Role for the EKS Cluster</h4>
+<p>Because the Kubernetes cluster managed by EKS makes calls to other AWS services on our behalf (like EC2 to bring up a worker), we need to create a role that restricts <em>what</em> EKS can do. Letting it have free reign within our entire AWS account would be very bad.</p>
+<p>Amazon has instructions on how to do this for EKS <a href="https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html#create-service-role">here</a>, or you can follow the instuctions below:</p>
+<ol>
+<li>
+<p>Open the <a href="https://console.aws.amazon.com/iam/home?#roles">AWS IAM Console</a>.</p>
+</li>
+<li>
+<p>From the left-side menu, under <strong>Access Management</strong>, select <strong>Roles</strong>. On the next screen, select <strong>Create role</strong>:</p>
+</li>
+</ol>
+<p><img src="4.png" alt="4"></p>
+<ol start="3">
+<li>For <em>Trusted entity type</em> select <strong>AWS service</strong>.</li>
+<li>For <em>Use case</em> select <strong>EKS</strong> from the dropdown list, then select <strong>EKS - Cluster</strong>. Click <strong>Next</strong>.</li>
+</ol>
+<p><img src="31.png" alt="31"></p>
+<ol start="5">
+<li>On the <em>Add permissions</em> screen, don&rsquo;t change anything, just click <strong>Next</strong> again.</li>
+<li>On the next screen, set the role name as <code>eksClusterRole</code> and make sure that you see <code>AmazonEKSClusterPolicy</code> listed as a policy name under the <em>Add permissions</em> table. Click <strong>Create role</strong> when you are ready to finish configuration.</li>
+</ol>
+<p><img src="32.png" alt="32"></p>
+<h4 id="create-an-iam-role-for-the-worker-node-group">Create an IAM Role for the Worker Node Group</h4>
+<p>We need to create a separate role with different permissions that will be assigned to the worker nodes that the Kubernetes cluster will manage.</p>
+<ol>
+<li>As we did in the previous step, open the <a href="https://console.aws.amazon.com/iam/home?#roles">IAM console</a>, and under <strong>Access Management &gt; Roles</strong>, click <strong>Create role</strong>.</li>
+<li>For <em>Trusted entity type</em> select <strong>AWS service</strong>.</li>
+<li>For <em>Use case</em> select <strong>EC2</strong>. Click <strong>Next</strong>.</li>
+<li>Select the following permissions, the click <strong>Next</strong>:
+<ul>
+<li>AmazonEKS_CNI_Policy</li>
+<li>AmazonEKSWorkerNodePolicy</li>
+<li>AmazonEC2ContainerRegistryReadOnly</li>
+</ul>
+</li>
+<li>Set the role name as <strong>EKSWorkerNodePolicy</strong> and click <strong>Create role</strong> to finish the configuration.</li>
+</ol>
+<h4 id="create-a-new-kms-key">Create a new KMS Key</h4>
+<p><a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes secrets</a> allow sensitive information like passwords, credentials, and API keys that need to be leveraged by underlying services to be stored centrally within the Kubernetes API data store (etcd), and not within the application source code or config itself.</p>
+<p>By default, secrets are stored in the Kubernetes API are unencrypted. EKS supports secrets encryption using an encryption key stored in the AWS Key Management Service (KMS), and it is best practice to enable this. To do so however, we need to create a symetrical encryption key within KMS</p>
+<ol>
+<li>Go to the AWS KMS Console: <a href="https://console.aws.amazon.com/kms">https://console.aws.amazon.com/kms</a></li>
+<li>Click <strong>Create key</strong>.</li>
+<li>Select <strong>Symmetric</strong> as they <em>Key type</em>, and <strong>Encrypt and decrypt</strong> for the <em>Key usage</em> option. Click <strong>Next</strong>.</li>
+<li>Give the key a name and description, eg: <code>EKS_Secrets_Key</code>, and click <strong>Next</strong>.</li>
+<li>Leave all key administrators as blank and de-select the option to allow admins to delete the key. Click <strong>Next</strong>.</li>
+<li>For the <em>Key usage permissions</em> step, select the <code>eksClusterRole</code> you created above. Click <strong>Next</strong>.</li>
+<li>Click <strong>Finish</strong> on the summary page to create the key.</li>
+</ol>
+<h4 id="create-a-new-eks-cluster">Create a new EKS Cluster</h4>
+<ol>
+<li>Open the <a href="https://console.aws.amazon.com/eks">AWS EKS Console</a>.</li>
+<li>From the <strong>Add cluster</strong> dropdown menu, select <strong>Create</strong>.</li>
+</ol>
+<p><img src="33.png" alt="33"></p>
+<ol start="3">
+<li>For <em>Name</em>, enter <code>testing-cluster</code>.</li>
+<li>For <em>Kubernetes version</em>, select the highest version available (1.27 at the time of writing)</li>
+<li>For <em>Cluster service role</em>, select the <code>eksClusterRole</code> you created earlier.</li>
+</ol>
+<p>​		<img src="9.png" alt="9"></p>
+<ol start="6">
+<li>Under <em>Secrets encryption</em>, check <strong>Turn on envelope encryption of Kubernetes secrets using KMS</strong> and select the <code>EKS_Secrets_Key</code> that you created earlier from the <em>KMS key</em> dropdown. Click <strong>Next</strong> to proceed.</li>
+</ol>
+<p>​		<img src="10.png" alt="10"></p>
+<ol start="7">
+<li>Under <em>Networking</em> select:
+<ul>
+<li>The VPC that cluster resources will be provisioned in.</li>
+<li>The subnet(s) to be used by the cluster.</li>
+<li>The security group(s) to apply to worker nodes.</li>
+</ul>
+</li>
+<li>Under <em>Cluster endpoint access</em>, select <strong>Public and private</strong> and enter an IP address (or block of IPs) to permit connections to the public API endpoint from. Click <strong>Next</strong> to continue.</li>
+<li>Choose which logs (if any) to send into CloudWatch. Note that CloudWatch usage attracts <a href="https://aws.amazon.com/cloudwatch/pricing/">additional costs</a>. Click <strong>Next</strong> to continue.</li>
+<li>For add-ons, leave the default <em>CoreDNS</em>, <em>kube-proxy</em>, and <em>Amazon VPC CNI</em> options selected and click <strong>Next</strong>. On the next screen, select the latest versions for your add-ons, and click <strong>Next</strong>.
+<ul>
+<li><strong>CoreDNS</strong> provides DNS services within your cluster allowing containers to discover and connect to each other.</li>
+<li><strong>kube-proxy</strong> runs on each node in the cluster and allows access to the services defined in a cluster.</li>
+<li><strong>Amazon VPC CNI</strong> allows pods to have the same IP address inside the pod as they do on the VPC network.</li>
+</ul>
+</li>
+<li>On the summary page, click <strong>Create</strong> to provision your cluster.</li>
+</ol>
+<p>Your cluster will take several minutes to create, so now is the perfect time to take a break!</p>
+<p><img src="11.png" alt="11"></p>
+<p>Once your cluster is created, take note of the API server endpoint and the OpenID Connect provider URL:</p>
+<p><img src="12.png" alt="12"></p>
+<h4 id="copy-the-cluster-config-to-kubectl">Copy the cluster config to <code>kubectl</code></h4>
+<p><code>kubectl</code> will be out primary way of interacting with the cluster, so we need to provide it with configuration to be able to securely authenticate and connect to the Kubernetes API of our cluster.</p>
+<p>First, verify that your cluster is active and that your AWS CLI is authenticated correctly:</p>
+<pre tabindex="0"><code>aws eks --region &lt;your-region&gt; describe-cluster --name &lt;your-cluster-name&gt; --query cluster.status
+</code></pre><p>For example:</p>
+<pre tabindex="0"><code>aws eks --region ap-southeast-2 describe-cluster --name testing-cluster --query cluster.status
+...
+&#34;ACTIVE&#34;
+</code></pre><p>Next, use the AWS CLI to get the the required config from our cluster and apply it to <code>kubectl</code>:</p>
+<pre tabindex="0"><code>aws eks update-kubeconfig --name &lt;cluster-name&gt;
+...
+Eg: aws eks update-kubeconfig --name testing-cluster
+Added new context arn:aws:eks:ap-southeast-2:6200[REDACTED]:cluster/testing-cluster to /Users/nathan/.kube/config
+</code></pre><p>Lastly, test <code>kubectl</code> to verify that it has the correct config and can interact with the cluster:</p>
+<pre tabindex="0"><code>kubectl get svc
+...
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.100.0.1   &lt;none&gt;        443/TCP   107m
+</code></pre><h4 id="create-a-new-node-group">Create a new node group</h4>
+<p>In this step we will create the worker nodes that the master kubernetes node (deployed above) will orchestrate. A node group is simply a collection of worker nodes.</p>
+<ol>
+<li>From the <code>testing-cluster</code> details page, click the <strong>Compute</strong> tab, then under <em>Node groups</em>, click <strong>Add node group</strong>:</li>
+</ol>
+<p><img src="15.png" alt="15"></p>
+<ol start="2">
+<li>Set the node group <em>name</em> to <strong>node_group1</strong>.</li>
+<li>For <em>Node IAM role</em>, select the <strong>EKSWorkerNodePolicy</strong> role created earlier, then click <strong>Next</strong>.</li>
+</ol>
+<p><img src="34.png" alt="34"></p>
+<ol start="4">
+<li>On the next screen, under <em>Node group compute configuration</em>, leave <strong>Amazon Linux 2</strong> selected, but change the <em>Instance type</em> to <code>t3.medium</code> .  This is the instance type of the worker nodes that the cluster will spin up/down as needed.
+<ul>
+<li>When picking an instance size, don&rsquo;t overly skimp out on compute here to save costs. Kubernetes is finicky with resources and going to small will result in failed pod deployments due to a lack of resources.</li>
+</ul>
+</li>
+</ol>
+<p><img src="35.png" alt="35"></p>
+<ol start="4">
+<li>
+<p>Under <em>Node group scaling configuration</em>, leave the default values as 2/2/2. Click <strong>Next</strong>.</p>
+</li>
+<li>
+<p>For <em>Node group network configuration</em>:</p>
+<ul>
+<li>Select the subnets that the worker nodes will be deployed in. Normally you should deploy worker nodes to a separate subnet to the master node/EKS cluster, but for this project, we will keep them the same.</li>
+<li>Check the box <strong>Configure remote access to nodes</strong>. This is useful for troubleshooting, but does increase our attack surface a bit. When prompted, select the same EC2 key pair used for the MongoDB VM from before, and the same security group, <strong>mgmt-access</strong>. The latter will restrict remote access to only our own IP address.</li>
+<li>Click <strong>Next</strong> to continue.</li>
+</ul>
+</li>
+</ol>
+<p><img src="36.png" alt="36"></p>
+<ol start="6">
+<li>When you have finished reviewing the configuration, click <strong>Create</strong> to finish. This will begin the process to create the worker node(s) according to our config (which may take several minutes).</li>
+</ol>
+<p><img src="37.png" alt="37"></p>
+<p>To verify that the worker nodes are active, we can use <code>kubectl</code>:</p>
+<pre tabindex="0"><code>kubectl get nodes --watch
+...
+NAME                                               STATUS   ROLES    AGE   VERSION
+ip-172-31-36-247.ap-southeast-2.compute.internal   Ready    &lt;none&gt;   19m   v1.27.1-eks-2f008fe
+ip-172-31-7-192.ap-southeast-2.compute.internal    Ready    &lt;none&gt;   19m   v1.27.1-eks-2f008fe
+</code></pre><p>Likewise, if you return to the details page of the EKS cluster and select the <em>Compute</em> tab, you will now see the node group and the provisioned worker nodes:</p>
+<p><img src="38.png" alt="38"></p>
+<h3 id="14---create-a-public-amazon-s3-bucket">1.4 - Create a Public Amazon S3 Bucket</h3>
+<p>In this section we will be creating a new S3 bucket to hold scripted backups from MongoDB, but the bucket will be configured to allow for Public Read; creating a point where data can be breached and siphoned.</p>
+<div class="bd-callout bd-callout-danger">
+    <strong class="text-danger">
+        <i class="bi bi-x-octagon-fill"></i>&nbsp; 
+        
+        Warning!<br>
+    </strong>
+NEVER DO THIS IN PRODUCTION OR IN A REAL ENVIRONMENT!
+</div>
+
+<h4 id="create-a-new-public-bucket">Create a new public bucket</h4>
+<p>Go to the <a href="https://console.aws.amazon.com/s3/">S3 Management Console</a> and select <strong>Create Bucket</strong>.</p>
+<p><img src="16.png" alt="16"></p>
+<p>Provide a name for the bucket (eg: <code>totallysecurebucket</code>), select the region (eg: <code>ap-southeast-2</code>), and ensure (under <em>Object Ownership</em>) that ACLs are disabled.</p>
+<p><img src="17.png" alt="17"></p>
+<p>Under the section <em>Block Public Access settings for this bucket</em>, de-select the <strong>Block all public access</strong> checkbox and check the acknowledgement checkbox that appears at the bottom. This will make the bucket completely public.</p>
+<h4 id="add-a-bucket-policy">Add a bucket policy</h4>
+<p>To make objects in the bucket publicly readable, we need to create and apply a policy to the bucket that grants everyone accessing it the <code>s3:GetObject</code> permission.</p>
+<p>From the S3 Management Console, click the name of the bucket created above and select the <strong>Permissions</strong> tab. Scroll down and under the <em>Bucket Policy</em> section, click <strong>Edit</strong>.</p>
+<p><img src="18.png" alt="18"></p>
+<p>Paste in the following (overwriting all existing text) and substitute <code>&lt;your-bucket-name&gt;</code> with the name of your S3 bucket:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&#34;Statement&#34;</span>: [
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;Sid&#34;</span>: <span style="color:#e6db74">&#34;PublicReadGetObject&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;Principal&#34;</span>: <span style="color:#e6db74">&#34;*&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;Action&#34;</span>: [
+</span></span><span style="display:flex;"><span>			    <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>
+</span></span><span style="display:flex;"><span>			    ],
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:s3:::&lt;your-bucket-name&gt;/*&#34;</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Click <strong>Save changes</strong> to finish.</p>
+<p><img src="19.png" alt="19"></p>
+<p>Your bucket will now have an orange <code>Publicly accessible</code> warning underneath it&rsquo;s name, and under the <strong>Permissions</strong> tab in the <em>Permissions overview</em> section, <em>Access</em> should now say <em>Public</em>.</p>
+<p><img src="20.png" alt="20"></p>
+<h3 id="15---deploy-a-public-web-app-rocketchat">1.5 - Deploy a Public Web App (Rocket.Chat)</h3>
+<p>The moment of truth is finally here: We can now use everything we have done so far to deploy the Rocket.Chat web app to our Kubernetes cluster! Rocket.Chat will sit behind nginx which will handle TLS for all connections between users and the web app.</p>
+<h4 id="about-ingresses-ingress-controllers-and-load-balancers">About Ingresses, Ingress Controllers, and Load Balancers</h4>
+<p>In Kubernetes, an <strong>Ingress object</strong> is a set of rules to route external HTTP(S) traffic to internal services within the cluster. These rules can include things like &ldquo;send all traffic for <code>myapp.mydomain.com</code> to the <code>my-app</code> service running in k8s&rdquo;. In our context, we will have an ingress that routes <code>chat.domain.com</code> to our Rocket.Chat service so that external users can reach the UI.</p>
+<p>An Ingress Controller is effectively the &ldquo;router&rdquo; that enforces and implements any routes (Ingresses) defined. It is essentially a type of load balancer that can interpret the Ingress rules. Ingress rules are essentially useless without an Ingress Controller to enforce them. In our context, we will be leveraging Nginx as the Ingress Controller.</p>
+<p>To allow the outside world to reach our Nginx Ingress Controller, we will be creating a &ldquo;LoadBalancer&rdquo; service in Kubernetes. As our cluster is running in AWS, this results in an AWS Elastic Load Balancer (ELB) instance being created and used. The ELB distributes incoming application traffic across multiple targets, such as EC2 instances, and in this case, the NGINX Ingress Controller.</p>
+<p>In summary and in relation to this exercise, the flow of our services will be:</p>
+<pre tabindex="0"><code>External Traffic -&gt; AWS ELB -&gt; NGINX Ingress Controller (applies Ingress rules) -&gt; Internal Kubernetes services (Rocket.Chat)
+</code></pre><h4 id="kubectl-common-commands-and-shortcuts"><code>kubectl</code>: Common commands and shortcuts</h4>
+<p>This section will make heavy use of <code>kubectl</code> on our local machine. The following commands will come in handy.</p>
+<p>Get all pods running in the default namespace, specific namespace, and across all namespaces:</p>
+<pre tabindex="0"><code>kubectl get pods
+kubectl get pods -n &lt;namespace&gt;
+kubectl get pods --all-namespaces
+</code></pre><p>If we run the last command, we should see pods relating to the add-ons we selected when we created our EKS cluster:</p>
+<pre tabindex="0"><code>nathan@arcanum ~ % kubectl get pods --all-namespaces
+NAMESPACE       NAME                                                    READY   STATUS    AGE
+kube-system     aws-node-bp2c4                                          1/1     Running   6d17h
+kube-system     aws-node-khrfq                                          1/1     Running   6d17h
+kube-system     coredns-866c7d785-dwmlg                                 1/1     Running   6d17h
+kube-system     coredns-866c7d785-wrwsj                                 1/1     Running   6d17h
+kube-system     kube-proxy-cktrg                                        1/1     Running   6d17h
+kube-system     kube-proxy-pnlqd                                        1/1     Running   6d17h
+</code></pre><p>Show all worker nodes running:</p>
+<pre tabindex="0"><code>kubectl get nodes
+...
+NAME                                               STATUS   ROLES    AGE
+ip-172-31-10-103.ap-southeast-2.compute.internal   Ready    &lt;none&gt;   6d17h
+ip-172-31-38-215.ap-southeast-2.compute.internal   Ready    &lt;none&gt;   6d17h
+</code></pre><p>Get logs for a specific pod (or previous instance of a pod) in a specific namespace:</p>
+<pre tabindex="0"><code>kubectl logs -n &lt;namespace&gt; &lt;pod-name&gt; --previous
+</code></pre><p>Provide details information about a specific pod in a specific namespace:</p>
+<pre tabindex="0"><code>kubectl describe pod rocketchat-866fdd489-nwwzq --namespace rocket
+</code></pre><p>Retrieve the details of the specified service in a specific namespace, and output the details in YAML.</p>
+<pre tabindex="0"><code>kubectl get svc -n &lt;namespace&gt; &lt;servicename&gt; -o yaml
+</code></pre><p>Create or update resources (ie: pods, services, etc) in a cluster as defined by the contents of the YAML file referenced:</p>
+<pre tabindex="0"><code>kubectl apply -f &lt;deployment-name&gt;.yaml
+</code></pre><p>Remove all resources in the cluster as defined by the contents of the YAML file referenced:</p>
+<pre tabindex="0"><code>kubectl delete -f &lt;deployment-name&gt;.yaml
+</code></pre><p>List all services in the specified namespace:</p>
+<pre tabindex="0"><code>kubectl get svc -n &lt;namespace&gt;
+</code></pre><p>Provide detailed information about a certificate object in a specific namespace:</p>
+<pre tabindex="0"><code>kubectl describe certificate rocket-tls --namespace rocket
+</code></pre><h4 id="install-helm-and-add-repositories">Install Helm and Add Repositories</h4>
+<p>Helm is a package manager for Kubernetes. Helm Charts can be published to Helm and describe how a package should be deployed. Helm is installed on the <strong>local machine</strong> from which you are running <code>kubectl</code> commands from.</p>
+<p>Install Helm (macOS):</p>
+<pre tabindex="0"><code>brew install helm
+</code></pre><p>Add the Rocket.Chat Helm Chart:</p>
+<pre tabindex="0"><code>helm repo add rocketchat https://rocketchat.github.io/helm-charts
+</code></pre><p>Update the Helm repository:</p>
+<pre tabindex="0"><code>helm repo update
+</code></pre><h4 id="install-the-nginx-ingress-controller">Install the Nginx Ingress Controller</h4>
+<p>Nginx will front-end the Rocket.Chat service and secure the connectivity between the user and app with TLS.</p>
+<p>Add the ingress-nginx Helm repo:</p>
+<pre tabindex="0"><code>helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx &amp;&amp; helm repo update
+</code></pre><p>Install the Nginx Ingress Controller and set the service type to be a LoadBalancer. This will automatically create a new LoadBalancer in our AWS environment. As per the recommended configuration, the Ingress Controller will also be installed in it&rsquo;s own namespace:</p>
+<pre tabindex="0"><code>helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.service.type=LoadBalancer --namespace ingress-nginx --create-namespace
+</code></pre><p>Run the following command and note down the external IP/hostname assigned to the ELB LoadBalancer under the <strong>EXTERNAL-IP</strong> column:</p>
+<pre tabindex="0"><code>kubectl get svc -n ingress-nginx
+...
+NAME                                       TYPE           CLUSTER-IP       EXTERNAL-IP
+nginx-ingress-nginx-controller             LoadBalancer   10.100.190.179   a51aca6bf603b441597c74851e09f1ef-206136540.ap-southeast-2.elb.amazonaws.com
+
+nginx-ingress-nginx-controller-admission   ClusterIP      10.100.89.137    &lt;none&gt;
+</code></pre><p>For example, in my case above the external hostname assigned to my LoadBalancer by ELB is:</p>
+<pre tabindex="0"><code>a51aca6bf603b441597c74851e09f1ef-206136540.ap-southeast-2.elb.amazonaws.com
+</code></pre><p>You will need this in the next step.</p>
+<h4 id="configure-external-dns">Configure External DNS</h4>
+<p>Next, we need to add a CNAME record for the domain/subdomain we wish to make the Rocket.Chat web app accessible at, eg: <code>chat.domain.com</code>. This record must point <code>chat.domain.com</code> to the ELB external hostname obtained above.</p>
+<p>Note that you don&rsquo;t have to use <code>chat</code> as the subdomain. Use whatever you like as long as you own the domain and have access to the external DNS records for it.</p>
+<p>In my case, I will be using the sub-domain <code>chat.lightwave.cloud</code>, so I would add a CNAME record to my <code>lightwave.cloud</code> domain&rsquo;s DNS that points <code>chat</code> to <code>a51aca6bf603b441597c74851e09f1ef-206136540.ap-southeast-2.elb.amazonaws.com</code>:</p>
+<p><img src="21.png" alt="21"></p>
+<p>You can check whether your record was added correctly by using <code>nslookup</code>:</p>
+<pre tabindex="0"><code>nslookup chat.lightwave.cloud
+...
+Server:		10.0.100.20
+Address:	10.0.100.20#53
+
+Non-authoritative answer:
+chat.lightwave.cloud	canonical name = a51aca6bf603b441597c74851e09f1ef-206136540.ap-southeast-2.elb.amazonaws.com.
+Name:	a51aca6bf603b441597c74851e09f1ef-206136540.ap-southeast-2.elb.amazonaws.com
+Address: 52.63.128.2
+Name:	a51aca6bf603b441597c74851e09f1ef-206136540.ap-southeast-2.elb.amazonaws.com
+Address: 13.54.214.128
+</code></pre><p>You should see both your selected name and the ELB hostname present. DNS records can take some time to propagate (as long as 48 hours depending on configuration), so this might not resolve straight away.</p>
+<h4 id="install-cert-manager">Install Cert-Manager</h4>
+<p>Cert-Manager is a native Kubernetes certificate management controller which can help issue and manage SSL/TLS certificates from a variety of sources, such as Let&rsquo;s Encrypt, HashiCorp Vault, or Venafi. In our case, cert-manager will manage the SSL certificate for our Ingress controller (Nginx); allowing it to serve content securely over HTTPS.</p>
+<p>Add the cert-manager Helm repository:</p>
+<pre tabindex="0"><code>helm repo add jetstack https://charts.jetstack.io &amp;&amp; helm repo update
+</code></pre><p>Install the cert-manager Helm chart into its own namespace:</p>
+<pre tabindex="0"><code>helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.6.0 --set installCRDs=true
+</code></pre><p>Check that cert-manager was installed correctly:</p>
+<pre tabindex="0"><code>kubectl get pods --namespace cert-manager
+...
+NAME                                       READY   STATUS    RESTARTS   AGE
+cert-manager-5fd7f4c668-8jsj5              1/1     Running   0          54s
+cert-manager-cainjector-6548d8c645-t8nd5   1/1     Running   0          54s
+cert-manager-webhook-6c8c98cc6-vmgpt       1/1     Running   0          54s
+</code></pre><p>Next, we need to create configuration for cert-manager that tells it to use Let&rsquo;s Encrypt to issue certificates.</p>
+<p>To do this, we will create and apply an <strong>Issuer</strong> configuration to cert-manager which Kubernetes uses to abstract certficate issuing details. Note that an <strong>Issuer</strong> is local to a specified namespace, whereas a <strong>ClusterIssuer</strong> works across all namespaces. In this case, because we only have the one app, we will use a standard <strong>Issuer</strong>.</p>
+<p>Create a new yaml file:</p>
+<pre tabindex="0"><code>nano issuer.yaml
+</code></pre><p>Paste in the following; making sure to substitute <code>your-email@example.com</code> with your own email address:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cert-manager.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Issuer</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">letsencrypt-prod</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">rocket</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">acme</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># The ACME server URL</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">server</span>: <span style="color:#ae81ff">https://acme-v02.api.letsencrypt.org/directory</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Email address used for ACME registration</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">email</span>: <span style="color:#ae81ff">your-email@example.com</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Name of a secret used to store the ACME account private key</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">privateKeySecretRef</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">letsencrypt-prod</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Enable the HTTP-01 challenge provider</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">solvers</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">http01</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ingress</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">class</span>: <span style="color:#ae81ff">nginx</span>
+</span></span></code></pre></div><p>Save the file (CTRL+X, then <code>Y</code>), then apply it with <code>kubectl</code>:</p>
+<pre tabindex="0"><code>kubectl apply -f issuer.yaml --namespace rocket
+</code></pre><h4 id="create-an-ingress">Create an Ingress</h4>
+<p>The next step is to create an Ingress resource that references our web app (ie: Rocket.Chat). It will also use the Issuer we just created to handle the TLS certificate issuance.</p>
+<p>Create a new yaml file called <code>rocket-ingress.yaml</code>:</p>
+<pre tabindex="0"><code>nano rocket-ingress.yaml
+</code></pre><p>Paste in the following ensuring that you substitute both instances of <code>chat.domain.com</code> with your actual domain/sub-domain:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">networking.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Ingress</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rocket-ingress</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">rocket</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubernetes.io/ingress.class</span>: <span style="color:#e6db74">&#34;nginx&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cert-manager.io/issuer</span>: <span style="color:#e6db74">&#34;letsencrypt-prod&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">host</span>: <span style="color:#ae81ff">chat.domain.com</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">http</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">paths</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">pathType</span>: <span style="color:#ae81ff">Prefix</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">path</span>: <span style="color:#e6db74">&#34;/&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">backend</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">service</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">port</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">number</span>: <span style="color:#ae81ff">3000</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tls</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">hosts</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">chat.domain.com</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">rocket-tls</span>
+</span></span></code></pre></div><p>This file (when applied) creates an Ingress that routes incoming traffic to our Rocket.Chat service on port 3000 (Rocket.Chat is configured to listen on port 3000 for incoming connections by default).</p>
+<p>Note that the configuration also includes a <code>tls</code> block that specifies a <code>secretName</code>. This secret, <code>rocket-tls</code>, is where cert-manager will store the issued certificate. The  certificate will be automatically renewed by cert-manager as long as the Ingress exists.</p>
+<p>Apply the Ingress:</p>
+<pre tabindex="0"><code>kubectl apply -f rocketchat-ingress.yaml
+</code></pre><p>Cert-manager will see this new Ingress resource, and because it has the <code>cert-manager.io/issuer: &quot;letsencrypt-prod&quot;</code> annotation, cert-manager will reach out to Let&rsquo;s Encrypt and request a certificate for <code>chat.domain.com</code>. This certificate is then stored in the secret named <code>rocket-tls</code> in the <code>rocket</code> namespace. To review and check the status of the issued certificate, run the command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl describe certificate rocket-tls --namespace rocket
+</span></span></code></pre></div><p>Note that the certificate may not be ready straight away. When it is, the status message will indicate <code>Certificate is up to date and has not expired</code>.</p>
+<h4 id="deploy-the-web-app">Deploy the Web App</h4>
+<p>For our last step, we need to actually deploy the Rocket.Chat web app. To ensure high-availability, we will deploy it using both <strong>Deployment</strong> and <strong>Service</strong> capabilities in Kubernetes.</p>
+<p>A <strong>Deployment</strong> in Kubernetes is an object that orchestrates the creation and management of Pod instances. A Deployment describes the desired state for Pods, such as the Docker image to use, the number of Pod replicas you want running, and other configuration details. Deployments use a template to create the necessary Pods and keep track of their status. If a Pod goes down, the Deployment will automatically create a new one to keep the desired number of replicas.</p>
+<p>A <strong>Service</strong> in Kubernetes is an abstraction which defines a logical set of Pods (typically operated by a Deployment) and a policy by which to access them (sometimes called a micro-service). Services enable communication between different parts of an application, or between different applications entirely, both inside and outside of the cluster. They can also provide discovery and load balancing features for micro-services.</p>
+<p>Create a new yaml file called <code>rocketchat-deployment.yaml</code>:</p>
+<pre tabindex="0"><code>nano rocketchat-deployment.yaml
+</code></pre><p>Paste in the below content, ensuring that you substitute in the following values:</p>
+<ol>
+<li><code>&lt;mongodb-username&gt;</code> and <code>&lt;mongodb-password&gt;</code> with the username and password of the user you created in MongoDB in the <code>rocketchat</code> database.</li>
+<li><code>&lt;mongodb-ip&gt;</code> with the IP address of the VM that the MongoDB deployment is running on.</li>
+<li><code>chat.domain.com</code> with the domain you have been using to make Rocket.Chat accessible on.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">rocket</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">rocket.chat:latest</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">MONGO_URL</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#ae81ff">mongodb://&lt;mongodb-username&gt;:&lt;mongodb-password&gt;@&lt;mongodb-ip&gt;:27017/rocketchat</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ROOT_URL</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#ae81ff">https://chat.domain.com</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">PORT</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;3000&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">3000</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">rocket</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">type</span>: <span style="color:#ae81ff">ClusterIP</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">port</span>: <span style="color:#ae81ff">3000</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">targetPort</span>: <span style="color:#ae81ff">3000</span>
+</span></span></code></pre></div><p>Save the file (CTRL+X, then <code>Y</code>) and apply it to deploy Rocket.Chat:</p>
+<pre tabindex="0"><code>kubectl apply -f rocketchat-deployment.yaml
+</code></pre><p>Verify that the Rocket.Chat pod(s) are running:</p>
+<pre tabindex="0"><code>kubectl get pods -n rocket
+...
+NAME                         READY   STATUS    RESTARTS   AGE
+rocketchat-866fdd489-4j7zn   1/1     Running   0          48s
+</code></pre><p>Optionally, review the details of the Rocket.Chat service:</p>
+<pre tabindex="0"><code>kubectl describe service rocketchat -n rocket
+</code></pre><h4 id="validate-that-the-web-app-is-live">Validate that the Web App is live</h4>
+<p>We should not be able to go to visit our domain (<code>chat.domain.com</code>) in a browser to check that the web app is live. If everything is OK, then the Rocket.Chat UI should load and be secured with an SSL certificate issued from Let&rsquo;s Encrypt:</p>
+<p><img src="22.png" alt="22"></p>
+<hr>
+<h2 id="20---weakening-security">2.0 - Weakening Security</h2>
+<p>In this section we will further weaken the security of our deployment by opening up permissions on our containers and VMs, storing secrets insecurely on a container volume, and configuring MongoDB to backup to the public S3 bucket.</p>
+<h3 id="21---configure-containers-as-cluster-admin">2.1 - Configure containers as cluster-admin</h3>
+<p>In Kubernetes, permissions are set through Role-Based Access Control (RBAC). We are going to set apply cluster-admin privileges to Rocket.Chat, which will allow it to perform any action against the Kubernetes API - including viewing secrets and modifying permissions.</p>
+<div class="bd-callout bd-callout-danger">
+    <strong class="text-danger">
+        <i class="bi bi-x-octagon-fill"></i>&nbsp; 
+        
+        Warning!<br>
+    </strong>
+NEVER DO THIS IN PRODUCTION OR IN A REAL ENVIRONMENT!
+</div>
+
+<p>First, we need to create a new <strong>ClusterRoleBinding</strong>. A ClusterRoleBinding is an object that assigns a <strong>ClusterRole</strong> (essentially permissions at a cluster level) to a specified <strong>service account</strong>. A <strong>service account</strong> is a special kind of account that is intended to be used by a program running inside a Pod. Each Service Account is tied to a specific namespace, and it is automatically given an associated secret. This secret can be used to interact with the Kubernetes API.</p>
+<p>In short: There is a service account that is already used by our Rocket.Chat app, so we need to elevate it&rsquo;s permissions to cluster-admin through the use of a ClusterRoleBinding.</p>
+<h4 id="create-and-apply-a-new-clusterrolebinding">Create and apply a new ClusterRoleBinding</h4>
+<p>To create a new ClusterRoleBinding (<code>rocket-admin</code>) and assign it to the approproate service account (<code>default</code>) in our <code>rocket</code> namespace:</p>
+<pre tabindex="0"><code>kubectl create clusterrolebinding rocket-admin --clusterrole=cluster-admin --serviceaccount=rocket:default
+</code></pre><p>If you aren&rsquo;t sure of which service account to use:</p>
+<pre tabindex="0"><code>kubectl get serviceaccounts -n &lt;namespace&gt;
+</code></pre><p>To specifically see which service account is used by the Rocket.Chat deployment:</p>
+<pre tabindex="0"><code>kubectl describe deployment &lt;deployment-name&gt; -n &lt;namespace&gt;
+</code></pre><p>To find the deployment name:</p>
+<pre tabindex="0"><code>kubectl get deployment -n &lt;namespace&gt;
+</code></pre><p>To see which service account is being used by a specific pod:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl describe pod &lt;pod-name&gt; -n rocket
+</span></span></code></pre></div><h4 id="validate-the-clusterrolebinding">Validate the ClusterRoleBinding</h4>
+<p>To verify that the ClusterRoleBinding was created and applied successfully, run the following command and look for the name you gave to your ClusterRoleBinding:</p>
+<pre tabindex="0"><code>kubectl get clusterrolebindings
+...
+NAME                    ROLE                             AGE
+[..snip..]
+rocket-admin            ClusterRole/cluster-admin        1m34s
+[..snip..]
+</code></pre><p>Double check that the ClusterRoleBinding <code>rocket-admin</code> now has the <code>default</code> service account and <code>rocket</code> namespace as its subject:</p>
+<pre tabindex="0"><code>kubectl describe clusterrolebinding rocket-admin
+...
+Name:         rocket-admin
+Labels:       &lt;none&gt;
+Annotations:  &lt;none&gt;
+Role:
+  Kind:  ClusterRole
+  Name:  cluster-admin
+Subjects:
+  Kind            Name     Namespace
+  ----            ----     ---------
+  ServiceAccount  default  rocket
+</code></pre><h3 id="22---set-the-mongodb-vm-to-have-elevated-privileges">2.2 - Set the MongoDB VM to have elevated privileges</h3>
+<p>AWS uses a service called Identity and Access Management (IAM) to handle access control. An IAM role is an identity that can be assigned permissions and then attached to resources (like EC2 instances) so that these resources can take actions in AWS on your behalf.</p>
+<p>In this section we will create a new IAM role with policy <code>ec2:*</code> which allows any action to be taken on any EC2 resource by anything assigned with this role (which is incredibly dangerous!). We will also assign <code>PutObject</code> and <code>GetObject</code> permissions towards our Public S3 bucket so that we can configure MongoDB to backup to the bucket (see section 2.4 further below).</p>
+<h4 id="create-the-policy">Create the policy</h4>
+<p>Open the AWS <a href="http://console.aws.amazon.com/iam/">IAM Console</a>, select <strong>Policies</strong> from the left sidebar, and click the <strong>Create policy</strong> button.</p>
+<p>Click <strong>JSON</strong> and paste the following into the policy editor:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Statement&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Action&#34;</span>: <span style="color:#e6db74">&#34;ec2:*&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;*&#34;</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Action&#34;</span>: [
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;s3:PutObject&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>
+</span></span><span style="display:flex;"><span>            ],
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:s3:::your-bucket-name/*&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><img src="25.png" alt="25"></p>
+<p>Click the <strong>Review policy</strong> button to continue.</p>
+<p>On the next screen, name your policy <code>EC2FullAccess</code> and provide it with a meaningful description. Eg: <code>A very bad role that grants a resource full control of EC2 resources. For testing/demo purposes only.</code></p>
+<p>Both <strong>EC2</strong> and <strong>S3</strong> should be referenced as services defined in the policy. AWS will have derived these up from the JSON entered above:</p>
+<ul>
+<li>For <strong>EC2</strong> ensure that the access level is <strong>Full access</strong>, and the resource is <strong>All resources</strong>.</li>
+<li>For <strong>S3</strong> ensure that the access level is <strong>Limited: Read, Write</strong>, and the resource references your bucket name.</li>
+</ul>
+<p><img src="26.png" alt="26"></p>
+<p>Once you are satisfied, click the <strong>Create policy button</strong>.</p>
+<h4 id="create-the-role">Create the role</h4>
+<p>From the IAM Console, this time select <strong>Roles</strong> in the left sidebar, then click the <strong>Create role</strong> button.</p>
+<p>For <strong>Step 1 - Select trusted entity</strong>, ensure that <strong>AWS service</strong> is selected as the entity type, and <strong>EC2</strong> is selected as the use case.</p>
+<p><img src="23.png" alt="23"></p>
+<p>Click next to continue.</p>
+<p>On the next screen (<em>Step 2 - Add permissions</em>), select the <strong>EC2FullAccess</strong> policy you created (you may need to search for it).</p>
+<p><img src="24.png" alt="24"></p>
+<p>Click next to continue.</p>
+<p>On the final screen, name the role <strong>EC2FullAccessRole</strong>, optionally provide a description, then click the <strong>Create role</strong> button.</p>
+<p><img src="27.png" alt="27"></p>
+<h4 id="attach-the-role-to-the-vm">Attach the role to the VM</h4>
+<p>In the EC2 Console, select the VM that you deployed MongoDB to. Click on the <strong>Actions</strong> button and navigate to <strong>Security &gt; Modify IAM role</strong>:</p>
+<p><img src="28.png" alt="28"></p>
+<p>In the <strong>IAM role</strong> dropdown, find and select the <strong>EC2FullAccessRole</strong> role that was created above. Click <strong>Update IAM role</strong> to save your changes.</p>
+<p><img src="29.png" alt="29"></p>
+<h3 id="23---store-a-set-of-credentials-insecurely">2.3 - Store a set of credentials insecurely</h3>
+<p>Kubernetes Secrets exists as a means to securely communicate sensitive values (ie: passwords, API keys, private keys, etc) to pods; preventing the need to store these in ENV variables or config files within the container. To further increase the vulnerability of our deployment, we will do the latter and use a <strong>ConfigMap</strong> to store our MongoDB connection string. This ConfigMap will then be mounted to our Rocket.Chat container as a volume.</p>
+<h4 id="create-a-configmap">Create a ConfigMap</h4>
+<p>A <strong>ConfigMap</strong> allows configuration to be decoupled from image content, which helps keep containers portable. ConfigMaps are not secure however as they don&rsquo;t provide confidentiality or encryption.</p>
+<p>Using the MongoDB connection string from earlier, run the following command to create a ConfigMap called <code>mongo-config</code>; making sure to substitute your own values in the string below:</p>
+<pre tabindex="0"><code>kubectl create configmap mongodb-config --from-literal=connectionstring=&#39;mongodb://&lt;username&gt;:&lt;password&gt;@&lt;mongodb-ip&gt;:27017/rocketchat&#39; -n rocket
+</code></pre><p>Note that the ConfigMap must be created in the same namespace as the Rocket.Chat pod, else it won&rsquo;t be able to see the ConfigMap and mounting the volume will fail.</p>
+<h4 id="mount-the-configmap-as-a-volume">Mount the ConfigMap as a Volume</h4>
+<p>Next, update your rocketchat-deployment.yaml file to include the ConfigMap as a volume and mount it to the container:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">rocket</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">rocket.chat:latest</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">MONGO_URL</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#ae81ff">mongodb://rocketchat:kyCJeC48ebK8i2ok@172.31.15.204:27017/rocketchat</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ROOT_URL</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#ae81ff">https://chat.lightwave.cloud</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">PORT</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;3000&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">3000</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mongodb-config-volume</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/etc/credentials</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mongodb-config-volume</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">configMap</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mongodb-config</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">rocket</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">type</span>: <span style="color:#ae81ff">ClusterIP</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">rocketchat</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">port</span>: <span style="color:#ae81ff">3000</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">targetPort</span>: <span style="color:#ae81ff">3000</span>
+</span></span></code></pre></div><p>Note the new <code>volumeMounts</code> and <code>volumes</code> sections. This will create a file at <code>/etc/credentials/connectionstring</code> with the contents being the full MongoDB connection string.</p>
+<p>Apply the new configuration to the running pod:</p>
+<pre tabindex="0"><code>kubectl apply -f rocketchat-deployment.yaml
+</code></pre><p>Kubernetes will notice that the deployment configuration has changed, and it will start a rolling update. It will gradually take down the old pod and bring up a new pod with the updated configuration (resulting in a minimal disruption to service).</p>
+<p>If <code>kubectl</code> responds to say that the yaml file is unchanged, you can force Kubernetes to replace the current deployment. Just note that this will cause disruption as old pods are deleted <em>first</em> before new ones are created.</p>
+<pre tabindex="0"><code>kubectl replace --force -f rocketchat-deployment.yaml
+</code></pre><h4 id="verify-the-credentials-are-visible-in-the-pod">Verify the credentials are visible in the pod</h4>
+<p>To validate that ConfigMap and Volume are mounted correctly, we can connect to the pod and verify the file contents.</p>
+<p>Find the name of the pod running:</p>
+<pre tabindex="0"><code>kubectl get pods -n rocket
+...
+NAME                         READY   STATUS    RESTARTS   AGE
+rocketchat-5878f57494-rcn9c  1/1     Running   0          6d22h
+</code></pre><p>Connect to the container and start a bash session:</p>
+<pre tabindex="0"><code>kubectl exec -it rocketchat-5878f57494-rcn9c -n rocket -- /bin/bash
+</code></pre><p>View the contents of the <code>connectionstring</code> file and verify that it matches what you entered when defining the ConfigMap:</p>
+<pre tabindex="0"><code>cat /etc/credentials/connectionstring
+...
+mongodb://rocketchat:youwillneverguess@172.31.15.204:27017/rocketchat
+</code></pre><h3 id="24---configure-mongodb-to-backup-to-the-public-s3-bucket">2.4 - Configure MongoDB to Backup to the Public S3 Bucket</h3>
+<p>We will now configure MongoDB to automatically backup to the S3 bucket we created at the start of this document (the one with public read access). The VM has already been configured with permissions to read and write to the bucket as part of the policy and role we assigned to it in Section 2.2. All that is left to do is create a script and cronjob to manage the backup. <code>mongodump</code> will be used to create the backups and this was automatically installed on the system alongside MongoDB.</p>
+<div class="bd-callout bd-callout-danger">
+    <strong class="text-danger">
+        <i class="bi bi-x-octagon-fill"></i>&nbsp; 
+        
+        Warning!<br>
+    </strong>
+Storing backups in a public bucket is a really dumb and stupid idea. <strong>Never do this!</strong>
+</div>
+
+<h4 id="install-aws-cli">Install AWS CLI</h4>
+<p>Our backup script will leverage the AWS CLI to perform the upload to the S3 bucket, so it needs to be installed on the VM.</p>
+<p>Connect to the MongoDB VM using your SSH keypair:</p>
+<pre tabindex="0"><code>ssh ubuntu@&lt;your-vm-public-ip&gt;
+</code></pre><p>Install AWS CLI:</p>
+<pre tabindex="0"><code>sudo apt install awscli -y
+</code></pre><h4 id="create-the-backup-script">Create the Backup Script</h4>
+<p>Create a folder to store the backups:</p>
+<pre tabindex="0"><code>mkdir $HOME/backups
+</code></pre><p>Create a new script file called <code>backup_mongodb.sh</code>:</p>
+<pre tabindex="0"><code>nano backup_mongodb.sh
+</code></pre><p>Paste in the following, replacing <code>your-bucket-name</code> with the name of your target S3 bucket:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># specify date for backup</span>
+</span></span><span style="display:flex;"><span>DATE<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>date +%Y%m%d%H%M<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># specify where backup will be stored locally</span>
+</span></span><span style="display:flex;"><span>BACKUP_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">/backups&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># specify your S3 bucket</span>
+</span></span><span style="display:flex;"><span>S3_BUCKET<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;your-bucket-name&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># create backup with mongodump</span>
+</span></span><span style="display:flex;"><span>mongodump --out $BACKUP_DIR/mongodb-$DATE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># create tarball of the backup</span>
+</span></span><span style="display:flex;"><span>tar -zcvf $BACKUP_DIR/mongodb-$DATE.tar.gz $BACKUP_DIR/mongodb-$DATE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># remove the backup directory</span>
+</span></span><span style="display:flex;"><span>rm -rf $BACKUP_DIR/mongodb-$DATE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># upload tarball to S3</span>
+</span></span><span style="display:flex;"><span>aws s3 cp $BACKUP_DIR/mongodb-$DATE.tar.gz s3://$S3_BUCKET/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># remove the local tarball</span>
+</span></span><span style="display:flex;"><span>rm $BACKUP_DIR/mongodb-$DATE.tar.gz
+</span></span></code></pre></div><p>Save and close the file (CTRL+X, then <code>Y</code>)</p>
+<p>The script uses <code>mongodump</code> to create a backup of the MongoDB database. It then compresses the backup into a tarball with <code>tar -zcvf</code>, removes the uncompressed backup directory with <code>rm -rf</code>, uploads the tarball to your S3 bucket with <code>aws s3 cp</code>, and then removes the local tarball.</p>
+<p>Because the VM was given an IAM role that included S3 read/write access to the bucket, there is no need to configure the AWS CLI or provide credentials: The AWS SDK and AWS CLI tools will automatically use the attached IAM role to get temporary credentials. AWS then automatically rotates these credentials multiple times per day to ensure on-going security.</p>
+<h4 id="test-the-backup-script">Test the Backup Script</h4>
+<p>Ensure that the script is executable:</p>
+<pre tabindex="0"><code class="language-chmod" data-lang="chmod">chmod +x backup_mongodb.sh
+</code></pre><p>Run the script and check the S3 bucket from the <a href="console.aws.amazon.com/s3/">S3 console</a> to make sure that the backup was successfully uploaded:</p>
+<pre tabindex="0"><code>./backup_mongodb.sh
+...
+2023-07-24T07:34:15.438+0000	writing admin.system.users to /home/ubuntu/backups/mongodb-202307240734/admin/system.users.bson
+2023-07-24T07:34:15.439+0000	done dumping admin.system.users (1 document)
+2023-07-24T07:34:15.440+0000	writing admin.system.version to /home/ubuntu/backups/mongodb-202307240734/admin/system.version.bson
+[..snip..]
+upload: backups/mongodb-202307240734.tar.gz to s3://your-bucket-name/mongodb-202307240734.tar.gz
+EOF
+</code></pre><p><img src="30.png" alt="30"></p>
+<h4 id="automate-the-backup-with-cron">Automate the Backup with Cron</h4>
+<p>Currently the backup script must be manually invoked, however we can use <code>cron</code> to run the script on a schedule.</p>
+<p>Check that <code>cron</code> is running:</p>
+<pre tabindex="0"><code>sudo systemctl status cron
+...
+● cron.service - Regular background program processing daemon
+   Loaded: loaded (/lib/systemd/system/cron.service; enabled; vendor preset: enabled)
+   Active: active (running) since Sun 2023-07-16 05:48:21 UTC; 1 weeks 1 days ago
+     Docs: man:cron(8)
+ Main PID: 1160 (cron)
+   CGroup: /system.slice/cron.service
+           └─1160 /usr/sbin/cron -f
+</code></pre><p>Edit the crontab (the configuration file that the <code>cron</code> service uses):</p>
+<pre tabindex="0"><code>crontab -e
+</code></pre><p>Paste the following at the bottom of the crontab:</p>
+<pre tabindex="0"><code>0 3 * * * $HOME/backup_mongodb.sh &gt; $HOME/backup/backup.log 2&gt;&amp;1
+</code></pre><p>Assuming <code>nano</code> is your text editor, save and exit using CTRL+X, then <code>Y</code>.</p>
+<p>The text tells <code>cron</code> to automatically run a backup at 3am everyday. It redirect all output into a log file called <code>backup.log</code> which can be reviewed if troubleshooting is required.</p>
+<hr>
+<h2 id="finish">Finish</h2>
+<p>🥳 Congratulations! You now have an insecure deployment of Rocket.Chat on a managed Kubernetes cluster in Amazon AWS.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/notes">notes</a></span><span class="tag"><a href="https://nathancatania.com/tags/aws">aws</a></span><span class="tag"><a href="https://nathancatania.com/tags/kubernetes">kubernetes</a></span><span class="tag"><a href="https://nathancatania.com/tags/k8s">k8s</a></span><span class="tag"><a href="https://nathancatania.com/tags/security">security</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>7314 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2023-07-24</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/deploy-netskope-cloud-exchange/">
+                                <span class="button__text">Deploy Netskope Cloud Exchange</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.858712b4b19060b33e6a3b52df9749f413894a75772f4d0b4683380c0ce08c6f93623d63068ef5ae4719980bcaa15ad536694c42897b88c4826c6ece21918827.js" integrity="sha512-hYcStLGQYLM&#43;ajtS35dJ9BOJSnV3L00LRoM4DAzgjG&#43;TYj1jBo71rkcZmAvKoVrVNmlMQol7iMSCbG7OIZGIJw=="></script>
+
+
+
+
+    </body>
+</html>

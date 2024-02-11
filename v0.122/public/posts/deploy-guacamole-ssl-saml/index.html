@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="map[author:map[bio:Engineer // Melbourne // Australia name:Nathan Catania photo:map[url:avatar.png]] contenttypename:posts dateform:Jan 2, 2006 dateformnum:2006-01-02 dateformnumtime:2006-01-02 15:04 &#43;1000 dateformshort:Jan 2 description:The official website of Nathan Catania &amp;#10003; disablereadotherposts:false enablethemetoggle:true giturl:https://github.com/nathancatania/website/commit/ homesubtitle:Engineer // Melbourne // Australia images:[] keywords:blog, website, official logo:map[logohomelink:/ logotext:$ cd /home/nathan] readotherposts:Read other posts social:[map[name:linkedin url:https://www.linkedin.com/in/nathancatania]] subtitle:Engineer // Melbourne // Australia]">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Engineer // Melbourne // Australia Nathan Catania map[url:avatar.png] ">
+<meta name="description" content="This post will cover how to configure Apache Guacamole with Single-Sign-On (SSO) authentication and automated SSL" />
+<meta name="keywords" content="blog, website, official, guacamole, sso, remote access, ssl" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://nathancatania.com/posts/deploy-guacamole-ssl-saml/" />
+
+
+    <title>
+        
+            Deploy Apache Guacamole with SSL &amp; SAML (Azure AD &amp; Okta) integration :: Nathan Catania  — Engineer // Melbourne // Australia
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b851fae37ea32930b5c4996a9ac8737a9d1ab1b40af28b3cd3b0060df9e2f5a3.css" integrity="sha256-uFH6436jKTC1xJlqmshzep0asbQK8os807AGDfni9aM=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Deploy Apache Guacamole with SSL &amp; SAML (Azure AD &amp; Okta) integration">
+<meta itemprop="description" content="This post will cover how to configure Apache Guacamole with Single-Sign-On (SSO) authentication and automated SSL"><meta itemprop="datePublished" content="2022-07-31T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-07-31T00:00:00+00:00" />
+<meta itemprop="wordCount" content="6205"><meta itemprop="image" content="https://nathancatania.com" />
+<meta itemprop="keywords" content="guacamole,sso,remote access,ssl," />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://nathancatania.com" /><meta name="twitter:title" content="Deploy Apache Guacamole with SSL &amp; SAML (Azure AD &amp; Okta) integration"/>
+<meta name="twitter:description" content="This post will cover how to configure Apache Guacamole with Single-Sign-On (SSO) authentication and automated SSL"/>
+
+
+
+    <meta property="og:title" content="Deploy Apache Guacamole with SSL &amp; SAML (Azure AD &amp; Okta) integration" />
+<meta property="og:description" content="This post will cover how to configure Apache Guacamole with Single-Sign-On (SSO) authentication and automated SSL" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nathancatania.com/posts/deploy-guacamole-ssl-saml/" /><meta property="og:image" content="https://nathancatania.com" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-31T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-31T00:00:00+00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-07-31 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                $ cd /home/nathan</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">Blog</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+                <span class="theme-toggle not-selectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+   3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+   13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+ </svg></span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>30 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="https://nathancatania.com/posts/deploy-guacamole-ssl-saml/">Deploy Apache Guacamole with SSL &amp; SAML (Azure AD &amp; Okta) integration</a>
+            </h1>
+                <hr />
+                <aside id="toc">
+                <div class="toc-title">Table of Contents</div>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#what-is-guacamole">What is Guacamole?</a></li>
+    <li><a href="#why-bother-with-sso-integration">Why bother with SSO Integration?</a></li>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#prepare-your-saml-idp-azure-ad-okta">Prepare your SAML IdP (Azure AD, Okta)</a>
+      <ul>
+        <li><a href="#azure-active-directory-azure-ad">Azure Active Directory (Azure AD)</a>
+          <ul>
+            <li><a href="#1-create-a-new-enterprise-application">1. Create a new Enterprise Application</a></li>
+            <li><a href="#2-configure-the-guacamole-enterprise-app-in-azure-ad">2. Configure the Guacamole Enterprise App in Azure AD</a></li>
+            <li><a href="#3-provide-the-saml-configuration">3. Provide the SAML Configuration</a></li>
+            <li><a href="#4-copy-the-azure-ad-metadata-url">4. Copy the Azure AD Metadata URL</a></li>
+            <li><a href="#5-add-users--groups-to-the-enterprise-application">5. Add Users &amp; Groups to the Enterprise Application</a></li>
+            <li><a href="#6-azure-ad-saml-configuration-finished">6. Azure AD SAML Configuration Finished</a></li>
+          </ul>
+        </li>
+        <li><a href="#okta">Okta</a>
+          <ul>
+            <li><a href="#1-create-a-new-app-integration">1. Create a new App Integration</a></li>
+            <li><a href="#2-configure-okta-saml-integration">2. Configure Okta SAML Integration</a></li>
+            <li><a href="#3-get-the-okta-idp-metadata-url">3. Get the Okta IdP Metadata URL</a></li>
+            <li><a href="#4-add-users--groups-to-the-application">4. Add Users &amp; Groups to the Application</a></li>
+            <li><a href="#5-okta-configuration-finished">5. Okta Configuration Finished</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#automated-guacamole-installation-azure-aws-gcp">Automated Guacamole Installation (Azure, AWS, GCP)</a>
+      <ul>
+        <li><a href="#1-get-the-config-file">1. Get the Config File</a></li>
+        <li><a href="#2-configure-the-required-settings">2. Configure the Required Settings</a></li>
+        <li><a href="#3-paste-the-entire-configuration">3. Paste the entire configuration</a></li>
+        <li><a href="#4-deployment-finish">4. Deployment Finish</a></li>
+      </ul>
+    </li>
+    <li><a href="#manual-gucamole-installation">Manual Gucamole Installation</a>
+      <ul>
+        <li><a href="#1-install-docker--docker-compose">1. Install Docker &amp; Docker Compose</a>
+          <ul>
+            <li><a href="#a-note-for-netskope-users">A Note for Netskope Users</a></li>
+            <li><a href="#installing-docker">Installing Docker</a></li>
+            <li><a href="#installing-docker-compose">Installing Docker Compose</a></li>
+          </ul>
+        </li>
+        <li><a href="#2-create-folders-to-store-container-data">2. Create Folders to Store Container Data</a></li>
+        <li><a href="#3-create-the-docker-compose-file">3. Create the Docker Compose File</a>
+          <ul>
+            <li><a href="#container-information">Container Information</a></li>
+            <li><a href="#network-information">Network Information</a></li>
+          </ul>
+        </li>
+        <li><a href="#4-create-the-env-config-file">4. Create the <code>.env</code> Config File</a></li>
+        <li><a href="#5-create-the-caddyfile">5. Create the Caddyfile</a>
+          <ul>
+            <li><a href="#self-signed-or-ca-signed-ssl">Self-Signed or CA Signed SSL?</a></li>
+          </ul>
+        </li>
+        <li><a href="#6-create-the-guacamoleproperties-configuration-file">6. Create the <code>guacamole.properties</code> configuration file</a></li>
+        <li><a href="#7-download-the-saml-extension-for-guacamole">7. Download the SAML extension for Guacamole</a></li>
+        <li><a href="#8-initialize-the-database">8. Initialize the database</a></li>
+        <li><a href="#9-update-the-config-file-for-tomcat">9. Update the config file for Tomcat</a></li>
+        <li><a href="#10-bring-up-the-guacamole-instance">10. Bring up the Guacamole Instance</a></li>
+      </ul>
+    </li>
+    <li><a href="#access-your-guacamole-instance">Access your Guacamole Instance</a>
+      <ul>
+        <li><a href="#common-issue-1---ssl--security-warning">Common Issue #1 - SSL / Security Warning</a></li>
+        <li><a href="#common-issue-2---error-404-page-when-accessing-guacamole">Common Issue #2 - Error 404 page when accessing Guacamole</a></li>
+        <li><a href="#common-issue-3---something-is-broken">Common Issue #3 - Something is broken&hellip;</a></li>
+      </ul>
+    </li>
+    <li><a href="#troubleshooting">Troubleshooting</a>
+      <ul>
+        <li><a href="#review-logs">Review Logs</a></li>
+        <li><a href="#enable-debug-logging">Enable Debug Logging</a></li>
+        <li><a href="#enable-saml-logging">Enable SAML Logging</a></li>
+        <li><a href="#saml-issue-1----signature-validation-failed">SAML Issue #1 -  Signature validation failed</a></li>
+        <li><a href="#saml-issue-2---could-not-parse-saml-idp-metadata-file">SAML Issue #2 - Could not parse SAML IdP Metadata file</a></li>
+      </ul>
+    </li>
+    <li><a href="#appendix-use-signed-ssl-certificates-with-caddy">Appendix: Use Signed SSL Certificates with Caddy</a>
+      <ul>
+        <li><a href="#using-your-own-root-ca-or-signed-ssl-certificate">Using your own Root CA or signed SSL certificate</a></li>
+        <li><a href="#using-lets-encrypt-to-request-signed-ssl-certificates-for-free">Using Let&rsquo;s Encrypt to request signed SSL certificates for free</a>
+          <ul>
+            <li><a href="#1-build-a-new-caddy-image">1. Build a new Caddy Image</a></li>
+          </ul>
+        </li>
+        <li><a href="#2-update-the-caddyfile">2. Update the Caddyfile</a></li>
+        <li><a href="#3-update-docker-composeyml">3. Update <code>docker-compose.yml</code></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </aside>
+                <hr />
+
+            
+                <img src="banner.png" class="post-cover" />
+            
+
+            <div class="post-content">
+                <h1 id="introduction">Introduction</h1>
+<p>This post will cover how to configure Single-Sign-On (SSO) using SAML for Apache Guacamole while also ensuring that your deployment is secured behind auto-renewing SSL.</p>
+<p>This is a BIG guide as I cover off an automated installation method (using <code>cloud-init</code>), a manual install method, and instructions for both Azure AD and Okta - so you might want to leverage the table of contents above to jump to the sections most approproate to you.</p>
+<p>Anyway, let&rsquo;s go!</p>
+<h1 id="what-is-guacamole">What is Guacamole?</h1>
+<blockquote>
+<p><em>Apache Guacamole</em> is a clientless remote desktop gateway. It supports standard protocols like VNC, RDP, and SSH. We call it <em>clientless</em> because no plugins or client software are required. Thanks to HTML5, once Guacamole is installed on a server, all you need to access your desktops is a web browser.</p>
+<p>&ndash; <a href="https://guacamole.apache.org/">Apache.org</a></p>
+</blockquote>
+<p>Guacamole allows you to access servers, workstations, and infrastructure (essentially anything that connects using SSH or RDP) via a web browser.</p>
+<p>It also provides a layer of isolation as the user is not directly connected to the resource themselves: rather Guacamole connects to the resource and the user interacts with a HTML5 canvas of what is on-screen; allowing you to control actions such as the ability to copy &amp; paste between the remote host and user machine.</p>
+<p>Gucamole is particularly useful in instances where you want to provide access to internal company resources to 3rd parties (such as MSPs or contractors), but don&rsquo;t want them to be able to connect to the resource directly.</p>
+<h1 id="why-bother-with-sso-integration">Why bother with SSO Integration?</h1>
+<p>SSO authentication for Guacamole is valuable as it means that the visibility of internal resources (ie: what servers/workstations a user can see and connect to within the Gucamole UI) can be entirely managed within your existing Identity Provider (IdP), rather than within Guacamole itself.</p>
+<p><strong>That is, by simply assigning users to different Groups within the IdP, you can control what internal resources they have access to; without having to touch Guacamole itself.</strong></p>
+<p>This has two benefits:</p>
+<ol>
+<li>A reduction of operational overhead in having to manage system access in more than one location.</li>
+<li>Ensuring that your IdP is the single-source of truth for validation of identity (critical if you moving your business towards a <a href="https://www.nist.gov/publications/zero-trust-architecture">Zero Trust Architecture</a>)</li>
+</ol>
+<p>If you are a &ldquo;homelabber&rdquo; and want to start dabbling with SSO, Azure Active Directory&rsquo;s free tier will work fine for this guide.</p>
+<hr>
+<h1 id="requirements">Requirements</h1>
+<p>You will need the following to install Guacamole and configure SAML integration:</p>
+<ul>
+<li>A Linux system capable of supporting the docker.io release of Docker, and Docker Compose.
+<ul>
+<li>I recommend Ubuntu Server 20.04 LTS.</li>
+<li>This guide will use Ubuntu Server 20.04 LTS running in AWS (t2.micro instance == 1 vCPU, 1GB memory)</li>
+</ul>
+</li>
+<li>An Identity Provider (IdP) that supports SAML 2.0, such as Azure AD or Okta.
+<ul>
+<li>The Azure AD free tier is sufficient.</li>
+<li>This guide will use Azure AD, but the steps will be applicable to any SAML 2.0 IdP (eg: Okta).</li>
+</ul>
+</li>
+<li>The FQDN/domain you wish to use to access Guacamole, eg: <code>guac.company.local</code>
+<ul>
+<li>The domain must resolve internally to the IP address of the system that Guacamole is running on; eg: <code>guac.company.local</code> <code>-&gt;</code> <code>10.0.10.7</code></li>
+<li>If you will be accessing Guacamole through a Clientless ZTNA solution like Netskope Private Access, <strong>then the domain you choose MUST be an external one and the same one that users will use to access it remotely</strong>; eg: <code>guac.company.com</code>. You CANNOT use a local/internal domain like <code>.local</code></li>
+</ul>
+</li>
+</ul>
+<p>This guide will deploy Guacamole as a series of Docker containers - hence as long as your system can run Docker, it will be able to run Guacamole.</p>
+<h1 id="prepare-your-saml-idp-azure-ad-okta">Prepare your SAML IdP (Azure AD, Okta)</h1>
+<h2 id="azure-active-directory-azure-ad">Azure Active Directory (Azure AD)</h2>
+<p><img src="guacaad.png" alt="guacaad"></p>
+<h3 id="1-create-a-new-enterprise-application">1. Create a new Enterprise Application</h3>
+<p>Log into the Azure AD <a href="https://portal.azure.com/">portal</a>, and go to “Enterprise Applications”. You may need to search for this at the top of the portal.</p>
+<p><img src="1.png" alt="1"></p>
+<p>Click <strong>New application</strong>.</p>
+<p><img src="2.png" alt="2"></p>
+<p>Click <strong>Create your own application</strong> and name the application <code>Apache Guacamole SSO</code>.</p>
+<p>Select the 3rd option to create a non-gallery app: <strong>Integrate any other application you don’t find in the gallery</strong>.</p>
+<p>Click <strong>Create</strong> when you are done.</p>
+<p><img src="3.png" alt="3"></p>
+<h3 id="2-configure-the-guacamole-enterprise-app-in-azure-ad">2. Configure the Guacamole Enterprise App in Azure AD</h3>
+<p>From the left-side menu, click Properties, and set the &ldquo;<strong>Visible to Users?</strong>&rdquo; option to <strong>No</strong>.</p>
+<p><img src="4.png" alt="4"></p>
+<p>Next, click <strong>Single sign-on</strong> from the left-side menu, and select <strong>SAML</strong> when prompted.</p>
+<p><img src="5.png" alt="5"></p>
+<h3 id="3-provide-the-saml-configuration">3. Provide the SAML Configuration</h3>
+<p>Under <strong>Basic SAML Configuration</strong>, click the <em>Edit</em> button and fill in the fields as follows. Substitute <code>&lt;fqdn-of-your-guacamole-instance&gt;</code> with the domain you wish to use to access the Guacamole UI. For example: <code>guac.company.com</code>:</p>
+<ul>
+<li><strong>Identifier (Entity ID)</strong> &ndash;&gt; <code>https://&lt;fqdn-of-your-guacamole-instance&gt;</code>
+<ul>
+<li>Eg: <code>https://guac.company.com</code></li>
+</ul>
+</li>
+<li><strong>Reply URL (Assertion Consumer Service URL)</strong> &ndash;&gt; <code>https://&lt;fqdn-of-your-guacamole-instance&gt;/guacamole/api/ext/saml/callback</code>
+<ul>
+<li>Eg: <code>https://guac.company.com/guacamole/api/ext/saml/callback</code></li>
+</ul>
+</li>
+</ul>
+<p>Leave all the other fields blank (Sign on URL, Relay State, etc).</p>
+<p>Save your configuration when done.</p>
+<p><img src="6.png" alt="6"></p>
+<h3 id="4-copy-the-azure-ad-metadata-url">4. Copy the Azure AD Metadata URL</h3>
+<p>Scroll down. Under <em><strong>Section 3 - SAML Signing Certificate</strong></em>, note down the <strong>App Federation Metadata URL</strong>. You will need this later. This will be of the form:</p>
+<pre tabindex="0"><code>https://login.microsoftonline.com/a1b2c3d4-e5f6-0a1b-2c3d-4e5f6a1b2c3d/federationmetadata/2007-06/federationmetadata.xml?appid=a1b2c3d4-e5f6-0a1b-2c3d-4e5f6a1b2c3d
+</code></pre><p><img src="7.png" alt="7"></p>
+<h3 id="5-add-users--groups-to-the-enterprise-application">5. Add Users &amp; Groups to the Enterprise Application</h3>
+<p>The last step we need to perform in Azure AD is to assign users and/or groups to the <em>Apache Guacamole SSO</em> app to provide them with access. Any user or group added here will be permitted to SSO through to and access your Guacamole instance; so be careful!</p>
+<p>From the left-side menu within the <em>Apache Guacamole SSO</em> Enterprise Application, select <strong>Users and groups</strong>, then click <strong>Add user/group</strong>.</p>
+<p><img src="8.png" alt="8"></p>
+<p>Select the users and/or groups that are permitted to access your Guacamole instance. Note that nested groups are not supported.</p>
+<p><img src="9.png" alt="9"></p>
+<p>If you are deploying Guacamole to provide clientless access for 3rd parties/contractors to access internal resources via a ZTNA solution (like Netskope NPA), then you may want to create a group/security group specifically for these individuals and assign it to the Guacamole app; for example: <code>sg-External</code>. <strong>Note down the groups you select here as these will be the same groups that you add to ZTNA policy later on</strong> in order for the users in those groups to be able to reach your instance of Guacamole in the first place.</p>
+<p>Note: If you are using Azure AD&rsquo;s free tier, you might not be able to correctly use Groups. Stick to assigning individual users only.</p>
+<p>After assigning users/groups and applicable roles, your user/group list should look similar to the below:</p>
+<p><img src="10.png" alt="10"></p>
+<h3 id="6-azure-ad-saml-configuration-finished">6. Azure AD SAML Configuration Finished</h3>
+<p>You&rsquo;ve now finished the configuration in Azure AD and can proceed to installing Guacamole.</p>
+<p>Don&rsquo;t forget that you will need the  <strong>App Federation Metadata URL</strong> to properly configure Guacamole, so go back and copy this down now if you haven&rsquo;t already.</p>
+<p>Jump to:</p>
+<ul>
+<li><a href="#automated-guacamole-installation-azure-aws-gcp">Automated Guacamole Installation (AWS, Azure, GCP)</a></li>
+<li><a href="#manual-gucamole-installation">Manual Guacamole Installation</a></li>
+<li><a href="#toc">Table of Contents</a></li>
+</ul>
+<hr>
+<h2 id="okta">Okta</h2>
+<p><img src="guac-okta.png" alt="guac-okta"></p>
+<h3 id="1-create-a-new-app-integration">1. Create a new App Integration</h3>
+<p>Log in to your Okta administrator console and from the left-side menubar, navigate to <strong>Applications &gt; Applications</strong>.</p>
+<p>Select <strong>Create App Integration</strong>.</p>
+<p><img src="11.png" alt="11"></p>
+<p>Select <strong>SAML 2.0</strong> as the sign-in method and click <strong>Next</strong>.</p>
+<p><img src="12.png" alt="12"></p>
+<p>On the next screen, name the application <code>Apache Gucamole SSO</code> and check both of the app visibility boxes to hide the app icon from users. Click <strong>Next</strong> when you are done on this screen.</p>
+<p><img src="18.png" alt="18"></p>
+<h3 id="2-configure-okta-saml-integration">2. Configure Okta SAML Integration</h3>
+<p>Under <strong>SAML Settings</strong>, fill in the fields as follows. Substitute <code>&lt;fqdn-of-your-guacamole-instance&gt;</code> with the domain you wish to use to access the Guacamole UI. For example: <code>guac.company.com</code>:</p>
+<ul>
+<li><strong>Single sign on URL</strong> &ndash;&gt; <code>https://&lt;fqdn-of-your-guacamole-instance&gt;/guacamole/api/ext/saml/callback</code>
+<ul>
+<li>Eg: <code>https://guac.company.com/guacamole/api/ext/saml/callback</code>**</li>
+</ul>
+</li>
+<li><strong>Audience URI (SP Entity ID)</strong> &ndash;&gt; <code>https://&lt;fqdn-of-your-guacamole-instance&gt;</code>
+<ul>
+<li>Eg: <code>https://guac.company.com</code>**</li>
+</ul>
+</li>
+<li><strong>Name ID format</strong> &ndash;&gt; Set this to <code>EmailAddress</code></li>
+</ul>
+<p>Leave all the other fields blank or as their default values (Default RelayState, App username, etc).</p>
+<p><img src="19.png" alt="19"></p>
+<p>Scroll down and click <strong>Next</strong> when done.</p>
+<p>On the next page, check the box “<em>I’m an Okta customer adding an internal app</em>” and click <strong>Finish</strong>.</p>
+<h3 id="3-get-the-okta-idp-metadata-url">3. Get the Okta IdP Metadata URL</h3>
+<p>On the next page, ensure you are on the <strong>Sign On</strong> tab, and click the &ldquo;<strong>View Setup Instructions</strong>&rdquo; button on the right-side of the screen. You may need to scroll down.</p>
+<p><img src="20.png" alt="20"></p>
+<p>Extract your <code>tenant ID</code> and <code>App ID</code> from the  <strong>Identity Provider Single Sign-On URL</strong>. This will be of the form:</p>
+<pre tabindex="0"><code>https://&lt;tenant-id&gt;.okta.com/app/dev-01234567_apacheguacamolesso_1/&lt;app-id&gt;/sso/saml
+</code></pre><p>For example, if your URL is:</p>
+<pre tabindex="0"><code>https://dev-01234567.okta.com/app/dev-01234567_apacheguacamolesso_1/ezk5zbw26xt3cSSEC5d7/sso/saml
+</code></pre><ul>
+<li>The <code>tenant ID</code> is <code>dev-01234567</code></li>
+<li>The <code>app ID</code> is <code>ezk5zbw26xt3cSSEC5d7</code></li>
+</ul>
+<p>Copy these into the below URL to form the Okta IdP Metadata URL:</p>
+<pre tabindex="0"><code>https://&lt;tenant-id&gt;.okta.com/app/&lt;app-id&gt;/sso/saml/metadata
+</code></pre><p>For example:</p>
+<pre tabindex="0"><code>https://dev-01234567.okta.com/app/ezk5zbw26xt3cSSEC5d7/sso/saml/metadata
+</code></pre><p><img src="22.png" alt="22"></p>
+<p><strong>Note down this URL! You will need it to configure Guacamole later.</strong></p>
+<p>You will know your URL is correct if you visit it in your browser and it loads a bunch of XML:</p>
+<p><img src="23.png" alt="23"></p>
+<h3 id="4-add-users--groups-to-the-application">4. Add Users &amp; Groups to the Application</h3>
+<p>The last step we need to perform in Okta is to assign users and/or groups to the <em>Apache Guacamole SSO</em> app to provide them with access. Any user or group added here will be permitted to SSO through to and access your Guacamole instance; so be careful!</p>
+<p>Click on the <strong>Assignments</strong> tab within the <em>Apache Guacamole SSO</em> app. Use the <strong>Assign</strong> button to select either the individual users or groups that are permitted to access your Guacamole instance.</p>
+<p><img src="21.png" alt="21"></p>
+<p>If you are deploying Guacamole to provide clientless access for 3rd parties/contractors to access internal resources via a ZTNA solution (like Netskope NPA), then you may want to create a group/security group specifically for these individuals and assign it to the Guacamole app; for example: <code>sg-External</code>. <strong>Note down the groups you select here as these will be the same groups that you add to ZTNA policy later on</strong> in order for the users in those groups to be able to reach your instance of Guacamole in the first place.</p>
+<h3 id="5-okta-configuration-finished">5. Okta Configuration Finished</h3>
+<p>You&rsquo;ve now finished the configuration in Okta and can proceed to installing Guacamole.</p>
+<p>Don&rsquo;t forget that you will need the  <strong>Okta IdP Metadata URL</strong> that you created to properly configure Guacamole, so go back and copy it down if you haven&rsquo;t already.</p>
+<p>Jump to:</p>
+<ul>
+<li><a href="#automated-guacamole-installation-azure-aws-gcp">Automated Guacamole Installation (AWS, Azure, GCP)</a></li>
+<li><a href="#manual-gucamole-installation">Manual Guacamole Installation</a></li>
+<li><a href="#">Table of Contents</a></li>
+</ul>
+<hr>
+<h1 id="automated-guacamole-installation-azure-aws-gcp">Automated Guacamole Installation (Azure, AWS, GCP)</h1>
+<p>We can piggyback onto the <code>cloud-init</code> process that is used to configure a fresh VM in public cloud environments (AWS, Azure, GCP, etc) and tell it to also bring up Guacamole at the same time.</p>
+<h2 id="1-get-the-config-file">1. Get the Config File</h2>
+<p>Copy the content of this file into a text editor like VS Studio or Atom: <a href="https://github.com/nathancatania/guacamole-sso-cloud-init/blob/main/user-data.yml">https://github.com/nathancatania/guacamole-sso-cloud-init/blob/main/user-data.yml</a></p>
+<p>If you are wondering what this configuration does, see the <strong>Manual Guacamole Installation</strong> section of this guide. It wraps every step up into one script that is automatically applied on boot of a fresh VM.</p>
+<p>You can also review the <a href="https://github.com/nathancatania/guacamole-sso-cloud-init">git repo for it here</a>.</p>
+<h2 id="2-configure-the-required-settings">2. Configure the Required Settings</h2>
+<p>Before you can use the <code>user-data.yml</code> file to configure your VM, there are some values you will need to set/change.</p>
+<p><strong>As a minimum, you MUST set the FQDN and Metadata URL:</strong></p>
+<ul>
+<li>The FQDN is the domain you&rsquo;ve chosen to access your Gucamole instance at. This should be the same one you used in your SAML IdP configuration, eg: <code>guac.company.com</code></li>
+<li>The Metadata URL is obtained from the IdP (see the instructions for Azure AD or Okta above).</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># {# ####### START SETTINGS ####### #}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {# REQUIRED - Provide the FQDN that Guacamole will be accessed at! #}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {# Leaving this as the default value will generate SSL certs for guac.company.local which you don&#39;t want! #}</span>
+</span></span><span style="display:flex;"><span>{<span style="color:#ae81ff">% set fqdn = &#34;guac.company.local&#34; %}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {# REQUIRED - IdP (Azure AD / Okta) Metadata URL #}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {# Leaving this as the default value cause the SSO module to fail! #}</span>
+</span></span><span style="display:flex;"><span>{<span style="color:#ae81ff">% set metadata_url = &#34;https://example.com/metadata.xml&#34; %}</span>
+</span></span></code></pre></div><p>It is also recommended that you set the following:</p>
+<ul>
+<li>Change the default database password from something other than the default value. This database is used to store Guacamole configuration data.</li>
+<li>Assign an SSH key for the default user (<code>guacamole</code>). You can also optionally change the default user from <code>guacamole</code> to something else.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># {# RECOMMENDED - Change the default Guacamole DB password #}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {# The Guacamole DB is used to store settings/config data #}</span>
+</span></span><span style="display:flex;"><span>{<span style="color:#ae81ff">% set dbpass = &#34;Y0u%$h0UlD%R3@Lly%CH@ng3%tH1$%P@$sW0rD&#34; %}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {# OPTIONAL - Import an SSH key from a public keyserver (GitHub). Enter your GitHub username, eg: &#34;nathancatania&#34; #}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {# Leave default if not needed #}</span>
+</span></span><span style="display:flex;"><span>{<span style="color:#ae81ff">% set gh_identity = &#34;username&#34; %}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {# OPTIONAL - Add an authorized public SSH key to permit access to the Publisher host via npa username #}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {# Leave default if not needed #}</span>
+</span></span><span style="display:flex;"><span>{<span style="color:#ae81ff">% set ssh_key = &#34;ssh-rsa AAAABBBBCCCC...&#34; %}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {# OPTIONAL - Set the default user/username for the system. This will be who you first SSH to the VM as #}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {# Default: guacamole@vm-hostname #}</span>
+</span></span><span style="display:flex;"><span>{<span style="color:#ae81ff">% set default_user = &#34;guacamole&#34; %}</span>
+</span></span></code></pre></div><h2 id="3-paste-the-entire-configuration">3. Paste the entire configuration</h2>
+<p>When you are done, paste the entire configuration into the <strong>User-Data</strong>, <strong>Custom Data</strong>, or <strong>Metadata</strong> fields when configuring a fresh Ubuntu VM on AWS/Azure/GCP. For specific instructions for each cloud provider, <a href="https://github.com/nathancatania/publisher-cloud-init#how-do-i-use-this">see here</a>.</p>
+<p>Finish provisioning as per the normal workflow for AWS/Azure/GCP.</p>
+<h2 id="4-deployment-finish">4. Deployment Finish</h2>
+<p>When your fresh VM comes up, even if you can SSH to it, <code>cloud-init</code> will still be running and executing our configuration in the background. You may need to wait up to 10 minutes for <code>cloud-init</code> to finish.</p>
+<p>To check the status of <code>cloud-init</code>, run the command <code>cloud-init status</code>:</p>
+<pre tabindex="0"><code>npa@i-097b1b0c65d4ef774:~$ cloud-init status
+status: done
+</code></pre><p>If the status shows <code>status: running</code>, cloud-init is still configuring the VM.</p>
+<p>The configuration will be successfully complete if you can run the <code>docker ps</code> command and see multiple containers present.</p>
+<pre tabindex="0"><code>guacamole@guactest:~$ docker ps
+CONTAINER ID   IMAGE   NAME
+c28788e9970e   guacamole/guacamole:1.4.0   guacamole
+642b183e2dba   caddy:2.5.2                 caddy
+1b41e5548211   guacamole/guacd:1.4.0       guacd
+57acc7868cb7   mariadb/server:latest       guacdb
+</code></pre><p>If the <code>cloud-init status</code> command returns <code>status: done</code>, but you don&rsquo;t see any containers (or if Guacamole is not accessible); <a href="https://github.com/nathancatania/guacamole-sso-cloud-init#validation--troubleshooting-steps">troubleshooting steps are covered in the git repo here</a>.</p>
+<p>Jump to:</p>
+<ul>
+<li><a href="#access-your-guacamole-instance">Access your Guacamole Instance</a></li>
+<li><a href="https://github.com/nathancatania/guacamole-sso-cloud-init#validation--troubleshooting-steps">Troubleshooting Cloud-Init (GitHub)</a></li>
+<li><a href="#troubleshooting">Troubleshooting Guacamole</a></li>
+<li><a href="#">Table of Contents</a></li>
+</ul>
+<hr>
+<h1 id="manual-gucamole-installation">Manual Gucamole Installation</h1>
+<p>If you are deploying outside of an IaaS environment (VMware, KVM, etc), or if you&rsquo;d rather configure things yourself (or at least understand what the scripts above are doing), then read on below.</p>
+<h2 id="1-install-docker--docker-compose">1. Install Docker &amp; Docker Compose</h2>
+<p>If you&rsquo;re using a fresh VM, you&rsquo;ll need to install Docker and Docker Compose. The below will install Docker CE (Community Edition), which is free but does not come with support. For a production environment, I recommend Docker Enterprise.</p>
+<p>The commands below cover the installation of Docker on an Ubuntu host. <strong>For RHEL 8+, you will need to use Podman instead of Docker (#justredhatthings).</strong></p>
+<h3 id="a-note-for-netskope-users">A Note for Netskope Users</h3>
+<p>If you are planning on running Guacamole on the same host as an NPA Publisher, and the Publisher was deployed using the OVA or AWS/Azure Marketplace image: You only need to install Docker Compose - Docker itself will already be installed.</p>
+<p>You should consider deploying Guacamole on it&rsquo;s own dedicated Publisher if you go down this route.</p>
+<h3 id="installing-docker">Installing Docker</h3>
+<ol>
+<li>Update the existing packages on the system:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update -y <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade -y
+</span></span></code></pre></div><ol start="2">
+<li>Install Docker</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -fsSL https://get.docker.com -o get-docker.sh
+</span></span><span style="display:flex;"><span>sudo sh get-docker.sh
+</span></span></code></pre></div><p>Note: You should never run a script from the internet with sudo without vetting it first. Docker make information on the installation script <a href="https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script">available here</a>. Alternatively, if you wish to run the installation commands manually yourself, <a href="https://docs.docker.com/engine/install/#server">see here</a>.</p>
+<ol start="3">
+<li>(Optional) Allow the <code>docker</code> command to be used without <code>sudo</code>. You will need to log out of the system and back in again for the change to take effect.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo usermod -aG docker <span style="color:#e6db74">${</span>USER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><h3 id="installing-docker-compose">Installing Docker Compose</h3>
+<p>If you just installed Docker via the above, you will already have Docker Compose installed.</p>
+<p>If not, install Docker Compose using the below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update -y <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade -y <span style="color:#f92672">&amp;&amp;</span> sudo apt install docker-compose-plugin
+</span></span></code></pre></div><p>If (for whatever reason) the above does not work for you, you can also manually download and install the Docker Compose binary, although note that this will change the command from <code>docker compose</code> to <code>docker-compose</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>DOCKER_CONFIG<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>DOCKER_CONFIG<span style="color:#66d9ef">:-</span>$HOME/.docker<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mkdir -p $DOCKER_CONFIG/cli-plugins
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>curl -SL https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-linux-x86_64 -o DOCKER_CONFIG/cli-plugins/docker-compose
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+</span></span></code></pre></div><p>Validate Docker Compose is installed:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker compose version
+</span></span><span style="display:flex;"><span>&gt; Docker Compose version v2.6.0
+</span></span></code></pre></div><h2 id="2-create-folders-to-store-container-data">2. Create Folders to Store Container Data</h2>
+<p>Once Docker is installed, we need to create the folders that will house that data and configuration for our containers.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p $HOME/configs/guacdb <span style="color:#f92672">&amp;&amp;</span> mkdir -p $HOME/configs/caddy <span style="color:#f92672">&amp;&amp;</span> mkdir -p $HOME/configs/guac/extensions
+</span></span></code></pre></div><h2 id="3-create-the-docker-compose-file">3. Create the Docker Compose File</h2>
+<p><code>docker-compose.yml</code> is a manifest of the containers, networks, and volumes used to bring up a complete service.</p>
+<p>Open a text editor and create a file called <code>docker-compose.yml</code>:</p>
+<pre tabindex="0"><code>nano ~/docker-compose.yml
+</code></pre><p>Paste the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.9&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">web</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">internal</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">guacdb</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">.env</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">guacdb</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#39;mariadb/server:latest&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MYSQL_ROOT_PASSWORD</span>: <span style="color:#e6db74">&#39;${ROOTDBPASS}&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MYSQL_DATABASE</span>: <span style="color:#e6db74">&#39;${DB}&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MYSQL_USER</span>: <span style="color:#e6db74">&#39;${DBUSER}&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MYSQL_PASSWORD</span>: <span style="color:#e6db74">&#39;${DBPASS}&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;${BASEDIR}/guacdb:/docker-entrypoint-initdb.d:ro&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;${BASEDIR}/guacdb:/var/lib/mysql&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">internal</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">guacd</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">.env</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">guacd</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">guacamole/guacd</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">internal</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">guacamole</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">.env</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">guacamole</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#39;guacamole/guacamole:latest&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;${BASEDIR}/guac:/etc/guacamole&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;${BASEDIR}/guac/server.xml:/usr/local/tomcat/conf/server.xml&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;8080&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">GUACD_HOSTNAME</span>: <span style="color:#e6db74">&#34;guacd&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">EXTENSION_PRIORITY</span>: <span style="color:#e6db74">&#34;saml&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">SKIP_IF_UNAVAILABLE</span>: <span style="color:#e6db74">&#34;saml&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">GUACAMOLE_HOME</span>: <span style="color:#e6db74">&#39;/etc/guacamole&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MYSQL_HOSTNAME</span>: <span style="color:#e6db74">&#34;guacdb&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MYSQL_DATABASE</span>: <span style="color:#e6db74">&#34;${DB}&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MYSQL_USER</span>: <span style="color:#e6db74">&#34;${DBUSER}&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MYSQL_PASSWORD</span>: <span style="color:#e6db74">&#34;${DBPASS}&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">depends_on</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">guacdb</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">guacd</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">internal</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">caddy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">.env</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">caddy</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#39;caddy:latest&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;80:80&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;443:443&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;${BASEDIR}/caddy/Caddyfile:/etc/caddy/Caddyfile&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;${BASEDIR}/caddy/data:/data&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;${BASEDIR}/caddy/config:/config&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">web</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">internal</span>
+</span></span></code></pre></div><p>Press <code>CTRL+X</code> to exit and <code>Y</code> to save changes.</p>
+<h3 id="container-information">Container Information</h3>
+<p>Guacamole itself requires 3 containers (<code>guacdb</code>, <code>guacd</code>, <code>guacamole</code>), and in addition we will be using Caddy as a reverse proxy to handle SSL for the Guacamole UI.</p>
+<table>
+<thead>
+<tr>
+<th>Container</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>guacdb</code></td>
+<td>The SQL database where our Guacamole config will be stored</td>
+</tr>
+<tr>
+<td><code>guacd</code></td>
+<td>The main Guacamole service responsible for facilitating access between our browser window and backend SSH/RDP services</td>
+</tr>
+<tr>
+<td><code>guacamole</code></td>
+<td>The guacamole admin interface</td>
+</tr>
+<tr>
+<td><code>caddy</code></td>
+<td>A reverse proxy used to uplift the Guacamole UI to SSL/HTTPS</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network-information">Network Information</h3>
+<p>The compose file creates two Docker networks:</p>
+<ul>
+<li><code>internal</code> - Interconnects the Guacamole and Caddy containers together - not accessible to the outside world.</li>
+<li><code>web</code> - Exposes the Caddy reverse proxy on the host so that we can send it requests and access the Guacamole UI.</li>
+</ul>
+<h2 id="4-create-the-env-config-file">4. Create the <code>.env</code> Config File</h2>
+<p>Our <code>docker-compose.yml</code> file contains a number of variables that we need to set to ensure the service functions correctly. We can set these environmental variables in a hidden file called <code>.env</code> that will sit in the same directory as our <code>docker-compose.yml</code> file.</p>
+<p>Create the <code>.env</code> file:</p>
+<pre tabindex="0"><code>nano ~/.env
+</code></pre><p>Paste the following; changing the <code>ROOTDBPASS</code> and <code>DBPASS</code> fields to something different (these are used to secure the SQL database which contains our Guacamole configuration).</p>
+<pre tabindex="0"><code>BASEDIR=$HOME/configs
+
+# Database
+ROOTDBPASS=Y0u%$h0UlD%R3@Lly%CH@ng3%tH1$%P@$sW0rD
+DBPASS=Y0u%$h0UlD%CH@ng3%tH1$%P@$sW0rD
+DB=guacdb
+DBUSER=guacdbuser
+</code></pre><p>Press <code>CTRL+X</code> to exit and <code>Y</code> to save changes.</p>
+<h2 id="5-create-the-caddyfile">5. Create the Caddyfile</h2>
+<p>A <code>Caddyfile</code> contains the configuration that Caddy will use to reverse proxy the Guacamole UI and uplift it to SSL.</p>
+<p>Create the <code>Caddyfile</code></p>
+<pre tabindex="0"><code>nano ~/configs/caddy/Caddyfile
+</code></pre><p>Paste and edit the following:</p>
+<pre tabindex="0"><code>guac.company.com {
+    reverse_proxy guacamole:8080 {
+        trusted_proxies private_ranges
+        flush_interval -1
+    }
+    tls internal
+}
+www.guac.company.com {
+    redir https://guac.company.com{uri}
+    tls internal
+}
+</code></pre><p>Replace the 3 instances of <code>guac.company.com</code> with the FQDN you wish to use to access the Guacamole UI. <strong>This must be resolve to the IP of the VM that is running Caddy, so ensure you have appropriate DNS entries in place!</strong> Caddy will automatically generate SSL certificates for this domain and serve it up over HTTPS.</p>
+<p>When you are finished, press <code>CTRL+X</code> to exit and <code>Y</code> to save.</p>
+<h3 id="self-signed-or-ca-signed-ssl">Self-Signed or CA Signed SSL?</h3>
+<p>By default, Caddy will generate and use self-signed SSL certificates to secure the Guacamole UI. This is perfectly fine, but if you&rsquo;re accessing Guacamole directly, this will result in an untrusted SSL error in your browser - nothing to worry about, as we trust the backend service in this case, but this can be annoying.</p>
+<p>If you will be using a clientless ZTNA service (like NPA Browser Access) to access Guac, then you can disregard these SSL warnings, as the ZTNA service&rsquo;s own reverse proxy should be able to ignore any self-signed certificate warnings.</p>
+<p><a href="#appendix-use-signed-ssl-certificates-with-caddy">See the appendix</a> at the end of this guide if you wish to use valid SSL certs signed by an appropriate root CA.</p>
+<h2 id="6-create-the-guacamoleproperties-configuration-file">6. Create the <code>guacamole.properties</code> configuration file</h2>
+<p><code>gucamole.properties</code> contains configuration that will tell Gucamole to use SAML for authentication and information about the IdP to be used (eg: Azure AD, Okta)</p>
+<p>Create <code>guacamole.properties</code>:</p>
+<pre tabindex="0"><code>nano ~/configs/guac/guacamole.properties
+</code></pre><p>Paste and edit the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># SAML Metadata URL from IdP (Azure AD, Okta, etc)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">saml-idp-metadata-url</span>: <span style="color:#ae81ff">&lt;metadata-URL-from-AzureAD-or-Okta&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Alternative: Single Sign On URL</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># saml-idp-url: https://login.microsoftonline.com/a1b2c3d4-e5f6-0a1b-2c3d-4e5f6a1b2c3d/saml2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># These must match what was entered into Azure AD or Okta</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">saml-entity-id</span>: <span style="color:#ae81ff">https://guac.company.com</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">saml-callback-url</span>: <span style="color:#ae81ff">https://guac.company.com/guacamole/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Change this to true if SSO is not working</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">saml-debug</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Automatically redirect to SSO portal for sign-on</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">extension-priority</span>: <span style="color:#ae81ff">saml</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Alternative: Go to Guacamole local login before SSO</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># extension-priority: *, saml</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SAML attribute/claim for group membership</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">saml-group-attribute</span>: <span style="color:#ae81ff">groups</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># If SAML extension fails, default back to local login</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">skip-if-unavailable</span>: <span style="color:#ae81ff">saml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">saml-strict</span>: <span style="color:#66d9ef">false</span>
+</span></span></code></pre></div><p>A description of the required values for each of these fields is below:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>saml-idp-metadata-url</code></td>
+<td>The URL of the XML metadata file that from the SAML IdP (eg: Azure AD, Okta) that contains all of the information the SAML extension needs in order to know how to authenticate with the IdP. For <strong>Azure AD</strong> this is the <em><strong>App Federation Metadata URL</strong></em>. For Okta, this is the <strong>IdP Metadata URL</strong> that you created.</td>
+</tr>
+<tr>
+<td><code>saml-idp-url</code></td>
+<td>This field is ignored if you use the above metadata file. If you don&rsquo;t have a metadata file, you can specify the URL here that Guacamole will use to redirect to when requesting SAML authentication. For <strong>Azure AD</strong>, this is the &ldquo;<em><strong>Login URL</strong></em>&rdquo;. For <strong>Okta</strong>, this is the &ldquo;<em><strong>Identity Provider Single Sign-On URL</strong></em>&rdquo;. Always use a metadata file if available.</td>
+</tr>
+<tr>
+<td><code>saml-entity-id</code></td>
+<td>The entity ID of the Guacamole SAML client. This must match what was entered into Azure AD or Okta and will be the FQDN you used in the Caddyfile. Eg: <code>https://guac.company.com</code></td>
+</tr>
+<tr>
+<td><code>saml-callback-url</code></td>
+<td>The URL that the IdP will use once authentication has succeeded to return the user to the Guacamole app. This must match what was entered into Azure AD or Okta and will be the FQDN you used in the Caddyfile, followed by <code>/guacamole/</code>. Eg: <code>https://guac.company.com/guacamole/</code></td>
+</tr>
+<tr>
+<td><code>saml-group-attribute</code></td>
+<td>The name of the attribute/claim provided by the SAML IdP that contains group membership of the user. These groups will be parsed and used to map group membership of the user logging in, which can be used for permissions management within Guacamole. This is optional and defaults to <code>groups</code></td>
+</tr>
+<tr>
+<td><code>saml-debug</code></td>
+<td>If you are having issues with your SAML configuration, set this to <code>true</code>. The Guacamole logs will then contain additional information to help you troubleshoot.</td>
+</tr>
+<tr>
+<td><code>extension-priority</code></td>
+<td>Set this to <code>saml</code>. If you want your users to hit the local login screen for Guacamole and have the option of using SSO, set this to <code>*, saml</code></td>
+</tr>
+<tr>
+<td><code>skip-if-unavailable</code></td>
+<td>If the SAML module for Guacamole fails to load or encounters an error, Guac will redirect to the local login page so an administrator can still access the UI.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-download-the-saml-extension-for-guacamole">7. Download the SAML extension for Guacamole</h2>
+<p>Select the latest version of the SSO extension for Gucamole (currently 1.4.0):</p>
+<pre tabindex="0"><code>wget https://dlcdn.apache.org/guacamole/1.4.0/binary/guacamole-auth-sso-1.4.0.tar.gz
+</code></pre><p>For newer releases, see here: <a href="https://guacamole.apache.org/releases/">https://guacamole.apache.org/releases/</a></p>
+<p>Extract the archive:</p>
+<pre tabindex="0"><code>tar -xvf guacamole-auth-sso-1.4.0.tar.gz
+</code></pre><p>Copy the <code>.jar</code> file inside the <code>saml</code> directory of the archive to <code>~/configs/guac/extensions</code></p>
+<pre tabindex="0"><code>cp guacamole-auth-sso-1.4.0/saml/guacamole-auth-sso-saml-1.4.0.jar $HOME/configs/guac/extensions
+</code></pre><h2 id="8-initialize-the-database">8. Initialize the database</h2>
+<p>We need to initialize Gucamole&rsquo;s configuration database first before bringing up the service, or it will fail. Luckily we can do this in one simple command:</p>
+<pre tabindex="0"><code>docker run --rm guacamole/guacamole:latest /opt/guacamole/bin/initdb.sh --mysql &gt; $HOME/configs/guacdb/guacdb.sql
+</code></pre><h2 id="9-update-the-config-file-for-tomcat">9. Update the config file for Tomcat</h2>
+<p>Because the Gucamole service will be behind a reverse proxy (Caddy), every user that connects to the service will appear to be coming from the same IP address (the IP of the Caddy container).</p>
+<p>The original IP address of the user will be added to the header of the HTTP request by Caddy however, and we can tell Tomcat (the service Guacamole uses for its interface) to use this when logging the IP addresses of users that connect to Guacamole.</p>
+<p>We will take the original <code>server.xml</code> file that Tomcat uses and append the following under the <code>&lt;host&gt;</code> section:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;Valve</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.valves.RemoteIpValve&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">remoteIpHeader=</span><span style="color:#e6db74">&#34;x-forwarded-for&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">remoteIpProxiesHeader=</span><span style="color:#e6db74">&#34;x-forwarded-by&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">protocolHeader=</span><span style="color:#e6db74">&#34;x-forwarded-proto&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span></code></pre></div><p>Create the <code>server.xml</code> file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nano $HOME/configs/guac/server.xml
+</span></span></code></pre></div><p>Paste in the following (no edits required):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!--
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  Licensed to the Apache Software Foundation (ASF) under one or more
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  contributor license agreements.  See the NOTICE file distributed with
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  this work for additional information regarding copyright ownership.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  The ASF licenses this file to You under the Apache License, Version 2.0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  (the &#34;License&#34;); you may not use this file except in compliance with
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  the License.  You may obtain a copy of the License at
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      http://www.apache.org/licenses/LICENSE-2.0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  Unless required by applicable law or agreed to in writing, software
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  distributed under the License is distributed on an &#34;AS IS&#34; BASIS,
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  See the License for the specific language governing permissions and
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  limitations under the License.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">--&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;Server</span> <span style="color:#a6e22e">port=</span><span style="color:#e6db74">&#34;8005&#34;</span> <span style="color:#a6e22e">shutdown=</span><span style="color:#e6db74">&#34;SHUTDOWN&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Listener</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.startup.VersionLoggerListener&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">&lt;!-- APR library loader. Documentation at /docs/apr.html --&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Listener</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.core.AprLifecycleListener&#34;</span> <span style="color:#a6e22e">SSLEngine=</span><span style="color:#e6db74">&#34;on&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">&lt;!-- Prevent memory leaks due to use of particular java/javax APIs--&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Listener</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.core.JreMemoryLeakPreventionListener&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Listener</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.mbeans.GlobalResourcesLifecycleListener&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Listener</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.core.ThreadLocalLeakPreventionListener&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;GlobalNamingResources&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Resource</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;UserDatabase&#34;</span> <span style="color:#a6e22e">auth=</span><span style="color:#e6db74">&#34;Container&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;org.apache.catalina.UserDatabase&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">description=</span><span style="color:#e6db74">&#34;User database that can be updated and saved&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">factory=</span><span style="color:#e6db74">&#34;org.apache.catalina.users.MemoryUserDatabaseFactory&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#a6e22e">pathname=</span><span style="color:#e6db74">&#34;conf/tomcat-users.xml&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/GlobalNamingResources&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;Service</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Catalina&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Connector</span> <span style="color:#a6e22e">port=</span><span style="color:#e6db74">&#34;8080&#34;</span> <span style="color:#a6e22e">protocol=</span><span style="color:#e6db74">&#34;HTTP/1.1&#34;</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#a6e22e">connectionTimeout=</span><span style="color:#e6db74">&#34;20000&#34;</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#a6e22e">URIEncoding=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#a6e22e">redirectPort=</span><span style="color:#e6db74">&#34;8443&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Engine</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;Catalina&#34;</span> <span style="color:#a6e22e">defaultHost=</span><span style="color:#e6db74">&#34;localhost&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;Realm</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.realm.LockOutRealm&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Realm</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.realm.UserDatabaseRealm&#34;</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#a6e22e">resourceName=</span><span style="color:#e6db74">&#34;UserDatabase&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;/Realm&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;Host</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;localhost&#34;</span>  <span style="color:#a6e22e">appBase=</span><span style="color:#e6db74">&#34;webapps&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">unpackWARs=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">autoDeploy=</span><span style="color:#e6db74">&#34;true&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Valve</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.valves.AccessLogValve&#34;</span> <span style="color:#a6e22e">directory=</span><span style="color:#e6db74">&#34;logs&#34;</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#a6e22e">prefix=</span><span style="color:#e6db74">&#34;localhost_access_log&#34;</span> <span style="color:#a6e22e">suffix=</span><span style="color:#e6db74">&#34;.txt&#34;</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#a6e22e">pattern=</span><span style="color:#e6db74">&#34;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;Valve</span> <span style="color:#a6e22e">className=</span><span style="color:#e6db74">&#34;org.apache.catalina.valves.RemoteIpValve&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">remoteIpHeader=</span><span style="color:#e6db74">&#34;x-forwarded-for&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">remoteIpProxiesHeader=</span><span style="color:#e6db74">&#34;x-forwarded-by&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">protocolHeader=</span><span style="color:#e6db74">&#34;x-forwarded-proto&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&lt;/Host&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/Engine&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;/Service&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/Server&gt;</span>
+</span></span></code></pre></div><p>Press <code>CTRL+X</code> to save and <code>Y</code> to confirm.</p>
+<h2 id="10-bring-up-the-guacamole-instance">10. Bring up the Guacamole Instance</h2>
+<p>Our configuration is done and it is finally time to bring online our Guacamole Instance. Ensure you are in the same directory as the <code>docker-compose.yml</code> file you created above and run:</p>
+<pre tabindex="0"><code>docker compose up -d
+</code></pre><p>Docker will pull down the latest versions of the MariaDB, Guacd, Guacamole, and Caddy containers, bring them online, and handle all of the networking for us.</p>
+<p>To check everything is going smoothly, review the logs of the Gucamole container:</p>
+<pre tabindex="0"><code>docker logs guacamole
+</code></pre><p>Jump to:</p>
+<ul>
+<li><a href="#access-your-guacamole-instance">Access your Guacamole Instance</a></li>
+<li><a href="#troubleshooting">Troubleshooting Guacamole</a></li>
+<li><a href="#">Table of Contents</a></li>
+</ul>
+<hr>
+<h1 id="access-your-guacamole-instance">Access your Guacamole Instance</h1>
+<p>You should now be able to type into your browser <code>https://&lt;fqdn-of-your-guacamole-instance&gt;/guacamole</code> to access the Gucamole service.</p>
+<p>If everything has gone well, you will be redirected to SSO with your IdP of choice. Entering valid credentials will bring you to the Gucamole UI.</p>
+<p><img src="14.png" alt="14"></p>
+<h2 id="common-issue-1---ssl--security-warning">Common Issue #1 - SSL / Security Warning</h2>
+<p>Don&rsquo;t be alarmed if you recieve an SSL error or Security Warning: Your connection between your Browser and Guacamole is secure.</p>
+<p><img src="15.png" alt="15"></p>
+<p>Your&rsquo;re seeing this warning because Caddy generated a self-signed SSL certificate to secure the Guacamole UI with, and your browser doesn&rsquo;t trust it. If you want get rid of this warning, you have 3 options:</p>
+<ol>
+<li>Whitelist the URL of your Gucamole instance in your browser to suppress the error</li>
+<li>Import the certifcate generated by Caddy (stored under <code>~/configs/caddy/data</code>) into the trusted certificate store on your machine.</li>
+<li>Configure Caddy to generate trusted signed certificates using Let&rsquo;s Encrypt (see Appendix).</li>
+</ol>
+<h2 id="common-issue-2---error-404-page-when-accessing-guacamole">Common Issue #2 - Error 404 page when accessing Guacamole</h2>
+<p>If you receive a <code>HTTP Status 404 - Not Found</code> error when accessing your Guacamole instance, this is because you need to add <code>/guacamole</code> onto the end of the URL.</p>
+<p>Gucamole is accessed at: <code>https://guac.company.com/guacamole</code> NOT <code>https://guac.company.com/</code></p>
+<p><img src="16.png" alt="16"></p>
+<h2 id="common-issue-3---something-is-broken">Common Issue #3 - Something is broken&hellip;</h2>
+<p>If you are having issues and need to validate that the UI is working OK, in the <code>guacamole.properties</code> file, change the <code>extension-priority</code> attribute to <code>*, saml</code>. You might also want to change the <code>saml-debug</code> attribute to <code>true</code> to enable more verbose SAML logging.</p>
+<pre tabindex="0"><code>&gt; nano $HOME/configs/guac/guacamole.properties
+
+[...]
+extension-priority: *, saml
+saml-debug: true
+[...]
+</code></pre><p>Don&rsquo;t forget to restart the Guacamole container for the changes to apply:</p>
+<pre tabindex="0"><code>docker compose restart guacamole
+</code></pre><p>This will land you on the local login page for Guacamole by default, rather than automatically redirecting you to SSO.</p>
+<p><img src="17.png" alt="17"></p>
+<p>You can login locally to Guacamole with the default credentials:</p>
+<ul>
+<li>Username: <code>guacadmin</code></li>
+<li>Password: <code>guacamin</code></li>
+</ul>
+<hr>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="review-logs">Review Logs</h2>
+<p>To review the Guacamole logs, run the following:</p>
+<pre tabindex="0"><code>docker logs guacamole
+</code></pre><p>To review the Guacd logs (the main service behind the Guacamole UI), run the following:</p>
+<pre tabindex="0"><code>docker logs guacd
+</code></pre><p>To review the Caddy logs (reverse proxy/SSL uplift):</p>
+<pre tabindex="0"><code>docker logs caddy
+</code></pre><h2 id="enable-debug-logging">Enable Debug Logging</h2>
+<p>To enable debug logging, create a file called <code>logback.xml</code> under <code>$HOME/configs/guac</code>:</p>
+<pre tabindex="0"><code>nano $HOME/configs/guac/logback.xml
+</code></pre><p>Paste in the following (no edits required):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;configuration&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&lt;!-- Appender for debugging --&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;appender</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;GUAC-DEBUG&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;ch.qos.logback.core.ConsoleAppender&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;encoder&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;pattern&gt;</span>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n<span style="color:#f92672">&lt;/pattern&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/encoder&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/appender&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&lt;!-- Log at DEBUG level --&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;root</span> <span style="color:#a6e22e">level=</span><span style="color:#e6db74">&#34;trace&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;appender-ref</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;GUAC-DEBUG&#34;</span><span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/root&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/configuration&gt;</span>
+</span></span></code></pre></div><p>Restart the Guacamole service:</p>
+<pre tabindex="0"><code>docker compose restart guacamole
+</code></pre><p>To turn off debug logging (as it is VERY verbose), simply delete the <code>logback.xml</code> file and restart the guacamole service again.</p>
+<h2 id="enable-saml-logging">Enable SAML Logging</h2>
+<p>If you are having issues with getting SSO/SAML to work, it can be useful to enable SAML debug logging in the <code>guacamole.properties</code> file. Set the <code>saml-debug</code> attribute to <code>true</code>:</p>
+<pre tabindex="0"><code>&gt; nano $HOME/configs/guac/guacamole.properties
+
+[...]
+saml-debug: true
+[...]
+</code></pre><p>Restart the Guacamole container to apply the change:</p>
+<pre tabindex="0"><code>docker compose restart guacamole
+</code></pre><h2 id="saml-issue-1----signature-validation-failed">SAML Issue #1 -  Signature validation failed</h2>
+<p>If you see the following log message:</p>
+<pre tabindex="0"><code>WARN  o.a.g.a.s.a.AssertionConsumerServiceResource - Authentication attempted with an invalid SAML response: SAML response did not pass validation: Signature validation failed. SAML Response rejected
+</code></pre><p>The SAML response from your IdP is signed, but Guacamole can&rsquo;t make sense of it because it isn&rsquo;t aware of the X.509 certificate used by the IdP to sign it.</p>
+<p>You have likely configured SAML by NOT using a metadata file (as these contain the certificate needed), and instead have used the <code>saml-idp-url</code> attribute in your <code>guacamole.properties</code> file. Guacamole also needs the certificate from your IdP, but unfortunately doesn&rsquo;t include a way to specify this in config.</p>
+<p>To solve this, use the XML metadata file provided by your IdP (<code>saml-idp-metadata-url</code> attribute in <code>guacamole.properties</code>) instead of using the <code>saml-idp-url</code> field.</p>
+<p>For Azure AD, the metadata file is called the App Federation Metadata URL.</p>
+<p>For Okta, it can be tricky to find in the UI, but is available at the following URL:</p>
+<pre tabindex="0"><code>https://&lt;tenant-name&gt;.okta.com/app/&lt;app-id&gt;/sso/saml/metadata
+</code></pre><p>(Fill in <code>&lt;tenant-name&gt;</code> and <code>&lt;app-id&gt;</code> accordingly)</p>
+<p>If you&rsquo;re using an IdP that doesn&rsquo;t provide a metadata file, you can generate one yourself by using <a href="https://www.samltool.com/idp_metadata.php">this online tool</a>. Save the metadata as an XML file called <code>metadata.xml</code> under <code>configs/guac/metadata.xml</code>. You then need to set your <code>gucamole.properties</code> file as follows:</p>
+<pre tabindex="0"><code>[...]
+saml-idp-metadata-url: file:///etc/guacamole/metadata.xml
+[...]
+</code></pre><p>Restart Guacamole for your changes to take effect.</p>
+<pre tabindex="0"><code>docker compose restart gucacamole
+</code></pre><h2 id="saml-issue-2---could-not-parse-saml-idp-metadata-file">SAML Issue #2 - Could not parse SAML IdP Metadata file</h2>
+<p>This issue is likely because Gucamole cannot access the SAML metadata file specified in <code>guacamole.properties</code>.</p>
+<ul>
+<li>If this was the URL from Azure AD or Okta, then it can&rsquo;t reach the URL specified.
+<ul>
+<li>Make sure the VM can reach login.microsoft.com, or your Okta tenant.</li>
+<li>You will need to bypass <code>login.microsoft.com</code> or <code>*.okta.com</code> from any SSL inspection mechanisms. Even if your server trusts the root CA you have installed, Gucamole/Tomcat/JDK uses it&rsquo;s own trust and does not.</li>
+</ul>
+</li>
+<li>If you specified a local metadata file (eg: <code>saml-idp-metadataurl: file:///etc/guacamole/metadata/xml</code>), check that the file exists and the file path is correct. Also ensure that the metadata file is formatted correctly.</li>
+</ul>
+<p><a href="#">Back to Table of Contents</a></p>
+<hr>
+<h1 id="appendix-use-signed-ssl-certificates-with-caddy">Appendix: Use Signed SSL Certificates with Caddy</h1>
+<p>If you have your own signed SSL certificates you want Caddy to use instead having it generate and use it&rsquo;s own ones (resulting in untrusted SSL warnings); OR if you want Caddy to use Let&rsquo;s Encrypt to automatically request signed certificates for you, then read on!</p>
+<h2 id="using-your-own-root-ca-or-signed-ssl-certificate">Using your own Root CA or signed SSL certificate</h2>
+<p>If you have an SSL certificate already that you would like to use, copy the certificate <code>.crt</code> and private key to <code>$HOME/configs/caddy/data</code> and ensure they have appropriate permissions.</p>
+<p>Next, update your Caddyfile <code>~/configs/caddy/Caddyfile</code> as follows:</p>
+<pre tabindex="0"><code>guac.company.com {
+    reverse_proxy guacamole:8080 {
+        trusted_proxies private_ranges
+        flush_interval -1
+    }
+    tls /data/certificate.crt /data/private.key
+}
+www.guac.company.com {
+    redir https://guac.company.com{uri}
+    tls /data/certificate.crt /data/private.key
+}
+</code></pre><p>Replacing <code>certificate.crt</code> and <code>private.key</code> with the filenames of the certificate and associated private key respectively.</p>
+<p>You may also need to need to specify additional options depending on how and where your certificates were generated. See the <code>tls</code> <a href="https://caddyserver.com/docs/caddyfile/directives/tls">directive page within the Caddy documentation</a> for more information.</p>
+<p>Don&rsquo;t forget to restart Caddy to apply your changes:</p>
+<pre tabindex="0"><code>docker compose restart caddy
+</code></pre><p>You can check the Caddy logs in case any errors occur by using the following:</p>
+<pre tabindex="0"><code>docker logs caddy
+</code></pre><h2 id="using-lets-encrypt-to-request-signed-ssl-certificates-for-free">Using Let&rsquo;s Encrypt to request signed SSL certificates for free</h2>
+<p>Caddy can automatically request and manage free signed SSL certificates from Let&rsquo;s Encrypt for you, but you must have the following in place:</p>
+<ol>
+<li>A non-internal TLD for Guacamole. Ie: The domain you access Guacamole on should be something like guac.company.com, and NOT guac.company.local</li>
+<li>Have the DNS for the above domain hosted by a provider that allows DNS records to be managed via API; eg: Cloudflare.</li>
+</ol>
+<p>Let&rsquo;s Encrypt will only generate and sign certificates for public (non-internal) TLDs; eg: <code>.com</code>, <code>.net</code>, <code>.app</code>, <code>.cool</code> etc (hence #1).</p>
+<p>Additionally, Let&rsquo;s Encrypt requires you to validate that you own and control the domain/server that it will be signing the certificate for,  and because our Guacamole instance is NOT exposed to the internet, our only method of validation is DNS-based validation (specifically a DNS-01 challenge) - hence #2.</p>
+<p>To get the above to work, we need to build a special version of the Caddy Docker image, and provide it with a scoped API key for our DNS provider. Caddy uses this API key to insert a TXT record temporarily on Let&rsquo;s Encrypt&rsquo;s request, which validates we own the domain, and permits Let&rsquo;s Encrypt to generate and sign a certificate for us.</p>
+<p>Let&rsquo;s Encrypt certificates are valid for 90 days, and Caddy will automatically handle renewal as long as the API key remains valid.</p>
+<p>As Caddy has not bundled the different provider modules needed for a DNS-01 challenge into the official Docker image, we need to build our own Caddy image from scratch.</p>
+<h3 id="1-build-a-new-caddy-image">1. Build a new Caddy Image</h3>
+<p>First, locate the DNS provider module that you require within the <code>caddy-dns</code> repo here: <a href="https://github.com/orgs/caddy-dns/repositories">https://github.com/orgs/caddy-dns/repositories</a></p>
+<p>Next, create and edit a new Dockerfile:</p>
+<pre tabindex="0"><code>nano Dockerfile
+</code></pre><p>Paste in and edit the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> caddy:builder AS builder</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> caddy-builder <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    github.com/caddy-dns/&lt;your-dns-module&gt;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> caddy:latest</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>builder /usr/bin/caddy /usr/bin/caddy<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Replace <code>&lt;your-dns-module&gt;</code> with the name of the repository of your DNS providers module from github.com. I will be using Cloudflare DNS, so my Dockerfile looks as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> caddy:builder AS builder</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> caddy-builder <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    github.com/caddy-dns/cloudflare<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> caddy:latest</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>builder /usr/bin/caddy /usr/bin/caddy<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Run the command to build the image:</p>
+<pre tabindex="0"><code>docker build -t &lt;image-name&gt;:latest
+</code></pre><p>Replace <code>&lt;image-name&gt;</code> with whatever you want your Caddy Docker image to be called. In my case, mine is called <code>nathancatania/caddy-cloudflare</code> as I&rsquo;ll be pushing it to my repository on Docker Hub.</p>
+<h2 id="2-update-the-caddyfile">2. Update the Caddyfile</h2>
+<p>We need to update our Caddy configuration and provide it with the API key details of our DNS provider.</p>
+<p>Edit the existing Caddyfile:</p>
+<pre tabindex="0"><code>nano ~/configs/caddy/Caddyfile
+</code></pre><p>Replace it with the following:</p>
+<pre tabindex="0"><code>{
+    # Global options block. Entirely optional, https is on by default
+    # Optional email key for lets encrypt
+    email name@company.com
+    
+    # Optional staging lets encrypt for testing. Comment out for production.
+    # acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+
+
+}
+guac.company.com {
+    reverse_proxy guacamole:8080
+    tls name@company.com {
+        dns cloudflare &lt;api-key&gt;
+        # resolvers 1.1.1.1
+    }
+}
+www.guac.company.com {
+    redir https://guac1.lightwave.cloud{uri}
+    tls name@company.com {
+        dns cloudflare &lt;api-key&gt;
+        # resolvers 1.1.1.1
+    }
+}
+</code></pre><p>Your configuration will vary!</p>
+<p>Replace:</p>
+<ul>
+<li><code>email name@company.com</code> with your own email address. This is used for Let&rsquo;s Encrypt notifications.</li>
+<li><code>guac.company.com</code> with the domain used to host your Guacamole instance. This is the domain you will be receiving a signed SSL certificate for.</li>
+</ul>
+<p>To test, you should uncomment the <code># acme_ca https://acme-staging-v02.api.letsencrypt.org/directory</code> part of the configuration to use Let&rsquo;s Encrypt&rsquo;s test server. The proper server that issues signed certificates is rate limited, and you can lock yourself out if you request a signed certificate too many times with incorrect configuration.</p>
+<p>Note the <code>tls</code> directive blocks. These will be different depending on the DNS provider you use. Check the GitHub repo for the Caddy-dns module you selected for documenation on what needs to be included in this block.</p>
+<p>For example, for Azure DNS, your <code>tls</code> directive will look as follows:</p>
+<pre tabindex="0"><code>tls {
+  dns azure {
+    tenant_id &lt;tenant-id&gt;
+    client_id &lt;azure-client-id&gt;
+    client_secret &lt;azure-client-secret&gt;
+    subscription_id &lt;azure-subscription-id&gt;
+    resource_group_name &lt;azure-resource-group-name&gt;
+  }
+}
+</code></pre><p>For Cloudflare DNS (which is what I am using), you will need to replace/change the following:</p>
+<ul>
+<li><code>tls name@company.com</code> -&gt; Replace the email here with the username of your Cloudflare account/the account that the generated API key is for.</li>
+<li><code>&lt;api-key&gt;</code> with your Cloudflare API key.</li>
+<li>The <code># resolver 1.1.1.1</code> can be uncommented or changed if you have DNS issues internally. This forces Caddy to use the specified DNS resolver; rather than relying on Docker DNS.</li>
+</ul>
+<h2 id="3-update-docker-composeyml">3. Update <code>docker-compose.yml</code></h2>
+<p>We need to update the <code>docker-compose.yml</code> file and tell it to use our freshly build Caddy image, instead of the official one.</p>
+<p>First, bring down your Docker services:</p>
+<pre tabindex="0"><code>docker compose down
+</code></pre><p>Open <code>docker-compose.yml</code></p>
+<pre tabindex="0"><code>nano docker-compose.yml
+</code></pre><p>Edit the <code>caddy</code> section and replace the <code>image</code> attribute with the name of your own Caddy image. In the example below, my Caddy image is called <code>nathancatania/caddy-cloudflare:latest</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>[<span style="color:#ae81ff">...]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">caddy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">env_file</span>: <span style="color:#ae81ff">.env</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">caddy</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#39;nathancatania/caddy-cloudflare:latest&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;80:80&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;443:443&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;${BASEDIR}/caddy/Caddyfile:/etc/caddy/Caddyfile&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;${BASEDIR}/caddy/data:/data&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;${BASEDIR}/caddy/config:/config&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">web</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">internal</span>
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span> [<span style="color:#ae81ff">...]</span>
+</span></span></code></pre></div><p>Bring up your Docker services again. This time, the new Caddy image will be used:</p>
+<pre tabindex="0"><code>docker compose up -d
+</code></pre><p>Navigate to your Guacamole instance, or check the Caddy logs to make sure everything is working:</p>
+<pre tabindex="0"><code>docker logs caddy
+</code></pre><p><a href="#">Back to Table of Contents</a></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://nathancatania.com/tags/guacamole">guacamole</a></span><span class="tag"><a href="https://nathancatania.com/tags/sso">sso</a></span><span class="tag"><a href="https://nathancatania.com/tags/remote-access">remote access</a></span><span class="tag"><a href="https://nathancatania.com/tags/ssl">ssl</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>6205 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2022-07-31</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read other posts</span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="https://nathancatania.com/posts/netskope-quick-start/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Netskope Quick Start Guide</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="https://nathancatania.com/posts/sso-cloud-exchange/">
+                                <span class="button__text">How-to Configure SSO for Netskope Cloud Exchange</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+                <span><a href="https://nathancatania.com">Nathan Catania</a></span>
+            
+            <span> <a href="https://nathancatania.com/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span><a href="https://github.com/nathancatania/website">Source</a></span>
+            <span><a href="https://github.com/rhazdon">Theme</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.858712b4b19060b33e6a3b52df9749f413894a75772f4d0b4683380c0ce08c6f93623d63068ef5ae4719980bcaa15ad536694c42897b88c4826c6ece21918827.js" integrity="sha512-hYcStLGQYLM&#43;ajtS35dJ9BOJSnV3L00LRoM4DAzgjG&#43;TYj1jBo71rkcZmAvKoVrVNmlMQol7iMSCbG7OIZGIJw=="></script>
+
+
+
+
+    </body>
+</html>

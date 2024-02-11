@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nathan Catania</title>
+    <link>https://nathancatania.com/</link>
+    <description>Recent content on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 24 Jul 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Insecure Kubernetes for Evaluation Purposes</title>
+      <link>https://nathancatania.com/posts/insecure-kubernetes-for-evaluation-purposes/</link>
+      <pubDate>Mon, 24 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/insecure-kubernetes-for-evaluation-purposes/</guid>
+      <description>&amp;nbsp; Heads Up!&#xA;This document is a draft &amp;amp; is pending spelling and grammar corrections + citations. This is a quick document that covers my own notes and the steps to follow to deploy an app (Rocket.Chat) using managed Kubernetes in AWS (Amazon Elastic Kubernetes Service, EKS), delibrately in an insecure manner, for the purposes of evaluating the workload security offerings of cloud security vendors.&#xA;This document will cover the deployment of a containerised public facing web service leveraging Kubernetes; specicially Amazon&amp;rsquo;s managed Kubernetes service: EKS (Elastic Kubernetes Service).</description>
+    </item>
+    <item>
+      <title>Deploy Netskope Cloud Exchange</title>
+      <link>https://nathancatania.com/posts/deploy-netskope-cloud-exchange/</link>
+      <pubDate>Fri, 09 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploy-netskope-cloud-exchange/</guid>
+      <description>The thoughts, and opinions in this post are my own and do not reflect those of Netskope. All content in this post is my own and is not endorsed by Netskope. Please follow this guide at your own risk.&#xA;Changelog:&#xA;1st Mar, 2022: Initial post 7th Dec, 2022: Updated guide for Cloud Exchange 4.0. What is Cloud Exchange? Cloud Exchange (CE) is a platform (free for all Netskope customers) that facilitates the exchange of information between your various security and operations platforms.</description>
+    </item>
+    <item>
+      <title>Netskope Quick Start Guide</title>
+      <link>https://nathancatania.com/posts/netskope-quick-start/</link>
+      <pubDate>Wed, 12 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/netskope-quick-start/</guid>
+      <description>Disclaimer: Any thoughts or opinions in this article are my own and do not reflect those of Netskope. I am a Netskope SE who worte this guide in his own time to assist Netskope customers. Please lodge a PR on GitHub to correct any mistakes or inaccuracies.&#xA;The Quick Quick Start There are 2 fundamental steps required to deploy Netskope in your environment:&#xA;1. Add users to the platform. This is typically done by integrating with your Identity Service (ie: Azure AD, Okta) using SCIM (API), or synchronizing your on-premise Active Directory using the Directory Importer Tool.</description>
+    </item>
+    <item>
+      <title>Deploy Apache Guacamole with SSL &amp; SAML (Azure AD &amp; Okta) integration</title>
+      <link>https://nathancatania.com/posts/deploy-guacamole-ssl-saml/</link>
+      <pubDate>Sun, 31 Jul 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploy-guacamole-ssl-saml/</guid>
+      <description>Introduction This post will cover how to configure Single-Sign-On (SSO) using SAML for Apache Guacamole while also ensuring that your deployment is secured behind auto-renewing SSL.&#xA;This is a BIG guide as I cover off an automated installation method (using cloud-init), a manual install method, and instructions for both Azure AD and Okta - so you might want to leverage the table of contents above to jump to the sections most approproate to you.</description>
+    </item>
+    <item>
+      <title>How-to Configure SSO for Netskope Cloud Exchange</title>
+      <link>https://nathancatania.com/posts/sso-cloud-exchange/</link>
+      <pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/sso-cloud-exchange/</guid>
+      <description>The thoughts and opinions in this post are my own and do not reflect those of Netskope. Please follow this guide at your own risk.&#xA;This post will cover how to configure Single-Sign-On (SSO) for the Netskope Cloud Exchange (CE) platform; specifically for Azure AD and Okta. This will allow you to manage administrator access to CE from within your existing Identity Provider (IdP), rather than configuring administrators within the platform manually.</description>
+    </item>
+    <item>
+      <title>Deploy Zscaler Client Connector with Intune (iOS &amp; Android)</title>
+      <link>https://nathancatania.com/posts/deploy-zapp-mobile-with-intune/</link>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploy-zapp-mobile-with-intune/</guid>
+      <description>The thoughts and opinions in this post are my own and do not necessarily reflect those of Zscaler.&#xA;In this guide, we&amp;rsquo;ll walkthrough how to configure Microsoft Intune from scratch and use it to deploy the Zscaler Client Connector agent (ZCC) - formerly known as Zscaler Client Connector (ZCC).&#xA;Due to length, I&amp;rsquo;ve split this into two posts (the orginal was over 8000 words):&#xA;This post covers deployment on iOS/iPadOS and Android.</description>
+    </item>
+    <item>
+      <title>Deploy Zscaler Client Connector with Intune (Windows &amp; macOS)</title>
+      <link>https://nathancatania.com/posts/deploy-zapp-with-intune/</link>
+      <pubDate>Mon, 05 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploy-zapp-with-intune/</guid>
+      <description>The thoughts and opinions in this post are my own and do not necessarily reflect those of Zscaler.&#xA;In this guide, we&amp;rsquo;ll walkthrough how to configure Microsoft Intune from scratch and use it to deploy the Zscaler Client Connector agent (ZCC) - formerly known as Zscaler Client Connector (ZCC).&#xA;Due to length, I&amp;rsquo;ve split this into two posts (the orginal was over 8000 words):&#xA;This post covers deployment on Windows and macOS.</description>
+    </item>
+    <item>
+      <title>Integrate Zscaler with Azure Sentinel</title>
+      <link>https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/</guid>
+      <description>Azure Sentinel is a cloud-based SIEM solution by Microsoft. Zscaler Internet Access (ZIA) integrates with a wide variety of SIEM solutions, and Sentinel is no different. In this guide, we&amp;rsquo;ll walk through how to configure ZIA to send logs in real-time to Sentinel.&#xA;Caution! Be very careful if you&amp;rsquo;re deploying this as part of a demo or lab environment as the costs we will incur can ramp up quickly! You will incur charges for one new VM as part of this guide (in addition to an existing NSS VM if you also deployed it in Azure), PLUS data ingestion charges for an Azure Sentinel workspace.</description>
+    </item>
+    <item>
+      <title>Integrate Zscaler with Microsoft Cloud App Security (MCAS)</title>
+      <link>https://nathancatania.com/posts/integrate-zia-and-mcas/</link>
+      <pubDate>Thu, 02 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/integrate-zia-and-mcas/</guid>
+      <description>Microsoft Cloud App Security (MCAS) is Microsoft&amp;rsquo;s CASB product. We can integrate this with Zscaler Internet Access (ZIA) - and vice-versa.&#xA;ZIA will be able to pull data from MCAS under the Cloud Applications dashboard, and MCAS will be able to push custom URL categories to your ZIA tenant for your specified sanctioned/unsanctioned applications - which you can then configure allow/coach/block rules for Zscaler to enforce as required.&#xA;You must have a subscription for both MCAS and Zscaler&amp;rsquo;s Nanolog Streaming Service (NSS) to be able to integrate the two products.</description>
+    </item>
+    <item>
+      <title>Deploy Zscaler NSS in Azure</title>
+      <link>https://nathancatania.com/posts/deploy-zscaler-nss-in-azure/</link>
+      <pubDate>Mon, 29 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploy-zscaler-nss-in-azure/</guid>
+      <description>This guide will cover deployment of a Nanolog Streaming Service (NSS) VM within Azure. NSS can also be deployed on-premise using an OVA file, or in AWS.&#xA;If you&amp;rsquo;re planning to integrate with Microsoft Cloud App Security (MCAS) or Azure Sentinel, you&amp;rsquo;ll require a healthy NSS deployment, and it is highly recommended that you use Azure.&#xA;Why do I need to deploy a VM to stream logs to a SIEM? Can&amp;rsquo;t Zscaler just send logs to my SIEM directly?</description>
+    </item>
+    <item>
+      <title>Configure Pi-Hole DNS &#43; Cloudflare DNS over HTTPS (DoH) on a Raspberry Pi</title>
+      <link>https://nathancatania.com/posts/pihole-dns-doh/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/pihole-dns-doh/</guid>
+      <description>Block ads, trackers, and malware from any local device without having to use an ad-blocker; while securing your DNS traffic at the same time - sounds good!&#xA;First, what is Pi-Hole? According to Jacob Salmela, the creator of Pi-Hole:&#xA;Pi-hole is a network-wide ad blocker. Instead of installing adblockers on every device and every browser, you can install Pi-hole once on your network, and it will protect all of your devices.</description>
+    </item>
+    <item>
+      <title>Deploying ZPA ZEN Connectors</title>
+      <link>https://nathancatania.com/posts/deploying-zpa-zen-connectors/</link>
+      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploying-zpa-zen-connectors/</guid>
+      <description>Disclaimer: I am an employee of Zscaler. These are my own notes from a ZPA homelab deployment and may be incorrect or against best practice. You should consult the Zscaler help portal for official documentation.&#xA;Connector Provisioning First, we are going to define the connector in the ZPA admin portal and generate the required provisioning key. The provisioning key authenticates the connector when it calls home to the ZPA cloud (via it&amp;rsquo;s established control channel), and associates it to your ZPA instance.</description>
+    </item>
+    <item>
+      <title>Integrate Zscaler ZPA with Azure AD</title>
+      <link>https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/</link>
+      <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/configuring-zscaler-zpa-to-use-azure-ad/</guid>
+      <description>This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZPA. Our users defined in Azure AD will be able to authenticate with Z-App/ZPA using Microsoft Single Sign-on (SSO), and we&amp;rsquo;ll also be able to create access policies for our private applications based on user identity and attributes.&#xA;If you followed my previous post covering ZIA integration with Azure AD, then the first few steps will be (mostly) the same.</description>
+    </item>
+    <item>
+      <title>Integrate Zscaler ZIA with Azure AD</title>
+      <link>https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/</link>
+      <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/configuring-zscaler-zia-to-use-azure-ad/</guid>
+      <description>This guide will cover configuring Azure AD as the Identity Provider (IdP) for ZIA. Our users defined in Azure AD will be able to authenticate with Z-App/ZIA using Microsoft Single Sign-on (SSO), and we&amp;rsquo;ll also be able to start creating policies in ZIA centered around the same users, groups, and departments we&amp;rsquo;ve defined.&#xA;By integrating with an IdP like Azure AD, we no longer need to manually manage users and their credentials ourselves in the ZIA portal.</description>
+    </item>
+    <item>
+      <title>Set up Azure Active Directory (Azure AD) for free</title>
+      <link>https://nathancatania.com/posts/set-up-azure-active-directory-for-your-homelab/</link>
+      <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/set-up-azure-active-directory-for-your-homelab/</guid>
+      <description>Get an Azure Free Account Before you start, you will need to sign up for a free Azure account: https://azure.microsoft.com/en-au/free/&#xA;This gives you some Azure services, like Windows &amp;amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.&#xA;With Azure AD free, you can freely create users and groups, but groups cannot be assigned and synchronized to enterprise applications.</description>
+    </item>
+    <item>
+      <title>Deploy Windows Server with an Azure Free Account</title>
+      <link>https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/</link>
+      <pubDate>Mon, 30 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploying-windows-server-2019-with-an-azure-free-account/</guid>
+      <description>Get an Azure Free Account Before you start, you will need to sign up for a free Azure account: https://azure.microsoft.com/en-au/free/&#xA;This gives you some Azure services, like Windows &amp;amp; Linux VMs, free for 12 months, while other Azure services (like Azure Active Directory) are free permanently up to certain usage limits.&#xA;To see everything included in the free account, click here.&#xA;Note: Don&amp;rsquo;t expect the server deployed under the free tier to be fast - we are limited to 1GB RAM and 1 vCPU with the B1s instance size.</description>
+    </item>
+    <item>
+      <title>[How to] Upgrade your PS4 to an SSD</title>
+      <link>https://nathancatania.com/posts/upgrade-your-ps4-to-an-ssd/</link>
+      <pubDate>Fri, 16 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/upgrade-your-ps4-to-an-ssd/</guid>
+      <description>This guide will work for all models of PlayStation 4, however the location of the hard-drive bay is different between models.&#xA;Replacing your Hard Drive will NOT void your warranty and is covered in an official support article.&#xA;Why would you want to do this? A few reasons. Namely:&#xA;You need more space for games. Many PS4s ship with a 500GB HDD which can be filled quickly.&#xA;You want faster load times.</description>
+    </item>
+    <item>
+      <title>ZTP Juniper devices with Sky Enterprise</title>
+      <link>https://nathancatania.com/posts/ztp-juniper-devices-with-sky-enterprise/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/ztp-juniper-devices-with-sky-enterprise/</guid>
+      <description>1.0 - ZTP Overview Arguably, the best feature of Sky Enterprise is its ability to make Zero Touch Provisioning (ZTP) of Juniper devices a breeze. You no longer need to mess around with DHCP options, nor do you need to ensure your config files are accessible via FTP.&#xA;Sky Enterprise allows you to ZTP your devices through the concept of &amp;ldquo;ZTP Templates&amp;rdquo;. A ZTP template is the Junos configuration you wish to apply to a device, exported in XML format (instead of the normal C-like syntax of Junos), with some variables added in - allowing you to re-use the same template across multiple devices.</description>
+    </item>
+    <item>
+      <title>Connect Juniper Sky Enterprise to Aerohive HiveManager</title>
+      <link>https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/</link>
+      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/connecting-skyenterprise-to-aerohive-hivemanager/</guid>
+      <description>Introduction Juniper Sky Enterprise is a neat little application that can manage and provision SRX, EX, and NFX series products from Juniper Networks. Sky Enterprise also allows you to monitor (but not configure) any Aerohive APs that you have deployed, however the documentation on how to do so is hidden away on the OneConfig website.&#xA;This post will walk through the process of adding your Aerohive APs to your Sky Enterprise inventory.</description>
+    </item>
+    <item>
+      <title>Unlock or change the super password for Junos Space 17.2, 18.X</title>
+      <link>https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/</link>
+      <pubDate>Mon, 19 Feb 2018 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/unlocking-or-changing-the-super-password-for-junos-space-172r1/</guid>
+      <description>Introduction For Junos Space and its associated applications, if you have forgotten the password to the super account (or have locked yourself out of the account), you can reset the password and/or unlock the account by modifying the super user&amp;rsquo;s entry in the build_db DB of MySQL; via the Unix CLI in Space&amp;rsquo;s &amp;ldquo;debug&amp;rdquo; mode.&#xA;However in release 17.2R1, the default password of the jboss user (which is required in order to access the MySQL CLI in the first place) has changed.</description>
+    </item>
+    <item>
+      <title>Deploy a multi-node, multi-server Kafka Cluster with Docker</title>
+      <link>https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/</link>
+      <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/deploying-a-multi-node-kafka-cluster-with-docker/</guid>
+      <description>What is Kafka? Essentially:&#xA;Kafka is an open-source, very scalable, distributed messaging platform by Apache. It is designed to handle large volumes of data in real-time efficiently.&#xA;Kafka works on the concept of a &amp;ldquo;publish-subscribe&amp;rdquo; methodology:&#xA;&amp;ldquo;Producers&amp;rdquo; will push content to the Kafka cluster, to a destination &amp;ldquo;topic&amp;rdquo;. A Kafka cluster is managed by Zookeeper, and can contain one or more &amp;ldquo;Brokers&amp;rdquo;. Brokers manage topics and the associated ingress and egress messages.</description>
+    </item>
+    <item>
+      <title>Installing Docker CE on an Air Gapped RHEL system</title>
+      <link>https://nathancatania.com/posts/installing-docker-on-red-hat-with-no-internet-access/</link>
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/installing-docker-on-red-hat-with-no-internet-access/</guid>
+      <description>Introduction I recently completed a deployment inside a customer&amp;rsquo;s lab involving several containerized services, in which the server instances provided were not permitted to have direct access to the internet. To add to the issue, the instances themselves were running RHEL 7.3 with no active subscription.&#xA;There were several problems in play here:&#xA;Docker only make their Enterprise Edition (EE) compatible with RHEL. The usual free Community Edition (CE) is not officially supported.</description>
+    </item>
+  </channel>
+</rss>

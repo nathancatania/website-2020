@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+**This repository is now archived.**
+
+## 2024-02-11
+- Archived this version/repo of the website. Moved to CF pages + Mkdocs Material.
+- Added demo/preview folder containing a video and screenshots of when this version of the site was live.
+- Added v0.122 folder containing the changes I made to get the site working with Hugo v0.122 (from v0.108). These were never published in the end.
+
 ## 2022-12-09
 - New post: Insecure Kubernetes for Evaluation Purposes
 

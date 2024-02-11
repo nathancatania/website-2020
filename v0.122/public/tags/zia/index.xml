@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>zia on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/zia/</link>
+    <description>Recent content in zia on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/zia/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Integrate Zscaler with Azure Sentinel</title>
+      <link>https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/integrate-zia-with-azure-sentinel/</guid>
+      <description>Azure Sentinel is a cloud-based SIEM solution by Microsoft. Zscaler Internet Access (ZIA) integrates with a wide variety of SIEM solutions, and Sentinel is no different. In this guide, we&amp;rsquo;ll walk through how to configure ZIA to send logs in real-time to Sentinel.&#xA;Caution! Be very careful if you&amp;rsquo;re deploying this as part of a demo or lab environment as the costs we will incur can ramp up quickly! You will incur charges for one new VM as part of this guide (in addition to an existing NSS VM if you also deployed it in Azure), PLUS data ingestion charges for an Azure Sentinel workspace.</description>
+    </item>
+    <item>
+      <title>Integrate Zscaler with Microsoft Cloud App Security (MCAS)</title>
+      <link>https://nathancatania.com/posts/integrate-zia-and-mcas/</link>
+      <pubDate>Thu, 02 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/integrate-zia-and-mcas/</guid>
+      <description>Microsoft Cloud App Security (MCAS) is Microsoft&amp;rsquo;s CASB product. We can integrate this with Zscaler Internet Access (ZIA) - and vice-versa.&#xA;ZIA will be able to pull data from MCAS under the Cloud Applications dashboard, and MCAS will be able to push custom URL categories to your ZIA tenant for your specified sanctioned/unsanctioned applications - which you can then configure allow/coach/block rules for Zscaler to enforce as required.&#xA;You must have a subscription for both MCAS and Zscaler&amp;rsquo;s Nanolog Streaming Service (NSS) to be able to integrate the two products.</description>
+    </item>
+  </channel>
+</rss>

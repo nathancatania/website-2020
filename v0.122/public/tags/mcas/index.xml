@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mcas on Nathan Catania</title>
+    <link>https://nathancatania.com/tags/mcas/</link>
+    <description>Recent content in mcas on Nathan Catania</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 02 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://nathancatania.com/tags/mcas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Integrate Zscaler with Microsoft Cloud App Security (MCAS)</title>
+      <link>https://nathancatania.com/posts/integrate-zia-and-mcas/</link>
+      <pubDate>Thu, 02 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>https://nathancatania.com/posts/integrate-zia-and-mcas/</guid>
+      <description>Microsoft Cloud App Security (MCAS) is Microsoft&amp;rsquo;s CASB product. We can integrate this with Zscaler Internet Access (ZIA) - and vice-versa.&#xA;ZIA will be able to pull data from MCAS under the Cloud Applications dashboard, and MCAS will be able to push custom URL categories to your ZIA tenant for your specified sanctioned/unsanctioned applications - which you can then configure allow/coach/block rules for Zscaler to enforce as required.&#xA;You must have a subscription for both MCAS and Zscaler&amp;rsquo;s Nanolog Streaming Service (NSS) to be able to integrate the two products.</description>
+    </item>
+  </channel>
+</rss>
